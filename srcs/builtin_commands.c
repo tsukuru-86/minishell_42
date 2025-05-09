@@ -69,23 +69,125 @@ int builtin_pwd(char **args)
     return (0);
 }
 
-int builtin_export(char **args)
+static int is_valid_identifier(const char *str)
 {
     int i;
 
+    if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
+        return (0);
     i = 1;
+    while (str[i])
+    {
+        if (!ft_isalnum(str[i]) && str[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+static void print_sorted_env(t_env *env)
+{
+    t_env *current;
+    t_env **arr;
+    t_env *temp;
+    int count, i, j;
+
+    // 環境変数の数を数える
+    count = 0;
+    current = env;
+    while (current)
+    {
+        count++;
+        current = current->next;
+    }
+
+    // 配列に変換
+    arr = malloc(sizeof(t_env *) * count);
+    if (!arr)
+        return;
+    current = env;
+    for (i = 0; i < count; i++)
+    {
+        arr[i] = current;
+        current = current->next;
+    }
+
+    // バブルソート
+    for (i = 0; i < count - 1; i++)
+    {
+        for (j = 0; j < count - 1 - i; j++)
+        {
+            if (ft_strncmp(arr[j]->name, arr[j + 1]->name, PATH_MAX) > 0)
+            {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+
+    // 出力
+    for (i = 0; i < count; i++)
+    {
+        ft_putstr_fd("declare -x ", 1);
+        ft_putstr_fd(arr[i]->name, 1);
+        if (arr[i]->value)
+        {
+            ft_putstr_fd("=\"", 1);
+            ft_putstr_fd(arr[i]->value, 1);
+            ft_putchar_fd('\"', 1);
+        }
+        ft_putchar_fd('\n', 1);
+    }
+
+    free(arr);
+}
+
+int builtin_export(char **args)
+{
+    extern t_env *g_env;
+    int i;
+    char *equal_pos;
+    char *name;
+    char *value;
+
     if (!args[1])
     {
-        ft_putstr_fd("export: not implemented without arguments\n", 2);
-        return (1);
+        print_sorted_env(g_env);
+        return (0);
     }
+
+    i = 1;
     while (args[i])
     {
-        if (putenv(args[i]) != 0)
+        equal_pos = ft_strchr(args[i], '=');
+        if (equal_pos)
         {
-            ft_putstr_fd("export: error setting environment variable\n", 2);
+            name = ft_substr(args[i], 0, equal_pos - args[i]);
+            value = equal_pos + 1;
+        }
+        else
+        {
+            name = ft_strdup(args[i]);
+            value = NULL;
+        }
+
+        if (!is_valid_identifier(name))
+        {
+            ft_putstr_fd("export: '", 2);
+            ft_putstr_fd(args[i], 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
+            free(name);
             return (1);
         }
+
+        if (set_env_var(&g_env, name, value) != 0)
+        {
+            ft_putstr_fd("export: memory allocation error\n", 2);
+            free(name);
+            return (1);
+        }
+        free(name);
         i++;
     }
     return (0);
@@ -93,21 +195,27 @@ int builtin_export(char **args)
 
 int builtin_unset(char **args)
 {
+    extern t_env *g_env;
     int i;
 
-    i = 1;
     if (!args[1])
     {
         ft_putstr_fd("unset: not enough arguments\n", 2);
         return (1);
     }
+
+    i = 1;
     while (args[i])
     {
-        if (unsetenv(args[i]) != 0)
+        if (!is_valid_identifier(args[i]))
         {
-            ft_putstr_fd("unset: error removing environment variable\n", 2);
+            ft_putstr_fd("unset: '", 2);
+            ft_putstr_fd(args[i], 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
             return (1);
         }
+
+        remove_env_var(&g_env, args[i]);
         i++;
     }
     return (0);
