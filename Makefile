@@ -7,7 +7,8 @@ SRCS_DIR = srcs/
 SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)excute_command.c \
        $(SRCS_DIR)builtin_commands.c \
-	   $(SRCS_DIR)external_commands.c
+       $(SRCS_DIR)external_commands.c \
+       $(SRCS_DIR)redirect.c
 
 OBJS = $(SRCS:.c=.o)
 

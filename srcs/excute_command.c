@@ -11,6 +11,66 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <fcntl.h>
+
+static t_redirect *parse_redirect(char **args, int *cmd_end)
+{
+    int i;
+    t_redirect *redirect;
+
+    redirect = NULL;
+    i = 0;
+    *cmd_end = 0;
+    while (args[i])
+    {
+        if (args[i][0] == '>')
+        {
+            if (args[i][1] == '>')
+                redirect = create_redirect(REDIR_APPEND, args[i + 1]);
+            else
+                redirect = create_redirect(REDIR_OUT, args[i + 1]);
+            *cmd_end = i;
+            break;
+        }
+        else if (args[i][0] == '<')
+        {
+            redirect = create_redirect(REDIR_IN, args[i + 1]);
+            *cmd_end = i;
+            break;
+        }
+        i++;
+    }
+    return (redirect);
+}
+
+static char **prepare_command(char **args, int cmd_end)
+{
+    char **cmd;
+    int i;
+
+    if (cmd_end == 0)
+        return (args);
+
+    cmd = (char **)malloc(sizeof(char *) * (cmd_end + 1));
+    if (!cmd)
+        return (NULL);
+
+    i = 0;
+    while (i < cmd_end)
+    {
+        cmd[i] = ft_strdup(args[i]);
+        if (!cmd[i])
+        {
+            while (--i >= 0)
+                free(cmd[i]);
+            free(cmd);
+            return (NULL);
+        }
+        i++;
+    }
+    cmd[i] = NULL;
+    return (cmd);
+}
 
 int is_builtin(char *cmd)
 {
@@ -50,15 +110,43 @@ int execute_builtin(char **args)
 /* コマンドの実行 */
 int excute_commands(char **args, char **envp)
 {
+    t_redirect *redirect;
+    char **cmd;
+    int cmd_end;
+    int status;
+
     if (!args || !args[0])
         return 0;
-    
-    // ビルトインコマンドの場合
-    if (is_builtin(args[0]))
-        return execute_builtin(args);
-    
-    // 外部コマンドの場合
-    return execute_external_command(args, envp);
-    
-    return 0; // ここには到達しない
+
+    // リダイレクションの解析
+    redirect = parse_redirect(args, &cmd_end);
+    cmd = prepare_command(args, cmd_end);
+    if (!cmd)
+        return 1;
+
+    // リダイレクションの設定
+    if (redirect && !setup_redirection(redirect))
+    {
+        free_redirect(redirect);
+        if (cmd != args)
+            free_tokens(cmd);
+        return 1;
+    }
+
+    // コマンドの実行
+    if (is_builtin(cmd[0]))
+        status = execute_builtin(cmd);
+    else
+        status = execute_external_command(cmd, envp);
+
+    // リダイレクションの復元と解放
+    if (redirect)
+    {
+        restore_redirection(redirect);
+        free_redirect(redirect);
+    }
+    if (cmd != args)
+        free_tokens(cmd);
+
+    return status;
 }
