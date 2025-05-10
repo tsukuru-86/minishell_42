@@ -3,89 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsukuru <tsukuru@student.42.fr>            +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-04-29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025-04-29 10:58:00 by tsukuru          ###   ########.fr       */
+/*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
+/*   Updated: 2025/05/11 00:21:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
-    int i;
-    int newline;
+	int	i;
+	int	newline;
 
-    newline = 1;
-    i = 1;
-    if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
-    {
-        newline = 0;
-        i++;
-    }
-    while (args[i])
-    {
-        ft_putstr_fd(args[i], 1);
-        if (args[i + 1])
-            ft_putchar_fd(' ', 1);
-        i++;
-    }
-    if (newline)
-        ft_putchar_fd('\n', 1);
-    return (0);
+	newline = 1;
+	i = 1;
+	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
+	{
+		newline = 0;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putchar_fd(' ', 1);
+		i++;
+	}
+	if (newline)
+		ft_putchar_fd('\n', 1);
+	return (0);
 }
 
-int builtin_cd(char **args)
+int	builtin_cd(char **args)
 {
-    char *path;
+	char	*path;
 
-    if (!args[1])
-        path = getenv("HOME");
-    else
-        path = args[1];
-    
-    if (chdir(path) == -1)
-    {
-        ft_putstr_fd("cd: ", 2);
-        ft_putstr_fd(path, 2);
-        ft_putstr_fd(": No such file or directory\n", 2);
-        return (1);
-    }
-    return (0);
+	if (!args[1])
+		path = getenv("HOME");
+	else
+		path = args[1];
+	if (chdir(path) == -1)
+	{
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (1);
+	}
+	return (0);
 }
 
-int builtin_pwd(char **args)
+int	builtin_pwd(char **args)
 {
-    char cwd[PATH_MAX];
-    (void)args;
+	char	cwd[PATH_MAX];
 
-    if (getcwd(cwd, sizeof(cwd)) == NULL)
-    {
-        ft_putstr_fd("pwd: error retrieving current directory\n", 2);
-        return (1);
-    }
-    ft_putendl_fd(cwd, 1);
-    return (0);
+	(void)args;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		ft_putstr_fd("pwd: error retrieving current directory\n", 2);
+		return (1);
+	}
+	ft_putendl_fd(cwd, 1);
+	return (0);
 }
 
-static int is_valid_identifier(const char *str)
+static int	is_valid_identifier(const char *str)
 {
-    int i;
+	int	i;
 
-    if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
-        return (0);
-    i = 1;
-    while (str[i])
-    {
-        if (!ft_isalnum(str[i]) && str[i] != '_')
-            return (0);
-        i++;
-    }
-    return (1);
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-static void print_sorted_env(t_env *env)
+// Convert linked list to array
+static t_env	**env_to_array(t_env *env, int count)
 {
     t_env *current;
     t_env **arr;
@@ -143,110 +143,105 @@ static void print_sorted_env(t_env *env)
     free(arr);
 }
 
-int builtin_export(char **args)
+int	builtin_export(char **args)
 {
-    extern t_env *g_env;
-    int i;
-    char *equal_pos;
-    char *name;
-    char *value;
+	extern t_env	*g_env;
+	int				i;
+	char			*equal_pos;
+	char			*name;
+	char			*value;
 
-    if (!args[1])
-    {
-        print_sorted_env(g_env);
-        return (0);
-    }
-
-    i = 1;
-    while (args[i])
-    {
-        equal_pos = ft_strchr(args[i], '=');
-        if (equal_pos)
-        {
-            name = ft_substr(args[i], 0, equal_pos - args[i]);
-            value = equal_pos + 1;
-        }
-        else
-        {
-            name = ft_strdup(args[i]);
-            value = NULL;
-        }
-
-        if (!is_valid_identifier(name))
-        {
-            ft_putstr_fd("export: '", 2);
-            ft_putstr_fd(args[i], 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            free(name);
-            return (1);
-        }
-
-        if (set_env_var(&g_env, name, value) != 0)
-        {
-            ft_putstr_fd("export: memory allocation error\n", 2);
-            free(name);
-            return (1);
-        }
-        free(name);
-        i++;
-    }
-    return (0);
+	if (!args[1])
+	{
+		print_sorted_env(g_env);
+		return (0);
+	}
+	i = 1;
+	while (args[i])
+	{
+		equal_pos = ft_strchr(args[i], '=');
+		if (equal_pos)
+		{
+			name = ft_substr(args[i], 0, equal_pos - args[i]);
+			value = equal_pos + 1;
+		}
+		else
+		{
+			name = ft_strdup(args[i]);
+			value = NULL;
+		}
+		if (!is_valid_identifier(name))
+		{
+			ft_putstr_fd("export: '", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			free(name);
+			return (1);
+		}
+		if (set_env_var(&g_env, name, value) != 0)
+		{
+			ft_putstr_fd("export: memory allocation error\n", 2);
+			free(name);
+			return (1);
+		}
+		free(name);
+		i++;
+	}
+	return (0);
 }
 
-int builtin_unset(char **args)
+int	builtin_unset(char **args)
 {
-    extern t_env *g_env;
-    int i;
+	extern t_env	*g_env;
+	int				i;
 
-    if (!args[1])
-    {
-        ft_putstr_fd("unset: not enough arguments\n", 2);
-        return (1);
-    }
-
-    i = 1;
-    while (args[i])
-    {
-        if (!is_valid_identifier(args[i]))
-        {
-            ft_putstr_fd("unset: '", 2);
-            ft_putstr_fd(args[i], 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            return (1);
-        }
-
-        remove_env_var(&g_env, args[i]);
-        i++;
-    }
-    return (0);
+	if (!args[1])
+	{
+		ft_putstr_fd("unset: not enough arguments\n", 2);
+		return (1);
+	}
+	i = 1;
+	while (args[i])
+	{
+		if (!is_valid_identifier(args[i]))
+		{
+			ft_putstr_fd("unset: '", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		remove_env_var(&g_env, args[i]);
+		i++;
+	}
+	return (0);
 }
 
-int builtin_env(char **args)
+int	builtin_env(char **args)
 {
-    extern char **environ;
-    int i;
-    (void)args;
+	extern char	**environ;
+	int			i;
 
-    i = 0;
-    while (environ[i])
-    {
-        ft_putendl_fd(environ[i], 1);
-        i++;
-    }
-    return (0);
+	(void)args;
+	i = 0;
+	while (environ[i])
+	{
+		ft_putendl_fd(environ[i], 1);
+		i++;
+	}
+	return (0);
 }
 
-int builtin_exit(char **args)
+int	builtin_exit(char **args)
 {
-    int status;
+	int	status;
 
-    status = 0;
-    if (args[1])
-    {
-        status = ft_atoi(args[1]);
-        if (status < 0 || status > 255)
-            status = status % 256;
-    }
-    exit(status);
-    return (status);  // This line will never be reached
+	status = 0;
+	if (args[1])
+	{
+		status = ft_atoi(args[1]);
+		if (status < 0 || status > 255)
+			status = status % 256;
+	}
+	exit(status);
+	return (status);
 }
