@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 00:27:38 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 02:24:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int					builtin_unset(char **args);
 int					builtin_env(char **args);
 int					builtin_exit(char **args);
 int					remove_env_var(t_env **env, const char *name);
-int					set_env_var(t_env **env, const char *name,
-						const char *value);
+int					is_valid_identifier(const char *str);
+int					process_export_arg(char *arg, t_env **env);
 
 /* External commands */
 char				*find_command(char *cmd, char **envp);
@@ -73,5 +73,28 @@ t_redirect			*create_redirect(int type, char *file);
 int					setup_redirection(t_redirect *redirect);
 void				restore_redirection(t_redirect *redirect);
 void				free_redirect(t_redirect *redirect);
+
+/* Redirect utility functions */
+int					save_original_fd(t_redirect *redirect);
+int					open_redirect_file(t_redirect *redirect);
+void				apply_redirection(t_redirect *redirect, int fd);
+
+/* Environment utility functions */
+t_env				*create_env_node(const char *str);
+int					update_env_value(t_env *var, const char *value);
+int					append_env_var(t_env **env, const char *name,
+						const char *value);
+t_env				*get_env_var(t_env *env, const char *name);
+int					set_env_var(t_env **env, const char *name,
+						const char *value);
+
+/* External command utility functions */
+char				*get_path_env(t_env *env);
+char				*search_in_path(const char *path_env, char *cmd);
+
+/* Redirect parsing functions */
+t_redirect			*parse_redirect(char **args, int *cmd_end);
+/* Command preparation functions */
+char				**prepare_command(char **args, int cmd_end);
 
 #endif

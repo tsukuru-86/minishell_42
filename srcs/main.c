@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 00:07:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 01:44:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static volatile sig_atomic_t	g_signal = 0;
 volatile t_env					*g_env = NULL;
 
+/* Handle SIGINT: update global signal flag and refresh prompt */
 void	signal_handler(int signum)
 {
 	g_signal = signum;
-	if (signum == SIGINT) // Ctrl+C
+	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		// rl_delete_text(0, rl_end);//rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -40,29 +40,6 @@ void	free_tokens(char **tokens)
 		i++;
 	}
 	free(tokens);
-}
-
-static void	replace_whitespace(char *str)
-{
-	while (*str)
-	{
-		if (*str == '\t' || *str == '\n')
-			*str = ' ';
-		str++;
-	}
-}
-
-char	**split_command(char *input)
-{
-	char	**tokens;
-
-	if (!input)
-		return (NULL);
-	replace_whitespace(input);
-	tokens = ft_split(input, ' ');
-	if (!tokens)
-		return (NULL);
-	return (tokens);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -90,6 +67,6 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		free_tokens(args);
 	}
-	clear_history(); // rl_clear_history();
+	clear_history();
 	return (status);
 }

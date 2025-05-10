@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 00:07:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 02:27:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
+#include <stdio.h>
 
 t_redirect	*create_redirect(int type, char *file)
 {
@@ -31,39 +32,18 @@ t_redirect	*create_redirect(int type, char *file)
 	return (redirect);
 }
 
+/* Set up redirection by saving, opening file, and applying it */
 int	setup_redirection(t_redirect *redirect)
 {
 	int	fd;
 
 	if (!redirect)
 		return (0);
-	// 元のファイルディスクリプタを保存
-	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
-		redirect->original_fd = dup(STDOUT_FILENO);
-	else if (redirect->type == REDIR_IN)
-		redirect->original_fd = dup(STDIN_FILENO);
-	// リダイレクションの種類に応じてファイルを開く
-	if (redirect->type == REDIR_OUT)
-		fd = open(redirect->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (redirect->type == REDIR_APPEND)
-		fd = open(redirect->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (redirect->type == REDIR_IN)
-		fd = open(redirect->file, O_RDONLY);
-	else
+	redirect->original_fd = save_original_fd(redirect);
+	fd = open_redirect_file(redirect);
+	if (fd == -1) // TODO: エラー処理が逆？
 		return (0);
-	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redirect->file, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (0);
-	}
-	// ファイルディスクリプタを複製
-	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
-		dup2(fd, STDOUT_FILENO);
-	else if (redirect->type == REDIR_IN)
-		dup2(fd, STDIN_FILENO);
-	close(fd);
+	apply_redirection(redirect, fd);
 	return (1);
 }
 
