@@ -129,6 +129,16 @@ static int extract_quoted_string(char *input, int *i, char *word, t_token_type *
     {
         (*i)++;  // 終端のクォート文字をスキップ
         word[word_i] = '\0';
+
+        // 環境変数の展開（シングルクォート内では展開しない）
+        if (*type == TOKEN_DOUBLE_QUOTE)
+        {
+            char *expanded = expand_env_vars(word, 1);
+            if (!expanded)
+                return (0);
+            ft_strlcpy(word, expanded, 1024);
+            free(expanded);
+        }
         return (1);
     }
     return (0);  // クォートが閉じられていない
@@ -195,7 +205,16 @@ t_token *tokenize(char *input)
         // トークンを作成して追加
         if (word_i > 0)
         {
-            t_token *new_token = create_token(word, TOKEN_WORD);
+            // 環境変数の展開
+            char *expanded = expand_env_vars(word, 0);
+            if (!expanded)
+            {
+                free_tokens(tokens);
+                return (NULL);
+            }
+
+            t_token *new_token = create_token(expanded, TOKEN_WORD);
+            free(expanded);
             if (!new_token)
             {
                 free_tokens(tokens);
