@@ -242,18 +242,18 @@ void free_tokens(t_token *tokens)
     }
 }
 
-/* デバッグ用：トークンの内容を表示 */
-void print_tokens(t_token *tokens)
-{
-    t_token *current;
-    int     i;
+// /* デバッグ用：トークンの内容を表示 */
+// void print_tokens(t_token *tokens)
+// {
+//     t_token *current;
+//     int     i;
 
-    i = 0;
-    current = tokens;
-    while (current)
-    {
-        printf("Token %d: [%s] (type: %d)\n",
-            i++, current->content, current->type);
-        current = current->next;
-    }
-}
+//     i = 0;
+//     current = tokens;
+//     while (current)
+//     {
+//         printf("Token %d: [%s] (type: %d)\n",
+//             i++, current->content, current->type);
+//         current = current->next;
+//     }
+// }

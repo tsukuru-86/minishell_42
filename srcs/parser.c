@@ -23,6 +23,7 @@ static t_command *create_command(void)
     cmd->args = NULL;
     cmd->redirects = NULL;
     cmd->next = NULL;
+    cmd->prev = NULL;
     return (cmd);
 }
 
@@ -173,13 +174,15 @@ t_command *parse_tokens(t_token *tokens)
         else if (current->type == TOKEN_PIPE)
         {
             // 新しいコマンドの作成
-            cmd->next = create_command();
-            if (!cmd->next)
+            t_command *new_cmd = create_command();
+            if (!new_cmd)
             {
                 free_command(head);
                 return (NULL);
             }
-            cmd = cmd->next;
+            new_cmd->prev = cmd;
+            cmd->next = new_cmd;
+            cmd = new_cmd;
             current = current->next;
         }
         else

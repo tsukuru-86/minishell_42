@@ -19,11 +19,16 @@ void signal_handler(int signum)
     g_signal = signum;
     if (signum == SIGINT) // Ctrl+C
     {
-        write(1, "\n", 1);
+        write(1, "\nminishell > ", 12);
         rl_on_new_line();
-        // rl_delete_text(0, rl_end);//rl_replace_line("", 0);
         rl_redisplay();
     }
+}
+
+void setup_child_signals(void)
+{
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
 }
 
 // 古い関数を削除（tokenizer.cに移動）
@@ -63,7 +68,7 @@ int main(int argc, char **argv, char **envp)
         if (tokens)
         {
             // デバッグ用：トークンの内容を表示
-            print_tokens(tokens);
+            // print_tokens(tokens);
             
             // トークンをコマンド構造体に変換
             t_command *cmd = parse_tokens(tokens);

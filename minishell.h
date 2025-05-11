@@ -57,7 +57,7 @@ typedef struct s_token
 
 t_token *tokenize(char *input);
 void free_tokens(t_token *tokens);
-void print_tokens(t_token *tokens);
+// void print_tokens(t_token *tokens);
 
 /* Redirection structure */
 typedef struct s_redirect
@@ -83,6 +83,7 @@ typedef struct s_command
     t_redirect      *redirects;  // リダイレクトのリスト
     t_pipeline      pipe;       // パイプライン情報
     struct s_command *next;      // パイプで繋がれた次のコマンド
+    struct s_command *prev;      // パイプで繋がれた前のコマンド
 } t_command;
 
 /* パイプライン関連の関数プロトタイプ */
@@ -130,9 +131,12 @@ int     builtin_exit(char **args);
 char    *find_command(char *cmd, char **envp);
 int     execute_external_command(char **args, char **envp);
 
+/* Signal handling */
+void signal_handler(int signum);
+void setup_child_signals(void);
+
 /* Global environment variable */
 extern t_env *g_env;
-
 
 /* Redirection functions */
 t_redirect   *create_redirect(int type, char *file);
