@@ -56,9 +56,17 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+/* Tokenizer functions */
 t_token				*tokenize(char *input);
 void				free_tokens(t_token *tokens);
 void				print_tokens(t_token *tokens);
+
+int					is_delimiter(char c);
+int					is_quote(char c);
+int					is_meta(char c);
+t_token_type		get_meta_type(char *input, int *i);
+t_token				*create_meta_token(char *input, int *i);
+t_token				*create_token(char *content, t_token_type type);
 
 /* Redirection structure */
 typedef struct s_redirect

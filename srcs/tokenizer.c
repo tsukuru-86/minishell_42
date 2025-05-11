@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsukuru <tsukuru@student.42.fr>            #+#  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025-05-11 04:53:10 by tsukuru          ###   ########.fr       */
+/*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
+/*   Updated: 2025/05/12 04:18:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* 新しいトークンを作成 */
-static t_token	*create_token(char *content, t_token_type type)
+t_token	*create_token(char *content, t_token_type type)
 {
 	t_token	*token;
 
@@ -45,63 +45,6 @@ static void	add_token(t_token **token, t_token *new_token)
 	while (current->next)
 		current = current->next;
 	current->next = new_token;
-}
-
-static int	is_delimiter(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
-
-static int	is_quote(char c)
-{
-	return (c == '\'' || c == '\"');
-}
-
-static int	is_meta(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-/* メタ文字のトークンタイプを判定 */
-static t_token_type	get_meta_type(char *input, int *i)
-{
-	if (input[*i] == '|')
-	{
-		(*i)++;
-		return (TOKEN_PIPE);
-	}
-	else if (input[*i] == '<')
-	{
-		(*i)++;
-		return (TOKEN_REDIR_IN);
-	}
-	else if (input[*i] == '>')
-	{
-		(*i)++;
-		if (input[*i] == '>')
-		{
-			(*i)++;
-			return (TOKEN_REDIR_APPEND);
-		}
-		return (TOKEN_REDIR_OUT);
-	}
-	return (TOKEN_WORD); // エラー防止のためのデフォルト値
-}
-
-/* メタ文字トークンを作成 */
-static t_token	*create_meta_token(char *input, int *i)
-{
-	t_token_type	type;
-	char			meta_str[3];
-	int				len;
-
-	len = 0;
-	meta_str[len++] = input[*i];
-	type = get_meta_type(input, i);
-	if (type == TOKEN_REDIR_APPEND)
-		meta_str[len++] = '>';
-	meta_str[len] = '\0';
-	return (create_token(meta_str, type));
 }
 
 /* クォートされた文字列を抽出 */
@@ -148,9 +91,7 @@ t_token	*tokenize(char *input)
 	int				word_i;
 	t_token_type	type;
 	t_token			*new_token;
-	t_token			*new_token;
 	char			*expanded;
-	t_token			*new_token;
 
 	tokens = NULL;
 	i = 0;
@@ -219,36 +160,4 @@ t_token	*tokenize(char *input)
 		}
 	}
 	return (tokens);
-}
-
-/* トークンリストの解放 */
-void	free_tokens(t_token *tokens)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	while (current)
-	{
-		next = current->next;
-		free(current->content);
-		free(current);
-		current = next;
-	}
-}
-
-/* デバッグ用：トークンの内容を表示 */
-void	print_tokens(t_token *tokens)
-{
-	t_token *current;
-	int i;
-
-	i = 0;
-	current = tokens;
-	while (current)
-	{
-		printf("Token %d: [%s] (type: %d)\n", i++, current->content,
-			current->type);
-		current = current->next;
-	}
 }
