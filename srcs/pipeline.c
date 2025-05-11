@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 22:54:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 23:00:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,13 +173,12 @@ void	cleanup_pipeline(t_command *cmd)
 /* パイプラインの完了を待機 */
 int	wait_pipeline(t_command *cmd)
 {
-	t_command *current;
-	int status;
-	int last_status;
+	t_command	*current;
+	int			status;
+	int			last_status;
 
 	current = cmd;
 	last_status = 0;
-
 	while (current)
 	{
 		if (current->pipe.pid != -1)
@@ -191,6 +190,5 @@ int	wait_pipeline(t_command *cmd)
 		}
 		current = current->next;
 	}
-
 	return (last_status);
 }

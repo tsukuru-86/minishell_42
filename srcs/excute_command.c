@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 22:53:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 23:04:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,36 +106,6 @@ static int	execute_command_in_child(t_command *cmd, char **envp)
 #endif
 
 /* コマンドの実行 */
-int	excute_commands(t_command *cmd, char **envp)
-{
-	int			status;
-	t_command	*current;
-	int			pipeline_result;
-	pid_t		pid;
-
-	if (cmd->redirects && !setup_redirection(cmd->redirects))
-		return (1);
-	if (is_builtin(cmd->args[0]))
-		status = execute_builtin(cmd->args);
-	else
-	{
-		pid = fork();
-		if (pid == -1)
-			return (1);
-		if (pid == 0)
-		{
-			setup_child_signals();
-			status = execute_external_command(cmd->args, envp);
-			exit(status);
-		}
-		waitpid(pid, &status, 0);
-		status = WEXITSTATUS(status);
-	}
-	if (cmd->redirects)
-		restore_redirection(cmd->redirects);
-	return (status);
-}
-
 int	excute_commands(t_command *cmd, char **envp)
 {
 	int			status;

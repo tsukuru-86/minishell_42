@@ -115,9 +115,7 @@ int					remove_env_var(t_env **env, const char *name);
 # define REDIR_IN 2 /* < */
 # define REDIR_APPEND 3 /* >> */
 
-void				free_tokens(char **tokens);
 char				**split_command(char *input);
-int					excute_commands(t_command *cmd, char **envp);
 
 /* Built-in commands */
 int					builtin_echo(char **args);
@@ -130,7 +128,7 @@ int					builtin_exit(char **args);
 int					remove_env_var(t_env **env, const char *name);
 int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg, t_env **env);
-int					excute_commands(t_token *tokens, char **envp);
+int					excute_commands(t_command *cmd, char **envp);
 int					is_builtin(char *cmd);
 int					execute_builtin(char **args);
 
