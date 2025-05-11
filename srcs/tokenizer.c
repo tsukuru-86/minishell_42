@@ -58,6 +58,55 @@ static int is_quote(char c)
     return (c == '\'' || c == '\"');
 }
 
+static int is_meta(char c)
+{
+    return (c == '|' || c == '<' || c == '>');
+}
+
+/* メタ文字のトークンタイプを判定 */
+static t_token_type get_meta_type(char *input, int *i)
+{
+    if (input[*i] == '|')
+    {
+        (*i)++;
+        return TOKEN_PIPE;
+    }
+    else if (input[*i] == '<')
+    {
+        (*i)++;
+        return TOKEN_REDIR_IN;
+    }
+    else if (input[*i] == '>')
+    {
+        (*i)++;
+        if (input[*i] == '>')
+        {
+            (*i)++;
+            return TOKEN_REDIR_APPEND;
+        }
+        return TOKEN_REDIR_OUT;
+    }
+    return TOKEN_WORD;  // エラー防止のためのデフォルト値
+}
+
+/* メタ文字トークンを作成 */
+static t_token *create_meta_token(char *input, int *i)
+{
+    t_token_type type;
+    char meta_str[3];
+    int len;
+
+    len = 0;
+    meta_str[len++] = input[*i];
+    type = get_meta_type(input, i);
+    
+    if (type == TOKEN_REDIR_APPEND)
+        meta_str[len++] = '>';
+    
+    meta_str[len] = '\0';
+    return create_token(meta_str, type);
+}
+
 /* クォートされた文字列を抽出 */
 static int extract_quoted_string(char *input, int *i, char *word, t_token_type *type)
 {
@@ -124,9 +173,22 @@ t_token *tokenize(char *input)
             continue;
         }
 
+        // メタ文字の処理
+        if (is_meta(input[i]))
+        {
+            t_token *new_token = create_meta_token(input, &i);
+            if (!new_token)
+            {
+                free_tokens(tokens);
+                return (NULL);
+            }
+            add_token(&tokens, new_token);
+            continue;
+        }
+
         // 通常の単語を抽出
         word_i = 0;
-        while (input[i] && !is_delimiter(input[i]) && !is_quote(input[i]))
+        while (input[i] && !is_delimiter(input[i]) && !is_quote(input[i]) && !is_meta(input[i]))
             word[word_i++] = input[i++];
         word[word_i] = '\0';
 
