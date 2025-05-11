@@ -13,6 +13,65 @@
 #include "../minishell.h"
 #include <fcntl.h>
 
+/* トークンリストを文字列配列に変換 */
+static char **tokens_to_array(t_token *tokens)
+{
+    t_token *current;
+    int count;
+    char **array;
+    int i;
+
+    count = 0;
+    current = tokens;
+    while (current)
+    {
+        if (current->type == TOKEN_WORD)
+            count++;
+        current = current->next;
+    }
+
+    array = (char **)malloc(sizeof(char *) * (count + 1));
+    if (!array)
+        return (NULL);
+
+    i = 0;
+    current = tokens;
+    while (current)
+    {
+        if (current->type == TOKEN_WORD)
+        {
+            array[i] = ft_strdup(current->content);
+            if (!array[i])
+            {
+                while (--i >= 0)
+                    free(array[i]);
+                free(array);
+                return (NULL);
+            }
+            i++;
+        }
+        current = current->next;
+    }
+    array[i] = NULL;
+    return (array);
+}
+
+/* 文字列配列の解放 */
+static void free_string_array(char **array)
+{
+    int i;
+
+    if (!array)
+        return;
+    i = 0;
+    while (array[i])
+    {
+        free(array[i]);
+        i++;
+    }
+    free(array);
+}
+
 static t_redirect *parse_redirect(char **args, int *cmd_end)
 {
     int i;
@@ -108,28 +167,38 @@ int execute_builtin(char **args)
 
 
 /* コマンドの実行 */
-int excute_commands(char **args, char **envp)
+int excute_commands(t_token *tokens, char **envp)
 {
     t_redirect *redirect;
+    char **args;
     char **cmd;
     int cmd_end;
     int status;
 
-    if (!args || !args[0])
+    if (!tokens)
         return 0;
+
+    // トークンリストを配列に変換
+    args = tokens_to_array(tokens);
+    if (!args)
+        return 1;
 
     // リダイレクションの解析
     redirect = parse_redirect(args, &cmd_end);
     cmd = prepare_command(args, cmd_end);
     if (!cmd)
+    {
+        free_string_array(args);
         return 1;
+    }
 
     // リダイレクションの設定
     if (redirect && !setup_redirection(redirect))
     {
         free_redirect(redirect);
         if (cmd != args)
-            free_tokens(cmd);
+            free_string_array(cmd);
+        free_string_array(args);
         return 1;
     }
 
@@ -146,7 +215,8 @@ int excute_commands(char **args, char **envp)
         free_redirect(redirect);
     }
     if (cmd != args)
-        free_tokens(cmd);
+        free_string_array(cmd);
+    free_string_array(args);
 
     return status;
 }

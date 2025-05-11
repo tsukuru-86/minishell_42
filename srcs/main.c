@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 static volatile sig_atomic_t g_signal = 0;
+t_env *g_env = NULL;
 
 void signal_handler(int signum)
 {
@@ -25,50 +26,21 @@ void signal_handler(int signum)
     }
 }
 
-void    free_tokens(char **tokens)
-{
-    int i;
-
-    if (!tokens)
-        return;
-    i = 0;
-    while (tokens[i])
-    {
-        free(tokens[i]);
-        i++;
-    }
-    free(tokens);
-}
-
-static void replace_whitespace(char *str)
-{
-    while (*str)
-    {
-        if (*str == '\t' || *str == '\n')
-            *str = ' ';
-        str++;
-    }
-}
-
-char **split_command(char *input)
-{
-    char **tokens;
-
-    if (!input)
-        return (NULL);
-    replace_whitespace(input);
-    tokens = ft_split(input, ' ');
-    if (!tokens)
-        return (NULL);
-    return (tokens);
-}
+// 古い関数を削除（tokenizer.cに移動）
 
 int main(int argc, char **argv, char **envp)
 {
     (void)argc;
     (void)argv;
+    
+    // 環境変数の初期化
+    g_env = create_env_list(envp);
+    if (!g_env)
+    {
+        ft_putstr_fd("minishell: failed to initialize environment\n", 2);
+        return (1);
+    }
     char *input;
-    char **args;
     int status;
 
     status = 0;
@@ -87,14 +59,19 @@ int main(int argc, char **argv, char **envp)
         if (*input)
             add_history(input);
 
-        args = split_command(input);
-
-        if (args && args[0])
-            status = excute_commands(args, envp);
-
+        t_token *tokens = tokenize(input);
+        if (tokens)
+        {
+            // デバッグ用：トークンの内容を表示
+            print_tokens(tokens);
+            
+            // TODO: ここで後続の処理を実装予定
+            
+            free_tokens(tokens);
+        }
         free(input);
-        free_tokens(args);
     }
     clear_history();// rl_clear_history();
+    free_env_list(g_env);
     return status;
 }
