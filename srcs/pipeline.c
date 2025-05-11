@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsukuru <tsukuru@student.42.fr>            #+#  +:+       +#+        */
+/*   By: tsukuru <tsukuru@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-11 15:36:29 by tsukuru           #+#    #+#             */
 /*   Updated: 2025-05-11 15:36:29 by tsukuru          ###   ########.fr       */
@@ -12,43 +12,37 @@
 
 #include "../minishell.h"
 
-/* パイプのファイルディスクリプタを設定 */
-static int setup_pipe_fds(t_command *cmd)
+/* 各コマンドの子プロセスでの実行処理 */
+static void execute_pipeline_command(t_command *cmd, t_command *current, char **envp)
 {
-    int pipefd[2];
+    // 子プロセスのシグナルハンドリングを設定
+    setup_child_signals();
+    
+    // パイプライン実行中であることを示す環境変数を設定
+    putenv("MINISHELL_PIPELINE=1");
 
-    // 次のコマンドがある場合のみパイプを作成
-    if (cmd->next)
-    {
-        if (pipe(pipefd) == -1)
-            return (0);
-        cmd->pipe.write_fd = pipefd[1];
-        cmd->next->pipe.read_fd = pipefd[0];
-    }
-    return (1);
-}
-
-/* 子プロセスのファイルディスクリプタを設定 */
-static void setup_child_fds(t_command *cmd, t_command *current)
-{
-    t_command *tmp;
-
-    // 入力のリダイレクト
+    // 入力のリダイレクト - 前のコマンドからの入力をSTDINにリダイレクト
     if (current->pipe.read_fd != -1)
     {
         if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
-            exit(1);
+        {
+            perror("dup2 read");
+            exit(EXIT_FAILURE);
+        }
     }
 
-    // 出力のリダイレクト
-    if (current->next && current->pipe.write_fd != -1)
+    // 出力のリダイレクト - このコマンドの出力を次のコマンドへリダイレクト
+    if (current->pipe.write_fd != -1)
     {
         if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
-            exit(1);
+        {
+            perror("dup2 write");
+            exit(EXIT_FAILURE);
+        }
     }
 
-    // すべてのパイプを閉じる
-    tmp = cmd;
+    // すべてのパイプを閉じる（必須！）
+    t_command *tmp = cmd;
     while (tmp)
     {
         if (tmp->pipe.read_fd != -1)
@@ -57,69 +51,98 @@ static void setup_child_fds(t_command *cmd, t_command *current)
             close(tmp->pipe.write_fd);
         tmp = tmp->next;
     }
+
+    // リダイレクトの設定（パイプラインより優先）
+    if (current->redirects && !setup_redirection(current->redirects))
+        exit(EXIT_FAILURE);
+
+    // コマンドの実行
+    if (is_builtin(current->args[0]))
+    {
+        int status = execute_builtin(current->args);
+        if (current->redirects)
+            restore_redirection(current->redirects);
+        exit(status);
+    }
+    else
+    {
+        int status = execute_external_command(current->args, envp);
+        exit(status);
+    }
 }
 
 /* パイプラインのセットアップ */
 int setup_pipeline(t_command *cmd)
 {
+    int pipefd[2];
+    pid_t pid;
     t_command *current;
-    int pipe_count = 0;
-    t_command *tmp = cmd;
+    extern char **environ;
+    
+    // パイプがない場合は通常の実行
+    if (!cmd->next)
+        return (1);
 
-    // パイプの数を数える
-    while (tmp && tmp->next)
-    {
-        pipe_count++;
-        tmp = tmp->next;
-    }
-
-    if (pipe_count == 0)
-        return (1);  // パイプがない場合は通常の実行
-
-    // すべてのパイプを作成
+    // 初期化
     current = cmd;
-    while (current && current->next)
+    while (current)
     {
         current->pipe.read_fd = -1;
         current->pipe.write_fd = -1;
         current->pipe.pid = -1;
-        current->next->pipe.read_fd = -1;
-        current->next->pipe.write_fd = -1;
-        current->next->pipe.pid = -1;
-
-        if (!setup_pipe_fds(current))
-        {
-            cleanup_pipeline(cmd);
-            return (0);
-        }
         current = current->next;
     }
 
-    // 最後のコマンドから順に子プロセスを作成
+    // パイプを作成し、各コマンドに接続
     current = cmd;
-    while (current->next)
-        current = current->next;
-
-    while (current)
+    while (current && current->next)
     {
-        current->pipe.pid = fork();
-        if (current->pipe.pid == -1)
+        if (pipe(pipefd) == -1)
         {
+            perror("pipe");
             cleanup_pipeline(cmd);
             return (0);
         }
+        
+        // 現在のコマンドの出力はパイプの書き込み側
+        current->pipe.write_fd = pipefd[1];
+        
+        // 次のコマンドの入力はパイプの読み込み側
+        current->next->pipe.read_fd = pipefd[0];
+        
+        current = current->next;
+    }
 
-        if (current->pipe.pid == 0)
+    // 各コマンドを子プロセスとして実行
+    current = cmd;
+    while (current)
+    {
+        pid = fork();
+        if (pid == -1)
         {
-            // 子プロセス
-            setup_child_signals();
-            setup_child_fds(cmd, current);
-            return (2);
+            perror("fork");
+            cleanup_pipeline(cmd);
+            return (0);
         }
-        current = current->prev;  // 前のコマンドに移動
+        
+        if (pid == 0)
+        {
+            // 子プロセスでコマンドを実行
+            execute_pipeline_command(cmd, current, environ);
+            // ここには到達しない
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            // 親プロセス - 子プロセスIDを保存
+            current->pipe.pid = pid;
+        }
+        
+        current = current->next;
     }
 
     // 親プロセスですべてのパイプを閉じる
+    // これが重要！閉じないとパイプが詰まって次のプロセスが実行されない
     current = cmd;
     while (current)
     {
@@ -136,11 +159,27 @@ int setup_pipeline(t_command *cmd)
 /* パイプラインのクリーンアップ */
 void cleanup_pipeline(t_command *cmd)
 {
-    // 残っているファイルディスクリプタを閉じる
-    if (cmd->pipe.read_fd != -1)
-        close(cmd->pipe.read_fd);
-    if (cmd->pipe.write_fd != -1)
-        close(cmd->pipe.write_fd);
+    t_command *current;
+
+    if (!cmd)
+        return;
+
+    // すべてのコマンドの残っているファイルディスクリプタを閉じる
+    current = cmd;
+    while (current)
+    {
+        if (current->pipe.read_fd != -1)
+        {
+            close(current->pipe.read_fd);
+            current->pipe.read_fd = -1;
+        }
+        if (current->pipe.write_fd != -1)
+        {
+            close(current->pipe.write_fd);
+            current->pipe.write_fd = -1;
+        }
+        current = current->next;
+    }
 }
 
 /* パイプラインの完了を待機 */
@@ -157,8 +196,9 @@ int wait_pipeline(t_command *cmd)
     {
         if (current->pipe.pid != -1)
         {
-            waitpid(current->pipe.pid, &status, 0);
-            if (WIFEXITED(status))
+            if (waitpid(current->pipe.pid, &status, 0) == -1)
+                perror("waitpid");
+            else if (WIFEXITED(status))
                 last_status = WEXITSTATUS(status);
         }
         current = current->next;

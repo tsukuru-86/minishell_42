@@ -48,6 +48,11 @@ int execute_builtin(char **args)
 }
 
 
+/*
+** NOTE: This function is no longer used with our new pipeline implementation.
+** The functionality has been moved to execute_pipeline_command in pipeline.c
+*/
+#if 0
 /* コマンドの実行（子プロセス用） */
 static int execute_command_in_child(t_command *cmd, char **envp)
 {
@@ -56,7 +61,11 @@ static int execute_command_in_child(t_command *cmd, char **envp)
     if (!cmd || !cmd->args || !cmd->args[0])
         exit(0);
 
-    // リダイレクトの設定
+    // パイプライン実行中であることを示す環境変数を設定
+    putenv("MINISHELL_PIPELINE=1");
+
+    // リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
+    // リダイレクトがパイプラインよりも優先される）
     if (cmd->redirects && !setup_redirection(cmd->redirects))
         exit(1);
 
@@ -74,6 +83,7 @@ static int execute_command_in_child(t_command *cmd, char **envp)
         exit(status);
     }
 }
+#endif
 
 /* コマンドの実行 */
 static int execute_single_command(t_command *cmd, char **envp)
@@ -121,16 +131,11 @@ int excute_commands(t_command *cmd, char **envp)
         return execute_single_command(cmd, envp);
 
     // パイプラインの実行
+    // setup_pipelineが成功すると1を返し、パイプラインが設定される
+    // すでに子プロセスは作成され、必要な設定がされている
     pipeline_result = setup_pipeline(cmd);
     if (pipeline_result == 0)
-        return (1);  // エラー
-
-    if (pipeline_result == 2)  // 子プロセス
-    {
-        setup_child_signals();
-        execute_command_in_child(cmd, envp);
-        // ここには到達しない（子プロセスはexit()で終了）
-    }
+        return (1);  // エラー発生
 
     // パイプラインの完了を待機
     status = wait_pipeline(cmd);
