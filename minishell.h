@@ -60,6 +60,23 @@ t_token				*tokenize(char *input);
 void				free_tokens(t_token *tokens);
 void				print_tokens(t_token *tokens);
 
+/* Redirection structure */
+typedef struct s_redirect
+{
+	int type;                /* リダイレクションのタイプ */
+	char *file;              /* リダイレクト先のファイル名 */
+	int original_fd;         /* 元のファイルディスクリプタを保存 */
+	struct s_redirect *next; /* 次のリダイレクト */
+}					t_redirect;
+
+/* コマンド構造体 */
+typedef struct s_command
+{
+	char **args;            // コマンドと引数の配列
+	t_redirect *redirects;  // リダイレクトのリスト
+	struct s_command *next; // パイプで繋がれた次のコマンド
+}					t_command;
+
 /* Environment variable structure */
 typedef struct s_env
 {
@@ -67,6 +84,10 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }					t_env;
+
+/* パーサー関数のプロトタイプ */
+t_command			*parse_tokens(t_token *tokens);
+void				free_command(t_command *cmd);
 
 /* Environment functions */
 t_env				*create_env_list(char **envp);
@@ -81,16 +102,9 @@ int					remove_env_var(t_env **env, const char *name);
 # define REDIR_IN 2 /* < */
 # define REDIR_APPEND 3 /* >> */
 
-/* Redirection structure */
-typedef struct s_redirect
-{
-	int				type;
-	char			*file;
-	int				original_fd;
-}					t_redirect;
-
 void				free_tokens(char **tokens);
 char				**split_command(char *input);
+int					excute_commands(t_command *cmd, char **envp);
 
 /* Built-in commands */
 int					builtin_echo(char **args);
@@ -104,6 +118,8 @@ int					remove_env_var(t_env **env, const char *name);
 int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg, t_env **env);
 int					excute_commands(t_token *tokens, char **envp);
+int					is_builtin(char *cmd);
+int					execute_builtin(char **args);
 
 /* External commands */
 char				*find_command(char *cmd, char **envp);

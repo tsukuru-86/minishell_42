@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 22:22:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 22:48:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static volatile sig_atomic_t	g_signal = 0;
 t_env							*g_env = NULL;
-
-static volatile sig_atomic_t	g_signal = 0;
-volatile t_env					*g_env = NULL;
 
 /* Handle SIGINT: update global signal flag and refresh prompt */
 void	signal_handler(int signum)
@@ -34,19 +31,11 @@ void	signal_handler(int signum)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	int		status;
-	t_token	*tokens;
+	char		*input;
+	int			status;
+	t_token		*tokens;
+	t_command	*cmd;
 
-	(void)argc;
-	(void)argv;
-	// 環境変数の初期化
-	g_env = create_env_list(envp);
-	if (!g_env)
-	{
-		ft_putstr_fd("minishell: failed to initialize environment\n", 2);
-		return (1);
-	}
 	status = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -63,7 +52,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			// デバッグ用：トークンの内容を表示
 			print_tokens(tokens);
-			// TODO: ここで後続の処理を実装予定
+			// トークンをコマンド構造体に変換
+			cmd = parse_tokens(tokens);
+			if (cmd)
+			{
+				status = excute_commands(cmd, envp);
+				free_command(cmd);
+			}
 			free_tokens(tokens);
 		}
 		free(input);

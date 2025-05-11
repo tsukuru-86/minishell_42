@@ -19,7 +19,8 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)redirect.c \
        $(SRCS_DIR)redirect_utils.c \
        $(SRCS_DIR)tokenizer.c \
-       $(SRCS_DIR)env_expand.c
+       $(SRCS_DIR)env_expand.c \
+       $(SRCS_DIR)parser.c
 
 OBJS = $(SRCS:.c=.o)
 
