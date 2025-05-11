@@ -16,3 +16,7 @@ minishell
 
 # macOS specific
 .DS_Store
+
+# Test files
+test.c
+kabeuchi.c
