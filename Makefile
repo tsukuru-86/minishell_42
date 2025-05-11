@@ -10,6 +10,9 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)excute_command_utils.c \
        $(SRCS_DIR)external_utils.c \
        $(SRCS_DIR)external_commands.c \
+       $(SRCS_DIR)env_expand.c \
+       $(SRCS_DIR)env_expand_utils.c \
+       $(SRCS_DIR)env_expand_utils2.c \
        $(SRCS_DIR)builtin_commands.c \
        $(SRCS_DIR)builtin_env.c \
        $(SRCS_DIR)builtin_env2.c \
@@ -19,7 +22,7 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)redirect.c \
        $(SRCS_DIR)redirect_utils.c \
        $(SRCS_DIR)tokenizer.c \
-       $(SRCS_DIR)env_expand.c \
+       $(SRCS_DIR)tokenizer_utils.c \
        $(SRCS_DIR)parser.c \
        $(SRCS_DIR)pipeline.c
 
