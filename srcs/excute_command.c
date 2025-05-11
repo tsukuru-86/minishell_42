@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 22:19:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/11 22:32:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,6 @@ static void	free_string_array(char **array)
 		i++;
 	}
 	free(array);
-}
-
-static t_redirect	*parse_redirect(char **args, int *cmd_end)
-{
-	char	**builtins;
-	int		i;
-
-	builtins = (char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit",
-		NULL};
-	i = 0;
-	while (builtins[i])
-	{
-		if (strcmp(cmd, builtins[i]) == 0)
-			return (NULL);
-		i++;
-	}
-	return (0);
 }
 
 int	execute_builtin(char **args)

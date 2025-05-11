@@ -13,43 +13,6 @@
 #include "../minishell.h"
 #include <fcntl.h>
 
-/* find redirect position and type in args */
-static int	find_redirect(char **args, int *cmd_end)
-{
-	int	i;
-
-	i = 0;
-	*cmd_end = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '>')
-		{
-			*cmd_end = i;
-			if (args[i][1] == '>')
-				return (REDIR_APPEND);
-			return (REDIR_OUT);
-		}
-		if (args[i][0] == '<')
-		{
-			*cmd_end = i;
-			return (REDIR_IN);
-		}
-		i++;
-	}
-	return (0);
-}
-
-/* parse redirect tokens and return redirect struct */
-t_redirect	*parse_redirect(char **args, int *cmd_end)
-{
-	int	type;
-
-	type = find_redirect(args, cmd_end);
-	if (type)
-		return (create_redirect(type, args[*cmd_end + 1]));
-	return (NULL);
-}
-
 /* duplicate argument vector up to count */
 static char	**duplicate_args(char **args, int count)
 {
