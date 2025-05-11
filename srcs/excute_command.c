@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 23:04:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 04:57:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,27 @@
 /* 単一コマンドの実行 */
 static int	execute_single_command(t_command *cmd, char **envp)
 {
-	int	status;
+	int		status;
+	pid_t	pid;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (0);
-	// リダイレクトの設定
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
 		return (1);
-	// コマンドの実行
 	if (is_builtin(cmd->args[0]))
 		status = execute_builtin(cmd->args);
 	else
-		status = execute_external_command(cmd->args, envp);
-	// リダイレクトの復元
+	{
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		if (pid == 0)
+		{
+			setup_child_signals();
+			status = execute_external_command(cmd->args, envp);
+			exit(status);
+		}
+		waitpid(pid, &status, 0);
+		status = WEXITSTATUS(status);
+	}
 	if (cmd->redirects)
 		restore_redirection(cmd->redirects);
 	return (status);
@@ -69,8 +77,6 @@ int	execute_builtin(char **args)
 	return (1); // コマンドが見つからない場合
 }
 
-/* Execute commands with optional redirection */
-
 /*
 ** NOTE: This function is no longer used with our new pipeline implementation.
 ** The functionality has been moved to execute_pipeline_command in pipeline.c
@@ -79,7 +85,7 @@ int	execute_builtin(char **args)
 /* コマンドの実行（子プロセス用） */
 static int	execute_command_in_child(t_command *cmd, char **envp)
 {
-	int	status;
+    int status;
 
     if (!cmd || !cmd->args || !cmd->args[0])
         exit(0);

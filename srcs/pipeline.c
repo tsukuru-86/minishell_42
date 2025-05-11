@@ -6,68 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 03:47:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 05:15:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/* 各コマンドの子プロセスでの実行処理 */
-static void	execute_pipeline_command(t_command *cmd, t_command *current,
-		char **envp)
-{
-	t_command	*tmp;
-	int			status;
-
-	// 子プロセスのシグナルハンドリングを設定
-	setup_child_signals();
-	// パイプライン実行中であることを示す環境変数を設定
-	putenv("MINISHELL_PIPELINE=1");
-	// 入力のリダイレクト - 前のコマンドからの入力をSTDINにリダイレクト
-	if (current->pipe.read_fd != -1)
-	{
-		if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 read");
-			exit(EXIT_FAILURE);
-		}
-	}
-	// 出力のリダイレクト - このコマンドの出力を次のコマンドへリダイレクト
-	if (current->pipe.write_fd != -1)
-	{
-		if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 write");
-			exit(EXIT_FAILURE);
-		}
-	}
-	// すべてのパイプを閉じる（必須！）
-	tmp = cmd;
-	while (tmp)
-	{
-		if (tmp->pipe.read_fd != -1)
-			close(tmp->pipe.read_fd);
-		if (tmp->pipe.write_fd != -1)
-			close(tmp->pipe.write_fd);
-		tmp = tmp->next;
-	}
-	// リダイレクトの設定（パイプラインより優先）
-	if (current->redirects && !setup_redirection(current->redirects))
-		exit(EXIT_FAILURE);
-	// コマンドの実行
-	if (is_builtin(current->args[0]))
-	{
-		status = execute_builtin(current->args);
-		if (current->redirects)
-			restore_redirection(current->redirects);
-		exit(status);
-	}
-	else
-	{
-		status = execute_external_command(current->args, envp);
-		exit(status);
-	}
-}
 
 /* パイプラインのセットアップ */
 int	setup_pipeline(t_command *cmd)
@@ -190,4 +133,56 @@ int	wait_pipeline(t_command *cmd)
 		current = current->next;
 	}
 	return (last_status);
+}
+
+/* Redirect stdin and stdout based on pipeline pipes */
+void	pipeline_redirect_io(t_command *current)
+{
+	if (current->pipe.read_fd != -1)
+	{
+		if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 read");
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (current->pipe.write_fd != -1)
+	{
+		if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2 write");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+/* Execute current command within pipeline: handle redirection and run */
+void	pipeline_execute_command_logic(t_command *current, char **envp)
+{
+	int	status;
+
+	if (current->redirects && !setup_redirection(current->redirects))
+		exit(EXIT_FAILURE);
+	if (is_builtin(current->args[0]))
+	{
+		status = execute_builtin(current->args);
+		if (current->redirects)
+			restore_redirection(current->redirects);
+		exit(status);
+	}
+	else
+	{
+		status = execute_external_command(current->args, envp);
+		exit(status);
+	}
+}
+
+/* Execute a pipeline command in child: set up env, redirect I/O, close pipes,
+	then run */
+static void	execute_pipeline_command(t_command *cmd, t_command *current,
+		char **envp)
+{
+	setup_pipeline_child_env();
+	pipeline_redirect_io(current);
+	pipeline_close_pipes(cmd);
+	pipeline_execute_command_logic(current, envp);
 }
