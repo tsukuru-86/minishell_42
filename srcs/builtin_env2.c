@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_commands_env2.c                            :+:      :+:    :+:   */
+/*   builtin_env2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 01:15:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 04:43:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,20 @@ static void	print_sorted_env(t_env *env)
 // Export builtin command
 int	builtin_export(char **args)
 {
-	extern t_env	*g_env;
-	int				i;
-	int				ret;
+	t_env	**env;
+	int		i;
+	int		ret;
 
+	env = g_env();
 	if (!args[1])
 	{
-		print_sorted_env(g_env);
+		print_sorted_env(*env);
 		return (0);
 	}
 	i = 1;
 	while (args[i])
 	{
-		ret = process_export_arg(args[i], &g_env);
+		ret = process_export_arg(args[i], env);
 		if (ret)
 			return (ret);
 		i++;

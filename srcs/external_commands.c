@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 01:49:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 03:25:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*find_command(char *cmd, char **envp)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	path_env = get_path_env(envp);
+	path_env = get_path_env(create_env_list(envp));
 	if (!path_env)
 		return (NULL);
 	return (search_in_path(path_env, cmd));

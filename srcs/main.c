@@ -6,14 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 22:57:40 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 05:10:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static volatile sig_atomic_t	g_signal = 0;
-t_env							*g_env = NULL;
 
 /* Handle SIGINT: update global signal flag and refresh prompt */
 void	signal_handler(int signum)
@@ -38,6 +37,13 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	// 環境変数の初期化
+	*g_env() = create_env_list(envp);
+	if (!g_env())
+	{
+		ft_putstr_fd("minishell: failed to initialize environment\n", 2);
+		return (1);
+	}
 	status = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -66,6 +72,6 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	clear_history(); // rl_clear_history();
-	free_env_list(g_env);
+	free_env_list(*g_env());
 	return (status);
 }
