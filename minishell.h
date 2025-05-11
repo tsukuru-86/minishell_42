@@ -68,13 +68,27 @@ typedef struct s_redirect
     struct s_redirect *next;  /* 次のリダイレクト */
 } t_redirect;
 
+/* パイプライン用の構造体 */
+typedef struct s_pipeline
+{
+    int     read_fd;    // 読み込み用FD
+    int     write_fd;   // 書き込み用FD
+    pid_t   pid;        // プロセスID
+} t_pipeline;
+
 /* コマンド構造体 */
 typedef struct s_command
 {
     char            **args;      // コマンドと引数の配列
     t_redirect      *redirects;  // リダイレクトのリスト
+    t_pipeline      pipe;       // パイプライン情報
     struct s_command *next;      // パイプで繋がれた次のコマンド
 } t_command;
+
+/* パイプライン関連の関数プロトタイプ */
+int     setup_pipeline(t_command *cmd);
+void    cleanup_pipeline(t_command *cmd);
+int     wait_pipeline(t_command *cmd);
 
 /* Environment variable structure */
 typedef struct s_env

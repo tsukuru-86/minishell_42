@@ -73,20 +73,70 @@ int execute_builtin(char **args)
 }
 
 
+/* コマンドの実行（子プロセス用） */
+static int execute_command_in_child(t_command *cmd, char **envp)
+{
+    int status;
+
+    if (!cmd || !cmd->args || !cmd->args[0])
+        exit(0);
+
+    // リダイレクトの設定
+    if (cmd->redirects && !setup_redirection(cmd->redirects))
+        exit(1);
+
+    // コマンドの実行
+    if (is_builtin(cmd->args[0]))
+        status = execute_builtin(cmd->args);
+    else
+        status = execute_external_command(cmd->args, envp);
+
+    exit(status);
+}
+
 /* コマンドの実行 */
 int excute_commands(t_command *cmd, char **envp)
 {
     int status;
+    t_command *current;
+    int pipeline_result;
 
     if (!cmd)
         return (0);
 
-    // パイプラインがない場合は単一コマンドとして実行
-    if (!cmd->next)
-        return (execute_single_command(cmd, envp));
+    // パイプラインがない場合のビルトインコマンドは親プロセスで実行
+    if (!cmd->next && cmd->args && is_builtin(cmd->args[0]))
+    {
+        if (cmd->redirects && !setup_redirection(cmd->redirects))
+            return (1);
+        status = execute_builtin(cmd->args);
+        if (cmd->redirects)
+            restore_redirection(cmd->redirects);
+        return (status);
+    }
 
-    // TODO: パイプライン処理の実装（Stage 6で実装予定）
-    status = execute_single_command(cmd, envp);
+    // パイプラインの実行
+    current = cmd;
+    while (current)
+    {
+        pipeline_result = setup_pipeline(current);
+        if (pipeline_result == 0)
+            return (1);  // エラー
+        if (pipeline_result == 2)  // 子プロセス
+            execute_command_in_child(current, envp);
+        current = current->next;
+    }
+
+    // パイプラインの完了を待機
+    status = wait_pipeline(cmd);
+
+    // クリーンアップ
+    current = cmd;
+    while (current)
+    {
+        cleanup_pipeline(current);
+        current = current->next;
+    }
 
     return (status);
 }
