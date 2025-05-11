@@ -65,8 +65,13 @@ int main(int argc, char **argv, char **envp)
             // デバッグ用：トークンの内容を表示
             print_tokens(tokens);
             
-            // TODO: ここで後続の処理を実装予定
-            
+            // トークンをコマンド構造体に変換
+            t_command *cmd = parse_tokens(tokens);
+            if (cmd)
+            {
+                status = excute_commands(cmd, envp);
+                free_command(cmd);
+            }
             free_tokens(tokens);
         }
         free(input);

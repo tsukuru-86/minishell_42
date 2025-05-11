@@ -13,122 +13,29 @@
 #include "../minishell.h"
 #include <fcntl.h>
 
-/* トークンリストを文字列配列に変換 */
-static char **tokens_to_array(t_token *tokens)
+/* 単一コマンドの実行 */
+static int execute_single_command(t_command *cmd, char **envp)
 {
-    t_token *current;
-    int count;
-    char **array;
-    int i;
+    int status;
 
-    count = 0;
-    current = tokens;
-    while (current)
-    {
-        if (current->type == TOKEN_WORD)
-            count++;
-        current = current->next;
-    }
+    if (!cmd || !cmd->args || !cmd->args[0])
+        return (0);
 
-    array = (char **)malloc(sizeof(char *) * (count + 1));
-    if (!array)
-        return (NULL);
+    // リダイレクトの設定
+    if (cmd->redirects && !setup_redirection(cmd->redirects))
+        return (1);
 
-    i = 0;
-    current = tokens;
-    while (current)
-    {
-        if (current->type == TOKEN_WORD)
-        {
-            array[i] = ft_strdup(current->content);
-            if (!array[i])
-            {
-                while (--i >= 0)
-                    free(array[i]);
-                free(array);
-                return (NULL);
-            }
-            i++;
-        }
-        current = current->next;
-    }
-    array[i] = NULL;
-    return (array);
-}
+    // コマンドの実行
+    if (is_builtin(cmd->args[0]))
+        status = execute_builtin(cmd->args);
+    else
+        status = execute_external_command(cmd->args, envp);
 
-/* 文字列配列の解放 */
-static void free_string_array(char **array)
-{
-    int i;
+    // リダイレクトの復元
+    if (cmd->redirects)
+        restore_redirection(cmd->redirects);
 
-    if (!array)
-        return;
-    i = 0;
-    while (array[i])
-    {
-        free(array[i]);
-        i++;
-    }
-    free(array);
-}
-
-static t_redirect *parse_redirect(char **args, int *cmd_end)
-{
-    int i;
-    t_redirect *redirect;
-
-    redirect = NULL;
-    i = 0;
-    *cmd_end = 0;
-    while (args[i])
-    {
-        if (args[i][0] == '>')
-        {
-            if (args[i][1] == '>')
-                redirect = create_redirect(REDIR_APPEND, args[i + 1]);
-            else
-                redirect = create_redirect(REDIR_OUT, args[i + 1]);
-            *cmd_end = i;
-            break;
-        }
-        else if (args[i][0] == '<')
-        {
-            redirect = create_redirect(REDIR_IN, args[i + 1]);
-            *cmd_end = i;
-            break;
-        }
-        i++;
-    }
-    return (redirect);
-}
-
-static char **prepare_command(char **args, int cmd_end)
-{
-    char **cmd;
-    int i;
-
-    if (cmd_end == 0)
-        return (args);
-
-    cmd = (char **)malloc(sizeof(char *) * (cmd_end + 1));
-    if (!cmd)
-        return (NULL);
-
-    i = 0;
-    while (i < cmd_end)
-    {
-        cmd[i] = ft_strdup(args[i]);
-        if (!cmd[i])
-        {
-            while (--i >= 0)
-                free(cmd[i]);
-            free(cmd);
-            return (NULL);
-        }
-        i++;
-    }
-    cmd[i] = NULL;
-    return (cmd);
+    return (status);
 }
 
 int is_builtin(char *cmd)
@@ -167,56 +74,19 @@ int execute_builtin(char **args)
 
 
 /* コマンドの実行 */
-int excute_commands(t_token *tokens, char **envp)
+int excute_commands(t_command *cmd, char **envp)
 {
-    t_redirect *redirect;
-    char **args;
-    char **cmd;
-    int cmd_end;
     int status;
 
-    if (!tokens)
-        return 0;
-
-    // トークンリストを配列に変換
-    args = tokens_to_array(tokens);
-    if (!args)
-        return 1;
-
-    // リダイレクションの解析
-    redirect = parse_redirect(args, &cmd_end);
-    cmd = prepare_command(args, cmd_end);
     if (!cmd)
-    {
-        free_string_array(args);
-        return 1;
-    }
+        return (0);
 
-    // リダイレクションの設定
-    if (redirect && !setup_redirection(redirect))
-    {
-        free_redirect(redirect);
-        if (cmd != args)
-            free_string_array(cmd);
-        free_string_array(args);
-        return 1;
-    }
+    // パイプラインがない場合は単一コマンドとして実行
+    if (!cmd->next)
+        return (execute_single_command(cmd, envp));
 
-    // コマンドの実行
-    if (is_builtin(cmd[0]))
-        status = execute_builtin(cmd);
-    else
-        status = execute_external_command(cmd, envp);
+    // TODO: パイプライン処理の実装（Stage 6で実装予定）
+    status = execute_single_command(cmd, envp);
 
-    // リダイレクションの復元と解放
-    if (redirect)
-    {
-        restore_redirection(redirect);
-        free_redirect(redirect);
-    }
-    if (cmd != args)
-        free_string_array(cmd);
-    free_string_array(args);
-
-    return status;
+    return (status);
 }
