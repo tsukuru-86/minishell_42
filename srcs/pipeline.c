@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 23:00:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 03:47:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	execute_pipeline_command(t_command *cmd, t_command *current,
 		char **envp)
 {
 	t_command	*tmp;
-	int			status;
 	int			status;
 
 	// 子プロセスのシグナルハンドリングを設定

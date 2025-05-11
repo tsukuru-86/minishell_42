@@ -44,9 +44,12 @@ typedef enum e_token_type
 	TOKEN_END           // 終端
 }					t_token_type;
 
+void				setup_child_signals(void);
+
 /* 環境変数展開関数のプロトタイプ */
 char				*expand_env_var(const char *name);
 char				*expand_env_vars(char *str, int in_dquote);
+char				*extract_env_name(const char *str);
 
 /* トークンを表す構造体 */
 typedef struct s_token
@@ -90,7 +93,9 @@ typedef struct s_command
 {
 	char **args;            // コマンドと引数の配列
 	t_redirect *redirects;  // リダイレクトのリスト
+	t_pipeline pipe;        // パイプライン情報
 	struct s_command *next; // パイプで繋がれた次のコマンド
+	struct s_command *prev; // パイプで繋がれた前のコマンド
 }					t_command;
 
 /* パイプライン関連の関数プロトタイプ */
@@ -175,5 +180,8 @@ char				*search_in_path(const char *path_env, char *cmd);
 t_redirect			*parse_redirect(char **args, int *cmd_end);
 /* Command preparation functions */
 char				**prepare_command(char **args, int cmd_end);
+
+/* Environment variable expansion core */
+char				*expand_env_vars_core(const char *str, int in_dquote);
 
 #endif
