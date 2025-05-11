@@ -39,8 +39,13 @@ typedef enum e_token_type
     TOKEN_REDIR_IN,      // 入力リダイレクト <
     TOKEN_REDIR_OUT,     // 出力リダイレクト >
     TOKEN_REDIR_APPEND,  // 追加リダイレクト >>
+    TOKEN_ENV_VAR,       // 環境変数
     TOKEN_END            // 終端
 } t_token_type;
+
+/* 環境変数展開関数のプロトタイプ */
+char    *expand_env_var(const char *name);
+char    *expand_env_vars(char *str, int in_dquote);
 
 /* トークンを表す構造体 */
 typedef struct s_token
