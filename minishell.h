@@ -103,6 +103,10 @@ int					setup_pipeline(t_command *cmd);
 void				cleanup_pipeline(t_command *cmd);
 int					wait_pipeline(t_command *cmd);
 
+/* Pipeline helper functions */
+void				setup_pipeline_child_env(void);
+void				pipeline_close_pipes(t_command *cmd);
+
 /* Environment variable structure */
 typedef struct s_env
 {

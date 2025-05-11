@@ -14,16 +14,21 @@
 
 static volatile sig_atomic_t	g_signal = 0;
 
-/* Handle SIGINT: update global signal flag and refresh prompt */
 void	signal_handler(int signum)
 {
 	g_signal = signum;
-	if (signum == SIGINT)
+	if (signum == SIGINT) // Ctrl+C
 	{
-		write(1, "\n", 1);
+		write(1, "\nminishell > ", 12);
 		rl_on_new_line();
 		rl_redisplay();
 	}
+}
+
+void	setup_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 // 古い関数を削除（tokenizer.cに移動）
@@ -59,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		if (tokens)
 		{
 			// デバッグ用：トークンの内容を表示
-			print_tokens(tokens);
+			// print_tokens(tokens);
 			// トークンをコマンド構造体に変換
 			cmd = parse_tokens(tokens);
 			if (cmd)
