@@ -6,24 +6,20 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 05:15:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 19:05:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* パイプラインのセットアップ */
-int	setup_pipeline(t_command *cmd)
-{
-	int			pipefd[2];
-	pid_t		pid;
-	t_command	*current;
-	extern char	**environ;
+static void	execute_pipeline_command(t_command *cmd, t_command *current,
+		char **envp);
 
-	// パイプがない場合は通常の実行
-	if (!cmd->next)
-		return (1);
-	// 初期化
+/* パイプラインの初期化 */
+static void	init_pipeline(t_command *cmd)
+{
+	t_command	*current;
+
 	current = cmd;
 	while (current)
 	{
@@ -32,7 +28,14 @@ int	setup_pipeline(t_command *cmd)
 		current->pipe.pid = -1;
 		current = current->next;
 	}
-	// パイプを作成し、各コマンドに接続
+}
+
+/* パイプの作成と接続 */
+static int	create_pipes(t_command *cmd)
+{
+	t_command	*current;
+	int			pipefd[2];
+
 	current = cmd;
 	while (current && current->next)
 	{
@@ -42,13 +45,20 @@ int	setup_pipeline(t_command *cmd)
 			cleanup_pipeline(cmd);
 			return (0);
 		}
-		// 現在のコマンドの出力はパイプの書き込み側
 		current->pipe.write_fd = pipefd[1];
-		// 次のコマンドの入力はパイプの読み込み側
 		current->next->pipe.read_fd = pipefd[0];
 		current = current->next;
 	}
-	// 各コマンドを子プロセスとして実行
+	return (1);
+}
+
+/* 子プロセスの作成と実行 */
+static int	spawn_pipeline_processes(t_command *cmd)
+{
+	t_command	*current;
+	pid_t		pid;
+	extern char	**environ;
+
 	current = cmd;
 	while (current)
 	{
@@ -61,20 +71,21 @@ int	setup_pipeline(t_command *cmd)
 		}
 		if (pid == 0)
 		{
-			// 子プロセスでコマンドを実行
 			execute_pipeline_command(cmd, current, environ);
-			// ここには到達しない
 			exit(EXIT_FAILURE);
 		}
 		else
-		{
-			// 親プロセス - 子プロセスIDを保存
 			current->pipe.pid = pid;
-		}
 		current = current->next;
 	}
-	// 親プロセスですべてのパイプを閉じる
-	// これが重要！閉じないとパイプが詰まって次のプロセスが実行されない
+	return (1);
+}
+
+/* 親プロセスでのパイプの閉鎖 */
+static void	close_parent_pipes(t_command *cmd)
+{
+	t_command	*current;
+
 	current = cmd;
 	while (current)
 	{
@@ -84,6 +95,23 @@ int	setup_pipeline(t_command *cmd)
 			close(current->pipe.write_fd);
 		current = current->next;
 	}
+}
+
+/* パイプラインのセットアップ */
+int	setup_pipeline(t_command *cmd)
+{
+	if (!cmd->next)
+		return (1);
+	
+	init_pipeline(cmd);
+	
+	if (!create_pipes(cmd))
+		return (0);
+	
+	if (!spawn_pipeline_processes(cmd))
+		return (0);
+	
+	close_parent_pipes(cmd);
 	return (1);
 }
 
