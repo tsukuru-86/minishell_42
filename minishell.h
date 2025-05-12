@@ -184,7 +184,4 @@ t_redirect			*parse_redirect(char **args, int *cmd_end);
 /* Command preparation functions */
 char				**prepare_command(char **args, int cmd_end);
 
-/* Environment variable expansion core */
-char				*expand_env_vars_core(const char *str, int in_dquote);
-
 #endif
