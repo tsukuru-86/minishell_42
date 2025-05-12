@@ -20,7 +20,7 @@ char	*expand_env_var(const char *name)
 
 	if (!name || !*name)
 		return (ft_strdup("$"));
-	env_var = get_env_var(g_env, name);
+	env_var = get_env_var(*g_env(), name);
 	if (!env_var)
 		return (ft_strdup(""));
 	value = ft_strdup(env_var->value);

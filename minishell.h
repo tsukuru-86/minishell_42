@@ -154,7 +154,8 @@ char				*find_command(char *cmd, char **envp);
 int					execute_external_command(char **args, char **envp);
 
 /* Global environment variable */
-extern t_env		*g_env;
+// extern t_env		*g_env;
+t_env				**g_env(void);
 
 /* Redirection functions */
 t_redirect			*create_redirect(int type, char *file);

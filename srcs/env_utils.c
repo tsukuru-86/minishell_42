@@ -6,11 +6,18 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:08:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 04:33:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_env	**g_env(void)
+{
+	static t_env	*head = {0};
+
+	return (&head);
+}
 
 void	free_env_list(t_env *env)
 {
@@ -89,7 +96,7 @@ int	remove_env_var(t_env **env, const char *name)
 	t_env	*current;
 	t_env	*prev;
 
-	if (!env || !*env || !name)
+	if (!env || !name)
 		return (-1);
 	current = *env;
 	prev = NULL;

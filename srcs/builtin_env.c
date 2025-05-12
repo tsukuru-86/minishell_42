@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_commands_env.c                             :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 00:55:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 03:46:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	is_valid_identifier(const char *str)
 
 int	builtin_unset(char **args)
 {
-	extern t_env	*g_env;
-	int				i;
+	int	i;
 
 	if (!args[1])
 	{
@@ -48,7 +47,7 @@ int	builtin_unset(char **args)
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			return (1);
 		}
-		remove_env_var(&g_env, args[i]);
+		remove_env_var(g_env(), args[i]);
 		i++;
 	}
 	return (0);
