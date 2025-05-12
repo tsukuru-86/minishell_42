@@ -14,7 +14,7 @@
 
 t_env	**g_env(void)
 {
-	static t_env	*head = {0};
+	static t_env	*head = NULL;
 
 	return (&head);
 }

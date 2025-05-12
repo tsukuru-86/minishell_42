@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 04:57:15 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/13 00:35:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	execute_single_command(t_command *cmd, char **envp)
 int	is_builtin(char *cmd)
 {
 	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-			"exit", NULL};
+		"exit", NULL};
 	int		i;
 
 	i = 0;
@@ -85,29 +85,29 @@ int	execute_builtin(char **args)
 /* コマンドの実行（子プロセス用） */
 static int	execute_command_in_child(t_command *cmd, char **envp)
 {
-    int status;
+	int	status;
 
-    if (!cmd || !cmd->args || !cmd->args[0])
-        exit(0);
-    // パイプライン実行中であることを示す環境変数を設定
-    putenv("MINISHELL_PIPELINE=1");
-    // リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
-    // リダイレクトがパイプラインよりも優先される）
-    if (cmd->redirects && !setup_redirection(cmd->redirects))
-        exit(1);
-    // コマンドの実行
-    if (is_builtin(cmd->args[0]))
-    {
-        status = execute_builtin(cmd->args);
-        if (cmd->redirects)
-            restore_redirection(cmd->redirects);
-        exit(status);
-    }
-    else
-    {
-        status = execute_external_command(cmd->args, envp);
-        exit(status);
-    }
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(0);
+	// パイプライン実行中であることを示す環境変数を設定
+	putenv("MINISHELL_PIPELINE=1");
+	// リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
+	// リダイレクトがパイプラインよりも優先される）
+	if (cmd->redirects && !setup_redirection(cmd->redirects))
+		exit(1);
+	// コマンドの実行
+	if (is_builtin(cmd->args[0]))
+	{
+		status = execute_builtin(cmd->args);
+		if (cmd->redirects)
+			restore_redirection(cmd->redirects);
+		exit(status);
+	}
+	else
+	{
+		status = execute_external_command(cmd->args, envp);
+		exit(status);
+	}
 }
 #endif
 

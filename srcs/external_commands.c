@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 19:04:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/13 00:34:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_path_env(char **envp)
 	path_env = get_env_var(create_env_list(envp), "PATH");
 	return (path_env->value);
 }
+
 char	*find_command(char *cmd, char **envp)
 {
 	char	*path_env;

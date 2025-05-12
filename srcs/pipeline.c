@@ -13,7 +13,7 @@
 #include "../minishell.h"
 
 static void	execute_pipeline_command(t_command *cmd, t_command *current,
-		char **envp);
+				char **envp);
 
 /* パイプラインの初期化 */
 static void	init_pipeline(t_command *cmd)
@@ -102,15 +102,11 @@ int	setup_pipeline(t_command *cmd)
 {
 	if (!cmd->next)
 		return (1);
-	
 	init_pipeline(cmd);
-	
 	if (!create_pipes(cmd))
 		return (0);
-	
 	if (!spawn_pipeline_processes(cmd))
 		return (0);
-	
 	close_parent_pipes(cmd);
 	return (1);
 }
