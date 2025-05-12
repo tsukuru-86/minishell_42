@@ -6,12 +6,20 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 03:25:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/12 19:04:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/* Get the PATH environment variable string */
+char	*get_path_env(char **envp)
+{
+	t_env	*path_env;
+
+	path_env = get_env_var(create_env_list(envp), "PATH");
+	return (path_env->value);
+}
 char	*find_command(char *cmd, char **envp)
 {
 	char	*path_env;
@@ -20,7 +28,7 @@ char	*find_command(char *cmd, char **envp)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	path_env = get_path_env(create_env_list(envp));
+	path_env = get_path_env(envp);
 	if (!path_env)
 		return (NULL);
 	return (search_in_path(path_env, cmd));

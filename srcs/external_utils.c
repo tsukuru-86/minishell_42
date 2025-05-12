@@ -15,15 +15,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/* Get the PATH environment variable string */
-char	*get_path_env(t_env *env)
-{
-	t_env	*path_env;
-
-	path_env = get_env_var(env, "PATH");
-	return (path_env->value);
-}
-
 /* Search for a command in PATH environment */
 char	*search_in_path(const char *path_env, char *cmd)
 {

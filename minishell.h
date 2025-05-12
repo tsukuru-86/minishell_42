@@ -122,7 +122,6 @@ void				free_command(t_command *cmd);
 /* Environment functions */
 t_env				*create_env_list(char **envp);
 void				free_env_list(t_env *env);
-t_env				*get_env_var(t_env *env, const char *name);
 int					set_env_var(t_env **env, const char *name,
 						const char *value);
 int					remove_env_var(t_env **env, const char *name);
@@ -178,7 +177,6 @@ int					set_env_var(t_env **env, const char *name,
 						const char *value);
 
 /* External command utility functions */
-char				*get_path_env(t_env *env);
 char				*search_in_path(const char *path_env, char *cmd);
 
 /* Redirect parsing functions */

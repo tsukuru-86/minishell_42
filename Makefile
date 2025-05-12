@@ -16,7 +16,6 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)pipeline.c \
        $(SRCS_DIR)env_expand.c \
        $(SRCS_DIR)env_expand_utils.c \
-       $(SRCS_DIR)env_expand_utils2.c \
        $(SRCS_DIR)builtin_commands.c \
        $(SRCS_DIR)builtin_env.c \
        $(SRCS_DIR)builtin_env2.c \
