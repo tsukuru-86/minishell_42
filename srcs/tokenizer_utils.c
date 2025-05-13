@@ -107,6 +107,7 @@ char	*extract_quoted_string(char *input, int *i, char quote)
 	char	*content;
 	int		start;
 	int		len;
+	char	*expanded;
 
 	start = *i + 1;
 	len = 0;
@@ -119,7 +120,7 @@ char	*extract_quoted_string(char *input, int *i, char quote)
 		return (NULL);
 	if (quote == '"')
 	{
-		char *expanded = expand_env_vars(content, 1);
+		expanded = expand_env_vars(content, 1);
 		free(content);
 		content = expanded;
 	}

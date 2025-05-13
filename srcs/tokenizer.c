@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/13 02:28:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 02:02:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	add_token(t_token **token, t_token *new_token)
 }
 
 /* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
-static int	expand_and_copy_if_double_quote(char *word_buf,
-		t_token_type type)
+static int	expand_and_copy_if_double_quote(char *word_buf, t_token_type type)
 {
 	char	*expanded;
 
@@ -64,7 +63,7 @@ static int	extract_quoted_string(char *input, int *i, char *word_buf,
 	while (input[*i] && input[*i] != quote_char)
 	{
 		if (word_idx >= 1024 - 1) // バッファ上限チェック
-			return (0);           // エラー: 文字列が長すぎる
+			return (0); // エラー: 文字列が長すぎる
 		word_buf[word_idx++] = input[*i];
 		(*i)++;
 	}
@@ -105,7 +104,6 @@ static int	handle_word(char *input, int *i, t_token **tokens, char *word_buf)
 	return (1); // 成功 (単語がなくてもエラーではない)
 }
 
-
 /* メタ文字を処理し、トークンリストに追加 */
 static int	handle_meta_character(char *input, int *i, t_token **tokens)
 {
@@ -117,7 +115,6 @@ static int	handle_meta_character(char *input, int *i, t_token **tokens)
 	add_token(tokens, new_token);
 	return (1); // 成功
 }
-
 
 /* クォートされた文字列を処理し、トークンリストに追加 */
 static int	handle_quoted_string(char *input, int *i, t_token **tokens,
@@ -163,8 +160,8 @@ static int	process_token_segment(char *input, int *i, t_token **tokens,
 t_token	*tokenize(char *input)
 {
 	t_token	*tokens;
-	char	word_buffer[MAX_TOKENS]; // Buffer for word/quoted string content
 	int		i;
+	char	*sword_buffer[MAX_TOKENS];
 
 	tokens = NULL;
 	i = 0;
@@ -175,7 +172,7 @@ t_token	*tokenize(char *input)
 		if (!process_token_segment(input, &i, &tokens, word_buffer))
 		{
 			free_tokens(tokens); // Free partially created tokens on error
-			return (NULL);     // Indicate tokenization error
+			return (NULL); // Indicate tokenization error
 		}
 	}
 	return (tokens);

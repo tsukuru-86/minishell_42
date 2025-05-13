@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		tokens = tokenize(input);
-
 		if (tokens)
 		{
 			// デバッグ用：トークンの内容を表示

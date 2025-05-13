@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 19:05:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 02:19:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void	pipeline_redirect_io(t_command *current)
 		}
 	}
 }
+
 /* Execute current command within pipeline: handle redirection and run */
 void	pipeline_execute_command_logic(t_command *current)
 {

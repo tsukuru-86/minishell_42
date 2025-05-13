@@ -18,7 +18,10 @@ char	*get_path_env(void)
 	t_env	*path_env;
 
 	path_env = get_env_var(*g_env(), "PATH");
-	return (path_env ? path_env->value : NULL);
+	if (path_env)
+		return (path_env->value);
+	else
+		return (NULL);
 }
 
 char	*find_command(char *cmd)
