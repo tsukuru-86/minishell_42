@@ -188,5 +188,31 @@ char				*search_in_path(const char *path_env, char *cmd);
 t_redirect			*parse_redirect(char **args, int *cmd_end);
 /* Command preparation functions */
 char				**prepare_command(char **args, int cmd_end);
+t_redirect			*create_redirect(int type, char *file);
+int					setup_redirection(t_redirect *redirect);
+void				restore_redirection(t_redirect *redirect);
+void				free_redirect(t_redirect *redirect);
+
+/* Redirect utility functions */
+int					save_original_fd(t_redirect *redirect);
+int					open_redirect_file(t_redirect *redirect);
+void				apply_redirection(t_redirect *redirect, int fd);
+
+/* Environment utility functions */
+t_env				*create_env_node(const char *str);
+int					update_env_value(t_env *var, const char *value);
+int					append_env_var(t_env **env, const char *name,
+						const char *value);
+t_env				*get_env_var(t_env *env, const char *name);
+int					set_env_var(t_env **env, const char *name,
+						const char *value);
+
+/* External command utility functions */
+char				*search_in_path(const char *path_env, char *cmd);
+
+/* Redirect parsing functions */
+t_redirect			*parse_redirect(char **args, int *cmd_end);
+/* Command preparation functions */
+char				**prepare_command(char **args, int cmd_end);
 
 #endif

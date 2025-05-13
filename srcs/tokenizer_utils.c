@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/12 04:18:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/13 19:15:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	*extract_quoted_string(char *input, int *i, char quote)
 	char	*content;
 	int		start;
 	int		len;
+	char	*expanded;
 
 	start = *i + 1;
 	len = 0;
@@ -119,7 +120,7 @@ char	*extract_quoted_string(char *input, int *i, char quote)
 		return (NULL);
 	if (quote == '"')
 	{
-		char *expanded = expand_env_vars(content, 1);
+		expanded = expand_env_vars(content, 1);
 		free(content);
 		content = expanded;
 	}

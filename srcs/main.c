@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 05:10:24 by muiida           ###   ########.fr       */
+/*   Created: Invalid Date        by              +#+  #+#    #+#             */
+/*   Updated: 2025/05/13 19:20:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,17 @@
 
 static volatile sig_atomic_t	g_signal = 0;
 
-void	signal_handler(int signum)
+static volatile sig_atomic_t	g_signal = 0;
+
+void	signal_handler(int signum) void signal_handler(int signum)
 {
+	g_signal = signum;
+	if (signum == SIGINT) // Ctrl+C
+	{
+		write(1, "\nminishell > ", 12);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 	g_signal = signum;
 	if (signum == SIGINT) // Ctrl+C
 	{
@@ -25,7 +34,7 @@ void	signal_handler(int signum)
 	}
 }
 
-void	setup_child_signals(void)
+void	setup_child_signals(void) void setup_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -52,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	status = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
+
 	while (1)
 	{
 		g_signal = 0;
@@ -61,7 +71,6 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		tokens = tokenize(input);
-
 		if (tokens)
 		{
 			// デバッグ用：トークンの内容を表示

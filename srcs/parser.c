@@ -81,7 +81,8 @@ static int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	int			type;
 
 	// 修正: リダイレクト先もクォートされうる
-	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE && next->type != TOKEN_DOUBLE_QUOTE))
+	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
+			&& next->type != TOKEN_DOUBLE_QUOTE))
 		return (0); // エラー: リダイレクト先がないか、不正なトークンタイプ
 	// リダイレクトタイプの判定
 	if (token->type == TOKEN_REDIR_IN)
@@ -176,7 +177,8 @@ static int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	{
 		// TODO: syntax error message
 		// (e.g., "syntax error near unexpected token `|'")
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2); // エラーメッセージの例
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+			// エラーメッセージの例
 		free_command(*head_cmd);
 		*head_cmd = NULL; // head_cmdをNULLにして解放済みを示す
 		return (0);
@@ -198,7 +200,8 @@ static int	process_token_in_parse_loop(t_command **cmd_ptr,
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND)
-		status = handle_redirect_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
+		status = handle_redirect_token(*cmd_ptr, current_token_ptr,
+				head_cmd_ptr);
 	else if (type == TOKEN_PIPE)
 		status = handle_pipe_token(cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else
@@ -231,8 +234,8 @@ t_command	*parse_tokens(t_token *tokens)
 		}
 	}
 	// パイプで終わるなど、構文エラーで head が NULL になっている場合も考慮
-	if (head && head->args == NULL &&
-		head->redirects == NULL && head->next == NULL && tokens->type == TOKEN_PIPE)
+	if (head && head->args == NULL && head->redirects == NULL
+		&& head->next == NULL && tokens->type == TOKEN_PIPE)
 	{
 		// `cmd |` のようなケースで `handle_pipe_token` がエラーを返し `head` が `NULL` になっていることを期待。
 		// もし `head` が `NULL` でない場合、それは不完全なコマンドかもしれない。

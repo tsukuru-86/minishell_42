@@ -74,3 +74,99 @@ int	append_env_var(t_env **env, const char *name, const char *value)
 	}
 	return (0);
 }
+
+int	remove_env_var(t_env **env,
+		const char *name)
+{
+	t_env	*current;
+	t_env	*prev;
+
+	if (!env || !name)
+		return (-1);
+	current = *env;
+	prev = NULL;
+	while (current)
+	{
+		if (ft_strncmp(current->name, name, PATH_MAX) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*env = current->next;
+			free(current->name);
+			if (current->value)
+				free(current->value);
+			free(current);
+			return (0);
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (-1);
+	if (!env || !name)
+		return (-1);
+	current = *env;
+	prev = NULL;
+	while (current)
+	{
+		if (ft_strncmp(current->name, name, PATH_MAX) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*env = current->next;
+			free(current->name);
+			if (current->value)
+				free(current->value);
+			free(current);
+			return (0);
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (-1);
+}
+
+/* Convert t_env list to char** array for execve */
+char	**env_list_to_array(t_env *env)
+{
+	t_env	*current;
+	char	**env_array;
+	int		count;
+	int		i;
+	char	*tmp;
+
+	count = 0;
+	current = env;
+	while (current && ++count)
+		current = current->next;
+	env_array = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!env_array)
+		return (NULL);
+	current = env;
+	i = 0;
+	while (current)
+	{
+		tmp = ft_strjoin(current->name, "=");
+		if (!tmp)
+		{
+			while (i > 0)
+				free(env_array[--i]);
+			free(env_array);
+			return (NULL);
+		}
+		env_array[i] = ft_strjoin(tmp, current->value ? current->value : "");
+		free(tmp);
+		if (!env_array[i])
+		{
+			while (i > 0)
+				free(env_array[--i]);
+			free(env_array);
+			return (NULL);
+		}
+		current = current->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
