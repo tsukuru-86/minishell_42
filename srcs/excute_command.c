@@ -3,50 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   excute_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsukuru <tsukuru@student.42.fr>            #+#  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-04-25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025-04-25 05:02:31 by tsukuru          ###   ########.fr       */
+/*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
+/*   Updated: 2025/05/13 00:35:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
 
-int is_builtin(char *cmd)
+/* 単一コマンドの実行 */
+static int	execute_single_command(t_command *cmd)
 {
-    char *builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
-    int i;
+	int		status;
+	pid_t	pid;
 
-    i = 0;
-    while (builtins[i])
-    {
-        if (strcmp(cmd, builtins[i]) == 0)
-            return 1;
-        i++;
-    }
-    return 0;
+	if (cmd->redirects && !setup_redirection(cmd->redirects))
+		return (1);
+	if (is_builtin(cmd->args[0]))
+		status = execute_builtin(cmd->args);
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		if (pid == 0)
+		{
+			setup_child_signals();
+			status = execute_external_command(cmd->args);
+			exit(status);
+		}
+		waitpid(pid, &status, 0);
+		status = WEXITSTATUS(status);
+	}
+	if (cmd->redirects)
+		restore_redirection(cmd->redirects);
+	return (status);
 }
 
-int execute_builtin(char **args)
+int	is_builtin(char *cmd)
 {
-    if (strcmp(args[0], "echo") == 0)
-        return builtin_echo(args);
-    else if (strcmp(args[0], "cd") == 0)
-        return builtin_cd(args);
-    else if (strcmp(args[0], "pwd") == 0)
-        return builtin_pwd(args);
-    else if (strcmp(args[0], "export") == 0)
-        return builtin_export(args);
-    else if (strcmp(args[0], "unset") == 0)
-        return builtin_unset(args);
-    else if (strcmp(args[0], "env") == 0)
-        return builtin_env(args);
-    else if (strcmp(args[0], "exit") == 0)
-        return builtin_exit(args);
-    return (1);  // コマンドが見つからない場合
+	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+		"exit", NULL};
+	int		i;
+
+	i = 0;
+	while (builtins[i])
+	{
+		if (strcmp(cmd, builtins[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
+int	execute_builtin(char **args)
+{
+	if (strcmp(args[0], "echo") == 0)
+		return (builtin_echo(args));
+	else if (strcmp(args[0], "cd") == 0)
+		return (builtin_cd(args));
+	else if (strcmp(args[0], "pwd") == 0)
+		return (builtin_pwd(args));
+	else if (strcmp(args[0], "export") == 0)
+		return (builtin_export(args));
+	else if (strcmp(args[0], "unset") == 0)
+		return (builtin_unset(args));
+	else if (strcmp(args[0], "env") == 0)
+		return (builtin_env(args));
+	else if (strcmp(args[0], "exit") == 0)
+		return (builtin_exit(args));
+	return (1); // コマンドが見つからない場合
+}
 
 /*
 ** NOTE: This function is no longer used with our new pipeline implementation.
@@ -54,99 +83,60 @@ int execute_builtin(char **args)
 */
 #if 0
 /* コマンドの実行（子プロセス用） */
-static int execute_command_in_child(t_command *cmd, char **envp)
+static int	execute_command_in_child(t_command *cmd, char **envp)
 {
-    int status;
+	int	status;
 
-    if (!cmd || !cmd->args || !cmd->args[0])
-        exit(0);
-
-    // パイプライン実行中であることを示す環境変数を設定
-    putenv("MINISHELL_PIPELINE=1");
-
-    // リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
-    // リダイレクトがパイプラインよりも優先される）
-    if (cmd->redirects && !setup_redirection(cmd->redirects))
-        exit(1);
-
-    // コマンドの実行
-    if (is_builtin(cmd->args[0]))
-    {
-        status = execute_builtin(cmd->args);
-        if (cmd->redirects)
-            restore_redirection(cmd->redirects);
-        exit(status);
-    }
-    else
-    {
-        status = execute_external_command(cmd->args, envp);
-        exit(status);
-    }
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(0);
+	// パイプライン実行中であることを示す環境変数を設定
+	putenv("MINISHELL_PIPELINE=1");
+	// リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
+	// リダイレクトがパイプラインよりも優先される）
+	if (cmd->redirects && !setup_redirection(cmd->redirects))
+		exit(1);
+	// コマンドの実行
+	if (is_builtin(cmd->args[0]))
+	{
+		status = execute_builtin(cmd->args);
+		if (cmd->redirects)
+			restore_redirection(cmd->redirects);
+		exit(status);
+	}
+	else
+	{
+		status = execute_external_command(cmd->args, envp);
+		exit(status);
+	}
 }
 #endif
 
 /* コマンドの実行 */
-static int execute_single_command(t_command *cmd, char **envp)
+int	excute_commands(t_command *cmd)
 {
-    int status;
+	int			status;
+	t_command	*current;
+	int			pipeline_result;
 
-    if (cmd->redirects && !setup_redirection(cmd->redirects))
-        return (1);
-
-    if (is_builtin(cmd->args[0]))
-        status = execute_builtin(cmd->args);
-    else
-    {
-        pid_t pid = fork();
-        if (pid == -1)
-            return (1);
-        
-        if (pid == 0)
-        {
-            setup_child_signals();
-            status = execute_external_command(cmd->args, envp);
-            exit(status);
-        }
-        waitpid(pid, &status, 0);
-        status = WEXITSTATUS(status);
-    }
-
-    if (cmd->redirects)
-        restore_redirection(cmd->redirects);
-
-    return (status);
-}
-
-int excute_commands(t_command *cmd, char **envp)
-{
-    int status;
-    t_command *current;
-    int pipeline_result;
-
-    if (!cmd || !cmd->args || !cmd->args[0])
-        return (0);
-
-    // シングルコマンドの場合
-    if (!cmd->next)
-        return execute_single_command(cmd, envp);
-
-    // パイプラインの実行
-    // setup_pipelineが成功すると1を返し、パイプラインが設定される
-    // すでに子プロセスは作成され、必要な設定がされている
-    pipeline_result = setup_pipeline(cmd);
-    if (pipeline_result == 0)
-        return (1);  // エラー発生
-
-    // パイプラインの完了を待機
-    status = wait_pipeline(cmd);
-
-    // クリーンアップ
-    current = cmd;
-    while (current)
-    {
-        cleanup_pipeline(current);
-        current = current->next;
-    }
-
-    return (status);
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (0);
+	// シングルコマンドの場合
+	if (!cmd->next)
+		return (execute_single_command(cmd));
+	// パイプラインの実行
+	// setup_pipelineが成功すると1を返し、パイプラインが設定される
+	// すでに子プロセスは作成され、必要な設定がされている
+	pipeline_result = setup_pipeline(cmd);
+	if (pipeline_result == 0)
+		return (1); // エラー発生
+	// パイプラインの完了を待機
+	status = wait_pipeline(cmd);
+	// クリーンアップ
+	current = cmd;
+	while (current)
+	{
+		cleanup_pipeline(current);
+		current = current->next;
+	}
+	return (status);
 }
