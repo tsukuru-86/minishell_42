@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd = parse_tokens(tokens);
 			if (cmd)
 			{
-				status = excute_commands(cmd, envp);
+				status = excute_commands(cmd);
 				free_command(cmd);
 			}
 			free_tokens(tokens);

@@ -48,7 +48,8 @@ void				setup_child_signals(void);
 
 /* 環境変数展開関数のプロトタイプ */
 char				*expand_env_var(const char *name);
-char				*expand_env_vars(char *str, int in_dquote);
+char				*expand_env_vars(const char *str, int in_dquote);
+char				*expand_env_vars_core(const char *str, int in_dquote);
 char				*extract_env_name(const char *str);
 
 /* トークンを表す構造体 */
@@ -106,6 +107,7 @@ int					wait_pipeline(t_command *cmd);
 /* Pipeline helper functions */
 void				setup_pipeline_child_env(void);
 void				pipeline_close_pipes(t_command *cmd);
+void				pipeline_execute_command_logic(t_command *current);
 
 /* Environment variable structure */
 typedef struct s_env
@@ -144,13 +146,16 @@ int					builtin_exit(char **args);
 int					remove_env_var(t_env **env, const char *name);
 int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg, t_env **env);
-int					excute_commands(t_command *cmd, char **envp);
+int					excute_commands(t_command *cmd);
 int					is_builtin(char *cmd);
 int					execute_builtin(char **args);
 
 /* External commands */
-char				*find_command(char *cmd, char **envp);
-int					execute_external_command(char **args, char **envp);
+char				*find_command(char *cmd);
+int					execute_external_command(char **args);
+
+/* Environment array conversion */
+char				**env_list_to_array(t_env *env);
 
 /* Global environment variable */
 // extern t_env		*g_env;

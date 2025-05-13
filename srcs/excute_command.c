@@ -14,7 +14,7 @@
 #include <fcntl.h>
 
 /* 単一コマンドの実行 */
-static int	execute_single_command(t_command *cmd, char **envp)
+static int	execute_single_command(t_command *cmd)
 {
 	int		status;
 	pid_t	pid;
@@ -31,7 +31,7 @@ static int	execute_single_command(t_command *cmd, char **envp)
 		if (pid == 0)
 		{
 			setup_child_signals();
-			status = execute_external_command(cmd->args, envp);
+			status = execute_external_command(cmd->args);
 			exit(status);
 		}
 		waitpid(pid, &status, 0);
@@ -112,7 +112,7 @@ static int	execute_command_in_child(t_command *cmd, char **envp)
 #endif
 
 /* コマンドの実行 */
-int	excute_commands(t_command *cmd, char **envp)
+int	excute_commands(t_command *cmd)
 {
 	int			status;
 	t_command	*current;
@@ -122,7 +122,7 @@ int	excute_commands(t_command *cmd, char **envp)
 		return (0);
 	// シングルコマンドの場合
 	if (!cmd->next)
-		return (execute_single_command(cmd, envp));
+		return (execute_single_command(cmd));
 	// パイプラインの実行
 	// setup_pipelineが成功すると1を返し、パイプラインが設定される
 	// すでに子プロセスは作成され、必要な設定がされている

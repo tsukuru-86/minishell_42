@@ -100,3 +100,29 @@ void	print_tokens(t_token *tokens)
 		current = current->next;
 	}
 }
+
+/* Extract quoted string and handle environment variable expansion */
+char	*extract_quoted_string(char *input, int *i, char quote)
+{
+	char	*content;
+	int		start;
+	int		len;
+
+	start = *i + 1;
+	len = 0;
+	while (input[start + len] && input[start + len] != quote)
+		len++;
+	if (!input[start + len])
+		return (NULL);
+	content = ft_substr(input, start, len);
+	if (!content)
+		return (NULL);
+	if (quote == '"')
+	{
+		char *expanded = expand_env_vars(content, 1);
+		free(content);
+		content = expanded;
+	}
+	*i = start + len + 1;
+	return (content);
+}

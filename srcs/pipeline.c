@@ -12,8 +12,7 @@
 
 #include "../minishell.h"
 
-static void	execute_pipeline_command(t_command *cmd, t_command *current,
-				char **envp);
+static void	execute_pipeline_command(t_command *cmd, t_command *current);
 
 /* パイプラインの初期化 */
 static void	init_pipeline(t_command *cmd)
@@ -57,7 +56,6 @@ static int	spawn_pipeline_processes(t_command *cmd)
 {
 	t_command	*current;
 	pid_t		pid;
-	extern char	**environ;
 
 	current = cmd;
 	while (current)
@@ -71,7 +69,7 @@ static int	spawn_pipeline_processes(t_command *cmd)
 		}
 		if (pid == 0)
 		{
-			execute_pipeline_command(cmd, current, environ);
+			execute_pipeline_command(cmd, current);
 			exit(EXIT_FAILURE);
 		}
 		else
@@ -180,7 +178,7 @@ void	pipeline_redirect_io(t_command *current)
 	}
 }
 /* Execute current command within pipeline: handle redirection and run */
-void	pipeline_execute_command_logic(t_command *current, char **envp)
+void	pipeline_execute_command_logic(t_command *current)
 {
 	int	status;
 
@@ -195,18 +193,17 @@ void	pipeline_execute_command_logic(t_command *current, char **envp)
 	}
 	else
 	{
-		status = execute_external_command(current->args, envp);
+		status = execute_external_command(current->args);
 		exit(status);
 	}
 }
 
 /* Execute a pipeline command in child: set up env, redirect I/O, close pipes,
 	then run */
-static void	execute_pipeline_command(t_command *cmd, t_command *current,
-		char **envp)
+static void	execute_pipeline_command(t_command *cmd, t_command *current)
 {
 	setup_pipeline_child_env();
 	pipeline_redirect_io(current);
 	pipeline_close_pipes(cmd);
-	pipeline_execute_command_logic(current, envp);
+	pipeline_execute_command_logic(current);
 }

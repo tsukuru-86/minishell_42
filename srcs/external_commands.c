@@ -13,31 +13,40 @@
 #include "../minishell.h"
 
 /* Get the PATH environment variable string */
-char	*get_path_env(char **envp)
+char	*get_path_env(void)
 {
 	t_env	*path_env;
 
-	path_env = get_env_var(create_env_list(envp), "PATH");
-	return (path_env->value);
+	path_env = get_env_var(*g_env(), "PATH");
+	return (path_env ? path_env->value : NULL);
 }
 
-char	*find_command(char *cmd, char **envp)
+char	*find_command(char *cmd)
 {
 	char	*path_env;
 
-	if (!cmd || !envp)
+	if (!cmd)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	path_env = get_path_env(envp);
+	path_env = get_path_env();
 	if (!path_env)
 		return (NULL);
 	return (search_in_path(path_env, cmd));
 }
 
-static void	launch_child(char *cmd_path, char **args, char **envp)
+static void	launch_child(char *cmd_path, char **args)
 {
-	if (execve(cmd_path, args, envp) == -1)
+	char	**env_array;
+
+	env_array = env_list_to_array(*g_env());
+	if (!env_array)
+	{
+		perror("env_list_to_array");
+		free(cmd_path);
+		exit(1);
+	}
+	if (execve(cmd_path, args, env_array) == -1)
 	{
 		perror("execve");
 		free(cmd_path);
@@ -62,12 +71,12 @@ static int	launch_parent(pid_t pid, char *cmd_path)
 	return (1);
 }
 
-int	execute_external_command(char **args, char **envp)
+int	execute_external_command(char **args)
 {
 	pid_t	pid;
 	char	*cmd_path;
 
-	cmd_path = find_command(args[0], envp);
+	cmd_path = find_command(args[0]);
 	if (!cmd_path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
@@ -76,6 +85,6 @@ int	execute_external_command(char **args, char **envp)
 	}
 	pid = fork();
 	if (pid == 0)
-		launch_child(cmd_path, args, envp);
+		launch_child(cmd_path, args);
 	return (launch_parent(pid, cmd_path));
 }

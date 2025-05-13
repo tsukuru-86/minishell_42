@@ -28,3 +28,16 @@ char	*expand_env_var(const char *name)
 		return (NULL);
 	return (value);
 }
+
+/* 環境変数展開のメイン関数 */
+char	*expand_env_vars(const char *str, int in_dquote)
+{
+	char	*expanded;
+
+	if (!str)
+		return (NULL);
+	expanded = expand_env_vars_core(str, in_dquote);
+	if (!expanded)
+		return (NULL);
+	return (expanded);
+}
