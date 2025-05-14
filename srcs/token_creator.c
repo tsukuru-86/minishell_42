@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_creator.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/15 01:33:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/15 01:34:44 by muiida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+t_token	*create_token(char *content, t_token_type type)
+{
+	t_token	*new_token;
+
+	new_token = (t_token *)malloc(sizeof(t_token));
+	if (!new_token)
+	{
+		perror("minishell: malloc failed in create_token");
+		return (NULL);
+	}
+	if (content)
+	{
+		new_token->content = ft_strdup(content);
+		if (!new_token->content)
+		{
+			free(new_token);
+			perror("minishell: ft_strdup failed in create_token");
+			return (NULL);
+		}
+	}
+	else
+		new_token->content = NULL;
+	new_token->type = type;
+	new_token->next = NULL;
+	return (new_token);
+}

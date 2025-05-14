@@ -6,12 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:25:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 02:25:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 
 int	builtin_echo(char **args)
 {
@@ -47,8 +46,7 @@ int	builtin_cd(char **args)
 		path = args[1];
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("cd: ", 2);
-		perror(path);
+		ft_printf_fd(2, "cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
 	return (0);

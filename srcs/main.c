@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 05:10:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 04:54:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,45 @@ void	signal_handler(int signum)
 	}
 }
 
-void	setup_child_signals(void)
+static void	initialize_environment(char **envp)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-// 古い関数を削除（tokenizer.cに移動）
-
-int	main(int argc, char **argv, char **envp)
-{
-	char		*input;
-	int			status;
-	t_token		*tokens;
-	t_command	*cmd;
-
-	(void)argc;
-	(void)argv;
-	// 環境変数の初期化
 	*g_env() = create_env_list(envp);
 	if (!g_env())
 	{
 		ft_putstr_fd("minishell: failed to initialize environment\n", 2);
-		return (1);
+		exit(1);
 	}
+}
+
+static void	handle_input(char *input, int *status)
+{
+	t_token		*tokens;
+	t_command	*cmd;
+
+	if (*input)
+		add_history(input);
+	tokens = tokenize(input);
+	if (tokens)
+	{
+		cmd = parse_tokens(tokens);
+		if (cmd)
+		{
+			*status = excute_commands(cmd);
+			free_command(cmd);
+		}
+		free_tokens(tokens);
+	}
+	free(input);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*input;
+	int		status;
+
+	(void)argc;
+	(void)argv;
+	initialize_environment(envp);
 	status = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -58,25 +73,9 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
-		if (*input)
-			add_history(input);
-		tokens = tokenize(input);
-		if (tokens)
-		{
-			// デバッグ用：トークンの内容を表示
-			// print_tokens(tokens);
-			// トークンをコマンド構造体に変換
-			cmd = parse_tokens(tokens);
-			if (cmd)
-			{
-				status = excute_commands(cmd);
-				free_command(cmd);
-			}
-			free_tokens(tokens);
-		}
-		free(input);
+		handle_input(input, &status);
 	}
-	clear_history(); // rl_clear_history();
+	clear_history();
 	free_env_list(*g_env());
 	return (status);
 }

@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 04:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 05:00:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Convert linked list to array
+// Convert linked list to array TODO: linked listのままソートできる
 static t_env	**env_to_array(t_env *env, int count)
 {
 	int		i;

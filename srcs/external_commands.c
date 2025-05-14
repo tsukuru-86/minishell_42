@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/13 00:34:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 01:57:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ int	execute_external_command(char **args)
 	cmd_path = find_command(args[0]);
 	if (!cmd_path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putendl_fd(args[0], 2);
+		ft_printf_fd(2, "minishell: %s: command not found\n", args[0]);
 		return (127);
 	}
 	pid = fork();

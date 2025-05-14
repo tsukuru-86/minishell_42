@@ -47,30 +47,3 @@ int	update_env_value(t_env *var, const char *value)
 		var->value = NULL;
 	return (0);
 }
-
-/* Append a new variable to the environment list */
-int	append_env_var(t_env **env, const char *name, const char *value)
-{
-	t_env	*new;
-	t_env	*current;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (-1);
-	new->name = ft_strdup(name);
-	if (value)
-		new->value = ft_strdup(value);
-	else
-		new->value = NULL;
-	new->next = NULL;
-	if (!*env)
-		*env = new;
-	else
-	{
-		current = *env;
-		while (current->next)
-			current = current->next;
-		current->next = new;
-	}
-	return (0);
-}

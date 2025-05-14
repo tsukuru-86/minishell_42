@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/13 00:35:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 22:18:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	execute_single_command(t_command *cmd)
 			return (1);
 		if (pid == 0)
 		{
-			setup_child_signals();
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			status = execute_external_command(cmd->args);
 			exit(status);
 		}
@@ -44,10 +45,17 @@ static int	execute_single_command(t_command *cmd)
 
 int	is_builtin(char *cmd)
 {
-	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", NULL};
+	char	*builtins[8];
 	int		i;
 
+	builtins[0] = "echo";
+	builtins[1] = "cd";
+	builtins[2] = "pwd";
+	builtins[3] = "export";
+	builtins[4] = "unset";
+	builtins[5] = "env";
+	builtins[6] = "exit";
+	builtins[7] = NULL;
 	i = 0;
 	while (builtins[i])
 	{

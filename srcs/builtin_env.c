@@ -6,27 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 03:46:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/14 22:23:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
-		return (0);
-	i = 1;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	builtin_unset(char **args)
 {
@@ -42,9 +26,11 @@ int	builtin_unset(char **args)
 	{
 		if (!is_valid_identifier(args[i]))
 		{
-			ft_putstr_fd("unset: '", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			// ft_putstr_fd("unset: '", 2);
+			// ft_putstr_fd(args[i], 2);
+			// ft_putstr_fd("': not a valid identifier\n", 2);
+			ft_printf_fd(2, "unset: 'cd: %s is not a valid identifier:%s\n",
+				args[i], strerror(errno));
 			return (1);
 		}
 		remove_env_var(g_env(), args[i]);
