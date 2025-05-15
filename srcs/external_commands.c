@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/14 01:57:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 04:56:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ char	*get_path_env(void)
 	if (path_env)
 		return (path_env->value);
 	else
+	{
+		ft_printf_fd(2, "DEBUG: PATH is not set\n");
 		return (NULL);
+	}
 }
 
 char	*find_command(char *cmd)
@@ -74,19 +77,21 @@ static int	launch_parent(pid_t pid, char *cmd_path)
 	return (1);
 }
 
-int	execute_external_command(char **args)
+int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
 	char	*cmd_path;
 
-	cmd_path = find_command(args[0]);
+	printf("DEBUG: Command: %s\n", cmd->args[0]);
+	cmd_path = find_command(cmd->args[0]);
+	printf("DEBUG: Found path: %s\n", cmd_path);
 	if (!cmd_path)
 	{
-		ft_printf_fd(2, "minishell: %s: command not found\n", args[0]);
+		ft_printf_fd(2, "minishell: %s: command not found\n", cmd->args[0]);
 		return (127);
 	}
 	pid = fork();
 	if (pid == 0)
-		launch_child(cmd_path, args);
+		launch_child(cmd_path, cmd->args);
 	return (launch_parent(pid, cmd_path));
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/14 06:59:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 07:04:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,8 @@ void	print_tokens(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		printf("Token %d: [%s] (type: %d)\n", i++, current->content,
+		ft_printf_fd(2, "Token %d: [%s] (type: %d)\n", i++, current->content,
 			current->type);
 		current = current->next;
 	}
-}
-
-/* Extract quoted string and handle environment variable expansion */
-char	*extract_quoted_string(char *input, int *i, char quote)
-{
-	char	*content;
-	int		start;
-	int		len;
-	char	*expanded;
-
-	start = *i + 1;
-	len = 0;
-	while (input[start + len] && input[start + len] != quote)
-		len++;
-	if (!input[start + len])
-		return (NULL);
-	content = ft_substr(input, start, len);
-	if (!content)
-		return (NULL);
-	if (quote == '"')
-	{
-		expanded = expand_env_vars(content, 1);
-		free(content);
-		content = expanded;
-	}
-	*i = start + len + 1;
-	return (content);
 }

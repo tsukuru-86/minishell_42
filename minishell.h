@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 02:26:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 08:43:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,26 @@
 /* リダイレクトの種類を定義 */
 typedef enum e_redir_type
 {
-	REDIR_IN,     // 入力リダイレクト <
-	REDIR_OUT,    // 出力リダイレクト >
-	REDIR_APPEND, // 追加リダイレクト >>
-	REDIR_HEREDOC // ヒアドキュメント
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
 }							t_redir_type;
-
 /* トークンの種類を定義 */
 typedef enum e_token_type
 {
-	TOKEN_WORD,         // 通常の単語
-	TOKEN_SPACE,        // スペース
-	TOKEN_SINGLE_QUOTE, // シングルクォート
-	TOKEN_DOUBLE_QUOTE, // ダブルクォート
-	TOKEN_QUOTED_WORD,  // クォートされた単語
-	TOKEN_PIPE,         // パイプ |
-	TOKEN_REDIR_IN,     // 入力リダイレクト <
-	TOKEN_REDIR_OUT,    // 出力リダイレクト >
-	TOKEN_REDIR_APPEND, // 追加リダイレクト >>
-	TOKEN_ENV_VAR,      // 環境変数
+	TOKEN_WORD,
+	TOKEN_SPACE,
+	TOKEN_SINGLE_QUOTE,
+	TOKEN_DOUBLE_QUOTE,
+	TOKEN_QUOTED_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_ENV_VAR,
 	TOKEN_HEREDOC,
-	TOKEN_END // 終端
+	TOKEN_END
 }							t_token_type;
 
 /* 環境変数展開関数のプロトタイプ */
@@ -82,9 +81,7 @@ int							is_delimiter(char c);
 int							is_quote(char c);
 int							is_meta(char c);
 t_token						*create_meta_token(char *input, int *i);
-t_token_type				get_meta_type(char *input, int *i);
 t_token						*create_token(char *content, t_token_type type);
-
 int							handle_word(char *input, int *i, t_token **tokens,
 								char *word_buf);
 int							handle_meta_character(char *input, int *i,
@@ -98,28 +95,28 @@ bool						handle_error_token(t_token **current_token_ptr,
 /* Redirection structure */
 typedef struct s_redirect
 {
-	t_redir_type type;       /* リダイレクションのタイプ */
-	char *file;              /* リダイレクト先のファイル名 */
-	int original_fd;         /* 元のファイルディスクリプタを保存 */
-	struct s_redirect *next; /* 次のリダイレクト */
+	t_redir_type			type;
+	char					*file;
+	int						original_fd;
+	struct s_redirect		*next;
 }							t_redirect;
 
 /* パイプライン用の構造体 */
 typedef struct s_pipeline
 {
-	int read_fd;  // 読み込み用FD
-	int write_fd; // 書き込み用FD
-	pid_t pid;    // プロセスID
+	int						read_fd;
+	int						write_fd;
+	pid_t					pid;
 }							t_pipeline;
 
 /* コマンド構造体 */
 typedef struct s_command
 {
-	char **args;            // コマンドと引数の配列
-	t_redirect *redirects;  // リダイレクトのリスト
-	t_pipeline pipe;        // パイプライン情報
-	struct s_command *next; // パイプで繋がれた次のコマンド
-	struct s_command *prev; // パイプで繋がれた前のコマンド
+	char					**args;
+	t_redirect				*redirects;
+	t_pipeline				pipe;
+	struct s_command		*next;
+	struct s_command		*prev;
 }							t_command;
 
 /* パイプライン関連 */
@@ -155,8 +152,7 @@ void						free_command(t_command *cmd);
 t_command					*create_command(void);
 int							add_argument(t_command *cmd, char *arg);
 t_command					*initialize_command_list(void);
-bool						process_tokens(t_command **cmd, t_token *tokens,
-								t_command **head);
+bool						process_tokens(t_command **cmd, t_token *tokens);
 bool						process_token_in_parse_loop(t_command **cmd_ptr,
 								t_token **current_token_ptr,
 								char **accumulated_arg_ptr);
@@ -178,13 +174,13 @@ int							builtin_exit(char **args);
 int							remove_env_var(t_env **env, const char *name);
 int							is_valid_identifier(const char *str);
 int							process_export_arg(char *arg, t_env **env);
-int							excute_commands(t_command *cmd);
+int							execute_command(t_command *cmd);
 int							is_builtin(char *cmd);
-int							execute_builtin(char **args);
+int							execute_builtin(t_command *cmd);
 
 /* External commands */
 char						*find_command(char *cmd);
-int							execute_external_command(char **args);
+int							execute_external_command(t_command *cmd);
 
 /* Environment functions */
 t_env						*create_env_list(char **envp);
@@ -197,8 +193,9 @@ int							remove_env_var(t_env **env, const char *name);
 char						**env_list_to_array(t_env *env);
 
 /* Environment utility functions */
-t_env	*create_env_node(const char *str);                      // プロトタイプを追加
-t_env	*create_env_node2(const char *name, const char *value); // プロトタイプを追加
+t_env						*create_env_node(const char *str);
+t_env						*create_env_node2(const char *name,
+								const char *value);
 int							update_env_value(t_env *var, const char *value);
 int							append_env_var(t_env **env, const char *name,
 								const char *value);
@@ -207,6 +204,7 @@ int							set_env_var(t_env **env, const char *name,
 								const char *value);
 int							validate_and_update_env(t_env **env,
 								const char *name, const char *value);
+void						free_single_env_node(t_env *node);
 
 /* Global environment variable */
 t_env						**g_env(void);
@@ -248,23 +246,17 @@ int							count_env_nodes(t_env *env);
 char						*format_env_node_to_string(t_env *node);
 void						free_array_upto_index(char **array, int index);
 
-// parser_env_utils.c
 t_env						*create_env_node2(const char *name,
 								const char *value);
 
-// env_list_to_array.c
 char						**env_list_to_to_array(t_env *env);
 
-// env_array_utils.c
 void						free_env_array_entries(char **env_array, int count);
 char						*allocate_env_entry(t_env *env_node);
 
-// Forward declaration for t_command
 typedef struct s_command	t_command;
 
-// pipeline_execution.c
-void						execute_pipeline_command(t_command *cmd,
-								t_command *current);
+int							execute_pipeline_command(t_command *cmd);
 
 /* パーサーの補助関数 */
 bool						process_word_token(t_token **current_token_ptr,
@@ -281,7 +273,6 @@ bool						add_accumulated_arg(t_command *cmd_ptr,
 								const char *error_msg);
 int							handle_redirect_token(t_token **curr_token,
 								t_command *cmd);
-t_token						*create_token(char *content, t_token_type type);
 t_token						*add_token(t_token **head, const char *content,
 								t_token_type type);
 bool						parser_handle_pipe_token(t_command **cmd_ptr,
@@ -301,7 +292,4 @@ bool						process_word_token(t_token **current_token_ptr,
 bool						process_space_token(t_command *cmd_ptr,
 								t_token **current_token_ptr,
 								char **accumulated_arg_ptr);
-bool						process_tokens(t_command **cmd, t_token *tokens,
-								t_command **head);
-
 #endif

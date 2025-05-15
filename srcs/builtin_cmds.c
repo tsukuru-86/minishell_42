@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_commands.c                                 :+:      :+:    :+:   */
+/*   builtin_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/14 02:25:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 06:59:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	builtin_echo(char **args)
 	}
 	if (newline)
 		ft_putchar_fd('\n', 1);
-	return (0);
+	return (RET_SUCCESS);
 }
 
 int	builtin_cd(char **args)
@@ -47,9 +47,9 @@ int	builtin_cd(char **args)
 	if (chdir(path) == -1)
 	{
 		ft_printf_fd(2, "cd: %s: %s\n", path, strerror(errno));
-		return (1);
+		return (RET_ERROR);
 	}
-	return (0);
+	return (RET_SUCCESS);
 }
 
 int	builtin_pwd(char **args)
@@ -70,7 +70,7 @@ int	builtin_exit(char **args)
 {
 	int	status;
 
-	status = 0;
+	status = RET_SUCCESS;
 	if (args[1])
 	{
 		status = ft_atoi(args[1]);

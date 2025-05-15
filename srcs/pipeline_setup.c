@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/14 23:19:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 08:39:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	spawn_pipeline_processes(t_command *cmd)
 		}
 		if (pid == 0)
 		{
-			execute_pipeline_command(cmd, current);
+			execute_pipeline_command(current);
 			exit(EXIT_FAILURE);
 		}
 		else

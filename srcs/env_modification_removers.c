@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/14 05:07:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 08:33:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief 単一の環境変数ノードを解放します
  */
-static void	free_single_env_node(t_env *node)
+void	free_single_env_node(t_env *node)
 {
 	if (!node)
 		return ;

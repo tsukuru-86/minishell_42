@@ -35,15 +35,3 @@ t_env	*create_env_node(const char *str)
 	new->next = NULL;
 	return (new);
 }
-
-/* Update the value of an existing environment variable */
-int	update_env_value(t_env *var, const char *value)
-{
-	if (var->value)
-		free(var->value);
-	if (value)
-		var->value = ft_strdup(value);
-	else
-		var->value = NULL;
-	return (0);
-}

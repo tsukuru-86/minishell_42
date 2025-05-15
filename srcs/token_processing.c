@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 02:23:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 02:23:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/15 04:41:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,34 @@ bool	process_token_in_parse_loop(t_command **cmd_ptr,
 		return (process_space_token(*cmd_ptr, current_token_ptr,
 				accumulated_arg_ptr));
 	else if (type == TOKEN_PIPE)
-		return (handle_pipe_token(current_token_ptr, &cmd_ptr, &cmd_idx)
-			== RET_SUCCESS);
+		return (handle_pipe_token(current_token_ptr, &cmd_ptr,
+				&cmd_idx) == RET_SUCCESS);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
-		return (handle_redirect_token(current_token_ptr, *cmd_ptr)
-			== RET_SUCCESS);
+		return (handle_redirect_token(current_token_ptr,
+				*cmd_ptr) == RET_SUCCESS);
 	return (handle_error_token(current_token_ptr, accumulated_arg_ptr));
 }
 
-bool	process_tokens(t_command **cmd, t_token *tokens, t_command **head)
+bool	process_tokens(t_command **cmd, t_token *tokens)
 {
 	t_token	*current;
 	char	*accumulated_arg;
-	bool	result;
 
 	current = tokens;
 	accumulated_arg = NULL;
-	*head = *cmd;
+	ft_printf_fd(2, "DEBUG: START PROCESSING TOKENS\n");
 	while (current)
 	{
-		result = process_token_in_parse_loop(cmd, &current, &accumulated_arg);
-		if (!result)
+		ft_printf_fd(2, "DEBUG: CURRENT TOKEN: %s (type: %d)\n",
+			current->content, current->type);
+		if (!process_token_in_parse_loop(cmd, &current, &accumulated_arg))
 		{
 			if (accumulated_arg)
 				free(accumulated_arg);
 			return (false);
 		}
 	}
+	ft_printf_fd(2, "DEBUG: TOKEN PROCESSING COMPLETE\n");
 	return (handle_final_arg(cmd, accumulated_arg));
 }
