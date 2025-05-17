@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils_extra.c                                  :+:      :+:    :+:   */
+/*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 02:05:00 by muiida           #+#    #+#             */
-/*   Updated: 2025/05/11 02:05:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:46:13 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/17 20:52:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ int	append_env_var(t_env **env, const char *name, const char *value)
 	return (0);
 }
 
-int	remove_env_var(t_env **env,
-		const char *name)
+int	remove_env_var(t_env **env, const char *name)
 {
 	t_env	*current;
 	t_env	*prev;

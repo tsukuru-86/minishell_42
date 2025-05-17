@@ -6,13 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:27:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/17 21:05:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 t_redirect	*create_redirect(int type, char *file)
 {

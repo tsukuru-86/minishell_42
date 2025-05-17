@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -22,7 +23,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/syslimits.h>
+# include <sys/syslimits.h> // macOS
 # include <sys/wait.h>
 # include <unistd.h>
 

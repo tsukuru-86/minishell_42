@@ -6,12 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:25:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/17 21:04:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include <stdio.h>
+#include "minishell.h"
 
 int	builtin_echo(char **args)
 {

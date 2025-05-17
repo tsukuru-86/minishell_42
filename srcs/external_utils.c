@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <limits.h>
-#include <string.h>
-#include <unistd.h>
 
 /* Search for a command in PATH environment */
 char	*search_in_path(const char *path_env, char *cmd)

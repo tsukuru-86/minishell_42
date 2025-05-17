@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid Date        by              +#+  #+#    #+#             */
-/*   Updated: 2025/05/13 19:20:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
+/*   Updated: 2025/05/17 20:57:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static volatile sig_atomic_t	g_signal = 0;
 
-static volatile sig_atomic_t	g_signal = 0;
-
-void	signal_handler(int signum) void signal_handler(int signum)
+void	signal_handler(int signum)
 {
 	g_signal = signum;
 	if (signum == SIGINT) // Ctrl+C
@@ -34,7 +32,7 @@ void	signal_handler(int signum) void signal_handler(int signum)
 	}
 }
 
-void	setup_child_signals(void) void setup_child_signals(void)
+void	setup_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -61,7 +59,6 @@ int	main(int argc, char **argv, char **envp)
 	status = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-
 	while (1)
 	{
 		g_signal = 0;

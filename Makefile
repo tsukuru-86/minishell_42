@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I. -g -O0
 
 SRCS_DIR = srcs/
 SRCS = $(SRCS_DIR)main.c \
@@ -21,7 +21,7 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)builtin_env2.c \
        $(SRCS_DIR)builtin_env3.c \
        $(SRCS_DIR)env_utils.c \
-       $(SRCS_DIR)env_utils_extra.c \
+       $(SRCS_DIR)env_utils2.c \
        $(SRCS_DIR)tokenizer.c \
        $(SRCS_DIR)tokenizer_utils.c \
        $(SRCS_DIR)parser.c

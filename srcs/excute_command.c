@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid Date        by              +#+  #+#    #+#             */
-/*   Updated: 2025/05/13 19:13:34 by muiida           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+/*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
+/*   Updated: 2025/05/17 21:04:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
 /* 単一コマンドの実行 */
 static int	execute_single_command(t_command *cmd)
@@ -45,11 +41,8 @@ static int	execute_single_command(t_command *cmd)
 	return (status);
 }
 
-int	is_builtin(char *cmd) int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
-	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-			"exit", NULL};
-	int		i;
 	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
 			"exit", NULL};
 	int		i;
@@ -72,7 +65,7 @@ int	is_builtin(char *cmd) int is_builtin(char *cmd)
 	return (0);
 }
 
-int	execute_builtin(char **args) int execute_builtin(char **args)
+int	execute_builtin(char **args)
 {
 	if (strcmp(args[0], "echo") == 0)
 		return (builtin_echo(args));

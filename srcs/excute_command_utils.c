@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
 /* duplicate argument vector up to count */
 static char	**duplicate_args(char **args, int count)
