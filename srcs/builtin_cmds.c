@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 06:59:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 04:17:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_echo(char **args)
 
 	newline = 1;
 	i = 1;
-	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
+	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
 	{
 		newline = 0;
 		i++;

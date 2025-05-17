@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   excute_command_utils.c                             :+:      :+:    :+:   */
+/*   execute_command_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 01:30:00 by muiida           #+#    #+#             */
-/*   Updated: 2025/05/11 01:30:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/16 04:07:25 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/18 03:25:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
 /* duplicate argument vector up to count */
 static char	**duplicate_args(char **args, int count)
@@ -19,7 +18,7 @@ static char	**duplicate_args(char **args, int count)
 	char	**cmd;
 	int		i;
 
-	cmd = malloc(sizeof(char *) * (count + 1));
+	cmd = (char **)malloc(sizeof(char **) * (count + 1));
 	if (!cmd)
 		return (NULL);
 	i = 0;

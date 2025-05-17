@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 08:54:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:39:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdbool.h>
 
 /* 単語をバッファにコピー */
 static int	copy_word_to_buffer(char *input, int *i, char *word_buf)
@@ -26,7 +27,8 @@ static int	copy_word_to_buffer(char *input, int *i, char *word_buf)
 }
 
 /* 通常の単語を処理し、トークンリストに追加 */
-int	handle_word(char *input, int *i, t_token **tokens, char *word_buf)
+int	handle_word(char *input, int *i, t_token **tokens, char *word_buf,
+		t_minishell *shell)
 {
 	int		word_idx;
 	char	*expanded;
@@ -35,7 +37,7 @@ int	handle_word(char *input, int *i, t_token **tokens, char *word_buf)
 	word_idx = copy_word_to_buffer(input, i, word_buf);
 	if (word_idx > 0)
 	{
-		expanded = expand_env_vars(word_buf, 0);
+		expanded = expand_env_vars(word_buf, false, shell);
 		if (!expanded)
 			return (0);
 		new_token = create_token(expanded, TOKEN_WORD);
@@ -70,7 +72,7 @@ int	handle_meta_character(char *input, int *i, t_token **tokens)
 }
 
 char	*extract_quoted_string(char *input, int *i, char quote,
-		t_token_type *type)
+		t_token_type *type, t_minishell *shell)
 {
 	char	*content;
 	int		start;
@@ -89,7 +91,7 @@ char	*extract_quoted_string(char *input, int *i, char quote,
 	if (quote == '"')
 	{
 		*type = TOKEN_DOUBLE_QUOTE;
-		expanded = expand_env_vars(content, 1);
+		expanded = expand_env_vars(content, 1, shell);
 		free(content);
 		content = expanded;
 	}

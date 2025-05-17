@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../minishell.h"
 #include <stdarg.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <unistd.h>
 
 extern size_t	ft_putstr_fd_len(void *ptr, int fd);
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/14 05:00:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:28:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_env	**env_to_array(t_env *env, int count)
 
 	i = 0;
 	current = env;
-	arr = malloc(sizeof(t_env *) * count);
+	arr = (t_env **)malloc(sizeof(t_env **) * count);
 	if (!arr)
 		return (NULL);
 	while (i < count)

@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils_conversion.c                           :+:      :+:    :+:   */
+/*   signal_state.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 01:26:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 01:34:58 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/18 10:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/18 03:14:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_redir_type	convert_token_type_to_redir_type(t_token_type token_redir_type)
+/* 
+ * グローバル変数：受け取ったシグナル番号を格納
+ * 仕様に従って、シグナル番号のみを保持
+ */
+int	g_signum = 0;
+
+/* 
+ * シグナル番号を取得する関数
+ */
+int	get_signal_num(void)
 {
-	if (token_redir_type == TOKEN_REDIR_IN)
-		return (REDIR_IN);
-	else if (token_redir_type == TOKEN_REDIR_OUT)
-		return (REDIR_OUT);
-	else if (token_redir_type == TOKEN_REDIR_APPEND)
-		return (REDIR_APPEND);
-	else if (token_redir_type == TOKEN_HEREDOC)
-		return (REDIR_HEREDOC);
-	return (-1);
+	return (g_signum);
+}
+
+/* 
+ * シグナル番号を設定する関数
+ */
+void	set_signal_num(int signum)
+{
+	g_signum = signum;
 }

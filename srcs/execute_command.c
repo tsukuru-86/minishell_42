@@ -6,105 +6,105 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 06:57:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:23:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
-/* 外部コマンドの実行 */
-static int	execute_external_command_in_child(t_command *cmd)
+/* コマンドの実行 */
+int	execute_command(t_command *cmd, t_minishell *shell)
 {
-	int	status;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	status = execute_external_command(cmd);
-	exit(status);
-}
-
-/* 外部コマンドの実行処理 */
-static int	execute_external_cmd(t_command *cmd)
-{
-	int		status;
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		return (1);
-	if (pid == 0)
-		execute_external_command_in_child(cmd);
-	waitpid(pid, &status, 0);
-	return (WEXITSTATUS(status));
-}
-
-/* 単一コマンドの実行 */
-static int	execute_single_command(t_command *cmd)
-{
-	int	status;
-
-	if (!cmd || !cmd->args)
+	setup_parent_signals();
+	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		ft_printf_fd(2, "ERROR: NULL COMMAND OR ARGS\n");
+		ft_printf_fd(2, "Error: Invalid command structure\n");
+		shell->exit_status = 1;
 		return (1);
 	}
-	ft_printf_fd(2, "DEBUG: EXECUTING COMMAND: %s\n", cmd->args[0]);
-	if (cmd->redirects && !setup_redirection(cmd->redirects))
-		return (1);
-	if (is_builtin(cmd->args[0]))
-		status = execute_builtin(cmd);
-	else
-		status = execute_external_cmd(cmd);
+	ft_printf_fd(2, "DEBUG: Executing command: %s\n", cmd->args[0]);
+	if (!cmd->next)
+		return (execute_single_command(cmd, shell));
+	init_signal_handlers();
+	return (execute_pipeline_command(cmd, shell));
+}
+
+static int	handle_builtin_command(t_command *cmd, t_minishell *shell)
+{
+	int	status;
+
+	init_signal_handlers();
+	status = execute_builtin(cmd);
+	shell->exit_status = status;
 	if (cmd->redirects)
 		restore_redirection(cmd->redirects);
 	return (status);
 }
 
-/*
-** NOTE: This function is no longer used with our new pipeline implementation.
-** The functionality has been moved to execute_pipeline_command in pipeline.c
-*/
-#if 0
-/* コマンドの実行（子プロセス用） */
-static int	execute_command_in_child(t_command *cmd, char **envp)
+static int	execute_external_in_child(t_command *cmd)
+{
+	char	*cmd_path;
+	char	**args;
+
+	cmd_path = find_command(cmd->args[0]);
+	if (!cmd_path)
+	{
+		ft_printf_fd(2, "minishell: %s: command not found\n", cmd->args[0]);
+		exit(127);
+	}
+	args = prepare_command(cmd->args, cmd->redirects ? 1 : 0);
+	if (!args)
+	{
+		free(cmd_path);
+		exit(1);
+	}
+	launch_child(cmd_path, cmd->args);
+	free_array_upto_index(args, 0);
+	return (0);
+}
+
+static int	wait_for_child(pid_t pid, t_minishell *shell)
 {
 	int	status;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(0);
-	// パイプライン実行中であることを示す環境変数を設定
-	putenv("MINISHELL_PIPELINE=1");
-	// リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
-	// リダイレクトがパイプラインよりも優先される）
-	if (cmd->redirects && !setup_redirection(cmd->redirects))
-		exit(1);
-	// コマンドの実行
-	if (is_builtin(cmd->args[0]))
-	{
-		status = execute_builtin(cmd->args);
-		if (cmd->redirects)
-			restore_redirection(cmd->redirects);
-		exit(status);
-	}
-	else
-	{
-		status = execute_external_command(cmd->args, envp);
-		exit(status);
-	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		status = 128 + WTERMSIG(status);
+	shell->exit_status = status;
+	return (status);
 }
-#endif
 
-/* コマンドの実行 */
-int	execute_command(t_command *cmd)
+int	execute_single_command(t_command *cmd, t_minishell *shell)
 {
-	if (!cmd || !cmd->args || !cmd->args[0])
+	int		status;
+	pid_t	pid;
+
+	if (cmd->redirects && !setup_redirection(cmd->redirects))
 	{
-		ft_printf_fd(2, "Error: Invalid command structure\n");
+		shell->exit_status = 1;
 		return (1);
 	}
-	ft_printf_fd(2, "DEBUG: Executing command: %s\n", cmd->args[0]);
-	if (!cmd->next)
-		return (execute_single_command(cmd));
-	return (execute_pipeline_command(cmd));
+	if (is_builtin(cmd->args[0]))
+		return (handle_builtin_command(cmd, shell));
+	// 外部コマンド実行前に親プロセスのシグナルハンドラを設定
+	setup_parent_signals();
+	pid = fork();
+	if (pid == -1)
+	{
+		shell->exit_status = 1;
+		return (1);
+	}
+	if (pid == 0)
+	{
+		setup_child_signals(); // 子プロセスのシグナルハンドラを設定
+		execute_external_in_child(cmd);
+	}
+	status = wait_for_child(pid, shell);
+	// 外部コマンド終了後、通常のシグナルハンドラに戻す
+	init_signal_handlers();
+	if (cmd->redirects)
+		restore_redirection(cmd->redirects);
+	return (status);
 }

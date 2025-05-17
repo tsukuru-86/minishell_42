@@ -6,12 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 23:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 01:33:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:16:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdbool.h>
 
 /* トークンタイプがワード系の場合の処理 */
 bool	process_word_token(t_token **current_token_ptr,

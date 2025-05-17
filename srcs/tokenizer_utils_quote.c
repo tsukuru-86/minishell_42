@@ -6,20 +6,22 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 08:48:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:52:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdbool.h>
 
 /* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
-static int	expand_and_copy_if_double_quote(char *word_buf, t_token_type type)
+static int	expand_and_copy_if_double_quote(char *word_buf, t_token_type type,
+		t_minishell *shell)
 {
 	char	*expanded;
 
 	if (type == TOKEN_DOUBLE_QUOTE)
 	{
-		expanded = expand_env_vars(word_buf, 1);
+		expanded = expand_env_vars(word_buf, true, shell);
 		if (!expanded)
 			return (0);
 		ft_strlcpy(word_buf, expanded, MAX_TOKENS);
@@ -29,7 +31,7 @@ static int	expand_and_copy_if_double_quote(char *word_buf, t_token_type type)
 }
 
 int	get_quoted_string_content(char *input, int *index, char *buffer,
-		t_token_type *token_type)
+		t_token_type *token_type, t_minishell *shell)
 {
 	char	quote_char;
 	int		word_idx;
@@ -52,19 +54,19 @@ int	get_quoted_string_content(char *input, int *index, char *buffer,
 	{
 		(*index)++;
 		buffer[word_idx] = '\0';
-		return (expand_and_copy_if_double_quote(buffer, *token_type));
+		return (expand_and_copy_if_double_quote(buffer, *token_type, shell));
 	}
 	return (0);
 }
 
 /* クォートされた文字列を処理し、トークンリストに追加 */
-int	handle_quoted_string(char *input, int *i, t_token **tokens, char *word_buf)
-
+int	handle_quoted_string(char *input, int *i, t_token **tokens, char *word_buf,
+		t_minishell *shell)
 {
 	t_token_type	type;
 	t_token			*new_token;
 
-	if (!get_quoted_string_content(input, i, word_buf, &type))
+	if (!get_quoted_string_content(input, i, word_buf, &type, shell))
 		return (0);
 	new_token = create_token(word_buf, type);
 	if (!new_token)

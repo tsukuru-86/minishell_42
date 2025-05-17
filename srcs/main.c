@@ -6,113 +6,70 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 08:02:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:22:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <readline/readline.h>
-#include <signal.h>
 
-static volatile sig_atomic_t	g_signal = 0;
-
-void	signal_handler(int signum)
+static void	initialize_environment(t_minishell *shell, char **envp)
 {
-	g_signal = signum;
-	if (signum == SIGINT) // Ctrl+C
-	{
-		write(1, "\nminishell > ", 12);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
+	t_env	**env_ptr;
 
-static void	initialize_environment(char **envp)
-{
-	*g_env() = create_env_list(envp);
-	if (!g_env())
+	env_ptr = g_env();
+	*env_ptr = create_env_list(envp);
+	if (!*env_ptr)
 	{
 		ft_putstr_fd("minishell: failed to initialize environment\n", 2);
-		exit(1);
+		exit(RET_ERROR);
 	}
+	shell->env = *env_ptr;
 }
 
-// static void	execute_command_light(t_command *cmd)
-// {
-// 	if (cmd == NULL || cmd->args[0] == NULL)
-// 	{
-// 		return ;
-// 	}
-// 	ft_printf_fd(2, "DEBUG: EXECUTING COMMAND: %s\n", cmd->args[0]);
-// 	if (is_builtin(cmd->args[0]))
-// 	{
-// 		execute_builtin(cmd);
-// 	}
-// 	else if (find_command(cmd->args[0]) != NULL)
-// 	{
-// 		execute_external_command(cmd);
-// 	}
-// 	else
-// 	{
-// 		ft_printf_fd(2, "minishell: %s: command not found\n",
-// cmd->args[0]);
-// 	}
-// }
-
-void	handle_input(void)
+static int	handle_input(t_minishell *shell)
 {
 	char		*input;
 	t_token		*tokens;
 	t_command	*cmd;
+	int			status;
 
+	init_signal_handlers();
 	input = readline("minishell > ");
-	// EOF(Ctrl+D) が入力された場合
 	if (input == NULL)
-		return ;
+		return (RET_ERROR);
+	if (input && *input)  // 入力が空でない場合のみ履歴に追加
+		add_history(input);
 	ft_printf_fd(2, "DEBUG INPUT: [%s]\n", input);
-	tokens = tokenize(input);
+	tokens = tokenize(input, shell);
 	cmd = parse_tokens(tokens);
 	if (cmd != NULL)
 	{
-		execute_command(cmd);
-		// execute_command_light(cmd);
-		free_command(cmd); // コマンドを解放
+		status = execute_command(cmd, shell);
+		free_command(cmd);
+		free(input);
+		return (status);
 	}
-	free(input); // 入力文字列を解放
-}
-
-void	setup_signal_handlers(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = signal_handler;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
+	free(input);
+	return (RET_ERROR);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	int		status;
+	t_minishell	shell;
+	int			status;
 
 	(void)argc;
 	(void)argv;
-	initialize_environment(envp);
-	status = 0;
-	setup_signal_handlers();
-	signal(SIGQUIT, SIG_IGN);
+	ft_memset(&shell, 0, sizeof(t_minishell));
+	shell.exit_status = 0;
+	initialize_environment(&shell, envp);
 	while (1)
 	{
-		g_signal = 0;
-		input = readline("minishell > ");
-		if (!input)
+		status = handle_input(&shell);
+		if (status == -1)
 			break ;
-		// デバッグ用：入力内容を即座に表示
-		ft_printf_fd(2, "DEBUG INPUT: [%s]\n", input);
-		handle_input();
 	}
 	clear_history();
-	free_env_list(*g_env());
-	return (status);
+	free_env_list(shell.env);
+	return (shell.exit_status);
 }

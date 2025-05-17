@@ -6,60 +6,90 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 08:36:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:32:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* Redirect stdin and stdout based on pipeline pipes */
-void	pipeline_redirect_io(t_command *current)
-{
-	if (current->pipe.read_fd != -1)
-		dup2(current->pipe.read_fd, STDIN_FILENO);
-	if (current->pipe.write_fd != -1)
-		dup2(current->pipe.write_fd, STDOUT_FILENO);
-}
-
-/* Execute current command within pipeline: handle redirection and run */
-void	pipeline_execute_command_logic(t_command *current)
+/* リダイレクト設定と検証 */
+static void	setup_command_redirection(t_command *current)
 {
 	if (current->redirects && !setup_redirection(current->redirects))
+	{
+		ft_printf_fd(2, "minishell: redirection failed\n");
 		exit(EXIT_FAILURE);
-	if (is_builtin(current->args[0]))
-		execute_builtin(current);
-	else
-		execute_external_command(current);
+	}
 }
 
-/* Execute a pipeline command in child: set up environment, */
-/* redirect I/O, close pipes, and then run the command. */
-// void	execute_pipeline_command(t_command *cmd, t_command *current)
-// {
-// 	signal(SIGINT, SIG_DFL);
-// 	signal(SIGQUIT, SIG_DFL);
-// 	// putenv("MINISHELL_PIPELINE=1");//TODO
-// 	pipeline_redirect_io(current);
-// 	pipeline_close_pipes(cmd);
-// 	pipeline_execute_command_logic(current);
-// }
-
-/* パイプラインの実行 */
-int	execute_pipeline_command(t_command *cmd)
+/* コマンド引数の検証 */
+static void	validate_command_args(t_command *current)
 {
-	int			status;
-	t_command	*current;
-	int			pipeline_result;
-
-	pipeline_result = setup_pipeline(cmd);
-	if (pipeline_result == 0)
-		return (1);
-	status = wait_pipeline(cmd);
-	current = cmd;
-	while (current)
+	if (!current->args || !current->args[0])
 	{
-		cleanup_pipeline(current);
-		current = current->next;
+		ft_printf_fd(2, "minishell: empty command\n");
+		exit(EXIT_FAILURE);
 	}
-	return (status);
+}
+
+/* パイプラインのI/Oリダイレクト処理 */
+static void	pipeline_redirect_io(t_command *current)
+{
+	if (current->pipe.read_fd != -1)
+	{
+		if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (current->pipe.write_fd != -1)
+	{
+		if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+/* パイプライン内のコマンド実行ロジック */
+static void	pipeline_execute_command_logic(t_command *current)
+{
+	int	status;
+
+	setup_command_redirection(current);
+	validate_command_args(current);
+	if (is_builtin(current->args[0]))
+	{
+		status = execute_builtin(current);
+		if (current->redirects)
+			restore_redirection(current->redirects);
+		exit(status);
+	}
+	else
+	{
+		execute_external_command(current);
+		exit(EXIT_FAILURE);
+	}
+}
+
+/* パイプライン内のコマンド実行 */
+void	execute_command_in_pipeline(t_command *cmd, t_command *current)
+{
+	if (!cmd || !current)
+		return ;
+	if (current->pipe.read_fd != -1)
+		close(current->pipe.read_fd);
+	if (current->pipe.write_fd != -1)
+		close(current->pipe.write_fd);
+	if (current->redirects)
+		setup_redirection(current->redirects);
+	{
+		setup_child_signals();
+		set_env_var(g_env(), "MINISHELL_PIPELINE", "1");
+		pipeline_redirect_io(current);
+		pipeline_close_pipes(cmd);
+		pipeline_execute_command_logic(current);
+	}
 }

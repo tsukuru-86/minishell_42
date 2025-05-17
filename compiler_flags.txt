@@ -2,3 +2,5 @@
 -Wextra
 -Werror
 -I.
+-I/usr/local/opt/readline/include
+-std=c89

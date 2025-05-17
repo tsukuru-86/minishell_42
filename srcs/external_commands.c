@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 04:56:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:23:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ char	*find_command(char *cmd)
 	return (search_in_path(path_env, cmd));
 }
 
-static void	launch_child(char *cmd_path, char **args)
+void	launch_child(char *cmd_path, char **args)
 {
 	char	**env_array;
 
+	setup_child_signals();
 	env_array = env_list_to_array(*g_env());
 	if (!env_array)
 	{
@@ -70,14 +71,32 @@ static int	launch_parent(pid_t pid, char *cmd_path)
 		free(cmd_path);
 		return (1);
 	}
+	// 親プロセスのシグナルハンドラを一時的に変更
+	setup_parent_signals();
 	waitpid(pid, &status, 0);
 	free(cmd_path);
+	// 実行終了後、通常のシグナルハンドラに戻す
+	init_signal_handlers();
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			ft_putstr_fd("\n", STDOUT_FILENO);
+			return (130); // SIGINTの標準的な終了コード
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+			return (131); // SIGQUITの標準的な終了コード
+		}
+	}
 	return (1);
 }
 
 int	execute_external_command(t_command *cmd)
+// shellパラメータを追加
 {
 	pid_t	pid;
 	char	*cmd_path;
@@ -93,5 +112,5 @@ int	execute_external_command(t_command *cmd)
 	pid = fork();
 	if (pid == 0)
 		launch_child(cmd_path, cmd->args);
-	return (launch_parent(pid, cmd_path));
+	return (launch_parent(pid, cmd_path)); // shellを渡す
 }

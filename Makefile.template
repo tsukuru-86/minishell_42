@@ -4,10 +4,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I. -g -O0
 
 SRCS_DIR = srcs/
-SRCS = $(SRCS_DIR)main.c \
+SRCS_FILE = main.c \
 #########
-# OBJS = $(addprefix obj/, $(SRCS:.c=.o))
-OBJS = $(SRCS:.c=.o)
+SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
+OBJS = $(addprefix obj/, $(SRCS_FILE:.c=.o))
 
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
@@ -20,8 +20,11 @@ $(LIBFT):
 $(NAME): $(OBJS) | minishell.h
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
-%.o: %.c
+obj/%.o: $(SRCS_DIR)%.c | obj/
 	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/:
+	mkdir -p obj/
 
 clean:
 	make -C $(LIBFT_DIR) clean
@@ -33,4 +36,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+cre: clean all
+
+.PHONY: all clean fclean re cre

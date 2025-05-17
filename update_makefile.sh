@@ -19,11 +19,9 @@ while IFS= read -r line; do
     for idx in "${!files[@]}"; do
       fname=${files[$idx]#"$SRC_DIR/"}
       if [ "$idx" -eq $((len-1)) ]; then
-        # 最終行はバックスラッシュ不要
-        printf "\t\$(SRCS_DIR)%s\n" "$fname" >> "$tmpfile"
+        printf "\t%s\n" "$fname" >> "$tmpfile"
       else
-        # 続き行用にバックスラッシュを付与
-        printf "\t\$(SRCS_DIR)%s \\\\\n" "$fname" >> "$tmpfile"
+        printf "\t%s \\\\\n" "$fname" >> "$tmpfile"
       fi
     done
   else

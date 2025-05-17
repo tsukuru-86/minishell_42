@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/15 08:52:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 03:27:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_builtin(char *cmd)
 {
-	char	*builtins[8];
-	int		i;
+	const char	*builtins[8];
+	int			i;
 
 	builtins[0] = "echo";
 	builtins[1] = "cd";

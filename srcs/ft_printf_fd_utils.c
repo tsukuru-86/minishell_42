@@ -6,17 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:32:53 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/14 01:37:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:16:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../minishell.h"
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <unistd.h>
 
 size_t	ft_putstr_fd_len(char *s, int fd)
 {

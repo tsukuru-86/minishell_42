@@ -6,40 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:52:17 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 06:51:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:07:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// static bool	is_delimiter_char(char c)
-// {
-// 	return (c == '\0' || c == '>' || c == '<' || c == '|' || c == ' ');
-// }
-
-// static bool	process_token(t_token **tokens, char *token_str,
-// 		t_token_type token_type)
-// {
-// 	t_token	*token;
-
-// 	token = create_token(token_str, token_type);
-// 	if (!token)
-// 		return (false);
-// 	add_token(tokens, token);
-// 	return (true);
-// }
-
-// static bool	handle_delimiter(char *input, int *i)
-// {
-// 	if (is_delimiter_char(input[*i]))
-// 	{
-// 		(*i)++;
-// 		return (true);
-// 	}
-// 	return (false);
-// }
-
-static bool	process_token(char *input, int *i, t_token **tokens, char *word_buf)
+static bool	process_token(char *input, int *i, t_token **tokens, char *word_buf,
+		t_minishell *shell)
 {
 	if (is_meta(input[*i]))
 	{
@@ -48,42 +22,70 @@ static bool	process_token(char *input, int *i, t_token **tokens, char *word_buf)
 			free_tokens(*tokens);
 			return (false);
 		}
-		return (true);
 	}
-	if (!handle_word(input, i, tokens, word_buf))
+	else if (input[*i] == '\'' || input[*i] == '\"')
 	{
-		free_tokens(*tokens);
-		return (false);
+		if (!handle_quoted_string(input, i, tokens, word_buf, shell))
+		{
+			free_tokens(*tokens);
+			return (false);
+		}
+	}
+	else
+	{
+		if (!handle_word(input, i, tokens, word_buf, shell))
+		{
+			free_tokens(*tokens);
+			return (false);
+		}
 	}
 	return (true);
 }
 
-static bool	tokenize_input(char *input, t_token **tokens, char *word_buf)
+bool	validate_tokens(t_token *tokens)
 {
-	int	i;
+	t_token	*current;
 
+	current = tokens;
+	while (current)
+	{
+		if (current->type == TOKEN_PIPE)
+		{
+			if (!current->next || current->next->type == TOKEN_PIPE)
+				return (false);
+		}
+		else if (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT
+			|| current->type == TOKEN_REDIR_APPEND
+			|| current->type == TOKEN_HEREDOC)
+		{
+			if (!current->next || current->next->type != TOKEN_WORD)
+				return (false);
+		}
+		current = current->next;
+	}
+	return (true);
+}
+
+t_token	*tokenize(char *input, t_minishell *shell)
+{
+	t_token	*tokens;
+	char	word_buf[1024];
+	int		i;
+
+	if (!input)
+		return (NULL);
+	tokens = NULL;
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ' || input[i] == '\t' || input[i] == '\n')
-		{
-			i++;
-			continue ;
-		}
-		if (!process_token(input, &i, tokens, word_buf))
-			return (false);
+		if (!process_token(input, &i, &tokens, word_buf, shell))
+			return (NULL);
 	}
-	return (true);
-}
-
-t_token	*tokenize(char *input)
-{
-	t_token	*tokens;
-	char	word_buf[MAX_TOKENS];
-
-	tokens = NULL;
-	if (!tokenize_input(input, &tokens, word_buf))
+	if (!tokens || !validate_tokens(tokens))
 	{
+		if (tokens)
+			free_tokens(tokens);
 		return (NULL);
 	}
 	return (tokens);

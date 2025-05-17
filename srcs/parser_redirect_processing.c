@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 02:34:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/15 02:34:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/16 05:48:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ static t_redirect	*create_new_redirect(t_token **curr_token,
 	}
 	new_redirect->next = NULL;
 	return (new_redirect);
+}
+
+t_redir_type	convert_token_type_to_redir_type(t_token_type token_redir_type)
+{
+	if (token_redir_type == TOKEN_REDIR_IN)
+		return (REDIR_IN);
+	else if (token_redir_type == TOKEN_REDIR_OUT)
+		return (REDIR_OUT);
+	else if (token_redir_type == TOKEN_REDIR_APPEND)
+		return (REDIR_APPEND);
+	else if (token_redir_type == TOKEN_HEREDOC)
+		return (REDIR_HEREDOC);
+	return (-1);
 }
 
 int	handle_redirect_token(t_token **curr_token, t_command *cmd)
