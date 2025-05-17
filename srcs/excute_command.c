@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/20 22:33:29 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
+/*   Updated: 2025/05/22 22:10:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,11 @@ static int	execute_single_command(t_command *cmd)
 	else
 	{
 		status = execute_external_with_fork(cmd);
-		if (cmd->redirects)
-			restore_redirection(cmd->redirects);
 	}
+	if (cmd->redirects)
+		restore_redirection(cmd->redirects);
 	return (status);
 }
-
-/*
-** NOTE: This function is no longer used with our new pipeline implementation.
-** The functionality has been moved to execute_pipeline_command in pipeline.c
-*/
-#if 0
-/* コマンドの実行（子プロセス用） */
-static int	execute_command_in_child(t_command *cmd, char **envp)
-{
-	int	status;
-
-	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(0);
-	// パイプライン実行中であることを示す環境変数を設定
-	putenv("MINISHELL_PIPELINE=1");
-	// リダイレクトの設定（パイプラインの後にリダイレクトを適用することで、
-	// リダイレクトがパイプラインよりも優先される）
-	if (cmd->redirects && !setup_redirection(cmd->redirects))
-		exit(1);
-	// コマンドの実行
-	if (is_builtin(cmd->args[0]))
-	{
-		status = execute_builtin(cmd->args);
-		if (cmd->redirects)
-			restore_redirection(cmd->redirects);
-		exit(status);
-	}
-	else
-	{
-		status = execute_external_command(cmd->args, envp);
-		exit(status);
-	}
-}
-#endif
 
 /* パイプラインのクリーンアップを行う関数 */
 static void	cleanup_pipeline_commands(t_command *cmd)

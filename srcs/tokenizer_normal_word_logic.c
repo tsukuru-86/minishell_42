@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 00:51:38 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 22:39:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /* 入力から区切り文字、クォート、メタ文字以外の文字を収集する。成功時は収集した文字数を返す
  handle_word_logic からのみ呼ばれる */
-static int	collect_plain_word_segment(char *input, int *i, char *word_buf)
+static int	collect_plain_word_segment(const char *input, int *i,
+		char *word_buf)
 {
 	int	word_idx;
 
@@ -41,14 +42,15 @@ static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
 	expanded_content = expand_env_vars(word_buf, 0);
 	if (!expanded_content)
 	{
-		ft_putstr_fd("minishell: failed to expand env vars for word\n", 2);
+		ft_putstr_fd((char *)"minishell: failed to \n", 2);
+		ft_putstr_fd((char *)" expand env vars for word\n", 2);
 		return (false);
 	}
 	new_token = create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)
 	{
-		ft_putstr_fd("minishell: failed to create token for word\n", 2);
+		ft_putstr_fd((char *)"minishell: failed to create token for word\n", 2);
 		return (false);
 	}
 	add_token_to_list(tokens, new_token);

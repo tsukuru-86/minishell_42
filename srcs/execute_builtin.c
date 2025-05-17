@@ -23,13 +23,19 @@ int	execute_builtin_with_redirect(t_command *cmd)
 	return (status);
 }
 
-/* 指定されたコマンドが組み込みコマンドであるかを判定する関数 */
 int	is_builtin(char *cmd)
 {
-	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-			"exit", NULL};
-	int		i;
+	const char	*builtins[8];
+	int			i;
 
+	builtins[0] = "echo";
+	builtins[1] = "cd";
+	builtins[2] = "pwd";
+	builtins[3] = "export";
+	builtins[4] = "unset";
+	builtins[5] = "env";
+	builtins[6] = "exit";
+	builtins[7] = NULL;
 	i = 0;
 	while (builtins[i])
 	{
@@ -38,9 +44,15 @@ int	is_builtin(char *cmd)
 		i++;
 	}
 	return (0);
+	i = 0;
+	while (builtins[i])
+		if (strcmp(cmd, builtins[i++]) == 0)
+			return (1);
+	return (0);
 }
 
 /* 組み込みコマンドを実行する関数。コマンド名に基づいて適切な関数を呼び出す */
+/* Routing function */
 int	execute_builtin(char **args)
 {
 	if (strcmp(args[0], "echo") == 0)
@@ -57,5 +69,5 @@ int	execute_builtin(char **args)
 		return (builtin_env(args));
 	else if (strcmp(args[0], "exit") == 0)
 		return (builtin_exit(args));
-	return (1); // コマンドが見つからない場合
+	return (1);
 }

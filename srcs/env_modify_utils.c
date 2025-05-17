@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 00:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 22:16:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	set_env_node(const char *name, const char *value)
 		return (1);
 	if (!is_valid_identifier(name))
 	{
-		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd((char *)"minishell: export: `", 2);
 		ft_putstr_fd((char *)name, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
 		return (1);
 	}
 	node = get_env_node(name);

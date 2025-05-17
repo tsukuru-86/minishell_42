@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/22 00:35:23 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
+/*   Updated: 2025/05/22 22:31:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdbool.h>
 
 /* 環境変数リストのグローバルアクセスポイントを提供する関数。
    静的変数としてリストのヘッドを保持し、シェル全体で共有できるようにする */
@@ -40,32 +39,9 @@ void	free_env_list(void)
 		free(env_head);
 		env_head = temp;
 	}
-	*g_env() = NULL;
 }
 
-static bool	populate_env_list_from_array(t_env *current,
-		char **envp, int start_idx)
-{
-	int	i;
-
-	i = start_idx;
-	while (envp[i])
-	{
-		current->next = create_env_node(envp[i]);
-		if (!current->next)
-		{
-			return (false);
-		}
-		current = current->next;
-		i++;
-	}
-	current->next = NULL;
-	return (true);
-}
-
-/* 与えられた環境変数配列から環境変数リストを作成する関数。
-   すべての環境変数をノードとして連結リストに変換する */
-t_env	*create_env_list(char **envp)
+static t_env	*init_env_head(char **envp)
 {
 	t_env	*head;
 
@@ -81,31 +57,49 @@ t_env	*create_env_list(char **envp)
 		return (NULL);
 	}
 	*g_env() = head;
-	if (!populate_env_list_from_array(head, envp, 1))
-	{
-		free_env_list();
-		return (NULL);
-	}
 	return (head);
 }
 
-/* 指定された名前の環境変数ノードを検索して返す関数。
-   見つからない場合はNULLを返す */
-t_env	*get_env_node(const char *name)
+t_env	*create_env_list(char **envp)
 {
-	t_env	*env_list_head;
-	size_t	name_len;
+	t_env	*head;
+	t_env	*current;
+	int		i;
 
-	if (!name)
+	head = init_env_head(envp);
+	if (!head)
 		return (NULL);
-	name_len = ft_strlen(name);
-	env_list_head = *g_env();
-	while (env_list_head)
+	current = head;
+	i = 1;
+	while (envp[i])
 	{
-		if (env_list_head->name && ft_strlen(env_list_head->name) == name_len
-			&& ft_strncmp(env_list_head->name, name, name_len) == 0)
-			return (env_list_head);
-		env_list_head = env_list_head->next;
+		current->next = create_env_node(envp[i]);
+		if (!current->next)
+		{
+			free_env_list();
+			return (NULL);
+		}
+		current = current->next;
+		i++;
 	}
-	return (NULL);
+	current->next = NULL;
+	return (head);
 }
+
+/* Set or create an environment variable */
+// int	set_env_var(const char *name, const char *value)
+// {
+// 	t_env	*var;
+
+// 	if (!is_valid_identifier(name))
+// 	{
+// 		ft_putstr_fd((char *)"export: '", 2);
+// 		ft_putstr_fd((char *)name, 2);
+// 		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
+// 		return (1);
+// 	}
+// 	var = get_env_node(name);
+// 	if (var)
+// 		return (update_env_value(var, value));
+// 	return (append_env_node(name, value));
+// }

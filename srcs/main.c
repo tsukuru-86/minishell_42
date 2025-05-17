@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/22 01:56:09 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
+/*   Updated: 2025/05/22 22:17:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static volatile sig_atomic_t	g_signal = 0;
 void	signal_handler(int signum)
 {
 	g_signal = signum;
-	if (signum == SIGINT) // Ctrl+C
+	if (signum == SIGINT)
 	{
 		write(1, "\nminishell > ", 12);
 		rl_on_new_line();

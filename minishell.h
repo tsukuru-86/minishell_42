@@ -25,7 +25,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
-# include <sys/syslimits.h>
+# include <sys/syslimits.h> // macOS
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -122,7 +122,6 @@ int					builtin_export(char **args);
 int					builtin_unset(char **args);
 int					builtin_env(char **args);
 int					builtin_exit(char **args);
-int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg);
 int					excute_commands(t_command *cmd);
@@ -138,18 +137,15 @@ int					execute_external_command(char **args);
 int					execute_external_with_fork(t_command *cmd);
 void				execute_child_process(t_command *cmd);
 
-/* Environment array conversion */
-char				**env_list_to_array(t_env *env);
-
 /* Global environment variable */
-// extern t_env		*g_env;
 t_env				**g_env(void);
+int					remove_env_var(const char *name);
 
 /* Redirection functions */
-t_redirect			*create_redirect(int type, char *file);
 int					setup_redirection(t_redirect *redirect);
 void				restore_redirection(t_redirect *redirect);
 void				free_redirect(t_redirect *redirect);
+t_redirect			*create_redirect(int type, char *file);
 
 /* Redirect utility functions */
 int					save_original_fd(t_redirect *redirect);
@@ -157,8 +153,8 @@ int					open_redirect_file(t_redirect *redirect);
 void				apply_redirection(t_redirect *redirect, int fd);
 /* Environment functions */
 t_env				*create_env_list(char **envp);
-void				free_env_list(void);
 int					remove_env_node(const char *name);
+void				free_env_list(void);
 
 /* Environment utility functions */
 t_env				*create_env_node(const char *str);
@@ -199,14 +195,9 @@ int					extract_quoted_string(char *input, int *i, char *word_buf,
 int					handle_word_logic(char *input, int *i, t_token **tokens,
 						char *word_buf);
 /* --- Environment --- */
-t_env				**g_env(void);
-void				free_env_list(void);
-t_env				*get_env_node(const char *name);
-int					set_env_node(const char *name, const char *value);
-int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *name);
-int					update_env_value(t_env *node, const char *value);
 char				*expand_env_node(const char *name);
+int					count_env_nodes(t_env *env_list);
 
 /* --- External Commands --- */
 int					execute_external_command(char **args);
@@ -214,11 +205,6 @@ char				*find_command_path(char *cmd);
 void				launch_child(char *cmd_path, char **args);
 int					launch_parent(pid_t pid, char *cmd_path);
 void				free_env_array(char **env_array, int count);
-int					count_env_nodes(t_env *env_list);
-char				**env_list_to_array(t_env *env_list);
-
-/* --- Builtins --- */
-int					execute_builtin(char **args);
 
 /* --- Redirection --- */
 int					setup_redirection(t_redirect *redirects);

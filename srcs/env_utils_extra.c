@@ -76,3 +76,24 @@ int	append_env_node(const char *name, const char *value)
 	}
 	return (0);
 }
+
+/* 指定された名前の環境変数ノードを検索して返す関数。
+   見つからない場合はNULLを返す */
+t_env	*get_env_node(const char *name)
+{
+	t_env	*env_list_head;
+	size_t	name_len;
+
+	if (!name)
+		return (NULL);
+	name_len = ft_strlen(name);
+	env_list_head = *g_env();
+	while (env_list_head)
+	{
+		if (env_list_head->name && ft_strlen(env_list_head->name) == name_len
+			&& ft_strncmp(env_list_head->name, name, name_len) == 0)
+			return (env_list_head);
+		env_list_head = env_list_head->next;
+	}
+	return (NULL);
+}
