@@ -31,25 +31,25 @@ static void	split_export_arg(char *arg, char **name, char **value)
 }
 
 /* Validate and set environment variable */
-static int	validate_and_set_env(char *name, char *value, t_env **env)
+static int	validate_and_set_env(char *name, char *value)
 {
-	if (set_env_var(env, name, value) != 0)
+	if (set_env_node(name, value) != 0)
 	{
-		ft_putstr_fd("export: memory allocation error\n", 2);
+		ft_putstr_fd((char *)"export: memory allocation error\n", 2);
 		return (1);
 	}
 	return (0);
 }
 
 /* Process a single export argument, returns error code */
-int	process_export_arg(char *arg, t_env **env)
+int	process_export_arg(char *arg)
 {
 	char	*name;
 	char	*value;
 	int		ret;
 
 	split_export_arg(arg, &name, &value);
-	ret = validate_and_set_env(name, value, env);
+	ret = validate_and_set_env(name, value);
 	free(name);
 	return (ret);
 }

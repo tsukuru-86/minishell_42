@@ -37,23 +37,25 @@ t_env	*create_env_node(const char *str)
 }
 
 /* Update the value of an existing environment variable */
-int	update_env_value(t_env *var, const char *value)
+int	update_env_value(t_env *env_node, const char *value)
 {
-	if (var->value)
-		free(var->value);
+	if (env_node->value)
+		free(env_node->value);
 	if (value)
-		var->value = ft_strdup(value);
+		env_node->value = ft_strdup(value);
 	else
-		var->value = NULL;
+		env_node->value = NULL;
 	return (0);
 }
 
 /* Append a new variable to the environment list */
-int	append_env_var(t_env **env, const char *name, const char *value)
+int	append_env_node(const char *name, const char *value)
 {
 	t_env	*new;
 	t_env	*current;
+	t_env	**env;
 
+	env = g_env();
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (-1);

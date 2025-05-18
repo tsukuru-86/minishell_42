@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/13 00:34:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 00:22:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_path_env(void)
 {
 	t_env	*path_env;
 
-	path_env = get_env_var(*g_env(), "PATH");
+	path_env = get_env_node("PATH");
 	if (path_env)
 		return (path_env->value);
 	else
@@ -36,6 +36,72 @@ char	*find_command(char *cmd)
 	if (!path_env)
 		return (NULL);
 	return (search_in_path(path_env, cmd));
+}
+
+static int	count_env_nodes(t_env *env_list)
+{
+	t_env	*current;
+	int		count;
+
+	count = 0;
+	current = env_list;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+static void	free_env_array(char **env_array, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+		free(env_array[i++]);
+	free(env_array);
+}
+
+static char	*create_env_string(t_env *env_node)
+{
+	char	*tmp;
+	char	*result;
+
+	tmp = ft_strjoin(env_node->name, "=");
+	if (!tmp)
+		return (NULL);
+	result = ft_strjoin(tmp, env_node->value);
+	free(tmp);
+	return (result);
+}
+
+char	**env_list_to_array(t_env *env_list)
+{
+	t_env	*current;
+	char	**env_array;
+	int		count;
+	int		i;
+
+	count = count_env_nodes(env_list);
+	env_array = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!env_array)
+		return (NULL);
+	i = 0;
+	current = env_list;
+	while (current)
+	{
+		env_array[i] = create_env_string(current);
+		if (!env_array[i])
+		{
+			free_env_array(env_array, i);
+			return (NULL);
+		}
+		current = current->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
 }
 
 static void	launch_child(char *cmd_path, char **args)
@@ -82,7 +148,7 @@ int	execute_external_command(char **args)
 	cmd_path = find_command(args[0]);
 	if (!cmd_path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd((char *)"minishell: command not found: ", 2);
 		ft_putendl_fd(args[0], 2);
 		return (127);
 	}

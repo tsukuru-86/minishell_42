@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:25:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/18 23:58:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_cd(char **args)
 		path = args[1];
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd((char *)"cd: ", 2);
 		perror(path);
 		return (1);
 	}
@@ -61,7 +61,7 @@ int	builtin_pwd(char **args)
 	(void)args;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		ft_putstr_fd("pwd: error retrieving current directory\n", 2);
+		ft_putstr_fd((char *)"pwd: error retrieving current directory\n", 2);
 		return (1);
 	}
 	ft_putendl_fd(cwd, 1);

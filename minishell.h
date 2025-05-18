@@ -47,7 +47,7 @@ typedef enum e_token_type
 void				setup_child_signals(void);
 
 /* 環境変数展開関数のプロトタイプ */
-char				*expand_env_var(const char *name);
+char				*expand_env_node(const char *name);
 char				*expand_env_vars(const char *str, int in_dquote);
 char				*expand_env_vars_core(const char *str, int in_dquote);
 char				*extract_env_name(const char *str);
@@ -121,13 +121,6 @@ typedef struct s_env
 t_command			*parse_tokens(t_token *tokens);
 void				free_command(t_command *cmd);
 
-/* Environment functions */
-t_env				*create_env_list(char **envp);
-void				free_env_list(t_env *env);
-int					set_env_var(t_env **env, const char *name,
-						const char *value);
-int					remove_env_var(t_env **env, const char *name);
-
 /* Redirection types */
 # define REDIR_OUT 1 /* > */
 # define REDIR_IN 2 /* < */
@@ -143,9 +136,9 @@ int					builtin_export(char **args);
 int					builtin_unset(char **args);
 int					builtin_env(char **args);
 int					builtin_exit(char **args);
-int					remove_env_var(t_env **env, const char *name);
+int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *str);
-int					process_export_arg(char *arg, t_env **env);
+int					process_export_arg(char *arg);
 int					excute_commands(t_command *cmd);
 int					is_builtin(char *cmd);
 int					execute_builtin(char **args);
@@ -171,14 +164,18 @@ void				free_redirect(t_redirect *redirect);
 int					save_original_fd(t_redirect *redirect);
 int					open_redirect_file(t_redirect *redirect);
 void				apply_redirection(t_redirect *redirect, int fd);
+/* Environment functions */
+t_env				*create_env_list(char **envp);
+void				free_env_list();
+int remove_env_node(const char *name);
 
 /* Environment utility functions */
 t_env				*create_env_node(const char *str);
-int					update_env_value(t_env *var, const char *value);
-int					append_env_var(t_env **env, const char *name,
+int	update_env_value(t_env *env_node, const char *value);
+int					append_env_node(const char *name,
 						const char *value);
-t_env				*get_env_var(t_env *env, const char *name);
-int					set_env_var(t_env **env, const char *name,
+t_env				*get_env_node(const char *name);
+int					set_env_node(const char *name,
 						const char *value);
 
 /* External command utility functions */

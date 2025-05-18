@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/12 04:33:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 00:11:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdlib.h>
 
 t_env	**g_env(void)
 {
@@ -19,10 +20,12 @@ t_env	**g_env(void)
 	return (&head);
 }
 
-void	free_env_list(t_env *env)
+void	free_env_list(void)
 {
 	t_env	*temp;
+	t_env	*env;
 
+	env = *g_env();
 	while (env)
 	{
 		temp = env->next;
@@ -33,6 +36,7 @@ void	free_env_list(t_env *env)
 		free(env);
 		env = temp;
 	}
+	*g_env() = NULL;
 }
 
 t_env	*create_env_list(char **envp)
@@ -53,17 +57,22 @@ t_env	*create_env_list(char **envp)
 		current->next = create_env_node(envp[i]);
 		if (!current->next)
 		{
-			free_env_list(head);
+			free_env_list();
 			return (NULL);
 		}
 		current = current->next;
 		i++;
 	}
+	current->next = NULL;
+	*g_env() = head;
 	return (head);
 }
 
-t_env	*get_env_var(t_env *env, const char *name)
+t_env	*get_env_node(const char *name)
 {
+	t_env	*env;
+
+	env = *g_env();
 	while (env)
 	{
 		if (ft_strncmp(env->name, name, PATH_MAX) == 0)
@@ -74,28 +83,48 @@ t_env	*get_env_var(t_env *env, const char *name)
 }
 
 /* Set or create an environment variable */
-int	set_env_var(t_env **env, const char *name, const char *value)
+int	set_env_node(const char *name, const char *value)
 {
-	t_env	*var;
+	t_env	*env;
+	t_env	*node;
 
+	env = *g_env();
+	if (!env || !name)
+		return (-1);
+	if (!env)
+	{
+		env = create_env_list(NULL);
+		if (!env)
+			return (-1);
+	}
 	if (!is_valid_identifier(name))
 	{
-		ft_putstr_fd("export: '", 2);
+		ft_putstr_fd((char *)"export: '", 2);
 		ft_putstr_fd((char *)name, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
 		return (1);
 	}
-	var = get_env_var(*env, name);
-	if (var)
-		return (update_env_value(var, value));
-	return (append_env_var(env, name, value));
+	node = get_env_node(name);
+	if (node)
+		return (update_env_value(node, value));
+	return (append_env_node(name, value));
 }
 
-int	remove_env_var(t_env **env, const char *name)
+static void	free_env_node(t_env *node)
+{
+	free(node->name);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
+
+int	remove_env_var(const char *name)
 {
 	t_env	*current;
 	t_env	*prev;
+	t_env	**env;
 
+	env = g_env();
 	if (!env || !name)
 		return (-1);
 	current = *env;
@@ -108,58 +137,11 @@ int	remove_env_var(t_env **env, const char *name)
 				prev->next = current->next;
 			else
 				*env = current->next;
-			free(current->name);
-			if (current->value)
-				free(current->value);
-			free(current);
+			free_env_node(current);
 			return (0);
 		}
 		prev = current;
 		current = current->next;
 	}
-	return (-1);
-}
-
-/* Convert t_env list to char** array for execve */
-char	**env_list_to_array(t_env *env)
-{
-	t_env	*current;
-	char	**env_array;
-	int		count;
-	int		i;
-	char	*tmp;
-
-	count = 0;
-	current = env;
-	while (current && ++count)
-		current = current->next;
-	env_array = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!env_array)
-		return (NULL);
-	current = env;
-	i = 0;
-	while (current)
-	{
-		tmp = ft_strjoin(current->name, "=");
-		if (!tmp)
-		{
-			while (i > 0)
-				free(env_array[--i]);
-			free(env_array);
-			return (NULL);
-		}
-		env_array[i] = ft_strjoin(tmp, current->value ? current->value : "");
-		free(tmp);
-		if (!env_array[i])
-		{
-			while (i > 0)
-				free(env_array[--i]);
-			free(env_array);
-			return (NULL);
-		}
-		current = current->next;
-		i++;
-	}
-	env_array[i] = NULL;
-	return (env_array);
+	return (1);
 }

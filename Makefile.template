@@ -5,27 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -I. -g -O0
 
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
-	builtin_commands.c \
-	builtin_env.c \
-	builtin_export_utils.c \
-	builtin_export.c \
-	env_expand_utils.c \
-	env_expand.c \
-	env_utils_extra.c \
-	env_utils.c \
-	excute_command_utils.c \
-	excute_command.c \
-	external_commands.c \
-	external_utils.c \
-	input_utils.c \
-	parser.c \
-	pipeline_utils.c \
-	pipeline.c \
-	redirect_utils.c \
-	redirect.c \
-	signal_state.c \
-	tokenizer_utils.c \
-	tokenizer.c
+#########
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS = $(addprefix obj/, $(SRCS_FILE:.c=.o))
 

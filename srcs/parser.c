@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:13:41 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/14 02:21:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 00:13:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ static int	handle_pipe_token(t_command **cmd, t_token **current_token,
 		// TODO: syntax error message
 		// (e.g., "syntax error near unexpected token `|'")
 		// エラーメッセージの例
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd((char *)"minishell: syntax error near unexpected token `|'\n", 2);
 		free_command(*head_cmd);
 		*head_cmd = NULL; // head_cmdをNULLにして解放済みを示す
 		return (0);
@@ -210,36 +210,50 @@ static int	process_token_in_parse_loop(t_command **cmd_ptr,
 	return (status);
 }
 
-/* トークン列をコマンド構造体に変換 */
-t_command	*parse_tokens(t_token *tokens)
+/* コマンド構造体の検証 */
+static int	validate_command(t_command *head, t_token *tokens)
+{
+	if (head && head->args == NULL && head->redirects == NULL
+		&& head->next == NULL && tokens->type == TOKEN_PIPE)
+	{
+		// `cmd |` のようなケースで `handle_pipe_token` がエラーを返し
+		// `head` が `NULL` になっていることを期待。
+		// もし `head` が `NULL` でない場合、それは不完全なコマンドかもしれない。
+		// 現状の `handle_pipe_token` はエラー時に `*head_cmd = NULL` を行う。
+		return (0);
+	}
+	return (1);
+}
+
+/* トークン列をコマンド構造体に変換するメインループ処理 */
+static t_command	*parse_tokens_loop(t_token *tokens)
 {
 	t_command	*cmd;
 	t_command	*head;
 	t_token		*current;
 
-	if (!tokens)
-		return (NULL);
 	cmd = create_command();
 	if (!cmd)
-		return (NULL); // メモリ確保失敗
+		return (NULL);
 	head = cmd;
 	current = tokens;
 	while (current)
 	{
 		if (process_token_in_parse_loop(&cmd, &current, &head) == 0)
-		{
-			// エラー発生時、関連するハンドラ内でfree_commandが呼ばれ、
-			// headがNULLに設定されているはず
 			return (NULL);
-		}
 	}
-	// パイプで終わるなど、構文エラーで head が NULL になっている場合も考慮
-	if (head && head->args == NULL && head->redirects == NULL
-		&& head->next == NULL && tokens->type == TOKEN_PIPE)
-	{
-		// `cmd |` のようなケースで `handle_pipe_token` がエラーを返し `head` が `NULL` になっていることを期待。
-		// もし `head` が `NULL` でない場合、それは不完全なコマンドかもしれない。
-		// ただし、現状の `handle_pipe_token` はエラー時に `*head_cmd = NULL` を行う。
-	}
+	return (head);
+}
+
+/* トークン列をコマンド構造体に変換 */
+t_command	*parse_tokens(t_token *tokens)
+{
+	t_command	*head;
+
+	if (!tokens)
+		return (NULL);
+	head = parse_tokens_loop(tokens);
+	if (!head || !validate_command(head, tokens))
+		return (NULL);
 	return (head);
 }

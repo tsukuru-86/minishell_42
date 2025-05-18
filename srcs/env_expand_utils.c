@@ -32,7 +32,7 @@ static int	append_env(const char *str, int *i, char *res, int *j)
 	name = extract_env_name(str + *i);
 	if (!name)
 		return (-1);
-	value = expand_env_var(name);
+	value = expand_env_node(name);
 	free(name);
 	if (!value)
 		return (-1);
