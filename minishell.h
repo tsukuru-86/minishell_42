@@ -138,12 +138,17 @@ int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg);
 int					excute_commands(t_command *cmd);
+
+/* Builtin command functions */
 int					is_builtin(char *cmd);
 int					execute_builtin(char **args);
+int					execute_builtin_with_redirect(t_command *cmd);
 
 /* External commands */
 char				*find_command(char *cmd);
 int					execute_external_command(char **args);
+int					execute_external_with_fork(t_command *cmd);
+void				execute_child_process(t_command *cmd);
 
 /* Environment array conversion */
 char				**env_list_to_array(t_env *env);

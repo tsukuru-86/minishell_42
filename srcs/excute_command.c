@@ -6,51 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 01:37:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 02:25:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
-
-/* 単一の組み込みコマンドを実行する関数 */
-static int	execute_builtin_with_redirect(t_command *cmd)
-{
-	int	status;
-
-	status = execute_builtin(cmd->args);
-	if (cmd->redirects)
-		restore_redirection(cmd->redirects);
-	return (status);
-}
-
-/* 外部コマンドの子プロセスでの実行部分 */
-static void	execute_child_process(t_command *cmd)
-{
-	int	status;
-
-	setup_child_signals();
-	status = execute_external_command(cmd->args);
-	exit(status);
-}
-
-/* 外部コマンドを実行する関数 */
-static int	execute_external_with_fork(t_command *cmd)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return (1);
-	}
-	if (pid == 0)
-		execute_child_process(cmd);
-	waitpid(pid, &status, 0);
-	return (WEXITSTATUS(status));
-}
 
 /* 単一コマンドを実行する関数。リダイレクトを設定し、組み込みコマンドなら直接実行、
 外部コマンドならフォークして子プロセスで実行する */
@@ -72,43 +33,6 @@ static int	execute_single_command(t_command *cmd)
 			restore_redirection(cmd->redirects);
 	}
 	return (status);
-}
-
-/* 指定されたコマンドが組み込みコマンドであるかを判定する関数 */
-int	is_builtin(char *cmd)
-{
-	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-			"exit", NULL};
-	int		i;
-
-	i = 0;
-	while (builtins[i])
-	{
-		if (strcmp(cmd, builtins[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-/* 組み込みコマンドを実行する関数。コマンド名に基づいて適切な関数を呼び出す */
-int	execute_builtin(char **args)
-{
-	if (strcmp(args[0], "echo") == 0)
-		return (builtin_echo(args));
-	else if (strcmp(args[0], "cd") == 0)
-		return (builtin_cd(args));
-	else if (strcmp(args[0], "pwd") == 0)
-		return (builtin_pwd(args));
-	else if (strcmp(args[0], "export") == 0)
-		return (builtin_export(args));
-	else if (strcmp(args[0], "unset") == 0)
-		return (builtin_unset(args));
-	else if (strcmp(args[0], "env") == 0)
-		return (builtin_env(args));
-	else if (strcmp(args[0], "exit") == 0)
-		return (builtin_exit(args));
-	return (1); // コマンドが見つからない場合
 }
 
 /*
