@@ -119,6 +119,7 @@ static void	launch_child(char *cmd_path, char **args)
 	{
 		perror("execve");
 		free(cmd_path);
+		free_env_array(env_array, count_env_nodes(*g_env()));
 		exit(1);
 	}
 }

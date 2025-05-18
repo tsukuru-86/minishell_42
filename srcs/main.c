@@ -52,13 +52,18 @@ static void	process_command(char *input, int *status)
 
 	tokens = tokenize(input);
 	if (!tokens)
+	{
+		ft_putstr_fd((char *)"minishell: failed to tokenize input\n", 2);
 		return ;
+	}
 	cmd = parse_tokens(tokens);
 	if (cmd)
 	{
 		*status = excute_commands(cmd);
 		free_command(cmd);
 	}
+	else
+		ft_putstr_fd((char *)"minishell: syntax error\n", 2);
 	free_tokens(tokens);
 }
 

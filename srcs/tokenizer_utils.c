@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/12 04:18:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:14:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,44 +86,44 @@ void	free_tokens(t_token *tokens)
 }
 
 /* デバッグ用：トークンの内容を表示 */
-static void	print_tokens(t_token *tokens)
-{
-	t_token	*current;
-	int		i;
+// static void	print_tokens(t_token *tokens)
+// {
+// 	t_token	*current;
+// 	int		i;
 
-	i = 0;
-	current = tokens;
-	while (current)
-	{
-		printf("Token %d: [%s] (type: %d)\n", i++, current->content,
-			current->type);
-		current = current->next;
-	}
-}
+// 	i = 0;
+// 	current = tokens;
+// 	while (current)
+// 	{
+// 		printf("Token %d: [%s] (type: %d)\n", i++, current->content,
+// 			current->type);
+// 		current = current->next;
+// 	}
+// }
 
 /* Extract quoted string and handle environment variable expansion */
-static char	*extract_quoted_string(char *input, int *i, char quote)
-{
-	char	*content;
-	int		start;
-	int		len;
-	char	*expanded;
+// static char	*extract_quoted_string(char *input, int *i, char quote)
+// {
+// 	char	*content;
+// 	int		start;
+// 	int		len;
+// 	char	*expanded;
 
-	start = *i + 1;
-	len = 0;
-	while (input[start + len] && input[start + len] != quote)
-		len++;
-	if (!input[start + len])
-		return (NULL);
-	content = ft_substr(input, start, len);
-	if (!content)
-		return (NULL);
-	if (quote == '"')
-	{
-		expanded = expand_env_vars(content, 1);
-		free(content);
-		content = expanded;
-	}
-	*i = start + len + 1;
-	return (content);
-}
+// 	start = *i + 1;
+// 	len = 0;
+// 	while (input[start + len] && input[start + len] != quote)
+// 		len++;
+// 	if (!input[start + len])
+// 		return (NULL);
+// 	content = ft_substr(input, start, len);
+// 	if (!content)
+// 		return (NULL);
+// 	if (quote == '"')
+// 	{
+// 		expanded = expand_env_vars(content, 1);
+// 		free(content);
+// 		content = expanded;
+// 	}
+// 	*i = start + len + 1;
+// 	return (content);
+// }

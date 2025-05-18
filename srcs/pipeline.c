@@ -14,7 +14,7 @@
 
 static void	execute_pipeline_command(t_command *cmd, t_command *current);
 
-/* パイプラインの初期化 */
+/* パイプライン内のすべてのコマンドのパイプ情報を初期化する関数 */
 static void	init_pipeline(t_command *cmd)
 {
 	t_command	*current;
@@ -29,7 +29,7 @@ static void	init_pipeline(t_command *cmd)
 	}
 }
 
-/* パイプの作成と接続 */
+/* コマンド間のパイプを作成し、読み書きのファイルディスクリプタを設定する関数 */
 static int	create_pipes(t_command *cmd)
 {
 	t_command	*current;
@@ -102,9 +102,15 @@ int	setup_pipeline(t_command *cmd)
 		return (1);
 	init_pipeline(cmd);
 	if (!create_pipes(cmd))
+	{
+		ft_putstr_fd((char *)"minishell: failed to create pipes\n", 2);
 		return (0);
+	}
 	if (!spawn_pipeline_processes(cmd))
+	{
+		ft_putstr_fd((char *)"minishell: failed to spawn processes\n", 2);
 		return (0);
+	}
 	close_parent_pipes(cmd);
 	return (1);
 }

@@ -13,21 +13,28 @@
 #include "../minishell.h"
 #include <fcntl.h>
 
-/* 単一コマンドの実行 */
+/* 単一コマンドを実行する関数。リダイレクトを設定し、組み込みコマンドなら直接実行、
+外部コマンドならフォークして子プロセスで実行する */
 static int	execute_single_command(t_command *cmd)
 {
 	int		status;
 	pid_t	pid;
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
+	{
+		ft_putstr_fd((char *)"minishell: redirection error\n", 2);
 		return (1);
+	}
 	if (is_builtin(cmd->args[0]))
 		status = execute_builtin(cmd->args);
 	else
 	{
 		pid = fork();
 		if (pid == -1)
+		{
+			perror("fork");
 			return (1);
+		}
 		if (pid == 0)
 		{
 			setup_child_signals();
@@ -42,6 +49,7 @@ static int	execute_single_command(t_command *cmd)
 	return (status);
 }
 
+/* 指定されたコマンドが組み込みコマンドであるかを判定する関数 */
 int	is_builtin(char *cmd)
 {
 	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
@@ -58,6 +66,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+/* 組み込みコマンドを実行する関数。コマンド名に基づいて適切な関数を呼び出す */
 int	execute_builtin(char **args)
 {
 	if (strcmp(args[0], "echo") == 0)
@@ -111,7 +120,8 @@ static int	execute_command_in_child(t_command *cmd, char **envp)
 }
 #endif
 
-/* コマンドの実行 */
+/* コマンドリストを実行する関数。単一コマンドの場合は直接実行し、
+パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
 int	excute_commands(t_command *cmd)
 {
 	int			status;
@@ -128,7 +138,10 @@ int	excute_commands(t_command *cmd)
 	// すでに子プロセスは作成され、必要な設定がされている
 	pipeline_result = setup_pipeline(cmd);
 	if (pipeline_result == 0)
+	{
+		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
 		return (1); // エラー発生
+	}
 	// パイプラインの完了を待機
 	status = wait_pipeline(cmd);
 	// クリーンアップ

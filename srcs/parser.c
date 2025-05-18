@@ -147,13 +147,13 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 	if (!(*current_token)->next) // リダイレクト先のトークンが存在しない
 	{
 		free_command(*head_cmd);
-		// TODO: syntax error message
+		ft_putstr_fd((char *)"minishell: syntax error near unexpected token `newline'\n", 2);
 		return (0);
 	}
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))
 	{
 		free_command(*head_cmd);
-		// TODO: syntax error message or allocation error
+		ft_putstr_fd((char *)"minishell: redirection error\n", 2);
 		return (0);
 	}
 	*current_token = (*current_token)->next->next;
@@ -175,9 +175,6 @@ static int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	*current_token = (*current_token)->next;
 	if (!*current_token) // パイプの後にコマンドがない
 	{
-		// TODO: syntax error message
-		// (e.g., "syntax error near unexpected token `|'")
-		// エラーメッセージの例
 		ft_putstr_fd((char *)"minishell: syntax error near unexpected token `|'\n", 2);
 		free_command(*head_cmd);
 		*head_cmd = NULL; // head_cmdをNULLにして解放済みを示す
@@ -234,7 +231,10 @@ static t_command	*parse_tokens_loop(t_token *tokens)
 
 	cmd = create_command();
 	if (!cmd)
+	{
+		ft_putstr_fd((char *)"minishell: failed to create command structure\n", 2);
 		return (NULL);
+	}
 	head = cmd;
 	current = tokens;
 	while (current)

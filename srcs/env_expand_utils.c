@@ -47,11 +47,17 @@ static int	append_env(const char *str, int *i, char *res, int *j)
 	(*i)++;
 	name = extract_env_name(str + *i);
 	if (!name)
+	{
+		ft_putstr_fd((char *)"minishell: memory allocation error\n", 2);
 		return (-1);
+	}
 	value = expand_env_node(name);
 	free(name);
 	if (!value)
+	{
+		ft_putstr_fd((char *)"minishell: failed to expand environment variable\n", 2);
 		return (-1);
+	}
 	ft_strlcpy(res + *j, value, 4096 - *j);
 	*j += ft_strlen(value);
 	free(value);

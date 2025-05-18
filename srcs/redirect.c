@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/11 02:27:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:22:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,14 @@ int	setup_redirection(t_redirect *redirect)
 		return (0);
 	redirect->original_fd = save_original_fd(redirect);
 	fd = open_redirect_file(redirect);
-	if (fd == -1) // TODO: エラー処理が逆？
+	if (fd == -1)
+	{
+		ft_putstr_fd((char *)"minishell: ", 2);
+		ft_putstr_fd(redirect->file, 2);
+		ft_putstr_fd((char *)": ", 2);
+		perror("");
 		return (0);
+	}
 	apply_redirection(redirect, fd);
 	return (1);
 }
