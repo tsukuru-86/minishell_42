@@ -12,6 +12,22 @@
 
 #include "../minishell.h"
 
+/* Extract environment variable name from string */
+static char	*extract_env_name(const char *str)
+{
+	int		i;
+	char	name[1024];
+
+	i = 0;
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		name[i] = str[i];
+		i++;
+	}
+	name[i] = '\0';
+	return (ft_strdup(name));
+}
+
 /* Append quoted section starting at str[*i] */
 static void	append_quoted(const char *str, int *i, char *res, int *j)
 {
@@ -68,20 +84,4 @@ char	*expand_env_vars_core(const char *str, int in_dquote)
 	}
 	res[j] = '\0';
 	return (ft_strdup(res));
-}
-
-/* Extract environment variable name from string */
-char	*extract_env_name(const char *str)
-{
-	int		i;
-	char	name[1024];
-
-	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-	{
-		name[i] = str[i];
-		i++;
-	}
-	name[i] = '\0';
-	return (ft_strdup(name));
 }

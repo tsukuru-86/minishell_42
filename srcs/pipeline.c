@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/14 02:19:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:08:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	wait_pipeline(t_command *cmd)
 }
 
 /* Redirect stdin and stdout based on pipeline pipes */
-void	pipeline_redirect_io(t_command *current)
+static void	pipeline_redirect_io(t_command *current)
 {
 	if (current->pipe.read_fd != -1)
 	{

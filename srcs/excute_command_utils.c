@@ -40,7 +40,7 @@ static char	**duplicate_args(char **args, int count)
 }
 
 /* prepare command arguments for execution */
-char	**prepare_command(char **args, int cmd_end)
+static char	**prepare_command(char **args, int cmd_end)
 {
 	if (cmd_end == 0)
 		return (args);

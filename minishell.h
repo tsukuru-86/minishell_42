@@ -50,7 +50,6 @@ void				setup_child_signals(void);
 char				*expand_env_node(const char *name);
 char				*expand_env_vars(const char *str, int in_dquote);
 char				*expand_env_vars_core(const char *str, int in_dquote);
-char				*extract_env_name(const char *str);
 
 /* トークンを表す構造体 */
 typedef struct s_token
@@ -60,10 +59,9 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-/* Tokenizer functions */
+/* トークナイザー関数 */
 t_token				*tokenize(char *input);
 void				free_tokens(t_token *tokens);
-void				print_tokens(t_token *tokens);
 
 int					is_delimiter(char c);
 int					is_quote(char c);
@@ -181,9 +179,6 @@ int					set_env_node(const char *name,
 /* External command utility functions */
 char				*search_in_path(const char *path_env, char *cmd);
 
-/* Redirect parsing functions */
-t_redirect			*parse_redirect(char **args, int *cmd_end);
 /* Command preparation functions */
-char				**prepare_command(char **args, int cmd_end);
 
 #endif

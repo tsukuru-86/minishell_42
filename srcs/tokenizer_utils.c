@@ -86,7 +86,7 @@ void	free_tokens(t_token *tokens)
 }
 
 /* デバッグ用：トークンの内容を表示 */
-void	print_tokens(t_token *tokens)
+static void	print_tokens(t_token *tokens)
 {
 	t_token	*current;
 	int		i;
@@ -102,7 +102,7 @@ void	print_tokens(t_token *tokens)
 }
 
 /* Extract quoted string and handle environment variable expansion */
-char	*extract_quoted_string(char *input, int *i, char quote)
+static char	*extract_quoted_string(char *input, int *i, char quote)
 {
 	char	*content;
 	int		start;

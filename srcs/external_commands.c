@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 00:22:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 00:56:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* Get the PATH environment variable string */
-char	*get_path_env(void)
+static char	*get_path_env(void)
 {
 	t_env	*path_env;
 
