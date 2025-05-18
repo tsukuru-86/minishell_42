@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/19 01:14:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 06:04:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_meta(char c)
 	return (c == '|' || c == '<' || c == '>');
 }
 
-/* メタ文字のトークンタイプを判定 */
+// /* メタ文字のトークンタイプを判定 */
 t_token_type	get_meta_type(char *input, int *i)
 {
 	if (input[*i] == '|')
@@ -53,22 +53,6 @@ t_token_type	get_meta_type(char *input, int *i)
 	return (TOKEN_WORD); // エラー防止のためのデフォルト値
 }
 
-/* メタ文字トークンを作成 */
-t_token	*create_meta_token(char *input, int *i)
-{
-	t_token_type	type;
-	char			meta_str[3];
-	int				len;
-
-	len = 0;
-	meta_str[len++] = input[*i];
-	type = get_meta_type(input, i);
-	if (type == TOKEN_REDIR_APPEND)
-		meta_str[len++] = '>';
-	meta_str[len] = '\0';
-	return (create_token(meta_str, type));
-}
-
 /* トークンリストの解放 */
 void	free_tokens(t_token *tokens)
 {
@@ -90,7 +74,6 @@ void	free_tokens(t_token *tokens)
 // {
 // 	t_token	*current;
 // 	int		i;
-
 // 	i = 0;
 // 	current = tokens;
 // 	while (current)

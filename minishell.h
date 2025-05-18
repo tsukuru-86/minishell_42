@@ -169,21 +169,21 @@ int					open_redirect_file(t_redirect *redirect);
 void				apply_redirection(t_redirect *redirect, int fd);
 /* Environment functions */
 t_env				*create_env_list(char **envp);
-void				free_env_list();
-int remove_env_node(const char *name);
+void				free_env_list(void);
+int					remove_env_node(const char *name);
 
 /* Environment utility functions */
 t_env				*create_env_node(const char *str);
-int	update_env_value(t_env *env_node, const char *value);
-int					append_env_node(const char *name,
-						const char *value);
+int					update_env_value(t_env *env_node, const char *value);
+int					append_env_node(const char *name, const char *value);
 t_env				*get_env_node(const char *name);
-int					set_env_node(const char *name,
-						const char *value);
+int					set_env_node(const char *name, const char *value);
 
 /* External command utility functions */
 char				*search_in_path(const char *path_env, char *cmd);
 
 /* Command preparation functions */
+void				pipeline_init(t_command *cmd);
+void				external_command(void);
 
 #endif
