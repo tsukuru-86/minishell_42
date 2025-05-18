@@ -6,13 +6,15 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 00:11:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:29:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdlib.h>
 
+/* 環境変数リストのグローバルアクセスポイントを提供する関数。
+   静的変数としてリストのヘッドを保持し、シェル全体で共有できるようにする */
 t_env	**g_env(void)
 {
 	static t_env	*head = NULL;
@@ -20,6 +22,8 @@ t_env	**g_env(void)
 	return (&head);
 }
 
+/* 環境変数リスト全体を解放する関数。
+   すべてのノードとその名前、値のメモリを適切に解放する */
 void	free_env_list(void)
 {
 	t_env	*temp;
@@ -39,6 +43,8 @@ void	free_env_list(void)
 	*g_env() = NULL;
 }
 
+/* 与えられた環境変数配列から環境変数リストを作成する関数。
+   すべての環境変数をノードとして連結リストに変換する */
 t_env	*create_env_list(char **envp)
 {
 	t_env	*head;
@@ -68,6 +74,8 @@ t_env	*create_env_list(char **envp)
 	return (head);
 }
 
+/* 指定された名前の環境変数ノードを検索して返す関数。
+   見つからない場合はNULLを返す */
 t_env	*get_env_node(const char *name)
 {
 	t_env	*env;

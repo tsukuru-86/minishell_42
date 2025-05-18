@@ -24,6 +24,9 @@ static char	*get_path_env(void)
 		return (NULL);
 }
 
+/* コマンドのパスを検索する関数。
+   絶対パスまたは相対パスの場合はそのまま、
+   単純なコマンド名の場合はPATH環境変数から検索する */
 char	*find_command(char *cmd)
 {
 	char	*path_env;
@@ -38,6 +41,7 @@ char	*find_command(char *cmd)
 	return (search_in_path(path_env, cmd));
 }
 
+/* 環境変数リスト内のノード数をカウントする関数 */
 static int	count_env_nodes(t_env *env_list)
 {
 	t_env	*current;
@@ -141,6 +145,8 @@ static int	launch_parent(pid_t pid, char *cmd_path)
 	return (1);
 }
 
+/* 外部コマンドを実行する関数。
+   コマンドパスを検索し、子プロセスでコマンドを実行する */
 int	execute_external_command(char **args)
 {
 	pid_t	pid;

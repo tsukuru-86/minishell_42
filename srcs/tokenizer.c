@@ -6,13 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 00:14:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:29:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* トークンをリストに追加*/
+/* トークンをリストの末尾に追加する関数。
+   最初のトークンの場合は直接設定し、そうでなければリストを走査して末尾に追加する */
 static void	add_token(t_token **token, t_token *new_token)
 {
 	t_token	*current;

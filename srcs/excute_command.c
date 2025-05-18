@@ -6,19 +6,57 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 05:02:31 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/13 00:35:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 01:37:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
 
+/* 単一の組み込みコマンドを実行する関数 */
+static int	execute_builtin_with_redirect(t_command *cmd)
+{
+	int	status;
+
+	status = execute_builtin(cmd->args);
+	if (cmd->redirects)
+		restore_redirection(cmd->redirects);
+	return (status);
+}
+
+/* 外部コマンドの子プロセスでの実行部分 */
+static void	execute_child_process(t_command *cmd)
+{
+	int	status;
+
+	setup_child_signals();
+	status = execute_external_command(cmd->args);
+	exit(status);
+}
+
+/* 外部コマンドを実行する関数 */
+static int	execute_external_with_fork(t_command *cmd)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (1);
+	}
+	if (pid == 0)
+		execute_child_process(cmd);
+	waitpid(pid, &status, 0);
+	return (WEXITSTATUS(status));
+}
+
 /* 単一コマンドを実行する関数。リダイレクトを設定し、組み込みコマンドなら直接実行、
 外部コマンドならフォークして子プロセスで実行する */
 static int	execute_single_command(t_command *cmd)
 {
-	int		status;
-	pid_t	pid;
+	int	status;
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
 	{
@@ -26,26 +64,13 @@ static int	execute_single_command(t_command *cmd)
 		return (1);
 	}
 	if (is_builtin(cmd->args[0]))
-		status = execute_builtin(cmd->args);
+		status = execute_builtin_with_redirect(cmd);
 	else
 	{
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			return (1);
-		}
-		if (pid == 0)
-		{
-			setup_child_signals();
-			status = execute_external_command(cmd->args);
-			exit(status);
-		}
-		waitpid(pid, &status, 0);
-		status = WEXITSTATUS(status);
+		status = execute_external_with_fork(cmd);
+		if (cmd->redirects)
+			restore_redirection(cmd->redirects);
 	}
-	if (cmd->redirects)
-		restore_redirection(cmd->redirects);
 	return (status);
 }
 
@@ -53,7 +78,7 @@ static int	execute_single_command(t_command *cmd)
 int	is_builtin(char *cmd)
 {
 	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", NULL};
+			"exit", NULL};
 	int		i;
 
 	i = 0;
@@ -120,36 +145,47 @@ static int	execute_command_in_child(t_command *cmd, char **envp)
 }
 #endif
 
-/* コマンドリストを実行する関数。単一コマンドの場合は直接実行し、
-パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
-int	excute_commands(t_command *cmd)
+/* パイプラインのクリーンアップを行う関数 */
+static void	cleanup_pipeline_commands(t_command *cmd)
 {
-	int			status;
 	t_command	*current;
-	int			pipeline_result;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (0);
-	// シングルコマンドの場合
-	if (!cmd->next)
-		return (execute_single_command(cmd));
-	// パイプラインの実行
-	// setup_pipelineが成功すると1を返し、パイプラインが設定される
-	// すでに子プロセスは作成され、必要な設定がされている
-	pipeline_result = setup_pipeline(cmd);
-	if (pipeline_result == 0)
-	{
-		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
-		return (1); // エラー発生
-	}
-	// パイプラインの完了を待機
-	status = wait_pipeline(cmd);
-	// クリーンアップ
 	current = cmd;
 	while (current)
 	{
 		cleanup_pipeline(current);
 		current = current->next;
 	}
+}
+
+/* パイプラインコマンドを実行する関数 */
+static int	execute_command_pipeline(t_command *cmd)
+{
+	int	pipeline_result;
+	int	status;
+
+	pipeline_result = setup_pipeline(cmd);
+	if (pipeline_result == 0)
+	{
+		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
+		return (1);
+	}
+	status = wait_pipeline(cmd);
+	cleanup_pipeline_commands(cmd);
 	return (status);
+}
+
+/* コマンドリストを実行する関数。単一コマンドの場合は直接実行し、
+パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
+int	excute_commands(t_command *cmd)
+{
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (0);
+	if (!cmd->next)
+	{
+		if (!cmd || !cmd->args || !cmd->args[0])
+			return (0);
+		return (execute_single_command(cmd));
+	}
+	return (execute_command_pipeline(cmd));
 }
