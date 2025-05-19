@@ -48,8 +48,8 @@ static void	add_token(t_token **token, t_token *new_token)
 }
 
 /* クォートされた文字列を抽出 */
-static int	extract_quoted_string(char *input, int *i, char *word,
-		t_token_type *type)
+int	extract_quoted_string(char *input, int *i, char *word,
+		t_token_type *type, t_command *cmd)
 {
 	char	quote_char;
 	int		word_i;
@@ -71,7 +71,7 @@ static int	extract_quoted_string(char *input, int *i, char *word,
 		// 環境変数の展開（シングルクォート内では展開しない）
 		if (*type == TOKEN_DOUBLE_QUOTE)
 		{
-			expanded = expand_env_vars(word, 1);
+			expanded = expand_env_vars(word, 1, cmd);
 			if (!expanded)
 				return (0);
 			ft_strlcpy(word, expanded, 1024);
@@ -83,7 +83,7 @@ static int	extract_quoted_string(char *input, int *i, char *word,
 }
 
 /* 入力文字列をトークンに分割 */
-t_token	*tokenize(char *input)
+t_token	*tokenize(char *input, t_command *cmd)
 {
 	t_token			*tokens;
 	char			word[1024];
@@ -92,8 +92,19 @@ t_token	*tokenize(char *input)
 	t_token_type	type;
 	t_token			*new_token;
 	char			*expanded;
+	int				need_free_cmd;
 
 	tokens = NULL;
+	need_free_cmd = 0;
+	if (!cmd)
+	{
+		cmd = (t_command *)malloc(sizeof(t_command));
+		if (!cmd)
+			return (NULL);
+		ft_memset(cmd, 0, sizeof(t_command));
+		cmd->last_status = 0;
+		need_free_cmd = 1;
+	}
 	i = 0;
 	while (input[i])
 	{
@@ -106,7 +117,7 @@ t_token	*tokenize(char *input)
 		// クォートの処理
 		if (is_quote(input[i]))
 		{
-			if (!extract_quoted_string(input, &i, word, &type))
+			if (!extract_quoted_string(input, &i, word, &type, cmd))
 			{
 				// クォートが閉じられていない場合のエラー処理
 				free_tokens(tokens);
@@ -143,7 +154,7 @@ t_token	*tokenize(char *input)
 		if (word_i > 0)
 		{
 			// 環境変数の展開
-			expanded = expand_env_vars(word, 0);
+			expanded = expand_env_vars(word, 0, cmd);
 			if (!expanded)
 			{
 				free_tokens(tokens);
@@ -159,5 +170,7 @@ t_token	*tokenize(char *input)
 			add_token(&tokens, new_token);
 		}
 	}
+	if (need_free_cmd)
+		free(cmd);
 	return (tokens);
 }

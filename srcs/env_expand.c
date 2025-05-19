@@ -13,13 +13,15 @@
 #include "../minishell.h"
 
 /* 環境変数の値を取得 */
-char	*expand_env_var(const char *name)
+char	*expand_env_var(const char *name, t_command *cmd)
 {
 	t_env	*env_var;
 	char	*value;
 
 	if (!name || !*name)
 		return (ft_strdup("$"));
+	if (ft_strncmp(name, "?", 2) == 0)
+		return (ft_itoa(get_exit_status(cmd)));
 	env_var = get_env_var(*g_env(), name);
 	if (!env_var)
 		return (ft_strdup(""));
@@ -30,13 +32,13 @@ char	*expand_env_var(const char *name)
 }
 
 /* 環境変数展開のメイン関数 */
-char	*expand_env_vars(const char *str, int in_dquote)
+char	*expand_env_vars(const char *str, int in_dquote, t_command *cmd)
 {
 	char	*expanded;
 
 	if (!str)
 		return (NULL);
-	expanded = expand_env_vars_core(str, in_dquote);
+	expanded = expand_env_vars_core(str, in_dquote, cmd);
 	if (!expanded)
 		return (NULL);
 	return (expanded);

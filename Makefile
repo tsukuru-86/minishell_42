@@ -24,7 +24,8 @@ SRCS = $(SRCS_DIR)main.c \
        $(SRCS_DIR)env_utils2.c \
        $(SRCS_DIR)tokenizer.c \
        $(SRCS_DIR)tokenizer_utils.c \
-       $(SRCS_DIR)parser.c
+       $(SRCS_DIR)parser.c \
+       $(SRCS_DIR)exit_status.c
 
 OBJS = $(SRCS:.c=.o)
 

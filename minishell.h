@@ -47,32 +47,6 @@ typedef enum e_token_type
 
 void				setup_child_signals(void);
 
-/* 環境変数展開関数のプロトタイプ */
-char				*expand_env_var(const char *name);
-char				*expand_env_vars(const char *str, int in_dquote);
-char				*expand_env_vars_core(const char *str, int in_dquote);
-char				*extract_env_name(const char *str);
-
-/* トークンを表す構造体 */
-typedef struct s_token
-{
-	char			*content;
-	t_token_type	type;
-	struct s_token	*next;
-}					t_token;
-
-/* Tokenizer functions */
-t_token				*tokenize(char *input);
-void				free_tokens(t_token *tokens);
-void				print_tokens(t_token *tokens);
-
-int					is_delimiter(char c);
-int					is_quote(char c);
-int					is_meta(char c);
-t_token_type		get_meta_type(char *input, int *i);
-t_token				*create_meta_token(char *input, int *i);
-t_token				*create_token(char *content, t_token_type type);
-
 /* Redirection structure */
 typedef struct s_redirect
 {
@@ -98,7 +72,39 @@ typedef struct s_command
 	t_pipeline pipe;        // パイプライン情報
 	struct s_command *next; // パイプで繋がれた次のコマンド
 	struct s_command *prev; // パイプで繋がれた前のコマンド
+	int last_status;        // 終了ステータスをコマンドごとに保持
 }					t_command;
+
+/* トークンを表す構造体 */
+typedef struct s_token
+{
+	char			*content;
+	t_token_type	type;
+	struct s_token	*next;
+}					t_token;
+
+/* 環境変数展開関数のプロトタイプ */
+char				*expand_env_var(const char *name, t_command *cmd);
+char				*expand_env_vars(const char *str, int in_dquote, t_command *cmd);
+char				*expand_env_vars_core(const char *str, int in_dquote, t_command *cmd);
+char				*extract_env_name(const char *str);
+
+/* Tokenizer functions */
+t_token				*tokenize(char *input, t_command *cmd);
+void				free_tokens(t_token *tokens);
+void				print_tokens(t_token *tokens);
+
+int					is_delimiter(char c);
+int					is_quote(char c);
+int					is_meta(char c);
+t_token_type		get_meta_type(char *input, int *i);
+t_token				*create_meta_token(char *input, int *i);
+t_token				*create_token(char *content, t_token_type type);
+int					extract_quoted_string(char *input, int *i, char *word, t_token_type *type, t_command *cmd);
+
+/* Exit status functions */
+int					get_exit_status(t_command *cmd);
+void				set_exit_status(t_command *cmd, int status);
 
 /* パイプライン関連の関数プロトタイプ */
 int					setup_pipeline(t_command *cmd);
@@ -109,6 +115,7 @@ int					wait_pipeline(t_command *cmd);
 void				setup_pipeline_child_env(void);
 void				pipeline_close_pipes(t_command *cmd);
 void				pipeline_execute_command_logic(t_command *current);
+
 
 /* Environment variable structure */
 typedef struct s_env

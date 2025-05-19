@@ -23,16 +23,28 @@ static void	append_quoted(const char *str, int *i, char *res, int *j)
 }
 
 /* Append environment variable section */
-static int	append_env(const char *str, int *i, char *res, int *j)
+static int	append_env(const char *str, int *i, char *res, int *j, t_command *cmd)
 {
 	char	*name;
 	char	*value;
+	char	*status_str;
 
 	(*i)++;
+	if (str[*i] == '?')
+	{
+		status_str = ft_itoa(get_exit_status(cmd));
+		if (!status_str)
+			return (-1);
+		ft_strlcpy(res + *j, status_str, 4096 - *j);
+		*j += ft_strlen(status_str);
+		free(status_str);
+		(*i)++;
+		return (0);
+	}
 	name = extract_env_name(str + *i);
 	if (!name)
 		return (-1);
-	value = expand_env_var(name);
+	value = expand_env_var(name, cmd);
 	free(name);
 	if (!value)
 		return (-1);
@@ -45,7 +57,7 @@ static int	append_env(const char *str, int *i, char *res, int *j)
 }
 
 /* Expand environment variables in string */
-char	*expand_env_vars_core(const char *str, int in_dquote)
+char	*expand_env_vars_core(const char *str, int in_dquote, t_command *cmd)
 {
 	int		i;
 	int		j;
@@ -57,10 +69,10 @@ char	*expand_env_vars_core(const char *str, int in_dquote)
 	{
 		if (str[i] == '\'' && !in_dquote)
 			append_quoted(str, &i, res, &j);
-		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-					+ 1] == '_'))
+		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) ||
+				str[i + 1] == '_' || str[i + 1] == '?'))
 		{
-			if (append_env(str, &i, res, &j) < 0)
+			if (append_env(str, &i, res, &j, cmd) < 0)
 				return (NULL);
 		}
 		else

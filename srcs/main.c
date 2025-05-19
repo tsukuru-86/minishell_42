@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*input)
 			add_history(input);
-		tokens = tokenize(input);
+		tokens = tokenize(input, NULL);
 		if (tokens)
 		{
 			// デバッグ用：トークンの内容を表示
@@ -77,6 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			if (cmd)
 			{
 				status = excute_commands(cmd);
+				set_exit_status(cmd, status);
 				free_command(cmd);
 			}
 			free_tokens(tokens);
