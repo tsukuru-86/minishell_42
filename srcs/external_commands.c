@@ -6,11 +6,99 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 06:04:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:55:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/* Get the PATH environment variable string */
+static char	*get_path_env(void)
+{
+	t_env	*path_env;
+
+	path_env = get_env_node("PATH");
+	if (path_env)
+		return (path_env->value);
+	else
+		return (NULL);
+}
+
+/* 環境変数リスト内のノード数をカウントする関数 */
+static int	count_env_nodes(t_env *env_list)
+{
+	t_env	*current;
+	int		count;
+
+	count = 0;
+	current = env_list;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+static void	free_env_array(char **env_array, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+		free(env_array[i++]);
+	free(env_array);
+}
+
+// static char	*create_env_string(t_env *env_node)
+// {
+// 	char	*tmp;
+// 	char	*result;
+
+// 	tmp = ft_strjoin(env_node->name, "=");
+// 	if (!tmp)
+// 		return (NULL);
+// 	result = ft_strjoin(tmp, env_node->value);
+// 	free(tmp);
+// 	return (result);
+// }
+
+static void	launch_child(char *cmd_path, char **args)
+{
+	char	**env_array;
+
+	env_array = env_list_to_array(*g_env());
+	if (!env_array)
+	{
+		perror("env_list_to_array");
+		free(cmd_path);
+		exit(1);
+	}
+	if (execve(cmd_path, args, env_array) == -1)
+	{
+		perror("execve");
+		free(cmd_path);
+		free_env_array(env_array, count_env_nodes(*g_env()));
+		exit(1);
+	}
+}
+
+static int	launch_parent(pid_t pid, char *cmd_path)
+{
+	int	status;
+
+	if (pid < 0)
+	{
+		perror("fork");
+		free(cmd_path);
+		return (1);
+	}
+	waitpid(pid, &status, 0);
+	free(cmd_path);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
+}
 
 /* コマンドのパスを検索する関数。
    絶対パスまたは相対パスの場合はそのまま、

@@ -21,11 +21,13 @@ SRCS_FILE = main.c \
 	external_utils.c \
 	input_utils.c \
 	parser.c \
+	pipeline_exec.c \
 	pipeline_utils.c \
 	pipeline.c \
 	redirect_utils.c \
 	redirect.c \
 	signal_state.c \
+	tokenizer_meta.c \
 	tokenizer_utils.c \
 	tokenizer.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))

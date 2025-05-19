@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/19 06:04:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:59:02 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,21 @@ void	free_tokens(t_token *tokens)
 		free(current);
 		current = next;
 	}
+}
+/* メタ文字トークンを作成 */
+t_token	*create_meta_token(char *input, int *i)
+{
+	t_token_type	type;
+	char			meta_str[3];
+	int				len;
+
+	len = 0;
+	meta_str[len++] = input[*i];
+	type = get_meta_type(input, i);
+	if (type == TOKEN_REDIR_APPEND)
+		meta_str[len++] = '>';
+	meta_str[len] = '\0';
+	return (create_token(meta_str, type));
 }
 
 /* デバッグ用：トークンの内容を表示 */
