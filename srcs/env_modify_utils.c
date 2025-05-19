@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 22:16:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 00:41:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/* 単一の環境変数ノードを解放する */
 static void	free_single_env_node(t_env *node)
 {
 	if (!node)
@@ -21,9 +22,36 @@ static void	free_single_env_node(t_env *node)
 	free(node);
 }
 
-/* Set or create an environment variable
-Ensure is_valid_identifier, get_env_node, update_env_value,
-	append_env_node are declared in minishell.h and defined.*/
+/* Append a new variable to the environment list */
+int	append_env_node(const char *name, const char *value)
+{
+	t_env	*new_node;
+	t_env	*current;
+	t_env	**env;
+
+	env = g_env();
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (-1);
+	new_node->name = ft_strdup(name);
+	if (value)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	if (!*env)
+		*env = new_node;
+	else
+	{
+		current = *env;
+		while (current->next)
+			current = current->next;
+		current->next = new_node;
+	}
+	return (0);
+}
+
+/* Set or create an environment variable */
 int	set_env_node(const char *name, const char *value)
 {
 	t_env	*node;

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/05/22 22:17:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 23:36:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,29 @@ static int	initialize_shell(char **envp)
 	return (0);
 }
 
-/* コマンド文字列を処理する関数。
-   文字列をトークン化し、パースした後、コマンドを実行する */
-static void	process_command(char *input, int *status)
+static void	handle_input(char *input, int *status)
 {
 	t_token		*tokens;
 	t_command	*cmd;
 
-	tokens = tokenize(input);
-	if (!tokens)
+	if (*input)
+		add_history(input);
+	cmd = NULL;
+	tokens = tokenize(input, cmd);
+	if (tokens)
 	{
-		ft_putstr_fd((char *)"minishell: failed to tokenize input\n", 2);
-		return ;
+		// print_tokens(tokens);
+		cmd = parse_tokens(tokens);
+		if (cmd)
+		{
+			*status = excute_commands(cmd);
+			set_exit_status(cmd, *status);
+			free_command(cmd);
+		}
+		else
+			ft_putstr_fd((char *)"minishell: syntax error\n", 2);
+		free_tokens(tokens);
 	}
-	cmd = parse_tokens(tokens);
-	if (cmd)
-	{
-		*status = excute_commands(cmd);
-		free_command(cmd);
-	}
-	else
-		ft_putstr_fd((char *)"minishell: syntax error\n", 2);
-	free_tokens(tokens);
 }
 
 /* メインプログラム。シェルを初期化し、ユーザー入力を
@@ -93,11 +94,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
-		if (*input)
-		{
-			add_history(input);
-			process_command(input, &status);
-		}
+		handle_input(input, &status);
 		free(input);
 	}
 	clear_history();

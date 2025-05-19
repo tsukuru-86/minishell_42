@@ -10,6 +10,7 @@ SRCS_FILE = main.c \
 	builtin_export_utils.c \
 	builtin_export.c \
 	env_expand_utils.c \
+	env_expand_utils2.c \
 	env_expand.c \
 	env_modify_utils.c \
 	env_utils_extra.c \
@@ -18,10 +19,12 @@ SRCS_FILE = main.c \
 	excute_command.c \
 	execute_builtin.c \
 	execute_external.c \
+	exit_status.c \
 	external_commands_child_utils.c \
 	external_commands_find.c \
 	external_commands_utils.c \
 	external_commands.c \
+	external_utils.c \
 	input_utils.c \
 	parser_command_ops.c \
 	parser_main.c \

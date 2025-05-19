@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 00:13:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 23:03:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,21 @@ void	free_tokens(t_token *tokens)
 		free(current->content);
 		free(current);
 		current = next;
+	}
+}
+
+/* デバッグ用：トークンの内容を表示 */
+void	print_tokens(t_token *tokens)
+{
+	t_token	*current;
+	int		i;
+
+	i = 0;
+	current = tokens;
+	while (current)
+	{
+		printf("Token %d: [%s] (type: %d)\n", i++, current->content,
+			current->type);
+		current = current->next;
 	}
 }

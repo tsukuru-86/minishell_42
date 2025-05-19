@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 04:10:30 by tsukuru            #+#    #+#             */
-/*   Updated: 2025/05/11 22:20:42 by muiida           ###   ########.fr       */
+/*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
+/*   Updated: 2025/05/23 00:53:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,6 @@ typedef enum e_token_type
 
 void				setup_child_signals(void);
 
-/* 環境変数展開関数のプロトタイプ */
-char				*expand_env_node(const char *name);
-char				*expand_env_vars(const char *str, int in_dquote);
-char				*expand_env_vars_core(const char *str, int in_dquote);
-
-/* トークンを表す構造体 */
-typedef struct s_token
-{
-	char			*content;
-	t_token_type	type;
-	struct s_token	*next;
-}					t_token;
-
 /* Redirection structure */
 typedef struct s_redirect
 {
@@ -88,7 +75,43 @@ typedef struct s_command
 	t_pipeline pipe;        // パイプライン情報
 	struct s_command *next; // パイプで繋がれた次のコマンド
 	struct s_command *prev; // パイプで繋がれた前のコマンド
+	int last_status;        // 終了ステータスをコマンドごとに保持
 }					t_command;
+
+/* トークンを表す構造体 */
+typedef struct s_token
+{
+	char			*content;
+	t_token_type	type;
+	struct s_token	*next;
+}					t_token;
+
+/* Tokenizer functions */
+t_token				*tokenize(char *input, t_command *cmd);
+void				free_tokens(t_token *tokens);
+void				print_tokens(t_token *tokens);
+
+int					is_delimiter(char c);
+int					is_quote(char c);
+int					is_meta(char c);
+t_token				*create_meta_token(char *input, int *i);
+t_token				*create_token(char *content, t_token_type type);
+
+/* 環境変数展開関数のプロトタイプ */
+
+char				*expand_env_var(const char *name, t_command *cmd);
+char				*expand_env_vars(const char *str, int in_dquote,
+						t_command *cmd);
+// char				*expand_env_vars_core(const char *str, int in_dquote);
+
+/* パイプライン関連の関数プロトタイプ */
+int					setup_pipeline(t_command *cmd);
+void				cleanup_pipeline(t_command *cmd);
+int					wait_pipeline(t_command *cmd);
+
+/* Pipeline helper functions */
+void				setup_pipeline_child_env(void);
+void				pipeline_close_pipes(t_command *cmd);
 
 /* Environment variable structure */
 typedef struct s_env
@@ -162,7 +185,9 @@ int					update_env_value(t_env *env_node, const char *value);
 int					append_env_node(const char *name, const char *value);
 t_env				*get_env_node(const char *name);
 int					set_env_node(const char *name, const char *value);
-
+void				append_quoted(const char *str, int *i, char *res, int *j);
+int					append_env_str(const char *str, int *i, char *res, int *j,
+						t_command *cmd);
 /* Command preparation functions */
 void				pipeline_init(t_command *cmd);
 void				external_command(void);
@@ -178,9 +203,11 @@ void				close_parent_pipes(t_command *cmd);
 void				pipeline_close_pipes(t_command *cmd_list);
 void				setup_pipeline_child_env(void);
 
+/* --- Exit status --- */
+int					get_exit_status(t_command *cmd);
+void				set_exit_status(t_command *cmd, int status);
+
 /* --- Tokenizer --- */
-t_token				*tokenize(char *input);
-t_token				*create_token(char *content, t_token_type type);
 void				add_token_to_list(t_token **token_list_head,
 						t_token *new_token);
 int					is_delimiter(char c);
@@ -188,12 +215,13 @@ int					is_quote(char c);
 int					is_meta(char c);
 void				free_tokens(t_token *tokens);
 t_token				*create_meta_token(char *input, int *i);
-int					process_token_segment(char *input, int *i,
-						t_token **tokens);
 int					extract_quoted_string(char *input, int *i, char *word_buf,
-						t_token_type *type);
+						t_token_type *type, t_command *cmd);
 int					handle_word_logic(char *input, int *i, t_token **tokens,
-						char *word_buf);
+						char *word_buf, t_command *cmd);
+int					process_token_segment(char *input, int *i, t_token **tokens,
+						t_command *cmd);
+
 /* --- Environment --- */
 int					is_valid_identifier(const char *name);
 char				*expand_env_node(const char *name);

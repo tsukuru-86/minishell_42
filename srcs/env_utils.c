@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/05/22 22:31:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 23:12:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,21 +85,3 @@ t_env	*create_env_list(char **envp)
 	current->next = NULL;
 	return (head);
 }
-
-/* Set or create an environment variable */
-// int	set_env_var(const char *name, const char *value)
-// {
-// 	t_env	*var;
-
-// 	if (!is_valid_identifier(name))
-// 	{
-// 		ft_putstr_fd((char *)"export: '", 2);
-// 		ft_putstr_fd((char *)name, 2);
-// 		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
-// 		return (1);
-// 	}
-// 	var = get_env_node(name);
-// 	if (var)
-// 		return (update_env_value(var, value));
-// 	return (append_env_node(name, value));
-// }

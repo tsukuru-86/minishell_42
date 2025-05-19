@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 00:22:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 00:07:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_buffer_size_internal(int word_idx)
 	return (1);
 }
 
-/* クォート文字を処理してトークンタイプを決定 */
+// /* クォート文字を処理してトークンタイプを決定 */
 static void	set_quote_type_internal(char quote_char, t_token_type *type)
 {
 	if (quote_char == '\'')
@@ -33,7 +33,6 @@ static void	set_quote_type_internal(char quote_char, t_token_type *type)
 }
 
 /* クォート内の文字列をバッファにコピー */
-
 static int	copy_quoted_content_internal(char *input, int *i, char *word_buf,
 		char quote_char)
 {
@@ -53,13 +52,13 @@ static int	copy_quoted_content_internal(char *input, int *i, char *word_buf,
 /* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
 
 static int	expand_and_copy_if_double_quote_internal(char *word_buf,
-		t_token_type type)
+		t_token_type type, t_command *cmd)
 {
 	char	*expanded_str;
 
 	if (type == TOKEN_DOUBLE_QUOTE)
 	{
-		expanded_str = expand_env_vars(word_buf, 1);
+		expanded_str = expand_env_vars(word_buf, 1, cmd);
 		if (!expanded_str)
 		{
 			ft_putstr_fd("minishell: environment", 2);
@@ -79,14 +78,13 @@ static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 }
 
 /* クォートされた文字列を抽出。クォートが閉じられていない場合などに 0 を返す */
-
 int	extract_quoted_string(char *input, int *i, char *word_buf,
-		t_token_type *type)
+		t_token_type *type, t_command *cmd)
 {
 	char	quote_char;
 	int		content_len;
 
-	if (!input || !i || !word_buf || !type)
+	if (!input || !i || !type)
 		return (0);
 	quote_char = input[*i];
 	if (!is_quote(quote_char))
@@ -99,7 +97,7 @@ int	extract_quoted_string(char *input, int *i, char *word_buf,
 	if (input[*i] == quote_char)
 	{
 		(*i)++;
-		if (!expand_and_copy_if_double_quote_internal(word_buf, *type))
+		if (!expand_and_copy_if_double_quote_internal(word_buf, *type, cmd))
 			return (0);
 		return (1);
 	}
