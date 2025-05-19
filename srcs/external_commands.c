@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 15:55:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/20 03:13:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 /* Get the PATH environment variable string */
 static char	*get_path_env(void)
@@ -23,7 +24,6 @@ static char	*get_path_env(void)
 	else
 		return (NULL);
 }
-
 /* 環境変数リスト内のノード数をカウントする関数 */
 static int	count_env_nodes(t_env *env_list)
 {

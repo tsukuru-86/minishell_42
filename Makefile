@@ -17,6 +17,7 @@ SRCS_FILE = main.c \
 	excute_command.c \
 	execute_builtin.c \
 	execute_external.c \
+	external_commands_utils.c \
 	external_commands.c \
 	external_utils.c \
 	input_utils.c \
