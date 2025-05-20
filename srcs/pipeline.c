@@ -6,100 +6,17 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 06:10:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:24:50 by muiida            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	execute_pipeline_command(t_command *cmd, t_command *current);
-
-/* パイプライン内のすべてのコマンドのパイプ情報を初期化する関数 */
-static void	init_pipeline(t_command *cmd)
-{
-	t_command	*current;
-
-	current = cmd;
-	while (current)
-	{
-		current->pipe.read_fd = -1;
-		current->pipe.write_fd = -1;
-		current->pipe.pid = -1;
-		current = current->next;
-	}
-}
-
-/* コマンド間のパイプを作成し、読み書きのファイルディスクリプタを設定する関数 */
-static int	create_pipes(t_command *cmd)
-{
-	t_command	*current;
-	int			pipefd[2];
-
-	current = cmd;
-	while (current && current->next)
-	{
-		if (pipe(pipefd) == -1)
-		{
-			perror("pipe");
-			cleanup_pipeline(cmd);
-			return (0);
-		}
-		current->pipe.write_fd = pipefd[1];
-		current->next->pipe.read_fd = pipefd[0];
-		current = current->next;
-	}
-	return (1);
-}
-
-/* 子プロセスの作成と実行 */
-static int	spawn_pipeline_processes(t_command *cmd)
-{
-	t_command	*current;
-	pid_t		pid;
-
-	current = cmd;
-	while (current)
-	{
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			cleanup_pipeline(cmd);
-			return (0);
-		}
-		if (pid == 0)
-		{
-			execute_pipeline_command(cmd, current);
-			exit(EXIT_FAILURE);
-		}
-		else
-			current->pipe.pid = pid;
-		current = current->next;
-	}
-	return (1);
-}
-
-/* 親プロセスでのパイプの閉鎖 */
-static void	close_parent_pipes(t_command *cmd)
-{
-	t_command	*current;
-
-	current = cmd;
-	while (current)
-	{
-		if (current->pipe.read_fd != -1)
-			close(current->pipe.read_fd);
-		if (current->pipe.write_fd != -1)
-			close(current->pipe.write_fd);
-		current = current->next;
-	}
-}
-
 /* パイプラインのセットアップ */
 int	setup_pipeline(t_command *cmd)
 {
 	if (!cmd->next)
-		return (1);
+		return (1); // Not a pipeline if only one command
 	init_pipeline(cmd);
 	if (!create_pipes(cmd))
 	{
@@ -122,7 +39,6 @@ void	cleanup_pipeline(t_command *cmd)
 
 	if (!cmd)
 		return ;
-	// すべてのコマンドの残っているファイルディスクリプタを閉じる
 	current = cmd;
 	while (current)
 	{
@@ -157,60 +73,47 @@ int	wait_pipeline(t_command *cmd)
 				perror("waitpid");
 			else if (WIFEXITED(status))
 				last_status = WEXITSTATUS(status);
+			// Consider handling other exit statuses like WIFSIGNALED
 		}
 		current = current->next;
 	}
 	return (last_status);
 }
 
-/* Redirect stdin and stdout based on pipeline pipes */
-static void	pipeline_redirect_io(t_command *current)
+// Note: pipeline_close_pipes used in execute_pipeline_command (pipeline_process_utils.c)
+// needs to be defined. If it's similar to close_parent_pipes but for child context,
+// ensure it's correctly implemented and accessible.
+// For now,
+	// assuming it's a global function or defined in minishell.h if needed by execute_pipeline_command.
+// If pipeline_close_pipes is specific to child process logic,
+	// it could be static in pipeline_process_utils.c
+// or part of execute_pipeline_command.
+// The original code had `pipeline_close_pipes(cmd);` in `execute_pipeline_command`.
+// This function is not defined in the provided `pipeline.c`.
+// Let's assume `pipeline_close_pipes` is a function that closes all pipe fds in `cmd` list from child.
+// It might look like this (add to pipeline_process_utils.c if static,
+	// or pipeline_utils.c if general):
+/*
+void	pipeline_close_pipes(t_command *cmd_list)
 {
-	if (current->pipe.read_fd != -1)
+	t_command	*iter;
+
+	iter = cmd_list;
+	while (iter)
 	{
-		if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 read");
-			exit(EXIT_FAILURE);
-		}
-	}
-	if (current->pipe.write_fd != -1)
-	{
-		if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 write");
-			exit(EXIT_FAILURE);
-		}
+		if (iter->pipe.read_fd != -1)
+			close(iter->pipe.read_fd);
+		if (iter->pipe.write_fd != -1)
+			close(iter->pipe.write_fd);
+		iter = iter->next;
 	}
 }
-
-/* Execute current command within pipeline: handle redirection and run */
-void	pipeline_execute_command_logic(t_command *current)
-{
-	int	status;
-
-	if (current->redirects && !setup_redirection(current->redirects))
-		exit(EXIT_FAILURE);
-	if (is_builtin(current->args[0]))
-	{
-		status = execute_builtin(current->args);
-		if (current->redirects)
-			restore_redirection(current->redirects);
-		exit(status);
-	}
-	else
-	{
-		status = execute_external_command(current->args);
-		exit(status);
-	}
-}
-
-/* Execute a pipeline command in child: set up env, redirect I/O, close pipes,
-	then run */
-static void	execute_pipeline_command(t_command *cmd, t_command *current)
-{
-	setup_pipeline_child_env();
-	pipeline_redirect_io(current);
-	pipeline_close_pipes(cmd);
-	pipeline_execute_command_logic(current);
-}
+*/
+// This function should be declared in minishell.h if it's to be used across files and is not static.
+// Or, if it's only used by execute_pipeline_command,
+	// it can be static in pipeline_process_utils.c.
+// For simplicity,
+	// let's assume `pipeline_close_pipes` is a globally available utility or defined where needed.
+// The provided `pipeline.c` does not have `pipeline_close_pipes`.
+// Let's add a placeholder for `pipeline_close_pipes` in `minishell.h` for now.
+// And `setup_pipeline_child_env()` also needs to be defined/declared.

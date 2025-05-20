@@ -25,6 +25,10 @@
 # include <sys/syslimits.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <stdio.h>
 
 # define MAX_TOKENS 1024
 
@@ -59,17 +63,6 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-/* トークナイザー関数 */
-t_token				*tokenize(char *input);
-void				free_tokens(t_token *tokens);
-
-int					is_delimiter(char c);
-int					is_quote(char c);
-int					is_meta(char c);
-t_token_type		get_meta_type(char *input, int *i);
-t_token				*create_meta_token(char *input, int *i);
-t_token				*create_token(char *content, t_token_type type);
-
 /* Redirection structure */
 typedef struct s_redirect
 {
@@ -96,16 +89,6 @@ typedef struct s_command
 	struct s_command *next; // パイプで繋がれた次のコマンド
 	struct s_command *prev; // パイプで繋がれた前のコマンド
 }					t_command;
-
-/* パイプライン関連の関数プロトタイプ */
-int					setup_pipeline(t_command *cmd);
-void				cleanup_pipeline(t_command *cmd);
-int					wait_pipeline(t_command *cmd);
-
-/* Pipeline helper functions */
-void				setup_pipeline_child_env(void);
-void				pipeline_close_pipes(t_command *cmd);
-void				pipeline_execute_command_logic(t_command *current);
 
 /* Environment variable structure */
 typedef struct s_env
@@ -179,11 +162,64 @@ int					append_env_node(const char *name, const char *value);
 t_env				*get_env_node(const char *name);
 int					set_env_node(const char *name, const char *value);
 
-/* External command utility functions */
-char				*search_in_path(const char *path_env, char *cmd);
-
 /* Command preparation functions */
 void				pipeline_init(t_command *cmd);
 void				external_command(void);
+
+/* --- Pipeline --- */
+int					setup_pipeline(t_command *cmd);
+void				cleanup_pipeline(t_command *cmd);
+int					wait_pipeline(t_command *cmd);
+int					spawn_pipeline_processes(t_command *cmd);
+void				init_pipeline(t_command *cmd);
+int					create_pipes(t_command *cmd);
+void				close_parent_pipes(t_command *cmd);
+void				pipeline_close_pipes(t_command *cmd_list);
+void				setup_pipeline_child_env(void);
+
+
+/* --- Tokenizer --- */
+t_token				*tokenize(char *input);
+t_token				*create_token(char *content, t_token_type type);
+void				add_token_to_list(t_token **token_list_head,
+						t_token *new_token);
+int					is_delimiter(char c);
+int					is_quote(char c);
+int					is_meta(char c);
+void				free_tokens(t_token *tokens);
+t_token				*create_meta_token(char *input, int *i);
+int					process_token_segment(char *input, int *i,
+						t_token **tokens);
+int					extract_quoted_string(char *input, int *i, char *word_buf,
+						t_token_type *type);
+
+/* --- Environment --- */
+t_env				**g_env(void);
+void				free_env_list(void);
+t_env				*create_env_list(char **envp);
+t_env				*get_env_node(const char *name);
+int					set_env_node(const char *name, const char *value);
+int					remove_env_var(const char *name);
+int					is_valid_identifier(const char *name);
+int					update_env_value(t_env *node, const char *value);
+t_env				*create_env_node(const char *env_str);
+char				*expand_env_vars(const char *str, int in_dquote);
+char				*expand_env_node(const char *name);
+
+/* --- External Commands --- */
+int					execute_external_command(char **args);
+char				*find_command_path(char *cmd);
+void				launch_child(char *cmd_path, char **args);
+int					launch_parent(pid_t pid, char *cmd_path);
+void				free_env_array(char **env_array, int count);
+int					count_env_nodes(t_env *env_list);
+char				**env_list_to_array(t_env *env_list);
+
+/* --- Builtins --- */
+int					execute_builtin(char **args);
+
+/* --- Redirection --- */
+int					setup_redirection(t_redirect *redirects);
+void				restore_redirection(t_redirect *redirects);
 
 #endif

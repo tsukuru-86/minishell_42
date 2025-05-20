@@ -55,7 +55,8 @@ static int	append_env(const char *str, int *i, char *res, int *j)
 	free(name);
 	if (!value)
 	{
-		ft_putstr_fd((char *)"minishell: failed to expand environment variable\n", 2);
+		ft_putstr_fd((char *)"minishell: failed to expand environment variable\n",
+			2);
 		return (-1);
 	}
 	ft_strlcpy(res + *j, value, 4096 - *j);
@@ -80,7 +81,7 @@ char	*expand_env_vars_core(const char *str, int in_dquote)
 		if (str[i] == '\'' && !in_dquote)
 			append_quoted(str, &i, res, &j);
 		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-					+ 1] == '_'))
+				+ 1] == '_'))
 		{
 			if (append_env(str, &i, res, &j) < 0)
 				return (NULL);

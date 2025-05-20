@@ -10,34 +10,4 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include <limits.h>
-#include <string.h>
-#include <unistd.h>
 
-/* Search for a command in PATH environment */
-char	*search_in_path(const char *path_env, char *cmd)
-{
-	char	*path;
-	char	*dir;
-	char	full_path[PATH_MAX];
-
-	path = ft_strdup(path_env);
-	if (!path)
-		return (NULL);
-	dir = strtok(path, ":");
-	while (dir)
-	{
-		ft_strlcpy(full_path, dir, PATH_MAX);
-		ft_strlcat(full_path, "/", PATH_MAX);
-		ft_strlcat(full_path, cmd, PATH_MAX);
-		if (access(full_path, X_OK) == 0)
-		{
-			free(path);
-			return (ft_strdup(full_path));
-		}
-		dir = strtok(NULL, ":");
-	}
-	free(path);
-	return (NULL);
-}

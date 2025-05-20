@@ -75,10 +75,10 @@ static t_env	*swap_nodes(t_env *head, t_env *prev, t_env *current,
 static t_env	*get_sorted_env_list(void)
 
 {
-	t_env	*current;
-	t_env	*head;
-	t_env	*next;
-	t_env	*prev;
+	t_env *current;
+	t_env *head;
+	t_env *next;
+	t_env *prev;
 
 	head = *g_env();
 	while (head && head->next)
@@ -146,8 +146,8 @@ static void	print_sorted_env(void)
 // Export builtin command
 int	builtin_export(char **args)
 {
-	int		i;
-	int		ret;
+	int	i;
+	int	ret;
 
 	if (!args[1])
 	{
