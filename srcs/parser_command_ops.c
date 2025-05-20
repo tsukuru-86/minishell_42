@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 01:35:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 02:06:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next_token)
 		type = REDIR_OUT;
 	else if (token->type == TOKEN_REDIR_APPEND)
 		type = REDIR_APPEND;
+	else if (token->type == TOKEN_HEREDOC)
+	{
+		if (!handle_heredoc(cmd, next_token->content))
+			return (0);
+		return (1);
+	}
 	else
 		return (0);
 	redir = create_redirect(type, next_token->content);

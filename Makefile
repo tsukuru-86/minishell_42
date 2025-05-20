@@ -25,6 +25,7 @@ SRCS_FILE = main.c \
 	external_commands_utils.c \
 	external_commands.c \
 	external_utils.c \
+	heredoc.c \
 	input_utils.c \
 	parser_command_ops.c \
 	parser_main.c \

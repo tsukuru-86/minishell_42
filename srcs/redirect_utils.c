@@ -17,7 +17,7 @@ int	save_original_fd(t_redirect *redirect)
 {
 	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
 		return (dup(STDOUT_FILENO));
-	if (redirect->type == REDIR_IN)
+	if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		return (dup(STDIN_FILENO));
 	return (-1);
 }
@@ -29,7 +29,7 @@ int	open_redirect_file(t_redirect *redirect)
 		return (open(redirect->file, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	if (redirect->type == REDIR_APPEND)
 		return (open(redirect->file, O_WRONLY | O_CREAT | O_APPEND, 0644));
-	if (redirect->type == REDIR_IN)
+	if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		return (open(redirect->file, O_RDONLY));
 	return (-1);
 }
@@ -39,7 +39,7 @@ void	apply_redirection(t_redirect *redirect, int fd)
 {
 	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
 		dup2(fd, STDOUT_FILENO);
-	else if (redirect->type == REDIR_IN)
+	else if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		dup2(fd, STDIN_FILENO);
 	close(fd);
 }
