@@ -11,28 +11,36 @@ SRCS_FILE = main.c \
 	builtin_export.c \
 	env_expand_utils.c \
 	env_expand.c \
+	env_modify_utils.c \
 	env_utils_extra.c \
 	env_utils.c \
 	excute_command_utils.c \
 	excute_command.c \
 	execute_builtin.c \
 	execute_external.c \
+	external_commands_child_utils.c \
 	external_commands_utils.c \
 	external_commands.c \
 	external_utils.c \
 	input_utils.c \
 	parser.c \
 	pipeline_exec.c \
+	pipeline_process_utils.c \
+	pipeline_setup_utils.c \
 	pipeline_utils.c \
 	pipeline.c \
 	redirect_utils.c \
 	redirect.c \
 	signal_state.c \
+	tokenizer_core_logic.c \
+	tokenizer_meta_utils.c \
 	tokenizer_meta.c \
+	tokenizer_quote_processing.c \
 	tokenizer_utils.c \
 	tokenizer.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
-OBJS = $(addprefix obj/, $(SRCS_FILE:.c=.o))
+OBJS_DIR = obj/
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILE:.c=.o))
 
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
