@@ -91,6 +91,12 @@ static int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 		type = REDIR_OUT;
 	else if (token->type == TOKEN_REDIR_APPEND)
 		type = REDIR_APPEND;
+	else if (token->type == TOKEN_HEREDOC)
+	{
+		if (!handle_heredoc(cmd, next->content))
+			return (0);
+		return (1);
+	}
 	else
 		return (0); // 不明なリダイレクトタイプ (通常は到達しない)
 	// リダイレクト構造体の作成
@@ -199,7 +205,7 @@ static int	process_token_in_parse_loop(t_command **cmd_ptr,
 		|| type == TOKEN_DOUBLE_QUOTE)
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
-		|| type == TOKEN_REDIR_APPEND)
+		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
 		status = handle_redirect_token(*cmd_ptr, current_token_ptr,
 				head_cmd_ptr);
 	else if (type == TOKEN_PIPE)

@@ -51,10 +51,12 @@ void	restore_redirection(t_redirect *redirect)
 		return ;
 	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
 		dup2(redirect->original_fd, STDOUT_FILENO);
-	else if (redirect->type == REDIR_IN)
+	else if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		dup2(redirect->original_fd, STDIN_FILENO);
 	close(redirect->original_fd);
 	redirect->original_fd = -1;
+	if (redirect->type == REDIR_HEREDOC)
+		unlink(redirect->file);
 }
 
 void	free_redirect(t_redirect *redirect)

@@ -38,6 +38,11 @@ t_token_type	get_meta_type(char *input, int *i)
 	else if (input[*i] == '<')
 	{
 		(*i)++;
+		if (input[*i] == '<')
+		{
+			(*i)++;
+			return (TOKEN_HEREDOC);
+		}
 		return (TOKEN_REDIR_IN);
 	}
 	else if (input[*i] == '>')
@@ -65,6 +70,8 @@ t_token	*create_meta_token(char *input, int *i)
 	type = get_meta_type(input, i);
 	if (type == TOKEN_REDIR_APPEND)
 		meta_str[len++] = '>';
+	else if (type == TOKEN_HEREDOC)
+		meta_str[len++] = '<';
 	meta_str[len] = '\0';
 	return (create_token(meta_str, type));
 }

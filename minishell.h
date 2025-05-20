@@ -41,6 +41,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_IN,     // 入力リダイレクト <
 	TOKEN_REDIR_OUT,    // 出力リダイレクト >
 	TOKEN_REDIR_APPEND, // 追加リダイレクト >>
+	TOKEN_HEREDOC,      // ヒアドキュメント <<
 	TOKEN_ENV_VAR,      // 環境変数
 	TOKEN_END           // 終端
 }					t_token_type;
@@ -140,6 +141,20 @@ int					remove_env_var(t_env **env, const char *name);
 # define REDIR_OUT 1 /* > */
 # define REDIR_IN 2 /* < */
 # define REDIR_APPEND 3 /* >> */
+# define REDIR_HEREDOC 4 /* << */
+
+/* Heredoc structure */
+typedef struct s_heredoc
+{
+	char	*delimiter;  // 終了デリミタ
+	char	*content;    // 内容
+	char	*temp_file;  // 一時ファイルパス
+}			t_heredoc;
+
+/* Heredoc functions */
+int		handle_heredoc(t_command *cmd, char *delimiter);
+char	*create_heredoc_file(void);
+void	cleanup_heredoc(t_heredoc *heredoc);
 
 char				**split_command(char *input);
 
