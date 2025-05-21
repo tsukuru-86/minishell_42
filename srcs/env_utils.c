@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/20 22:24:50 by muiida            ###   ########.fr       */
+/*   Updated: 2025/05/22 00:14:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ t_env	*create_env_list(char **envp)
 
 	if (!envp || !envp[0])
 	{
-		*g_env() = NULL; // Ensure global head is NULL if envp is empty
+		*g_env() = NULL;
 		return (NULL);
 	}
-	head = create_env_node(envp[0]); // create_env_node needs to be defined
+	head = create_env_node(envp[0]);
 	if (!head)
 	{
 		*g_env() = NULL;
 		return (NULL);
 	}
-	*g_env() = head; // Set global head early
+	*g_env() = head;
 	current = head;
 	i = 1;
 	while (envp[i])
@@ -71,7 +71,7 @@ t_env	*create_env_list(char **envp)
 		current->next = create_env_node(envp[i]);
 		if (!current->next)
 		{
-			free_env_list(); // This will free starting from head
+			free_env_list();
 			return (NULL);
 		}
 		current = current->next;
@@ -92,7 +92,6 @@ t_env	*get_env_node(const char *name)
 	env_list_head = *g_env();
 	while (env_list_head)
 	{
-		// Use ft_strcmp for exact match if names are null-terminated
 		if (ft_strncmp(env_list_head->name, name,
 				ft_strlen(env_list_head->name)) == 0)
 			return (env_list_head);
@@ -100,6 +99,3 @@ t_env	*get_env_node(const char *name)
 	}
 	return (NULL);
 }
-
-// Functions like is_valid_identifier, update_env_value, append_env_node,
-// create_env_node need to be defined and declared in minishell.h or be static within their respective files.

@@ -196,7 +196,6 @@ int					extract_quoted_string(char *input, int *i, char *word_buf,
 /* --- Environment --- */
 t_env				**g_env(void);
 void				free_env_list(void);
-t_env				*create_env_list(char **envp);
 t_env				*get_env_node(const char *name);
 int					set_env_node(const char *name, const char *value);
 int					remove_env_var(const char *name);
