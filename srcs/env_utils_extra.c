@@ -15,25 +15,25 @@
 /* Create a new environment node from a string */
 t_env	*create_env_node(const char *str)
 {
-	t_env	*new;
+	t_env	*new_node;
 	char	*equal_pos;
 
-	new = malloc(sizeof(t_env));
-	if (!new)
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
 		return (NULL);
 	equal_pos = ft_strchr(str, '=');
 	if (!equal_pos)
 	{
-		new->name = ft_strdup(str);
-		new->value = NULL;
+		new_node->name = ft_strdup(str);
+		new_node->value = NULL;
 	}
 	else
 	{
-		new->name = ft_substr(str, 0, equal_pos - str);
-		new->value = ft_strdup(equal_pos + 1);
+		new_node->name = ft_substr(str, 0, equal_pos - str);
+		new_node->value = ft_strdup(equal_pos + 1);
 	}
-	new->next = NULL;
-	return (new);
+	new_node->next = NULL;
+	return (new_node);
 }
 
 /* Update the value of an existing environment variable */
@@ -51,28 +51,28 @@ int	update_env_value(t_env *env_node, const char *value)
 /* Append a new variable to the environment list */
 int	append_env_node(const char *name, const char *value)
 {
-	t_env	*new;
+	t_env	*new_node;
 	t_env	*current;
 	t_env	**env;
 
 	env = g_env();
-	new = malloc(sizeof(t_env));
-	if (!new)
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
 		return (-1);
-	new->name = ft_strdup(name);
+	new_node->name = ft_strdup(name);
 	if (value)
-		new->value = ft_strdup(value);
+		new_node->value = ft_strdup(value);
 	else
-		new->value = NULL;
-	new->next = NULL;
+		new_node->value = NULL;
+	new_node->next = NULL;
 	if (!*env)
-		*env = new;
+		*env = new_node;
 	else
 	{
 		current = *env;
 		while (current->next)
 			current = current->next;
-		current->next = new;
+		current->next = new_node;
 	}
 	return (0);
 }
