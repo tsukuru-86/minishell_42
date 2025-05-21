@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:39:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/22 00:14:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 00:35:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdbool.h>
 
 /* 環境変数リストのグローバルアクセスポイントを提供する関数。
    静的変数としてリストのヘッドを保持し、シェル全体で共有できるようにする */
@@ -42,15 +43,31 @@ void	free_env_list(void)
 	*g_env() = NULL;
 }
 
+static bool	populate_env_list_from_array(t_env *current,
+		char **envp, int start_idx)
+{
+	int	i;
+
+	i = start_idx;
+	while (envp[i])
+	{
+		current->next = create_env_node(envp[i]);
+		if (!current->next)
+		{
+			return (false);
+		}
+		current = current->next;
+		i++;
+	}
+	current->next = NULL;
+	return (true);
+}
+
 /* 与えられた環境変数配列から環境変数リストを作成する関数。
    すべての環境変数をノードとして連結リストに変換する */
-// create_env_node is assumed to be defined elsewhere or needs to be included.
-// For this example, let's assume create_env_node is available.
 t_env	*create_env_list(char **envp)
 {
 	t_env	*head;
-	t_env	*current;
-	int		i;
 
 	if (!envp || !envp[0])
 	{
@@ -64,20 +81,11 @@ t_env	*create_env_list(char **envp)
 		return (NULL);
 	}
 	*g_env() = head;
-	current = head;
-	i = 1;
-	while (envp[i])
+	if (!populate_env_list_from_array(head, envp, 1))
 	{
-		current->next = create_env_node(envp[i]);
-		if (!current->next)
-		{
-			free_env_list();
-			return (NULL);
-		}
-		current = current->next;
-		i++;
+		free_env_list();
+		return (NULL);
 	}
-	current->next = NULL;
 	return (head);
 }
 
@@ -86,14 +94,16 @@ t_env	*create_env_list(char **envp)
 t_env	*get_env_node(const char *name)
 {
 	t_env	*env_list_head;
+	size_t	name_len;
 
 	if (!name)
 		return (NULL);
+	name_len = ft_strlen(name);
 	env_list_head = *g_env();
 	while (env_list_head)
 	{
-		if (ft_strncmp(env_list_head->name, name,
-				ft_strlen(env_list_head->name)) == 0)
+		if (env_list_head->name && ft_strlen(env_list_head->name) == name_len
+			&& ft_strncmp(env_list_head->name, name, name_len) == 0)
 			return (env_list_head);
 		env_list_head = env_list_head->next;
 	}

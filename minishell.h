@@ -202,7 +202,6 @@ int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *name);
 int					update_env_value(t_env *node, const char *value);
 t_env				*create_env_node(const char *env_str);
-char				*expand_env_vars(const char *str, int in_dquote);
 char				*expand_env_node(const char *name);
 
 /* --- External Commands --- */
