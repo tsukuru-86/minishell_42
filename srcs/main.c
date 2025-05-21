@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:58:32 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/18 23:25:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 01:56:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 			break ;
 		if (*input)
+		{
 			add_history(input);
-		process_command(input, &status);
+			process_command(input, &status);
+		}
 		free(input);
 	}
 	clear_history();
