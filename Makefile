@@ -19,11 +19,13 @@ SRCS_FILE = main.c \
 	execute_builtin.c \
 	execute_external.c \
 	external_commands_child_utils.c \
+	external_commands_find.c \
 	external_commands_utils.c \
 	external_commands.c \
-	external_utils.c \
 	input_utils.c \
-	parser.c \
+	parser_command_ops.c \
+	parser_main.c \
+	parser_token_handlers.c \
 	pipeline_exec.c \
 	pipeline_process_utils.c \
 	pipeline_setup_utils.c \
@@ -35,6 +37,7 @@ SRCS_FILE = main.c \
 	tokenizer_core_logic.c \
 	tokenizer_meta_utils.c \
 	tokenizer_meta.c \
+	tokenizer_normal_word_logic.c \
 	tokenizer_quote_processing.c \
 	tokenizer_utils.c \
 	tokenizer.c

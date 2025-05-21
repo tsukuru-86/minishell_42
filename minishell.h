@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -100,7 +101,12 @@ typedef struct s_env
 /* パーサー関数のプロトタイプ */
 t_command			*parse_tokens(t_token *tokens);
 void				free_command(t_command *cmd);
-
+int					add_redirect(t_command *cmd, t_token *token,
+						t_token *next_token);
+t_command			*create_command(void);
+int					process_token_in_parse_loop(t_command **cmd_ptr,
+						t_token **current_token_ptr, t_command **head_cmd_ptr);
+int					add_argument(t_command *cmd, char *arg);
 /* Redirection types */
 # define REDIR_OUT 1 /* > */
 # define REDIR_IN 2 /* < */
