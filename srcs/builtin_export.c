@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 00:03:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 01:23:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ static t_env	*swap_nodes(t_env *head, t_env *prev, t_env *current,
 static t_env	*get_sorted_env_list(void)
 
 {
-	t_env *current;
-	t_env *head;
-	t_env *next;
-	t_env *prev;
+	t_env	*current;
+	t_env	*head;
+	t_env	*next;
 
 	head = *g_env();
 	while (head && head->next)
@@ -89,8 +88,6 @@ static t_env	*get_sorted_env_list(void)
 			head = swap_nodes(head, NULL, current, next);
 		else
 			current = current->next;
-		if (current->next != prev->next || !prev)
-			prev = current;
 	}
 	return (head);
 }
