@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/20 22:24:50 by muiida            ###   ########.fr       */
+/*   Updated: 2025/05/22 00:54:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	create_pipes(t_command *cmd)
 		if (pipe(pipefd) == -1)
 		{
 			perror("pipe");
-			cleanup_pipeline(cmd); // Ensure cleanup_pipeline is accessible
+			cleanup_pipeline(cmd);
 			return (0);
 		}
 		current->pipe.write_fd = pipefd[1];
@@ -52,7 +52,7 @@ int	create_pipes(t_command *cmd)
 /* 親プロセスでのパイプの閉鎖 */
 void	close_parent_pipes(t_command *cmd)
 {
-	t_command *current;
+	t_command	*current;
 
 	current = cmd;
 	while (current)

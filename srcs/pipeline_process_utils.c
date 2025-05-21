@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/20 22:24:50 by muiida            ###   ########.fr       */
+/*   Updated: 2025/05/22 01:16:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ static void	execute_pipeline_command(t_command *cmd, t_command *current)
 {
 	setup_pipeline_child_env();
 	pipeline_redirect_io(current);
-	pipeline_close_pipes(cmd); // Assuming pipeline_close_pipes is available
+	pipeline_close_pipes(cmd);
 	pipeline_execute_command_logic(current);
 }
 
 /* 子プロセスの作成と実行 */
 int	spawn_pipeline_processes(t_command *cmd)
 {
-	t_command *current;
-	pid_t pid;
+	t_command	*current;
+	pid_t		pid;
 
 	current = cmd;
 	while (current)
@@ -83,7 +83,7 @@ int	spawn_pipeline_processes(t_command *cmd)
 		if (pid == 0)
 		{
 			execute_pipeline_command(cmd, current);
-			exit(EXIT_FAILURE); // Should not reach here
+			exit(EXIT_FAILURE);
 		}
 		else
 			current->pipe.pid = pid;

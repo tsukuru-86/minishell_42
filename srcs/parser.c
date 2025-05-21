@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:13:41 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/19 00:13:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/22 01:18:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	add_argument(t_command *cmd, char *arg)
 	new_args[i] = ft_strdup(arg);
 	if (!new_args[i])
 	{
-		free(new_args); // resize_and_copy_argsで確保したメモリを解放
+		free(new_args);
 		return (0);
 	}
 	new_args[i + 1] = NULL;
@@ -80,11 +80,9 @@ static int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	t_redirect	*redir;
 	int			type;
 
-	// 修正: リダイレクト先もクォートされうる
 	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
 			&& next->type != TOKEN_DOUBLE_QUOTE))
-		return (0); // エラー: リダイレクト先がないか、不正なトークンタイプ
-	// リダイレクトタイプの判定
+		return (0);
 	if (token->type == TOKEN_REDIR_IN)
 		type = REDIR_IN;
 	else if (token->type == TOKEN_REDIR_OUT)
@@ -92,12 +90,10 @@ static int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	else if (token->type == TOKEN_REDIR_APPEND)
 		type = REDIR_APPEND;
 	else
-		return (0); // 不明なリダイレクトタイプ (通常は到達しない)
-	// リダイレクト構造体の作成
+		return (0);
 	redir = create_redirect(type, next->content);
 	if (!redir)
-		return (0); // メモリ確保失敗
-	// リダイレクトリストの先頭に追加
+		return (0);
 	redir->next = cmd->redirects;
 	cmd->redirects = redir;
 	return (1);
@@ -112,7 +108,6 @@ void	free_command(t_command *cmd)
 	while (cmd)
 	{
 		next_cmd = cmd->next;
-		// 引数配列の解放
 		if (cmd->args)
 		{
 			i = 0;
@@ -120,7 +115,6 @@ void	free_command(t_command *cmd)
 				free(cmd->args[i++]);
 			free(cmd->args);
 		}
-		// リダイレクトの解放
 		free_redirect(cmd->redirects);
 		free(cmd);
 		cmd = next_cmd;
@@ -144,7 +138,7 @@ static int	handle_word_token(t_command *cmd, t_token **current_token,
 static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
-	if (!(*current_token)->next) // リダイレクト先のトークンが存在しない
+	if (!(*current_token)->next)
 	{
 		free_command(*head_cmd);
 		ft_putstr_fd((char *)"minishell: syntax error near unexpected token `newline'\n",
@@ -169,17 +163,17 @@ static int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	if (!(*cmd)->next)
 	{
 		free_command(*head_cmd);
-		*head_cmd = NULL; // head_cmdをNULLにして解放済みを示す
+		*head_cmd = NULL;
 		return (0);
 	}
 	*cmd = (*cmd)->next;
 	*current_token = (*current_token)->next;
-	if (!*current_token) // パイプの後にコマンドがない
+	if (!*current_token)
 	{
 		ft_putstr_fd((char *)"minishell: syntax error near unexpected token `|'\n",
 			2);
 		free_command(*head_cmd);
-		*head_cmd = NULL; // head_cmdをNULLにして解放済みを示す
+		*head_cmd = NULL;
 		return (0);
 	}
 	return (1);
@@ -192,7 +186,7 @@ static int	process_token_in_parse_loop(t_command **cmd_ptr,
 	t_token_type	type;
 	int				status;
 
-	status = 1; // デフォルトは成功
+	status = 1;
 	type = (*current_token_ptr)->type;
 	if (type == TOKEN_WORD || type == TOKEN_SINGLE_QUOTE
 		|| type == TOKEN_DOUBLE_QUOTE)
@@ -204,8 +198,7 @@ static int	process_token_in_parse_loop(t_command **cmd_ptr,
 	else if (type == TOKEN_PIPE)
 		status = handle_pipe_token(cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else
-		// 不明なトークンタイプまたはその他のケース (例: セミコロンなど未対応のメタ文字)
-		*current_token_ptr = (*current_token_ptr)->next; // とりあえず進める
+		*current_token_ptr = (*current_token_ptr)->next;
 	return (status);
 }
 
@@ -215,10 +208,6 @@ static int	validate_command(t_command *head, t_token *tokens)
 	if (head && head->args == NULL && head->redirects == NULL
 		&& head->next == NULL && tokens->type == TOKEN_PIPE)
 	{
-		// `cmd |` のようなケースで `handle_pipe_token` がエラーを返し
-		// `head` が `NULL` になっていることを期待。
-		// もし `head` が `NULL` でない場合、それは不完全なコマンドかもしれない。
-		// 現状の `handle_pipe_token` はエラー時に `*head_cmd = NULL` を行う。
 		return (0);
 	}
 	return (1);

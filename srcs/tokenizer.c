@@ -6,17 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/20 22:24:50 by muiida            ###   ########.fr       */
+/*   Updated: 2025/05/22 00:47:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* トークンをリストの末尾に追加する関数。 */
-// This function is now globally accessible or replicated if needed by tokenizer_core_logic.c
-// For this example, making it non-static for use by tokenizer_core_logic.c
-// Or, tokenizer_core_logic.c can have its own static version if preferred.
-// Let's make it available for tokenizer_core_logic.c
+
 void	add_token_to_list(t_token **token_list_head, t_token *new_token)
 {
 	t_token	*current;
@@ -54,7 +51,7 @@ t_token	*create_token(char *content, t_token_type type)
 			return (NULL);
 		}
 	}
-	else // Allow NULL content for certain token types if necessary
+	else
 		new_token->content = NULL;
 	new_token->type = type;
 	new_token->next = NULL;
@@ -73,12 +70,10 @@ t_token	*tokenize(char *input)
 		return (NULL);
 	while (input[i])
 	{
-		// process_token_segment is in tokenizer_core_logic.c
-		// It will use add_token_to_list to build the tokens_head list.
 		if (!process_token_segment(input, &i, &tokens_head))
 		{
-			free_tokens(tokens_head); // free_tokens is in tokenizer_utils.c
-			return (NULL);            // Tokenization error
+			free_tokens(tokens_head);
+			return (NULL);
 		}
 	}
 	return (tokens_head);

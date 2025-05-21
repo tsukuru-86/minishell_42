@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -22,13 +23,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/syslimits.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <stdio.h>
 
 # define MAX_TOKENS 1024
 
@@ -177,7 +176,6 @@ void				close_parent_pipes(t_command *cmd);
 void				pipeline_close_pipes(t_command *cmd_list);
 void				setup_pipeline_child_env(void);
 
-
 /* --- Tokenizer --- */
 t_token				*tokenize(char *input);
 t_token				*create_token(char *content, t_token_type type);
@@ -192,7 +190,8 @@ int					process_token_segment(char *input, int *i,
 						t_token **tokens);
 int					extract_quoted_string(char *input, int *i, char *word_buf,
 						t_token_type *type);
-
+int					handle_word_logic(char *input, int *i, t_token **tokens,
+						char *word_buf);
 /* --- Environment --- */
 t_env				**g_env(void);
 void				free_env_list(void);
@@ -201,7 +200,6 @@ int					set_env_node(const char *name, const char *value);
 int					remove_env_var(const char *name);
 int					is_valid_identifier(const char *name);
 int					update_env_value(t_env *node, const char *value);
-t_env				*create_env_node(const char *env_str);
 char				*expand_env_node(const char *name);
 
 /* --- External Commands --- */
