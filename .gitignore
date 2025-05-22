@@ -22,4 +22,9 @@ minishell
 # Test files
 test.c
 kabeuchi.c
+<<<<<<< HEAD
 test.txt
+=======
+
+minishell_tester/
+>>>>>>> 6f69905 (fix: git設定)
