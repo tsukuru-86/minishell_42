@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 21:14:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 03:46:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_command	*create_command(void)
 	cmd->args = NULL;
 	cmd->redirects = NULL;
 	cmd->next = NULL;
+	cmd->prev = NULL;
 	return (cmd);
 }
 
