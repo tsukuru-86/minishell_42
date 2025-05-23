@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_command_ops.c                               :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 02:06:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:14:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ t_command	*create_command(void)
 
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
+	{
+		ft_putstr_fd("minishell: failed to create command structure\n", 2);
 		return (NULL);
+	}
 	cmd->args = NULL;
 	cmd->redirects = NULL;
 	cmd->next = NULL;
@@ -80,60 +83,46 @@ int	add_argument(t_command *cmd, char *arg)
 	return (1);
 }
 
-/*
-** リダイレクトをコマンドに追加
-*/
-int	add_redirect(t_command *cmd, t_token *token, t_token *next_token)
+/* トークンタイプに基づいてリダイレクトタイプを決定し、ヒアドキュメントを処理 */
+static int	determine_redirect_type(t_command *cmd, t_token *token,
+		t_token *next_token, int *type_out)
 {
-	t_redirect	*redir;
-	int			type;
-
-	if (!next_token || (next_token->type != TOKEN_WORD
-			&& next_token->type != TOKEN_SINGLE_QUOTE
-			&& next_token->type != TOKEN_DOUBLE_QUOTE))
-		return (0);
 	if (token->type == TOKEN_REDIR_IN)
-		type = REDIR_IN;
+		*type_out = REDIR_IN;
 	else if (token->type == TOKEN_REDIR_OUT)
-		type = REDIR_OUT;
+		*type_out = REDIR_OUT;
 	else if (token->type == TOKEN_REDIR_APPEND)
-		type = REDIR_APPEND;
+		*type_out = REDIR_APPEND;
 	else if (token->type == TOKEN_HEREDOC)
 	{
 		if (!handle_heredoc(cmd, next_token->content))
 			return (0);
-		return (1);
+		return (2);
 	}
 	else
 		return (0);
-	redir = create_redirect(type, next_token->content);
+	return (1);
+}
+
+/* リダイレクトをコマンドに追加 */
+int	add_redirect(t_command *cmd, t_token *token, t_token *next)
+{
+	t_redirect	*redir;
+	int			type;
+	int			result;
+
+	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
+			&& next->type != TOKEN_DOUBLE_QUOTE))
+		return (0);
+	result = determine_redirect_type(cmd, token, next, &type);
+	if (result == 0)
+		return (0);
+	if (result == 2)
+		return (1);
+	redir = create_redirect(type, next->content);
 	if (!redir)
 		return (0);
 	redir->next = cmd->redirects;
 	cmd->redirects = redir;
 	return (1);
-}
-
-/*
-** コマンド構造体の解放
-*/
-void	free_command(t_command *cmd)
-{
-	t_command	*next_cmd;
-	int			i;
-
-	while (cmd)
-	{
-		next_cmd = cmd->next;
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-				free(cmd->args[i++]);
-			free(cmd->args);
-		}
-		free_redirect(cmd->redirects);
-		free(cmd);
-		cmd = next_cmd;
-	}
 }

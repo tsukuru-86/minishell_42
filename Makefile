@@ -25,11 +25,13 @@ SRCS_FILE = main.c \
 	external_commands_utils.c \
 	external_commands.c \
 	external_utils.c \
+	heredoc_utils.c \
 	heredoc.c \
 	input_utils.c \
-	parser_command_ops.c \
-	parser_main.c \
-	parser_token_handlers.c \
+	parser_token_to_cmd.c \
+	parser_tokens.c \
+	parser_utils3.c \
+	parser.c \
 	pipeline_exec.c \
 	pipeline_process_utils.c \
 	pipeline_setup_utils.c \
@@ -40,10 +42,11 @@ SRCS_FILE = main.c \
 	signal_state.c \
 	tokenizer_core_logic.c \
 	tokenizer_meta_utils.c \
-	tokenizer_meta.c \
 	tokenizer_normal_word_logic.c \
 	tokenizer_quote_processing.c \
 	tokenizer_utils.c \
+	tokenizer_utils2.c \
+	tokenizer_utils3.c \
 	tokenizer.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS_DIR = obj/

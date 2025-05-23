@@ -6,115 +6,121 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/23 00:23:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 20:43:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* トークンをリストの末尾に追加する関数。 */
+t_token		*create_meta_token(const char *input, int *i);
+int			ft_isspace(int c);
+int			handle_word_token_creation(t_tokenizer_stat *vars,
+				const char *input);
 
-void	add_token_to_list(t_token **token_list_head, t_token *new_token)
+/* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
+static int	handle_quoted_token_creation(t_tokenizer_stat *vars,
+		const char *input)
 {
-	t_token	*current;
+	t_token_type	quote_type;
+	t_token			*new_token;
 
-	if (!token_list_head || !new_token)
-		return ;
-	if (!(*token_list_head))
+	if (!extract_quoted_string(input, &vars->i, vars->word_buffer, &quote_type,
+			vars->cmd_instance))
+		return (0);
+	new_token = create_token(vars->word_buffer, quote_type);
+	if (!new_token)
+		return (0);
+	add_token_to_list(&vars->tokens, new_token);
+	return (1);
+}
+
+/* メタ文字セグメントを処理してトークンを作成し、リストに追加 */
+static int	handle_meta_token_creation(t_tokenizer_stat *vars,
+		const char *input)
+{
+	t_token	*new_token;
+
+	new_token = create_meta_token(input, &vars->i);
+	if (!new_token)
+		return (0);
+	add_token_to_list(&vars->tokens, new_token);
+	return (1);
+}
+
+/* 入力から生の単語を抽出し、バッファに格納 */
+int	extract_raw_word(const char *input, int *i, char *word_buffer)
+{
+	int	word_i;
+
+	word_i = 0;
+	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
+		&& !is_meta(input[*i]))
 	{
-		*token_list_head = new_token;
-		return ;
+		if (word_i < 1024 - 1)
+			word_buffer[word_i++] = input[*i];
+		(*i)++;
 	}
-	current = *token_list_head;
-	while (current->next)
-		current = current->next;
-	current->next = new_token;
+	word_buffer[word_i] = '\0';
+	return (word_i);
+}
+
+/* 生の単語を展開し、TOKEN_WORD トークンを作成 */
+t_token	*create_expanded_word_token(char *raw_word, t_command *cmd, int *status)
+{
+	char	*expanded_content;
+	t_token	*new_token;
+
+	*status = 0;
+	if (ft_strlen(raw_word) == 0)
+	{
+		*status = 1;
+		return (NULL);
+	}
+	expanded_content = expand_env_vars(raw_word, 0, cmd);
+	if (!expanded_content)
+		return (NULL);
+	new_token = create_token(expanded_content, TOKEN_WORD);
+	free(expanded_content);
+	if (!new_token)
+		return (NULL);
+	*status = 2;
+	return (new_token);
 }
 
 /* 入力文字列をトークンに分割 */
-t_token	*tokenize(char *input, t_command *cmd)
+t_token	*tokenize(char *input, t_command *cmd_param)
 {
-	t_token			*tokens;
-	char			word[1024];
-	int				i;
-	int				word_i;
-	t_token_type	type;
-	t_token			*new_token;
-	char			*expanded;
-	int				need_free_cmd;
+	t_tokenizer_stat	vars;
 
-	tokens = NULL;
-	need_free_cmd = 0;
-	if (!cmd)
-	{
-		cmd = (t_command *)malloc(sizeof(t_command));
-		if (!cmd)
-			return (NULL);
-		ft_memset(cmd, 0, sizeof(t_command));
-		cmd->last_status = 0;
-		need_free_cmd = 1;
-	}
-	i = 0;
-	if (!input)
+	if (!init_tokenizer_stat(&vars, cmd_param))
 		return (NULL);
-	while (input[i])
+	if (!input)
 	{
-		if (!process_token_segment(input, &i, &tokens, cmd))
+		finalize_tokenizer(&vars);
+		return (NULL);
+	}
+	while (input[vars.i])
+	{
+		while (input[vars.i] && ft_isspace(input[vars.i]))
+			vars.i++;
+		if (!input[vars.i])
+			break ;
+		if (is_quote(input[vars.i]))
 		{
-			i++;
-			continue ;
+			if (!handle_quoted_token_creation(&vars, input))
+				return (cleanup_and_return_null(&vars, input));
 		}
-		if (is_quote(input[i]))
+		else if (is_meta(input[vars.i]))
 		{
-			if (!extract_quoted_string(input, &i, word, &type, cmd))
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
-			new_token = create_token(word, type);
-			if (!new_token)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
-			add_token_to_list(&tokens, new_token);
-			continue ;
+			if (!handle_meta_token_creation(&vars, input))
+				return (cleanup_and_return_null(&vars, input));
 		}
-		if (is_meta(input[i]))
+		else
 		{
-			new_token = create_meta_token(input, &i);
-			if (!new_token)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
-			add_token_to_list(&tokens, new_token);
-			continue ;
-		}
-		word_i = 0;
-		while (input[i] && !is_delimiter(input[i]) && !is_quote(input[i])
-			&& !is_meta(input[i]))
-			word[word_i++] = input[i++];
-		word[word_i] = '\0';
-		if (word_i > 0)
-		{
-			expanded = expand_env_vars(word, 0, cmd);
-			if (!expanded)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
-			new_token = create_token(expanded, TOKEN_WORD);
-			free(expanded);
-			if (!new_token)
-			{
-				free_tokens(tokens);
-				return (NULL);
-			}
-			add_token_to_list(&tokens, new_token);
+			if (!handle_word_token_creation(&vars, input))
+				return (cleanup_and_return_null(&vars, input));
+			finalize_tokenizer(&vars);
 		}
 	}
-	if (need_free_cmd)
-		free(cmd);
-	return (tokens);
+	return (vars.tokens);
 }

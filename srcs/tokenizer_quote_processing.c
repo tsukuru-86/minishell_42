@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 00:07:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 20:35:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	check_buffer_size_internal(int word_idx)
 	return (1);
 }
 
-// /* クォート文字を処理してトークンタイプを決定 */
 static void	set_quote_type_internal(char quote_char, t_token_type *type)
 {
 	if (quote_char == '\'')
@@ -33,8 +32,8 @@ static void	set_quote_type_internal(char quote_char, t_token_type *type)
 }
 
 /* クォート内の文字列をバッファにコピー */
-static int	copy_quoted_content_internal(char *input, int *i, char *word_buf,
-		char quote_char)
+static int	copy_quoted_content_internal(const char *input, int *i,
+		char *word_buf, char quote_char)
 {
 	int	word_idx;
 
@@ -78,7 +77,7 @@ static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 }
 
 /* クォートされた文字列を抽出。クォートが閉じられていない場合などに 0 を返す */
-int	extract_quoted_string(char *input, int *i, char *word_buf,
+int	extract_quoted_string(const char *input, int *i, char *word_buf,
 		t_token_type *type, t_command *cmd)
 {
 	char	quote_char;

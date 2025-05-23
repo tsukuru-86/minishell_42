@@ -107,7 +107,7 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 		|| type == TOKEN_DOUBLE_QUOTE)
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
-		|| type == TOKEN_REDIR_APPEND)
+		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
 		status = handle_redirect_token(*cmd_ptr, current_token_ptr,
 				head_cmd_ptr);
 	else if (type == TOKEN_PIPE)
