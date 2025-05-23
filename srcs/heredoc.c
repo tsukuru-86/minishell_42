@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 21:29:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 01:41:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	handle_heredoc(t_command *cmd, char *delimiter)
 	t_heredoc	*heredoc;
 	int			fd;
 
-	printf("handle_heredoc delimiter: %s\n", delimiter);
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
 		return (0);
