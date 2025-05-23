@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/23 22:06:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <unistd.h>
 
 # define MAX_TOKENS 1024
+
+int	is_valid_identifier(const char *str);
 
 /* トークンの種類を定義 */
 typedef enum e_token_type
@@ -108,7 +110,6 @@ char				*expand_env_node(const char *name);
 int					setup_pipeline(t_command *cmd);
 void				cleanup_pipeline(t_command *cmd);
 int					wait_pipeline(t_command *cmd);
-void				setup_pipeline_child_env(void);
 void				pipeline_close_pipes(t_command *cmd);
 int					spawn_pipeline_processes(t_command *cmd);
 void				init_pipeline(t_command *cmd);
@@ -161,11 +162,12 @@ int					builtin_cd(char **args);
 int					builtin_pwd(char **args);
 int					builtin_export(char **args);
 int					builtin_unset(char **args);
-int					builtin_env(char **args);
 int					builtin_exit(char **args);
-int					is_valid_identifier(const char *str);
 int					process_export_arg(char *arg);
 int					excute_commands(t_command *cmd);
+
+/* Environment display */
+int					display_all_env_vars(int fd);
 
 /* Builtin command */
 int					is_builtin(char *cmd);

@@ -6,19 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 21:54:35 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 #include "tokenizer.h"
-
-/* Check if character is a whitespace */
-int	ft_isspace(int c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r');
-}
 
 /* トークナイザの状態を初期化。cmd_paramがNULLの場合、新しいコマンド構造体を割り当てる */
 int	init_tokenizer_stat(t_tokenizer_stat *vars, t_command *cmd_param)

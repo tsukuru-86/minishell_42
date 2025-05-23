@@ -1,13 +1,15 @@
-# Chapter II: Common Instructions
+# subject: minitalk
 
-## General Requirements
+## Chapter II: Common Instructions
+
+### General Requirements
 
 - Your project must be written in **C**.
 - Your project must adhere to the **Norm(en.norm.tex)**. If there are any norm errors, including in bonus files/functions, the project will receive a **0**.
 - Functions must not quit unexpectedly (e.g., segmentation fault, bus error, double free), except for undefined behavior. If such errors occur, the project will be considered **non-functional** and receive a **0**.
 - All heap-allocated memory must be properly freed when necessary. **Memory leaks will not be tolerated**.
 
-## Makefile Requirements
+### Makefile Requirements
 
 - The Makefile must:
   - Compile source files with the flags `-Wall`, `-Wextra`, and `-Werror` using `cc`.
@@ -19,16 +21,16 @@
     - `fclean`
     - `re`
 
-# Chapter III: Mandatory Part
+## Chapter III: Mandatory Part
 
-## Program Details
+### Program Details
 
 - **Program name**: `minishell`
 - **Turn in files**: `Makefile`, `*.h`, `*.c`
 - **Makefile rules**: `NAME`, `all`, `clean`, `fclean`, `re`
 - **Libft authorized**: Yes
 
-## External Functions Allowed
+### External Functions Allowed
 
 - `readline`, `rl_clear_history`, `rl_on_new_line`, `rl_replace_line`, `rl_redisplay`, `add_history`
 - `printf`, `malloc`, `free`, `write`, `access`, `open`, `read`, `close`
@@ -37,7 +39,7 @@
 - `opendir`, `readdir`, `closedir`, `strerror`, `perror`, `isatty`, `ttyname`, `ttyslot`, `ioctl`
 - `getenv`, `tcsetattr`, `tcgetattr`, `tgetent`, `tgetflag`, `tgetnum`, `tgetstr`, `tgoto`, `tputs`
 
-## Requirements
+### Requirements
 
 Your shell must:
 
@@ -67,7 +69,7 @@ Your shell must:
    - `ctrl-D`: Exits the shell.
    - `ctrl-\`: Does nothing.
 
-## Built-in Commands
+### Built-in Commands
 
 Your shell must implement the following:
 
@@ -79,7 +81,7 @@ Your shell must implement the following:
 - `env` with no options or arguments.
 - `exit` with no options.
 
-## Memory Management
+### Memory Management
 
 - The `readline()` function may cause memory leaks, but you are not required to fix them.
 - Your own code must not have memory leaks.

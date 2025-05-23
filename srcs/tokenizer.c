@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/23 21:47:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 #include "tokenizer.h"
 
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
@@ -97,7 +97,9 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 	}
 	while (input[vars.i])
 	{
-		while (input[vars.i] && ft_isspace(input[vars.i]))
+		while (input[vars.i] && (input[vars.i] == ' ' || input[vars.i] == '\t'
+				|| input[vars.i] == '\n' || input[vars.i] == '\v'
+				|| input[vars.i] == '\f' || input[vars.i] == '\r'))
 			vars.i++;
 		if (!input[vars.i])
 			break ;

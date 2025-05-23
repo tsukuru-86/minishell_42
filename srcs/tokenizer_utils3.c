@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:46:04 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 21:52:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 #include "tokenizer.h"
 
 /* トークンをリストの末尾に追加する関数。 */

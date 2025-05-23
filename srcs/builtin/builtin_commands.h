@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline_utils.c                                   :+:      :+:    :+:   */
+/*   builtin_commands.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 05:13:14 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/24 05:32:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef BUILTIN_COMMANDS_H
+# define BUILTIN_COMMANDS_H
 
-/* Set up child signals and pipeline environment */
-/* Close all pipe file descriptors in the command list */
-void	pipeline_close_pipes(t_command *cmd)
-{
-	t_command	*tmp;
+# include "../../minishell.h"
+# include "../utils/env_display.h"
+# include "../error/error_messages.h"
 
-	tmp = cmd;
-	while (tmp)
-	{
-		if (tmp->pipe.read_fd != -1)
-			close(tmp->pipe.read_fd);
-		if (tmp->pipe.write_fd != -1)
-			close(tmp->pipe.write_fd);
-		tmp = tmp->next;
-	}
-}
+/* ビルトインコマンド */
+int	builtin_env(char **args);
+int	builtin_unset(char **args);
+
+#endif

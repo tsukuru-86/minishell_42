@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/23 00:55:40 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* Append quoted section starting at str[*i] */
 void	append_quoted(const char *str, int *i, char *res, int *j)

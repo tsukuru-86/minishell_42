@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/22 00:54:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* パイプライン内のすべてのコマンドのパイプ情報を初期化する関数 */
 void	init_pipeline(t_command *cmd)

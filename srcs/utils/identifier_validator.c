@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.c                                     :+:      :+:    :+:   */
+/*   identifier_validator.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 01:31:16 by muiida           #+#    #+#             */
-/*   Updated: 2025/05/11 01:31:16 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/24 00:00:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Replace whitespace characters (tab and newline) with space */
-static void	replace_whitespace(char *str)
+/* 環境変数名が有効な識別子かどうかをチェックする関数。
+   先頭が英字かアンダースコアで始まり、その後は英数字とアンダースコアのみを含む必要がある */
+int	is_valid_identifier(const char *str)
 {
+	if (str == NULL || *str == '\0')
+		return (0);
+	if (!ft_isalpha(*str) && *str != '_')
+		return (0);
+	str++;
 	while (*str)
 	{
-		if (*str == '\t' || *str == '\n')
-			*str = ' ';
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
 		str++;
 	}
-}
-
-/* Split input line into tokens by space */
-char	**split_command(char *input)
-{
-	char	**tokens;
-
-	if (!input)
-		return (NULL);
-	replace_whitespace(input);
-	tokens = ft_split(input, ' ');
-	if (!tokens)
-		return (NULL);
-	return (tokens);
+	return (1);
 }

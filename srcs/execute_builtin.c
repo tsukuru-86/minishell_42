@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* 単一の組み込みコマンドを実行する関数 */
 int	execute_builtin_with_redirect(t_command *cmd)
@@ -66,7 +66,7 @@ int	execute_builtin(char **args)
 	else if (strcmp(args[0], "unset") == 0)
 		return (builtin_unset(args));
 	else if (strcmp(args[0], "env") == 0)
-		return (builtin_env(args));
+		return (display_all_env_vars(1));
 	else if (strcmp(args[0], "exit") == 0)
 		return (builtin_exit(args));
 	return (1);

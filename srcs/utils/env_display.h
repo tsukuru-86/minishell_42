@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   env_display.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/24 05:27:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "utils/env_display.h"
-#include "error/error_messages.h"
+#ifndef ENV_DISPLAY_H
+# define ENV_DISPLAY_H
 
-/* このファイルは非推奨です。新しいファイルは以下に移動されました:
- * - builtin/builtin_env.c
- * - builtin/builtin_unset.c
- * - utils/identifier_validator.c
- * - utils/env_display.c
- * このファイルは将来的に削除される予定です。
+/* 環境変数表示モジュール内部ヘッダー
+ * このヘッダーはutilsディレクトリ内のファイルでのみ使用
+ * 外部モジュールは minishell.h の関数のみを使用すること
  */
 
+# include "../../minishell.h"
+
+/* 環境変数表示内部関数（外部からは呼び出し禁止） */
+int		display_all_env_vars(int fd);
+
+#endif

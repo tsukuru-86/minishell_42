@@ -24,13 +24,16 @@ $(NAME): $(OBJS) | minishell.h
 obj/%.o: $(SRCS_DIR)%.c | obj/
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/:
+obj:
 	mkdir -p obj/
+	mkdir -p obj/external
+	mkdir -p obj/parser
+	mkdir -p obj/builtin
+	mkdir -p obj/utils
 
 clean:
 	make -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
-
+	rm -rf $(OBJS_DIR)
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)

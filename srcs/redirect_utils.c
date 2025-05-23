@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* Save the original file descriptor for later restoration */
 int	save_original_fd(t_redirect *redirect)

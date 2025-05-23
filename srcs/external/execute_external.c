@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* 外部コマンドの子プロセスでの実行部分 */
 void	execute_child_process(t_command *cmd)

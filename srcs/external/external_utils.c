@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* Search for a command in PATH environment */
 char	*search_in_path(const char *path_env, char *cmd)
