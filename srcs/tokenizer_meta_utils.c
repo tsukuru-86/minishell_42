@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 20:33:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:52:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "tokenizer.h"
 
 static t_token_type	check_pipe_token(const char *input, int *i)
 {

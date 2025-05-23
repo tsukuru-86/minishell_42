@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:46:04 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 20:46:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:52:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "tokenizer.h"
 
 /* トークンをリストの末尾に追加する関数。 */
 void	add_token_to_list(t_token **token_list_head, t_token *new_token)

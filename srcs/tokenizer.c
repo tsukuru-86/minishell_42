@@ -6,16 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/23 20:43:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:47:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_token		*create_meta_token(const char *input, int *i);
-int			ft_isspace(int c);
-int			handle_word_token_creation(t_tokenizer_stat *vars,
-				const char *input);
+#include "tokenizer.h"
 
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
 static int	handle_quoted_token_creation(t_tokenizer_stat *vars,

@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 20:45:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:54:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int		extract_raw_word(const char *input, int *i, char *word_buffer);
+#include "tokenizer.h"
 
 /* Check if character is a whitespace */
 int	ft_isspace(int c)

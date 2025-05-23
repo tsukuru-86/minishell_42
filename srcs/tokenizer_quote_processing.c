@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/23 20:35:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:52:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "tokenizer.h"
 
 /* バッファサイズチェックとエラー処理 */
 static int	check_buffer_size_internal(int word_idx)
