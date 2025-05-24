@@ -11,35 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-// 環境変数ノードを作成する
-t_env	*create_env_node_from_existing(t_env *original)
-{
-	t_env	*new_node;
-
-	new_node = (t_env *)malloc(sizeof(t_env));
-	if (!new_node)
-		return (NULL);
-	new_node->name = ft_strdup(original->name);
-	if (!new_node->name)
-	{
-		free(new_node);
-		return (NULL);
-	}
-	if (original->value)
-	{
-		new_node->value = ft_strdup(original->value);
-		if (!new_node->value)
-		{
-			free(new_node->name);
-			free(new_node);
-			return (NULL);
-		}
-	}
-	else
-		new_node->value = NULL;
-	new_node->next = NULL;
-	return (new_node);
-}
+#include "env.h"
 
 /* Create a new environment node from a string */
 t_env	*create_env_node(const char *str)
@@ -63,16 +35,4 @@ t_env	*create_env_node(const char *str)
 	}
 	new_node->next = NULL;
 	return (new_node);
-}
-
-/* Update the value of an existing environment variable */
-int	update_env_value(t_env *env_node, const char *value)
-{
-	if (env_node->value)
-		free(env_node->value);
-	if (value)
-		env_node->value = ft_strdup(value);
-	else
-		env_node->value = NULL;
-	return (0);
 }

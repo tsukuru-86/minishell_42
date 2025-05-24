@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.h                                     :+:      :+:    :+:   */
+/*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:40:09 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/12 05:13:14 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/25 02:42:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPORT_UTILS_H
-# define EXPORT_UTILS_H
+#include "minishell.h"
+#include "pipeline.h"
 
-# include "../../minishell.h"
-# include "../error/error_messages.h"
+/* Set up child signals and pipeline environment */
+/* Close all pipe file descriptors in the command list */
+void	pipeline_close_pipes(t_command *cmd)
+{
+	t_command	*tmp;
 
-/* export関連のユーティリティ関数 */
-void	split_export_arg(char *arg, char **name, char **value);
-int		validate_and_set_env(char *name, char *value);
-int		process_export_arg(char *arg);
-/* 環境変数表示機能 */
-int		display_all_env_vars(int fd);
-
-#endif
+	tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->pipe.read_fd != -1)
+			close(tmp->pipe.read_fd);
+		if (tmp->pipe.write_fd != -1)
+			close(tmp->pipe.write_fd);
+		tmp = tmp->next;
+	}
+}

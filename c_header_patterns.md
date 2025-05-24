@@ -16,4 +16,4 @@
 /* あなたの現在の構造: */
 //   ✅ minishell.h (メイン公開API)
 //   ✅ srcs/builtin/builtin_commands.h (モジュール内部)
-//   ✅ srcs/utils/export_utils.h (ユーティリティ内部)
+//   ✅ srcs/utils/export.h (ユーティリティ内部)

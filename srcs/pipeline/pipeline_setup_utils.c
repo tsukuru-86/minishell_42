@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 02:58:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "pipeline.h"
 
 /* パイプライン内のすべてのコマンドのパイプ情報を初期化する関数 */
 void	init_pipeline(t_command *cmd)
@@ -39,7 +40,7 @@ int	create_pipes(t_command *cmd)
 		if (pipe(pipefd) == -1)
 		{
 			perror("pipe");
-			cleanup_pipeline(cmd);
+			cleanup_pipeline(cmd);//TODO cleanup_pipeline_commands
 			return (0);
 		}
 		current->pipe.write_fd = pipefd[1];

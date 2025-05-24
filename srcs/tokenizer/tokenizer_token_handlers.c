@@ -31,30 +31,28 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 }
 
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
-int	handle_quoted_token_creation(t_tokenizer_stat *vars, const char *input)
+int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	t_token_type	quote_type;
 	t_token			*new_token;
 
-	if (!extract_quoted_string(input, &vars->i, vars->word_buffer, &quote_type,
-			vars->cmd_instance))
+	if (!extract_quoted_string(stat, input, stat->word_buffer))
 		return (0);
-	new_token = create_token(vars->word_buffer, quote_type);
+	new_token = create_token(stat->word_buffer, stat->quote_type);
 	if (!new_token)
 		return (0);
-	add_token_to_list(&vars->tokens, new_token);
+	add_token_to_list(&stat->tokens, new_token);
 	return (1);
 }
 
 /* メタ文字セグメントを処理してトークンを作成し、リストに追加 */
-int	handle_meta_token_creation(t_tokenizer_stat *vars, const char *input)
+int	handle_meta_token_creation(t_tokenizer_stat *stat, const char *input)
 {
 	t_token	*new_token;
 
-	new_token = create_meta_token(input, &vars->i);
+	new_token = create_meta_token(input, &stat->i_input);
 	if (!new_token)
 		return (0);
-	add_token_to_list(&vars->tokens, new_token);
+	add_token_to_list(&stat->tokens, new_token);
 	return (1);
 }
 

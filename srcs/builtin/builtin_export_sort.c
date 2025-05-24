@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:35:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 21:33:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 03:57:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin_commands.h"
 
 /* 環境変数リストのコピーを解放するヘルパー関数 */
 void	free_env_list_copy(t_env *head)

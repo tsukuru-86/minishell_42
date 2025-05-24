@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:56:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 03:23:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "env.h"
 
 /* 環境変数の値を取得 */
 char	*expand_env_var(const char *name, t_command *cmd)

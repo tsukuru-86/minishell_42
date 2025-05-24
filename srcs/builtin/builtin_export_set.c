@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_modify_utils.c                                 :+:      :+:    :+:   */
+/*   builtin_export_set.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 04:29:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 単一の環境変数ノードを解放する */
-static void	free_single_env_node(t_env *node)
-{
-	if (!node)
-		return ;
-	free(node->name);
-	free(node->value);
-	free(node);
-}
+#include "builtin_commands.h"
 
 /* Append a new variable to the environment list */
-int	append_env_node(const char *name, const char *value)
+static int	append_env_node(const char *name, const char *value)
 {
 	t_env	*new_node;
 	t_env	*current;
@@ -51,6 +42,18 @@ int	append_env_node(const char *name, const char *value)
 	return (0);
 }
 
+/* Update the value of an existing environment variable */
+static int	update_env_value(t_env *env_node, const char *value)
+{
+	if (env_node->value)
+		free(env_node->value);
+	if (value)
+		env_node->value = ft_strdup(value);
+	else
+		env_node->value = NULL;
+	return (0);
+}
+
 /* Set or create an environment variable */
 int	set_env_node(const char *name, const char *value)
 {
@@ -73,30 +76,20 @@ int	set_env_node(const char *name, const char *value)
 	return (append_env_node(name, value));
 }
 
-int	remove_env_var(const char *name)
+/* 環境変数リストを表示する */
+void	print_env_list(t_env *head)
 {
-	t_env	*current;
-	t_env	*prev;
-	t_env	**head_ref;
-
-	head_ref = g_env();
-	if (!head_ref || !*head_ref || !name)
-		return (1);
-	current = *head_ref;
-	prev = NULL;
-	while (current)
+	while (head != NULL)
 	{
-		if (ft_strncmp(current->name, name, ft_strlen(current->name)) == 0)
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(head->name, 1);
+		if (head->value)
 		{
-			if (prev)
-				prev->next = current->next;
-			else
-				*head_ref = current->next;
-			free_single_env_node(current);
-			return (0);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(head->value, 1);
+			ft_putchar_fd('\"', 1);
 		}
-		prev = current;
-		current = current->next;
+		ft_putchar_fd('\n', 1);
+		head = head->next;
 	}
-	return (0);
 }

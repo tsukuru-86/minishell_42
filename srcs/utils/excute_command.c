@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 04:50:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,6 @@ static int	execute_single_command(t_command *cmd)
 	}
 	if (cmd->redirects)
 		restore_redirection(cmd->redirects);
-	return (status);
-}
-
-/* パイプラインのクリーンアップを行う関数 */
-static void	cleanup_pipeline_commands(t_command *cmd)
-{
-	t_command	*current;
-
-	current = cmd;
-	while (current)
-	{
-		cleanup_pipeline(current);
-		current = current->next;
-	}
-}
-
-/* パイプラインコマンドを実行する関数 */
-static int	execute_command_pipeline(t_command *cmd)
-{
-	int	pipeline_result;
-	int	status;
-
-	pipeline_result = setup_pipeline(cmd);
-	if (pipeline_result == 0)
-	{
-		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
-		return (1);
-	}
-	status = wait_pipeline(cmd);
-	cleanup_pipeline_commands(cmd);
 	return (status);
 }
 

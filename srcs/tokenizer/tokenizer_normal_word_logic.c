@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 02:11:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static bool	create_and_add_word_token(char *word_buf, t_token **tokens,
 }
 
 /* 通常の単語を処理し、トークンリストに追加 */
-int	handle_word_logic(char *input, int *i, t_token **tokens, char *word_buf,
-		t_command *cmd)
+int	handle_word_logic(char *input, int *i, t_token **tokens, char *word_buf)
 {
 	int	word_idx;
 
@@ -70,7 +69,7 @@ int	handle_word_logic(char *input, int *i, t_token **tokens, char *word_buf,
 		return (0);
 	if (word_idx > 0)
 	{
-		if (!create_and_add_word_token(word_buf, tokens, cmd))
+		if (!create_and_add_word_token(word_buf, tokens, NULL))
 			return (0);
 	}
 	return (1);

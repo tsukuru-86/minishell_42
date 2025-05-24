@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_new.c                               :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 21:34:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 04:23:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin_commands.h"
 #include "minishell.h"
 
-/* ノードをリストに追加する */
+// /* ノードをリストに追加する */
 static void	add_node_to_list(t_env **head, t_env **tail, t_env *new_node)
 {
 	if (!*head)
@@ -25,6 +26,36 @@ static void	add_node_to_list(t_env **head, t_env **tail, t_env *new_node)
 		(*tail)->next = new_node;
 		*tail = new_node;
 	}
+}
+
+// 環境変数ノードを作成する
+t_env	*create_env_node_from_existing(t_env *original)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->name = ft_strdup(original->name);
+	if (!new_node->name)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	if (original->value)
+	{
+		new_node->value = ft_strdup(original->value);
+		if (!new_node->value)
+		{
+			free(new_node->name);
+			free(new_node);
+			return (NULL);
+		}
+	}
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
 }
 
 /* 環境変数リストを複製する */
@@ -52,24 +83,6 @@ static t_env	*duplicate_env_list(t_env *original_head)
 		current_original = current_original->next;
 	}
 	return (new_head);
-}
-
-/* 環境変数リストを表示する */
-static void	print_env_list(t_env *head)
-{
-	while (head != NULL)
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(head->name, 1);
-		if (head->value)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(head->value, 1);
-			ft_putchar_fd('\"', 1);
-		}
-		ft_putchar_fd('\n', 1);
-		head = head->next;
-	}
 }
 
 /* ソートされた環境変数を表示する */

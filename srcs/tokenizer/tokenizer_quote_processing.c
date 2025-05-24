@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 04:56:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,27 @@ static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 }
 
 /* クォートされた文字列を抽出。クォートが閉じられていない場合などに 0 を返す */
-int	extract_quoted_string(const char *input, int *i, char *word_buf,
-		t_token_type *type, t_command *cmd)
+int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
+		char *word_buf)
 {
 	char	quote_char;
-	int		content_len;
 
-	if (!input || !i || !type)
+	if (!input || !stat || !is_quote(input[stat->i_input]))
 		return (0);
-	quote_char = input[*i];
-	if (!is_quote(quote_char))
+	quote_char = input[stat->i_input];
+	set_quote_type_internal(quote_char, &stat->quote_type);
+	stat->i_input++;
+	if (copy_quoted_content_internal(input, &stat->i_input, word_buf,
+			quote_char) < 0)
 		return (0);
-	set_quote_type_internal(quote_char, type);
-	(*i)++;
-	content_len = copy_quoted_content_internal(input, i, word_buf, quote_char);
-	if (content_len < 0)
-		return (0);
-	if (input[*i] == quote_char)
-	{
-		(*i)++;
-		if (!expand_and_copy_if_double_quote_internal(word_buf, *type, cmd))
-			return (0);
-		return (1);
-	}
-	else
+	if (input[stat->i_input] != quote_char)
 	{
 		ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
 		return (0);
 	}
+	stat->i_input++;
+	if (!expand_and_copy_if_double_quote_internal(word_buf, stat->quote_type,
+			stat->cmd))
+		return (0);
+	return (1);
 }

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin_commands.h"
 
 /* 単一の組み込みコマンドを実行する関数 */
 int	execute_builtin_with_redirect(t_command *cmd)
@@ -48,6 +49,26 @@ int	is_builtin(char *cmd)
 	while (builtins[i])
 		if (strcmp(cmd, builtins[i++]) == 0)
 			return (1);
+	return (0);
+}
+
+/* 環境変数の一覧を表示する機能。
+   内部の環境変数リストから値を持つ変数のみを出力する */
+int	display_all_env_vars(int fd)
+{
+	t_env	*current_env;
+
+	current_env = *g_env();
+	while (current_env)
+	{
+		if (current_env->value)
+		{
+			ft_putstr_fd(current_env->name, fd);
+			ft_putstr_fd("=", fd);
+			ft_putendl_fd(current_env->value, fd);
+		}
+		current_env = current_env->next;
+	}
 	return (0);
 }
 

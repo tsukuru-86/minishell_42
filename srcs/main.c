@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 00:11:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	handle_input(char *input, int *status)
 	tokens = tokenize(input, cmd);
 	if (tokens)
 	{
-		// print_tokens(tokens);
 		cmd = parse_tokens(tokens);
 		if (cmd)
 		{

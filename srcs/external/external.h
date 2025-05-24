@@ -6,12 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:27:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 02:33:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXTERNAL_H
 # define EXTERNAL_H
+
+# include "minishell.h"
 
 /* 外部コマンド実行コア関数 */
 int		execute_external_command(char **args);

@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline_utils.c                                   :+:      :+:    :+:   */
+/*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 05:13:14 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/11 02:00:00 by muiida           #+#    #+#             */
+/*   Updated: 2025/05/11 02:00:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef REDIRECT_H
+# define REDIRECT_H
 
-#include "minishell.h"
+# include "minishell.h"
 
-/* Set up child signals and pipeline environment */
-/* Close all pipe file descriptors in the command list */
-void	pipeline_close_pipes(t_command *cmd)
-{
-	t_command	*tmp;
+/* Save the original file descriptor for later restoration */
+int		save_original_fd(t_redirect *redirect);
+/* Open the file based on redirection type */
+int		open_redirect_file(t_redirect *redirect);
+/* Apply the redirection using the file descriptor */
+void	apply_redirection(t_redirect *redirect, int fd);
 
-	tmp = cmd;
-	while (tmp)
-	{
-		if (tmp->pipe.read_fd != -1)
-			close(tmp->pipe.read_fd);
-		if (tmp->pipe.write_fd != -1)
-			close(tmp->pipe.write_fd);
-		tmp = tmp->next;
-	}
-}
+#endif

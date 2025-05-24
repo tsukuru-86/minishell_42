@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "export_utils.h"
+#include "error/error_messages.h"
+#include "builtin_commands.h"
+#include "minishell.h"
 
 /* Split export argument into name and value */
 void	split_export_arg(char *arg, char **name, char **value)
@@ -31,7 +33,7 @@ void	split_export_arg(char *arg, char **name, char **value)
 }
 
 /* Validate identifier and set environment variable */
-int	validate_and_set_env(char *name, char *value)
+static int	validate_and_set_env(char *name, char *value)
 {
 	if (!is_valid_identifier(name))
 	{

@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 04:32:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "pipeline.h"
 
 /* Redirect stdin and stdout based on pipeline pipes */
 static void	pipeline_redirect_io(t_command *current)
@@ -78,7 +79,7 @@ int	spawn_pipeline_processes(t_command *cmd)
 		if (pid == -1)
 		{
 			perror("fork");
-			cleanup_pipeline(cmd);
+			cleanup_pipeline(cmd); // TODO cleanup_pipeline_commands
 			return (0);
 		}
 		if (pid == 0)
@@ -91,4 +92,17 @@ int	spawn_pipeline_processes(t_command *cmd)
 		current = current->next;
 	}
 	return (1);
+}
+
+/* パイプラインのクリーンアップを行う関数 */
+void	cleanup_pipeline_commands(t_command *cmd)
+{
+	t_command	*current;
+
+	current = cmd;
+	while (current)
+	{
+		cleanup_pipeline(current);
+		current = current->next;
+	}
 }

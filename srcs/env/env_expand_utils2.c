@@ -6,20 +6,21 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 21:46:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/25 03:23:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "env.h"
 
 /* Append quoted section starting at str[*i] */
-void	append_quoted(const char *str, int *i, char *res, int *j)
+void	append_quoted(t_env_expand_ctx *ctx)
 {
-	res[(*j)++] = str[(*i)++];
-	while (str[*i] && str[*i] != '\'')
-		res[(*j)++] = str[(*i)++];
-	if (str[*i])
-		res[(*j)++] = str[(*i)++];
+	ctx->res[(*ctx->j)++] = ctx->env_line[(*ctx->i)++];
+	while (ctx->env_line[*ctx->i] && ctx->env_line[*ctx->i] != '\'')
+		ctx->res[(*ctx->j)++] = ctx->env_line[(*ctx->i)++];
+	if (ctx->env_line[*ctx->i])
+		ctx->res[(*ctx->j)++] = ctx->env_line[(*ctx->i)++];
 }
 
 /* 終了ステータス文字列を結果バッファに追加する */
@@ -54,44 +55,44 @@ static char	*extract_env_name(const char *str)
 }
 
 /* 通常の環境変数の値を結果バッファに追加する */
-static int	append_normal_env(const char *str, int *i, char *res, int *j,
-		t_command *cmd)
+static int	append_normal_env(t_env_expand_ctx *ctx)
 {
 	char	*name;
 	char	*value;
 
-	name = extract_env_name(str + *i);
+	name = extract_env_name(ctx->env_line + *ctx->i);
 	if (!name)
 	{
 		ft_putstr_fd((char *)"minishell: memory allocation error\n", 2);
 		return (-1);
 	}
-	value = expand_env_var(name, cmd);
+	value = expand_env_var(name, ctx->cmd);
 	free(name);
 	if (!value)
 	{
 		return (-1);
 	}
-	ft_strlcpy(res + *j, value, 4096 - *j);
-	*j += ft_strlen(value);
+	ft_strlcpy(ctx->res + *ctx->j, value, 4096 - *ctx->j);
+	*ctx->j += ft_strlen(value);
 	free(value);
-	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++;
+	while (ctx->env_line[*ctx->i] && (ft_isalnum(ctx->env_line[*ctx->i])
+			|| ctx->env_line[*ctx->i] == '_'))
+		(*ctx->i)++;
 	return (0);
 }
 
 /* Append environment variable section */
-int	append_env_str(const char *str, int *i, char *res, int *j, t_command *cmd)
+int	append_env_str(t_env_expand_ctx *ctx)
 {
-	(*i)++;
-	if (str[*i] == '?')
+	(*ctx->i)++;
+	if (ctx->env_line[*ctx->i] == '?')
 	{
-		if (append_exit_status(i, res, j, cmd) < 0)
+		if (append_exit_status(ctx) < 0)
 			return (-1);
 	}
 	else
 	{
-		if (append_normal_env(str, i, res, j, cmd) < 0)
+		if (append_normal_env(ctx) < 0)
 			return (-1);
 	}
 	return (0);
