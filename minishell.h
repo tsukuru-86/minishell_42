@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 05:50:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 21:47:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define MAX_TOKENS 1024
 
-int	is_valid_identifier(const char *str);
+int					is_valid_identifier(const char *str);
 
 /* トークンの種類を定義 */
 typedef enum e_token_type
@@ -207,13 +207,20 @@ void				free_env_list(void);
 /* Environment utility */
 int					count_env_nodes(t_env *env_list);
 t_env				*create_env_node(const char *str);
+t_env				*create_env_node_from_existing(t_env *original);
 int					update_env_value(t_env *env_node, const char *value);
 int					append_env_node(const char *name, const char *value);
 t_env				*get_env_node(const char *name);
 int					set_env_node(const char *name, const char *value);
-void				append_quoted(const char *str, int *i, char *res, int *j);
-int					append_env_str(const char *str, int *i, char *res, int *j,
-						t_command *cmd);
+void				append_quoted(t_env_expand_ctx *ctx);
+int					append_env_str(t_env_expand_ctx *ctx);
+
+/* Export sorting utilities */
+void				free_env_list_copy(t_env *head);
+t_env				*swap_nodes_in_list(t_env *list_head, t_env *prev,
+						t_env *node1, t_env *node2);
+t_env				*sort_single_pass(t_env *list_head, int *swapped_flag);
+t_env				*sort_env_list_copy(t_env *list_head);
 
 /* Command preparation */
 void				pipeline_init(t_command *cmd);
@@ -222,5 +229,15 @@ void				external_command(void);
 /* Exit status */
 int					get_exit_status(t_command *cmd);
 void				set_exit_status(t_command *cmd, int status);
+
+/* Environment expansion context */
+typedef struct s_env_expand_ctx
+{
+	const char	*str;
+	int			*i;
+	char		*res;
+	int			*j;
+	t_command	*cmd;
+}	t_env_expand_ctx;
 
 #endif

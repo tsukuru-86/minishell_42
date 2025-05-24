@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 21:30:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*expand_env_vars_core(const char *str, int in_dquote,
 		if (str[i] == '\'' && !in_dquote)
 			append_quoted(str, &i, res, &j);
 		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-				+ 1] == '_' || str[i + 1] == '?'))
+					+ 1] == '_' || str[i + 1] == '?'))
 		{
 			if (append_env_str(str, &i, res, &j, cmd) < 0)
 				return (NULL);

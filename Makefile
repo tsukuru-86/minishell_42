@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -I. -g -O0
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
 	builtin_commands.c \
-	builtin_env.c \
+	builtin_export_sort.c \
 	builtin_export_utils.c \
 	builtin_export.c \
 	builtin/builtin_unset.c \
@@ -44,6 +44,7 @@ SRCS_FILE = main.c \
 	tokenizer_meta_utils.c \
 	tokenizer_normal_word_logic.c \
 	tokenizer_quote_processing.c \
+	tokenizer_token_handlers.c \
 	tokenizer_utils.c \
 	tokenizer_utils2.c \
 	tokenizer_utils3.c \
@@ -69,7 +70,7 @@ $(NAME): $(OBJS) | minishell.h
 obj/%.o: $(SRCS_DIR)%.c | obj/
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/:
+obj:
 	mkdir -p obj/
 	mkdir -p obj/external
 	mkdir -p obj/parser

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 21:46:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	append_quoted(const char *str, int *i, char *res, int *j)
 }
 
 /* 終了ステータス文字列を結果バッファに追加する */
-static int	append_exit_status(int *i, char *res, int *j, t_command *cmd)
+static int	append_exit_status(t_env_expand_ctx *ctx)
 {
 	char	*status_str;
 
-	(*i)++;
-	status_str = ft_itoa(get_exit_status(cmd));
+	(*(ctx->i))++;
+	status_str = ft_itoa(get_exit_status(ctx->cmd));
 	if (!status_str)
 		return (-1);
-	ft_strlcpy(res + *j, status_str, 4096 - *j);
-	*j += ft_strlen(status_str);
+	ft_strlcpy(ctx->res + *(ctx->j), status_str, 4096 - *(ctx->j));
+	*(ctx->j) += ft_strlen(status_str);
 	free(status_str);
 	return (0);
 }

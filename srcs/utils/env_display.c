@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:06:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 21:24:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	display_all_env_vars(int fd)
 	current_env = *g_env();
 	while (current_env)
 	{
-		/* Only print if there is a value; `export VAR` might create an entry with no value.
-		   Standard `env` usually only prints variables that have a value. */
 		if (current_env->value)
 		{
 			ft_putstr_fd(current_env->name, fd);
