@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:29:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	append_env_node(const char *name, const char *value)
 	t_env	*current;
 	t_env	**env;
 
-	env = g_env();
+	env = get_env_val();
 	new_node = (t_env *)malloc(sizeof(t_env));
 	if (!new_node)
 		return (-1);

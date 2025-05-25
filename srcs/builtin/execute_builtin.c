@@ -58,7 +58,7 @@ int	display_all_env_vars(int fd)
 {
 	t_env	*current_env;
 
-	current_env = *g_env();
+	current_env = *get_env_val();
 	while (current_env)
 	{
 		if (current_env->value)

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/05/25 03:24:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* 環境変数リストのグローバルアクセスポイントを提供する関数。
    静的変数としてリストのヘッドを保持し、シェル全体で共有できるようにする */
-t_env	**g_env(void)
+t_env	**get_env_val(void)
 {
 	static t_env	*head = NULL;
 
@@ -29,7 +29,7 @@ void	free_env_list(void)
 	t_env	*temp;
 	t_env	*env_head;
 
-	env_head = *g_env();
+	env_head = *get_env_val();
 	while (env_head)
 	{
 		temp = env_head->next;
@@ -48,16 +48,16 @@ static t_env	*init_env_head(char **envp)
 
 	if (!envp || !envp[0])
 	{
-		*g_env() = NULL;
+		*get_env_val() = NULL;
 		return (NULL);
 	}
 	head = create_env_node(envp[0]);
 	if (!head)
 	{
-		*g_env() = NULL;
+		*get_env_val() = NULL;
 		return (NULL);
 	}
-	*g_env() = head;
+	*get_env_val() = head;
 	return (head);
 }
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/25 04:51:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,20 +158,26 @@ t_token					*tokenize(char *input, t_command *cmd);
 void					free_tokens(t_token *tokens);
 void					print_tokens(t_token *tokens);
 
-/* 環境変数 */
-t_env					**g_env(void);
+/* Environment variable */
+t_env					**get_env_val(void);
 t_env					*create_env_list(char **envp);
 void					free_env_list(void);
 void					free_env_list_copy(t_env *head);
 t_env					*create_env_node(const char *str);
+char					*expand_env_vars(const char *str, int in_dquote,
+							t_command *cmd);
+t_env					*get_env_node(const char *name);
 
 /* Redirection */
 void					restore_redirection(t_redirect *redirect);
 int						setup_redirection(t_redirect *redirect);
 
-/* Command preparation */
+/* Command */
 void					external_command(void);
 int						execute_builtin(char **args);
+
+/* Pipeline */
+int						execute_external_command(char **args);
 
 /* Exit status */
 int						get_exit_status(t_command *cmd);

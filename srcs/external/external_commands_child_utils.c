@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 03:49:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	**env_list_to_array(void)
 	int		count;
 	t_env	*env_list;
 
-	env_list = *g_env();
+	env_list = *get_env_val();
 	count = count_env_nodes(env_list);
 	env_array = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!env_array)
@@ -97,7 +97,7 @@ void	launch_child(char *cmd_path, char **args)
 	{
 		perror("minishell: execve");
 		free(cmd_path);
-		env_count = count_env_nodes(*g_env());
+		env_count = count_env_nodes(*get_env_val());
 		free_env_array(env_array, env_count);
 		if (errno == ENOENT)
 			exit(127);

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/05/25 00:11:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	setup_child_signals(void)
    環境変数リストの作成とシグナルハンドラの設定を行う */
 static int	initialize_shell(char **envp)
 {
-	*g_env() = create_env_list(envp);
-	if (!g_env())
+	*get_env_val() = create_env_list(envp);
+	if (!get_env_val())
 	{
 		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
 			2);
