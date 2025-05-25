@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:53:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:13:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args);
 int		builtin_pwd(char **args);
 int		builtin_exit(char **args);
-int		execute_builtin_with_redirect(t_command *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 00:03:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:13:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "minishell.h"
 
 /* 外部コマンド実行コア関数 */
-int		execute_external_with_fork(t_command *cmd);
 void	execute_child_process(t_command *cmd);
 
 /* コマンド検索とパス解決 */

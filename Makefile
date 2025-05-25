@@ -23,8 +23,8 @@ SRCS_FILE = main.c \
 	external/external_commands_utils.c \
 	external/external_commands.c \
 	external/external_utils.c \
-	heredoc/heredoc_utils.c \
-	heredoc/heredoc.c \
+	parser/heredoc_utils.c \
+	parser/heredoc.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_tokens.c \
 	parser/parser_utils3.c \

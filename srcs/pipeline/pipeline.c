@@ -6,32 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/25 02:42:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:16:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipeline.h"
-
-/* パイプラインのセットアップ */
-int	setup_pipeline(t_command *cmd)
-{
-	if (!cmd->next)
-		return (1);
-	init_pipeline(cmd);
-	if (!create_pipes(cmd))
-	{
-		ft_putstr_fd((char *)"minishell: failed to create pipes\n", 2);
-		return (0);
-	}
-	if (!spawn_pipeline_processes(cmd))
-	{
-		ft_putstr_fd((char *)"minishell: failed to spawn processes\n", 2);
-		return (0);
-	}
-	close_parent_pipes(cmd);
-	return (1);
-}
 
 /* パイプラインのクリーンアップ */
 void	cleanup_pipeline(t_command *cmd)
