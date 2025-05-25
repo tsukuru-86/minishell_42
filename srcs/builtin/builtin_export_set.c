@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 04:45:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
+#include "minishell.h"
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)
@@ -61,7 +61,7 @@ int	set_env_node(const char *name, const char *value)
 
 	if (!name)
 		return (1);
-	if (!is_valid_identifier(name))
+	if (ft_strncmp(name, "?", 2) != 0 && !is_valid_identifier(name))
 	{
 		ft_putstr_fd((char *)"minishell: export: `", 2);
 		ft_putstr_fd((char *)name, 2);
@@ -70,9 +70,7 @@ int	set_env_node(const char *name, const char *value)
 	}
 	node = get_env_node(name);
 	if (node)
-	{
 		return (update_env_value(node, value));
-	}
 	return (append_env_node(name, value));
 }
 
@@ -81,15 +79,18 @@ void	print_env_list(t_env *head)
 {
 	while (head != NULL)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(head->name, 1);
-		if (head->value)
+		if (ft_strncmp(head->name, "?", 2) != 0)
 		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(head->value, 1);
-			ft_putchar_fd('\"', 1);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(head->name, 1);
+			if (head->value)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(head->value, 1);
+				ft_putchar_fd('\"', 1);
+			}
+			ft_putchar_fd('\n', 1);
 		}
-		ft_putchar_fd('\n', 1);
 		head = head->next;
 	}
 }

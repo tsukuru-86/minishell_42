@@ -6,26 +6,32 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:42:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 04:01:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils.h"
 
 int	get_exit_status(t_command *cmd)
 {
-	if (!cmd)
+	t_env	*status_node;
+
+	(void)cmd;
+	status_node = get_env_node("?");
+	if (!status_node || !status_node->value)
 		return (0);
-	while (cmd->prev)
-		cmd = cmd->prev;
-	return (cmd->last_status);
+	return (ft_atoi(status_node->value));
 }
 
 void	set_exit_status(t_command *cmd, int status)
 {
-	if (!cmd)
+	char	*status_str;
+
+	(void)cmd;
+	status_str = ft_itoa(status);
+	if (!status_str)
 		return ;
-	while (cmd->prev)
-		cmd = cmd->prev;
-	cmd->last_status = status;
+	set_env_node("?", status_str);
+	free(status_str);
 }

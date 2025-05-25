@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:38:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:41:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int		extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 			char *word_buf);
 void	skip_whitespace(const char *input, int *i);
 void	add_token_to_list(t_token **token_list_head, t_token *new_token);
-t_token	*create_expanded_word_token(char *raw_word, t_command *cmd,
-			int *status);
+t_token	*create_expanded_word_token(char *raw_word, int *status);
 int		extract_raw_word(const char *input, int *i, char *word_buffer);
 int		process_token_segment(char *input, int *i, t_token **tokens,
 			t_command *cmd);

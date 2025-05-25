@@ -6,74 +6,65 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/25 04:57:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:55:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 
 /* 文字が環境変数の開始を示すかどうかをチェック */
 static int	is_env_var_start(const char *str, int i)
 {
-	return (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-				+ 1] == '_' || str[i + 1] == '?'));
+	if (str[i] == '$' && str[i + 1])
+		if ((ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
+			return (1);
+	return (0);
 }
 
-/* コンテキスト初期化 */
-static void	init_expand_context(t_env_expand_ctx *ctx, const char *str,
-		char *res, t_command *cmd)
+/* Append quoted section starting at str[i] */
+static void	append_quoted(const char *str, int *i, char *res, int *j)
 {
-	static int	i;
-	static int	j;
-
-	ctx->env_line = str;
-	ctx->i = &i;
-	ctx->res = res;
-	ctx->j = &j;
-	ctx->cmd = cmd;
-	i = 0;
-	j = 0;
-}
-
-/* 文字列処理のメインループ */
-static void	process_string_chars(t_env_expand_ctx *ctx, int in_dquote)
-{
-	while (ctx->env_line[*ctx->i])
-	{
-		if (ctx->env_line[*ctx->i] == '\'' && !in_dquote)
-			append_quoted(ctx);
-		else if (is_env_var_start(ctx->env_line, *ctx->i))
-		{
-			if (append_env_str(ctx) < 0)
-				return ;
-		}
-		else
-			ctx->res[(*ctx->j)++] = ctx->env_line[(*ctx->i)++];
-	}
+	res[(*j)++] = str[(*i)++];
+	while (str[*i] && str[*i] != '\'')
+		res[(*j)++] = str[(*i)++];
+	if (str[*i])
+		res[(*j)++] = str[(*i)++];
 }
 
 /* Expand environment variables in string */
-static char	*expand_env_vars_core(const char *str, int in_dquote,
-		t_command *cmd)
+static char	*expand_env_vars_core(const char *input_str, int in_dquote)
 {
-	t_env_expand_ctx	ctx;
-	char				res[4096];
+	int		i;
+	int		j;
+	char	res[4096];
 
-	init_expand_context(&ctx, str, res, cmd);
-	process_string_chars(&ctx, in_dquote);
-	res[*ctx.j] = '\0';
+	i = 0;
+	j = 0;
+	while (input_str[i])
+	{
+		if (input_str[i] == '\'' && !in_dquote)
+			append_quoted(input_str, &i, res, &j);
+		else if (is_env_var_start(input_str, i))
+		{
+			if (append_env(input_str, &i, res, &j) < 0)
+				return (NULL);
+		}
+		else
+			res[j++] = input_str[i++];
+	}
+	res[j] = '\0';
 	return (ft_strdup(res));
 }
 
 /* 環境変数展開のメイン関数 */
-char	*expand_env_vars(const char *str, int in_dquote, t_command *cmd)
+char	*expand_env_vars(const char *input_str, int in_dquote)
 {
 	char	*expanded;
 
-	if (!str)
+	if (!input_str)
 		return (NULL);
-	expanded = expand_env_vars_core(str, in_dquote, cmd);
+	expanded = expand_env_vars_core(input_str, in_dquote);
 	if (!expanded)
 		return (NULL);
 	return (expanded);

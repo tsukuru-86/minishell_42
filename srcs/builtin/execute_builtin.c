@@ -61,7 +61,7 @@ int	display_all_env_vars(int fd)
 	current_env = *get_env_val();
 	while (current_env)
 	{
-		if (current_env->value)
+		if (current_env->value && ft_strncmp(current_env->name, "?", 2) != 0)
 		{
 			ft_putstr_fd(current_env->name, fd);
 			ft_putstr_fd("=", fd);

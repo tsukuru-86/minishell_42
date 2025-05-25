@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:11:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:38:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ static int	collect_plain_word_segment(const char *input, int *i,
 	return (word_idx);
 }
 
-static bool	create_and_add_word_token(char *word_buf, t_token **tokens,
-		t_command *cmd)
+static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
 {
 	char	*expanded_content;
 	t_token	*new_token;
 
-	expanded_content = expand_env_vars(word_buf, 0, cmd);
+	expanded_content = expand_env_vars(word_buf, 0);
 	if (!expanded_content)
 	{
 		ft_putstr_fd((char *)"minishell: failed to \n", 2);
@@ -69,7 +68,7 @@ int	handle_word_logic(char *input, int *i, t_token **tokens, char *word_buf)
 		return (0);
 	if (word_idx > 0)
 	{
-		if (!create_and_add_word_token(word_buf, tokens, NULL))
+		if (!create_and_add_word_token(word_buf, tokens))
 			return (0);
 	}
 	return (1);

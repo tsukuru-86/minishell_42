@@ -57,7 +57,7 @@ int	handle_meta_token_creation(t_tokenizer_stat *stat, const char *input)
 }
 
 /* 生の単語を展開し、TOKEN_WORD トークンを作成 */
-t_token	*create_expanded_word_token(char *raw_word, t_command *cmd, int *status)
+t_token	*create_expanded_word_token(char *raw_word, int *status)
 {
 	char	*expanded_content;
 	t_token	*new_token;
@@ -68,7 +68,7 @@ t_token	*create_expanded_word_token(char *raw_word, t_command *cmd, int *status)
 		*status = 1;
 		return (NULL);
 	}
-	expanded_content = expand_env_vars(raw_word, 0, cmd);
+	expanded_content = expand_env_vars(raw_word, 0);
 	if (!expanded_content)
 		return (NULL);
 	new_token = create_token(expanded_content, TOKEN_WORD);

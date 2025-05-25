@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 00:20:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:42:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 	if (raw_word_len == 0)
 		return (1);
 	new_token = create_expanded_word_token(stat->word_buffer,
-			stat->cmd, &expansion_status);
+			&expansion_status);
 	if (expansion_status == 0)
 		return (0);
 	if (expansion_status == 1)

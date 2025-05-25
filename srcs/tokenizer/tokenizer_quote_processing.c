@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:56:15 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:39:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static int	copy_quoted_content_internal(const char *input, int *i,
 /* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
 
 static int	expand_and_copy_if_double_quote_internal(char *word_buf,
-		t_token_type type, t_command *cmd)
+		t_token_type type)
 {
 	char	*expanded_str;
 
 	if (type == TOKEN_DOUBLE_QUOTE)
 	{
-		expanded_str = expand_env_vars(word_buf, 1, cmd);
+		expanded_str = expand_env_vars(word_buf, 1);
 		if (!expanded_str)
 		{
 			ft_putstr_fd("minishell: environment", 2);
@@ -97,8 +97,7 @@ int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 		return (0);
 	}
 	stat->i_input++;
-	if (!expand_and_copy_if_double_quote_internal(word_buf, stat->quote_type,
-			stat->cmd))
+	if (!expand_and_copy_if_double_quote_internal(word_buf, stat->quote_type))
 		return (0);
 	return (1);
 }

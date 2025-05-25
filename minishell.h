@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/26 00:15:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/26 03:55:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,6 @@ typedef struct s_command
 	int					last_status;
 }						t_command;
 
-/* Environment expansion context */
-typedef struct s_env_expand_ctx
-{
-	const char			*env_line;
-	int					*i;
-	char				*res;
-	int					*j;
-	t_command			*cmd;
-}						t_env_expand_ctx;
-
 /* トークンを表す構造体 */
 typedef struct s_token
 {
@@ -164,9 +154,9 @@ t_env					*create_env_list(char **envp);
 void					free_env_list(void);
 void					free_env_list_copy(t_env *head);
 t_env					*create_env_node(const char *str);
-char					*expand_env_vars(const char *str, int in_dquote,
-							t_command *cmd);
+char					*expand_env_vars(const char *str, int in_dquote);
 t_env					*get_env_node(const char *name);
+int						set_env_node(const char *name, const char *value);
 
 /* Redirection */
 void					restore_redirection(t_redirect *redirect);
