@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/25 04:51:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/28 20:56:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,24 @@ t_env					*create_env_list(char **envp);
 void					free_env_list(void);
 void					free_env_list_copy(t_env *head);
 t_env					*create_env_node(const char *str);
-
+t_env					*get_env_node(const char *name);
+char					*expand_env_vars(const char *str, int in_dquote,
+							t_command *cmd);
 /* Redirection */
 void					restore_redirection(t_redirect *redirect);
 int						setup_redirection(t_redirect *redirect);
+t_redirect				*create_redirect(int type, char *file);
+void					free_redirect(t_redirect *redirect);
+
+/* Pipeeline */
+int						execute_command_pipeline(t_command *cmd);
 
 /* Command preparation */
+int						execute_external_command(char **args);
 void					external_command(void);
 int						execute_builtin(char **args);
+int						execute_builtin_with_redirect(t_command *cmd);
+int						execute_external_with_fork(t_command *cmd);
 
 /* Exit status */
 int						get_exit_status(t_command *cmd);

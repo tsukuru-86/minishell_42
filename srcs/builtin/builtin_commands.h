@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:53:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/28 20:54:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../../minishell.h"
 
-/* ビルトインコマンド */
 int		builtin_env(char **args);
 int		builtin_unset(char **args);
 int		builtin_export(char **args);
@@ -30,6 +29,6 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args);
 int		builtin_pwd(char **args);
 int		builtin_exit(char **args);
-int		execute_builtin_with_redirect(t_command *cmd);
+int		execute_external_with_fork(t_command *cmd);
 
 #endif
