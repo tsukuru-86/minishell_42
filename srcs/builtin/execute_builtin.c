@@ -12,7 +12,6 @@
 
 #include "builtin_commands.h"
 #include "minishell.h"
-#include <stdlib.h>
 
 /* 単一の組み込みコマンドを実行する関数 */
 int	execute_builtin_with_redirect(t_command *cmd)

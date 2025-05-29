@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 03:41:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/30 08:45:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include "../../minishell.h"
+# include "minishell.h"
 
 /* トークナイザーモジュール内部ヘッダー
  * このヘッダーはtokenizerディレクトリ内のファイルでのみ使用
