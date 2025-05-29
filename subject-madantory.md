@@ -87,3 +87,9 @@ Your shell must implement the following:
 - Your own code must not have memory leaks.
 - Limit yourself to the subject description. Anything not asked is not required.
 - If in doubt, take **bash** as a reference.
+
+## Codeing Rules
+
+1. ヘッダー
+  - 公開API: minishell.h
+  - モジュール内部でのみ使われる関数: scrs/<module>>/<module>>.h

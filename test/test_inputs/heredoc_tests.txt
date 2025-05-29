@@ -1,0 +1,29 @@
+cat << EOF
+This is a simple heredoc test
+Multiple lines
+EOF
+cat << DELIMITER
+Testing with different delimiter
+Line 1
+Line 2
+DELIMITER
+cat << EOF | wc -l
+Line 1
+Line 2
+Line 3
+EOF
+cat << EOF > /tmp/heredoc_output
+Output to file via heredoc
+Multiple lines here
+EOF
+cat /tmp/heredoc_output
+rm -f /tmp/heredoc_output
+cat << EOF
+Nested "quotes" in heredoc
+And 'single quotes' too
+Special chars: | > < 
+EOF
+echo "before" | cat << END | cat
+Heredoc in pipeline
+END
+exit
