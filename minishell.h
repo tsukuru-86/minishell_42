@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/26 03:55:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/29 04:01:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/stat.h>
-# include <sys/syslimits.h>
-# include <sys/types.h>
+// # include <sys/syslimits.h> // macOS
+# include <sys/stat.h> //Linux
 # include <sys/wait.h>
 # include <unistd.h>
 

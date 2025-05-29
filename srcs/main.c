@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/29 03:55:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 		handle_input(input, &status);
 		free(input);
 	}
-	clear_history();
+	rl_clear_history();
 	free_env_list();
 	return (status);
 }
