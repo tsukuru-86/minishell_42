@@ -1,0 +1,19 @@
+syntax error test |
+echo "unclosed quote
+echo 'unclosed quote
+cat /nonexistent/file
+cd /nonexistent/directory
+unset PATH
+ls
+export =invalid
+export 123invalid=value
+| echo "pipe at start"
+echo "pipe at end" |
+echo > 
+echo < 
+echo >>
+echo <<
+cat << 
+echo hello > /dev/null > /dev/null
+echo hello | | cat
+exit

@@ -1,0 +1,16 @@
+echo hello
+echo "hello world"
+echo 'single quotes'
+echo -n "no newline test"
+pwd
+env
+export TEST_VAR=hello
+echo $TEST_VAR
+unset TEST_VAR
+echo $TEST_VAR
+cd /tmp
+pwd
+cd
+pwd
+echo $?
+exit

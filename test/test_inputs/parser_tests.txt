@@ -1,0 +1,16 @@
+echo hello | cat
+echo hello | cat | wc -l
+ls | grep test | wc -l
+echo "pipeline test" | cat
+echo $HOME | cat
+echo hello > /tmp/test_output
+cat < /tmp/test_output
+echo hello >> /tmp/test_append
+cat < /tmp/test_append
+rm -f /tmp/test_output /tmp/test_append
+echo "complex | pipeline" | cat | wc
+echo multi word command with many arguments
+ls /bin | head -5
+/bin/echo "absolute path test"
+./nonexistent_command
+exit
