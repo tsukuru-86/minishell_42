@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/29 04:01:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/30 08:42:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define MAX_TOKENS 1024
 
-int						is_valid_identifier(const char *str);
 int						is_delimiter(char c);
 int						is_quote(char c);
 int						is_meta(char c);
@@ -137,7 +136,6 @@ int						handle_heredoc(t_command *cmd, char *delimiter);
 int						write_heredoc_content(int fd, char *content);
 void					cleanup_heredoc(t_heredoc *heredoc);
 t_heredoc				*init_heredoc(char *delimiter);
-char					**split_command(char *input);
 
 /* Command execution */
 int						excute_commands(t_command *cmd);
@@ -173,7 +171,7 @@ int						execute_external_command(char **args);
 /* Pipeline */
 int						execute_command_pipeline(t_command *cmd);
 /* Exit status */
-int						get_exit_status(t_command *cmd);
+int						get_exit_status(void);
 void					set_exit_status(t_command *cmd, int status);
 
 #endif
