@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/31 00:09:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/31 00:40:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ int				builtin_exit(char **args);
 int				is_valid_identifier(const char *str);
 t_builtin_func	*get_builtin_funcs(void);
 int				builtin_env(char **args);
+
+/* exit utils */
+int				is_valid_number(const char *str);
+int				parse_exit_number(const char *str);
+int				is_special_case(char **args);
+char			*combine_special_args(char **args);
+void			exit_with_numeric_error(const char *arg);
+
 #endif

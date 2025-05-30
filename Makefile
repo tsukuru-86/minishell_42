@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -I. -I/usr/include -Ilibft -Isrcs -g -O0
 
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
+	builtin/builtin_exit_utils.c \
 	builtin/builtin_export.c \
 	builtin/builtin_export_set.c \
 	builtin/builtin_export_sort.c \
