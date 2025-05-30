@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_commands.c                                 :+:      :+:    :+:   */
+/*   builtin_others.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/30 22:49:02 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	builtin_cd(char **args)
 {
 	char	*path;
 
+	if (args[1] && args[2])
+	{
+		ft_putstr_fd((char *)"cd: too many arguments\n", 2);
+		return (1);
+	}
 	if (!args[1])
 		path = getenv("HOME");
 	else
