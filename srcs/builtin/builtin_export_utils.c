@@ -50,6 +50,35 @@ static int	validate_and_set_env(char *name, char *value)
 	return (0);
 }
 
+/* Reconstruct export argument from multiple split arguments */
+static char	*reconstruct_split_args(char **args, int start, int *next_idx)
+{
+	char	*result;
+	char	*temp;
+	int		i;
+
+	if (!args[start] || !ft_strchr(args[start], '='))
+		return (NULL);
+	result = ft_strdup(args[start]);
+	if (!result)
+		return (NULL);
+	i = start + 1;
+	while (args[i] && !ft_strchr(args[i], '=') && !is_valid_identifier(args[i]))
+	{
+		temp = ft_strjoin(result, " ");
+		free(result);
+		if (!temp)
+			return (NULL);
+		result = ft_strjoin(temp, args[i]);
+		free(temp);
+		if (!result)
+			return (NULL);
+		i++;
+	}
+	*next_idx = i;
+	return (result);
+}
+
 /* Process a single export argument, returns error code */
 int	process_export_arg(char *arg)
 {
@@ -60,5 +89,29 @@ int	process_export_arg(char *arg)
 	split_export_arg(arg, &name, &value);
 	ret = validate_and_set_env(name, value);
 	free(name);
+	return (ret);
+}
+
+/* Process export arguments with reconstruction for split cases */
+int	process_export_with_reconstruction(char **args, int *i)
+{
+	char	*reconstructed;
+	int		next_idx;
+	int		ret;
+
+	if (ft_strchr(args[*i], '=') && ft_strchr(args[*i], '=')[1] == '\0'
+		&& args[*i + 1] && !ft_strchr(args[*i + 1], '='))
+	{
+		reconstructed = reconstruct_split_args(args, *i, &next_idx);
+		if (reconstructed)
+		{
+			ret = process_export_arg(reconstructed);
+			free(reconstructed);
+			*i = next_idx;
+			return (ret);
+		}
+	}
+	ret = process_export_arg(args[*i]);
+	(*i)++;
 	return (ret);
 }

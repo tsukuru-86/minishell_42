@@ -12,6 +12,7 @@
 
 #include "builtin_commands.h"
 #include "minishell.h"
+#include <unistd.h>
 
 /* 単一の組み込みコマンドを実行する関数 */
 int	execute_builtin_with_redirect(t_command *cmd)
@@ -26,65 +27,23 @@ int	execute_builtin_with_redirect(t_command *cmd)
 
 /* 環境変数の一覧を表示する機能。
    内部の環境変数リストから値を持つ変数のみを出力する */
-int	display_all_env_vars(int fd)
+int	builtin_env(char **args)
 {
 	t_env	*current_env;
 
+	(void)args;
 	current_env = *get_env_val();
 	while (current_env)
 	{
 		if (current_env->value && ft_strncmp(current_env->name, "?", 2) != 0)
 		{
-			ft_putstr_fd(current_env->name, fd);
-			ft_putstr_fd("=", fd);
-			ft_putendl_fd(current_env->value, fd);
+			ft_putstr_fd(current_env->name, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putendl_fd(current_env->value, STDOUT_FILENO);
 		}
 		current_env = current_env->next;
 	}
 	return (0);
-}
-
-const char	**get_builtin_name(void)
-{
-	const char	**builtins;
-
-	builtins = malloc(sizeof(char *) * 8);
-	if (!builtins)
-	{
-		perror("get_builtin_name");
-		exit(EXIT_FAILURE);
-	}
-	builtins[0] = "echo";
-	builtins[1] = "cd";
-	builtins[2] = "pwd";
-	builtins[3] = "export";
-	builtins[4] = "unset";
-	builtins[5] = "env";
-	builtins[6] = "exit";
-	builtins[7] = NULL;
-	return (builtins);
-}
-
-
-t_builtin_func	*get_builtin_funcs(void)
-{
-	t_builtin_func	*funcs;
-
-	funcs = malloc(sizeof(t_builtin_func) * 8);
-	if (!funcs)
-	{
-		perror("get_builtin_funcs");
-		exit(EXIT_FAILURE);
-	}
-	funcs[0] = builtin_echo;
-	funcs[1] = builtin_cd;
-	funcs[2] = builtin_pwd;
-	funcs[3] = builtin_export;
-	funcs[4] = builtin_unset;
-	funcs[5] = builtin_env;
-	funcs[6] = builtin_exit;
-	funcs[7] = NULL;
-	return (funcs);
 }
 
 int	is_builtin(char *cmd)
@@ -111,8 +70,10 @@ int	is_builtin(char *cmd)
 /* Routing function */
 int	execute_builtin(char **args)
 {
-	const char	**builtins;
-	int			status;
+	const char		**builtins;
+	t_builtin_func	*funcs;
+	int				i;
+	int				status;
 
 	builtins = get_builtin_name();
 	funcs = get_builtin_funcs();
@@ -131,4 +92,3 @@ int	execute_builtin(char **args)
 	free(funcs);
 	return (status);
 }
-

@@ -12,6 +12,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_others.c \
 	builtin/builtin_unset.c \
 	builtin/execute_builtin.c \
+	builtin/execute_builtin_utils.c \
 	builtin/identifier_validator.c \
 	env/env_expand.c \
 	env/env_expand_utils2.c \
