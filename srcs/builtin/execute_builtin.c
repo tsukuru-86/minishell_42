@@ -65,6 +65,28 @@ const char	**get_builtin_name(void)
 	return (builtins);
 }
 
+
+t_builtin_func	*get_builtin_funcs(void)
+{
+	t_builtin_func	*funcs;
+
+	funcs = malloc(sizeof(t_builtin_func) * 8);
+	if (!funcs)
+	{
+		perror("get_builtin_funcs");
+		exit(EXIT_FAILURE);
+	}
+	funcs[0] = builtin_echo;
+	funcs[1] = builtin_cd;
+	funcs[2] = builtin_pwd;
+	funcs[3] = builtin_export;
+	funcs[4] = builtin_unset;
+	funcs[5] = builtin_env;
+	funcs[6] = builtin_exit;
+	funcs[7] = NULL;
+	return (funcs);
+}
+
 int	is_builtin(char *cmd)
 {
 	int			i;
@@ -93,23 +115,20 @@ int	execute_builtin(char **args)
 	int			status;
 
 	builtins = get_builtin_name();
-	if (ft_strncmp(args[0], builtins[0], ft_strlen(builtins[0])) == 0)
-		status = builtin_echo(args);
-	else if (ft_strncmp(args[0], builtins[1], ft_strlen(builtins[1])) == 0)
-		status = builtin_cd(args);
-	else if (ft_strncmp(args[0], builtins[2], ft_strlen(builtins[2])) == 0)
-		status = builtin_pwd(args);
-	else if (ft_strncmp(args[0], builtins[3], ft_strlen(builtins[3])) == 0)
-		status = builtin_export(args);
-	else if (ft_strncmp(args[0], builtins[4], ft_strlen(builtins[4])) == 0)
-		status = builtin_unset(args);
-	else if (ft_strncmp(args[0], builtins[5], ft_strlen(builtins[5])) == 0)
-		status = display_all_env_vars(1);
-	else if (ft_strncmp(args[0], builtins[6], ft_strlen(builtins[6])) == 0)
-		status = builtin_exit(args);
-	else
-		status = 1;
+	funcs = get_builtin_funcs();
+	i = 0;
+	status = 1;
+	while (builtins[i])
+	{
+		if (ft_strncmp(args[0], builtins[i], ft_strlen(builtins[i])) == 0)
+		{
+			status = funcs[i](args);
+			break ;
+		}
+		i++;
+	}
 	free(builtins);
+	free(funcs);
 	return (status);
 }
 
