@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.c                                     :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 01:31:16 by muiida           #+#    #+#             */
-/*   Updated: 2025/05/11 01:31:16 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/19 18:42:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/05/30 08:19:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Replace whitespace characters (tab and newline) with space */
-static void	replace_whitespace(char *str)
+int	get_exit_status(void)
 {
-	while (*str)
-	{
-		if (*str == '\t' || *str == '\n')
-			*str = ' ';
-		str++;
-	}
+	t_env	*status_node;
+
+	status_node = get_env_node("?");
+	if (!status_node || !status_node->value)
+		return (0);
+	return (ft_atoi(status_node->value));
 }
 
-/* Split input line into tokens by space */
-char	**split_command(char *input)
+void	set_exit_status(t_command *cmd, int status)
 {
-	char	**tokens;
+	char	*status_str;
 
-	if (!input)
-		return (NULL);
-	replace_whitespace(input);
-	tokens = ft_split(input, ' ');
-	if (!tokens)
-		return (NULL);
-	return (tokens);
+	(void)cmd;
+	status_str = ft_itoa(status);
+	if (!status_str)
+		return ;
+	set_env_node("?", status_str);
+	free(status_str);
 }

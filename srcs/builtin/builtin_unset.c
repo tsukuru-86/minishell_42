@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/30 22:42:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ int	builtin_unset(char **args)
 	int	i;
 
 	if (!args[1])
-	{
-		ft_putstr_fd((char *)ERR_UNSET_NOT_ENOUGH_ARGS, 2);
-		return (1);
-	}
+		return (0);
 	i = 1;
 	while (args[i])
 	{

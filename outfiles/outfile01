@@ -1,0 +1,16 @@
+compile_flags.txt
+en.norm.tex
+img
+libft
+logs
+Makefile
+Makefile.template
+minishell
+minishell.h
+minishell_tester
+obj
+outfiles
+srcs
+subject-madantory.md
+test
+update_makefile.sh

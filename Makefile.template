@@ -21,20 +21,22 @@ $(LIBFT):
 $(NAME): $(OBJS) | minishell.h
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
-obj/%.o: $(SRCS_DIR)%.c | obj/
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj:
-	mkdir -p obj/
-	mkdir -p obj/builtin
-	mkdir -p obj/env
-	mkdir -p obj/external
-	mkdir -p obj/heredoc
-	mkdir -p obj/parser
-	mkdir -p obj/pipeline
-	mkdir -p obj/redirect
-	mkdir -p obj/tokenizer
-	mkdir -p obj/utils
+#$(OBJS_DIR):
+# 	mkdir -p $(OBJS_DIR)
+# 	mkdir -p $(OBJS_DIR)builtin
+# 	mkdir -p $(OBJS_DIR)env
+# 	mkdir -p $(OBJS_DIR)external
+# 	mkdir -p $(OBJS_DIR)heredoc
+# 	mkdir -p $(OBJS_DIR)parser
+# 	mkdir -p $(OBJS_DIR)pipeline
+# 	mkdir -p $(OBJS_DIR)redirect
+# 	mkdir -p $(OBJS_DIR)tokenizer
+# 	mkdir -p $(OBJS_DIR)utils
+# 	mkdir -p $(OBJS_DIR)printf
 
 clean:
 	make -C $(LIBFT_DIR) clean

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/31 00:00:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,9 @@ int	builtin_export(char **args)
 	i = 1;
 	while (args[i])
 	{
-		ret = process_export_arg(args[i]);
+		ret = process_export_with_reconstruction(args, &i);
 		if (ret)
 			return (ret);
-		i++;
 	}
 	return (0);
 }
