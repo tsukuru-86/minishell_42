@@ -2,7 +2,6 @@
 
 # minishell valgrind自動テストスクリプト
 # 作成日時: $(date '+%Y-%m-%d %H:%M:%S')
-# 制約: for文・do-while文禁止
 
 # 色付き出力用の定数
 readonly RED='\033[0;31m'
@@ -12,10 +11,11 @@ readonly BLUE='\033[0;34m'
 readonly NC='\033[0m' # No Color
 
 # グローバル定数
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/" && cd .. && pwd)"
 readonly MINISHELL_PATH="$SCRIPT_DIR/minishell"
-readonly TEST_INPUTS_DIR="$SCRIPT_DIR/test_inputs"
-readonly LOGS_DIR="$SCRIPT_DIR/logs"
+readonly TEST_DIR="$SCRIPT_DIR/test"
+readonly TEST_INPUTS_DIR="$TEST_DIR/test_inputs"
+readonly LOGS_DIR="$TEST_DIR/logs"
 readonly TIMESTAMP="$(date '+%Y%m%d_%H%M%S')"
 readonly LOG_FILE="$LOGS_DIR/valgrind_test_$TIMESTAMP.log"
 
