@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:32:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:57:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	pipeline_redirect_io(t_command *current)
 	{
 		if (dup2(current->pipe.read_fd, STDIN_FILENO) == -1)
 		{
-			perror("dup2 read");
+			perror("minishell: dup2");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -28,7 +28,7 @@ static void	pipeline_redirect_io(t_command *current)
 	{
 		if (dup2(current->pipe.write_fd, STDOUT_FILENO) == -1)
 		{
-			perror("dup2 write");
+			perror("minishell: dup2");
 			exit(EXIT_FAILURE);
 		}
 	}

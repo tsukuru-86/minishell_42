@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:58:40 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:56:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	create_pipes(t_command *cmd)
 	{
 		if (pipe(pipefd) == -1)
 		{
-			perror("pipe");
-			cleanup_pipeline(cmd);//TODO cleanup_pipeline_commands
+			perror("minishell: pipe");
+			cleanup_pipeline(cmd);
 			return (0);
 		}
 		current->pipe.write_fd = pipefd[1];
