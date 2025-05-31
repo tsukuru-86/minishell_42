@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/31 18:57:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:01:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipeline.h"
+#include <stdbool.h>
 
 /* Redirect stdin and stdout based on pipeline pipes */
 static void	pipeline_redirect_io(t_command *current)
@@ -50,7 +51,7 @@ static void	pipeline_execute_command_logic(t_command *current)
 	}
 	else
 	{
-		status = execute_external_command(current->args);
+		status = execute_external_command(current);
 		exit(status);
 	}
 }
@@ -60,14 +61,13 @@ static void	pipeline_execute_command_logic(t_command *current)
 static void	execute_pipeline_command(t_command *cmd, t_command *current)
 {
 	setup_child_signals();
-	putenv("MINISHELL_PIPELINE=1");
 	pipeline_redirect_io(current);
 	pipeline_close_pipes(cmd);
 	pipeline_execute_command_logic(current);
 }
 
 /* 子プロセスの作成と実行 */
-int	spawn_pipeline_processes(t_command *cmd)
+bool	spawn_pipeline_processes(t_command *cmd)
 {
 	t_command	*current;
 	pid_t		pid;
@@ -79,23 +79,47 @@ int	spawn_pipeline_processes(t_command *cmd)
 		if (pid == -1)
 		{
 			perror("fork");
-			cleanup_pipeline(cmd); // TODO cleanup_pipeline_commands
-			return (0);
+			cleanup_pipeline(cmd);
+			return (false);
 		}
 		if (pid == 0)
 		{
 			execute_pipeline_command(cmd, current);
-			exit(EXIT_FAILURE);
+			exit(false);
 		}
 		else
 			current->pipe.pid = pid;
 		current = current->next;
 	}
-	return (1);
+	return (true);
+}
+
+/* パイプラインのクリーンアップ */
+void	cleanup_pipeline(t_command *cmd)
+{
+	t_command	*current;
+
+	if (!cmd)
+		return ;
+	current = cmd;
+	while (current)
+	{
+		if (current->pipe.read_fd != -1)
+		{
+			close(current->pipe.read_fd);
+			current->pipe.read_fd = -1;
+		}
+		if (current->pipe.write_fd != -1)
+		{
+			close(current->pipe.write_fd);
+			current->pipe.write_fd = -1;
+		}
+		current = current->next;
+	}
 }
 
 /* パイプラインのクリーンアップを行う関数 */
-void	cleanup_pipeline_commands(t_command *cmd)
+void	cleanup_pipeline_list_all(t_command *cmd)
 {
 	t_command	*current;
 

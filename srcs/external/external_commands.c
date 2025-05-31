@@ -6,28 +6,54 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/26 00:09:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:41:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "external.h"
+#include "minishell.h"
+
+void	launch_child(char *cmd_path, char **args)
+{
+	char	**env_array;
+	int		env_count;
+
+	env_array = env_list_to_array();
+	if (!env_array)
+	{
+		perror("minishell: env_list_to_array failed");
+		free(cmd_path);
+		exit(127);
+	}
+	if (execve(cmd_path, args, env_array) == -1)
+	{
+		perror("minishell: execve");
+		free(cmd_path);
+		env_count = count_env_nodes(*get_env_val());
+		free_env_array(env_array, env_count);
+		if (errno == ENOENT)
+			exit(127);
+		if (errno == EACCES)
+			exit(126);
+		exit(1);
+	}
+}
 
 /* 外部コマンドを実行する関数。
    コマンドパスを検索し、子プロセスでコマンドを実行する */
-int	execute_external_command(char **args)
+int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
 	char	*cmd_path;
+	char	**args;
 
+	args = cmd->args;
 	if (!args || !args[0])
 		return (0);
 	cmd_path = find_command_path(args[0]);
 	if (!cmd_path)
 	{
-		ft_putstr_fd((char *)"minishell: ", 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd((char *)": command not found\n", 2);
+		ft_printf_fd(2, "minishell: command not found: %s\n", args[0]);
 		return (127);
 	}
 	pid = fork();
@@ -39,7 +65,10 @@ int	execute_external_command(char **args)
 	}
 	if (pid == 0)
 	{
+		setup_child_signals();
 		launch_child(cmd_path, args);
+		exit(execute_external_command(cmd));
 	}
-	return (launch_parent(pid, cmd_path));
+	return (wait_parent(pid, cmd_path));
 }
+

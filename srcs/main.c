@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/05/29 03:55:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:36:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ void	signal_handler(int signum)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-}
-
-/* 子プロセスのシグナル設定を行う関数。
-   子プロセスではSIGINTとSIGQUITをデフォルトの処理に設定する */
-void	setup_child_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }
 
 /* シェルの初期化を行う関数。
@@ -96,7 +88,8 @@ int	main(int argc, char **argv, char **envp)
 		handle_input(input, &status);
 		free(input);
 	}
-	rl_clear_history();
+	// rl_clear_history();
+	clear_history();
 	free_env_list();
 	return (status);
 }

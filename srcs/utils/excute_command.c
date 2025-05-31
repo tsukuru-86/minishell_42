@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/05/26 00:15:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:42:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ static int	execute_single_command(t_command *cmd)
 	int	status;
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
-	{
-		ft_putstr_fd((char *)"minishell: redirection error\n", 2);
 		return (1);
-	}
 	if (is_builtin(cmd->args[0]))
 		status = execute_builtin_with_redirect(cmd);
 	else
 	{
-		status = execute_external_with_fork(cmd);
+		status = execute_external_command(cmd);
 	}
 	if (cmd->redirects)
 		restore_redirection(cmd->redirects);

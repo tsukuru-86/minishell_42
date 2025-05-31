@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:38:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static bool	populate_env_array_from_list(char **env_array, t_env *env_list)
 }
 
 /* 環境変数リストを execve で使用できる文字列配列に変換する関数 */
-static char	**env_list_to_array(void)
+char	**env_list_to_array(void)
 
 {
 	char	**env_array;
@@ -81,33 +81,7 @@ static char	**env_list_to_array(void)
 	return (env_array);
 }
 
-void	launch_child(char *cmd_path, char **args)
-{
-	char	**env_array;
-	int		env_count;
-
-	env_array = env_list_to_array();
-	if (!env_array)
-	{
-		perror("minishell: env_list_to_array failed");
-		free(cmd_path);
-		exit(127);
-	}
-	if (execve(cmd_path, args, env_array) == -1)
-	{
-		perror("minishell: execve");
-		free(cmd_path);
-		env_count = count_env_nodes(*get_env_val());
-		free_env_array(env_array, env_count);
-		if (errno == ENOENT)
-			exit(127);
-		if (errno == EACCES)
-			exit(126);
-		exit(1);
-	}
-}
-
-int	launch_parent(pid_t pid, char *cmd_path)
+int	wait_parent(pid_t pid, char *cmd_path)
 {
 	int	status;
 	int	exit_status;

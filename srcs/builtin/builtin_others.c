@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/31 18:46:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:04:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,9 @@ int	builtin_cd(char **args)
 {
 	char	*path;
 
-	if (args[1] && args[2])
-	{
-		ft_putstr_fd((char *)"cd: too many arguments\n", 2);
-		return (1);
-	}
-	if (!args[1])
+	if (args[2]!= NULL)
+		return (0);
+	if (args[1]==NULL)
 		path = getenv("HOME");
 	else
 		path = args[1];
@@ -110,10 +107,9 @@ int	builtin_exit(char **args)
 	if (args[1])
 	{
 		if (is_special_case(args))
-			status = handle_special_case(args);
+			status = (unsigned char)handle_special_case(args);
 		else
-			status = handle_normal_case(args);
-		status = (unsigned char)status;
+			status = (unsigned char)handle_normal_case(args);
 	}
 	else
 		status = 0;

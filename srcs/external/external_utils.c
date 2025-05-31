@@ -38,3 +38,11 @@ char	*search_in_path(const char *path_env, char *cmd)
 	free(path);
 	return (NULL);
 }
+
+/* 子プロセスのシグナル設定を行う関数。
+   子プロセスではSIGINTとSIGQUITをデフォルトの処理に設定する */
+void	setup_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

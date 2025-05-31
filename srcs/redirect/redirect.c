@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/31 01:12:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:32:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,19 @@ static void	save_original_fds(t_redirect *redirect)
 }
 
 /* Check if a redirection for the same fd exists earlier in the chain */
-static int	has_earlier_redirect_for_fd(t_redirect *current, t_redirect *redirect_list)
+static int	has_earlier_redirect_for_fd(t_redirect *current,
+		t_redirect *redirect_list)
 {
 	t_redirect	*check;
 
 	check = redirect_list;
 	while (check && check != current)
 	{
-		if ((current->type == REDIR_OUT || current->type == REDIR_APPEND) &&
-			(check->type == REDIR_OUT || check->type == REDIR_APPEND))
+		if ((current->type == REDIR_OUT || current->type == REDIR_APPEND)
+			&& (check->type == REDIR_OUT || check->type == REDIR_APPEND))
 			return (1);
-		if ((current->type == REDIR_IN || current->type == REDIR_HEREDOC) &&
-			(check->type == REDIR_IN || check->type == REDIR_HEREDOC))
+		if ((current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+			&& (check->type == REDIR_IN || check->type == REDIR_HEREDOC))
 			return (1);
 		check = check->next;
 	}
@@ -82,9 +83,8 @@ int	setup_redirection(t_redirect *redirect)
 			fd = open_redirect_file(current);
 			if (fd == -1)
 			{
-				ft_putstr_fd((char *)"minishell: ", 2);
+				ft_putstr_fd((char *)"minishell: redirection error: ", 2);
 				ft_putstr_fd(current->file, 2);
-				ft_putstr_fd((char *)": ", 2);
 				perror("");
 				return (0);
 			}
@@ -108,7 +108,8 @@ void	restore_redirection(t_redirect *redirect)
 		{
 			if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
 				dup2(current->original_fd, STDOUT_FILENO);
-			else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+			else if (current->type == REDIR_IN
+				|| current->type == REDIR_HEREDOC)
 				dup2(current->original_fd, STDIN_FILENO);
 			close(current->original_fd);
 			current->original_fd = -1;

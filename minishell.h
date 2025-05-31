@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/30 08:42:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:04:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <unistd.h>
 
 # define MAX_TOKENS 1024
-
+int						ft_printf_fd(int fd, const char *format, ...);
 int						is_delimiter(char c);
 int						is_quote(char c);
 int						is_meta(char c);
@@ -165,8 +165,7 @@ t_redirect				*create_redirect(int type, char *file);
 void					external_command(void);
 int						execute_builtin(char **args);
 int						execute_builtin_with_redirect(t_command *cmd);
-int						execute_external_with_fork(t_command *cmd);
-int						execute_external_command(char **args);
+int						execute_external_command(t_command *cmd);
 
 /* Pipeline */
 int						execute_command_pipeline(t_command *cmd);
