@@ -17,7 +17,7 @@
 
 ### 1.2 グローバル変数制約
 
-- **グローバル変数**: `g_signal_number`以外は禁止
+- **グローバル変数**: `g_signal`以外は禁止
 - **const・static以外のグローバル変数宣言禁止**（42 Norm準拠）
 - **関数外のstatic変数**: 禁止（関数内のstatic変数は使用可能）
 
@@ -246,7 +246,7 @@
 
 ### 13.1 グローバル変数
 
-- **使用可能**: `g_signal_number`のみ
+- **使用可能**: `g_signal`のみ
 - **型**: `volatile sig_atomic_t`推奨
 - **用途**: シグナル番号の保存のみ
 
@@ -309,7 +309,7 @@ srcs/
 ## 17. フォーマット例（42 Norm準拠）
 
 ```c
-int   g_signal_number;
+int   g_signal;
 
 typedef struct s_command
 {

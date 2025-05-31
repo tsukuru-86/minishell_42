@@ -51,8 +51,8 @@ check_environment() {
 	
 	# minishellバイナリの存在確認
 	if [ ! -f "$MINISHELL_PATH" ]; then
-		print_warning "minishellバイナリが見つかりません。makeを実行します..."
-		make -C "$SCRIPT_DIR" 2>/dev/null
+		print_warning "minishellバイナリが見つかりません。make reを実行します..."
+		make re -C "$SCRIPT_DIR" 2>/dev/null
 		if [ ! -f "$MINISHELL_PATH" ]; then
 			print_error "minishellのビルドに失敗しました"
 			exit 1
@@ -177,6 +177,10 @@ main() {
 	run_valgrind_test "parser" "$TEST_INPUTS_DIR/parser_tests.txt"
 	run_valgrind_test "heredoc" "$TEST_INPUTS_DIR/heredoc_tests.txt"
 	run_valgrind_test "error" "$TEST_INPUTS_DIR/error_tests.txt"
+	run_valgrind_test "builtins" "$TEST_INPUTS_DIR/builtins"
+	run_valgrind_test "extras" "$TEST_INPUTS_DIR/extras"
+	run_valgrind_test "pipes" "$TEST_INPUTS_DIR/pipes"
+	run_valgrind_test "redirect" "$TEST_INPUTS_DIR/redirects"
 	
 	# 結果サマリー表示
 	print_test_summary
