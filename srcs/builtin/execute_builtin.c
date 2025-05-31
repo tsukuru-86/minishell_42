@@ -25,24 +25,73 @@ int	execute_builtin_with_redirect(t_command *cmd)
 	return (status);
 }
 
+/* 環境変数名の比較関数（辞書順ソート用） */
+static int	env_name_compare(const char *name1, const char *name2)
+{
+	int	i;
+
+	i = 0;
+	while (name1[i] && name2[i])
+	{
+		if (name1[i] != name2[i])
+			return (name1[i] - name2[i]);
+		i++;
+	}
+	return (name1[i] - name2[i]);
+}
+
+/* 環境変数を辞書順でソートして出力する関数 */
+static void	print_sorted_env(t_env *env_list)
+{
+	t_env	*current;
+	t_env	*smallest;
+	t_env	*temp;
+	int		printed[1024];
+	int		count;
+
+	count = 0;
+	while (count < 1024)
+		printed[count++] = 0;
+	count = 0;
+	while (1)
+	{
+		smallest = NULL;
+		current = env_list;
+		while (current)
+		{
+			if (current->value && ft_strncmp(current->name, "?", 2) != 0)
+			{
+				temp = env_list;
+				count = 0;
+				while (temp != current && ++count)
+					temp = temp->next;
+				if (!printed[count] && (!smallest || env_name_compare(current->name, smallest->name) < 0))
+					smallest = current;
+			}
+			current = current->next;
+		}
+		if (!smallest)
+			break ;
+		ft_putstr_fd(smallest->name, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_putendl_fd(smallest->value, STDOUT_FILENO);
+		temp = env_list;
+		count = 0;
+		while (temp != smallest && ++count)
+			temp = temp->next;
+		printed[count] = 1;
+	}
+}
+
 /* 環境変数の一覧を表示する機能。
-   内部の環境変数リストから値を持つ変数のみを出力する */
+   内部の環境変数リストから値を持つ変数のみを辞書順で出力する */
 int	builtin_env(char **args)
 {
 	t_env	*current_env;
 
 	(void)args;
 	current_env = *get_env_val();
-	while (current_env)
-	{
-		if (current_env->value && ft_strncmp(current_env->name, "?", 2) != 0)
-		{
-			ft_putstr_fd(current_env->name, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putendl_fd(current_env->value, STDOUT_FILENO);
-		}
-		current_env = current_env->next;
-	}
+	print_sorted_env(current_env);
 	return (0);
 }
 
