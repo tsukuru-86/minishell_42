@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 03:39:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:27:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokenizer.h"
+#include "../error/error_messages.h"
 
 /* バッファサイズチェックとエラー処理 */
 static int	check_buffer_size_internal(int word_idx)
@@ -93,7 +94,7 @@ int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 		return (0);
 	if (input[stat->i_input] != quote_char)
 	{
-		ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
+		ft_putstr_fd((char *)ERR_UNCLOSED_QUOTE, 2);
 		return (0);
 	}
 	stat->i_input++;

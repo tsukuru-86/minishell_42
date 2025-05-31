@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/01 01:36:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:27:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "error/error_messages.h"
 
 static volatile sig_atomic_t	g_signal = 0;
 
@@ -62,7 +63,7 @@ static void	handle_input(char *input, int *status)
 			free_command(cmd);
 		}
 		else
-			ft_putstr_fd((char *)"minishell: syntax error\n", 2);
+			ft_putstr_fd((char *)ERR_SYNTAX_ERROR, 2);
 		free_tokens(tokens);
 	}
 }

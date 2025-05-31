@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/30 22:42:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:25:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 
 static void	print_unset_invalid_identifier_error(const char *identifier)
 {
-	ft_putstr_fd((char *)"unset: '", 2);
-	ft_putstr_fd((char *)identifier, 2);
-	ft_putstr_fd((char *)"': not a valid identifier\n", 2);
+	ft_printf_fd(2, ERR_UNSET_INVALID_IDENTIFIER, identifier);
 }
 
 /* 単一の環境変数ノードを解放する */

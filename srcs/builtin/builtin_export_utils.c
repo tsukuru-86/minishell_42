@@ -37,9 +37,7 @@ static int	validate_and_set_env(char *name, char *value)
 {
 	if (!is_valid_identifier(name))
 	{
-		ft_putstr_fd((char *)"export: '", 2);
-		ft_putstr_fd(name, 2);
-		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
+		ft_printf_fd(2, ERR_EXPORT_INVALID_IDENTIFIER, name);
 		return (1);
 	}
 	if (set_env_node(name, value) != 0)

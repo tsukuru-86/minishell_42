@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "parser.h"
+#include "../error/error_messages.h"
 
 /*
 ** @brief 単語トークンを処理します。
@@ -45,14 +46,13 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 	if (!(*current_token)->next)
 	{
 		free_command(*head_cmd);
-		ft_putstr_fd("minishell: syntax error ", 2);
-		ft_putstr_fd("near unexpected token `newline'\n", 2);
+		ft_printf_fd(2, ERR_SYNTAX_NEAR_TOKEN, "newline");
 		return (0);
 	}
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))
 	{
 		free_command(*head_cmd);
-		ft_putstr_fd("minishell: redirection error\n", 2);
+		ft_putstr_fd((char *)ERR_REDIRECTION_ERROR, 2);
 		return (0);
 	}
 	*current_token = (*current_token)->next->next;
@@ -80,8 +80,7 @@ int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	*current_token = (*current_token)->next;
 	if (!*current_token)
 	{
-		ft_putstr_fd("minishell: syntax error ", 2);
-		ft_putstr_fd("near unexpected token `|'\n", 2);
+		ft_printf_fd(2, ERR_SYNTAX_NEAR_TOKEN, "|");
 		free_command(*head_cmd);
 		*head_cmd = NULL;
 		return (0);

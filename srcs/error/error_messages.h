@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 01:44:01 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:26:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 # define ERROR_MESSAGES_H
 
 /* ビルトインコマンドのエラーメッセージ */
-# define ERR_UNSET_NOT_ENOUGH_ARGS "unset: not enough arguments\n"
-# define ERR_UNSET_INVALID_IDENTIFIER "unset: '%s': not a valid identifier\n"
-# define ERR_EXPORT_MEMORY_ALLOC "export: memory allocation error\n"
-# define ERR_EXPORT_INVALID_IDENTIFIER "export: '%s': not a valid identifier\n"
+# define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: not enough arguments\n"
+# define ERR_UNSET_INVALID_IDENTIFIER "minishell: unset: `%s': not a valid identifier\n"
+# define ERR_EXPORT_MEMORY_ALLOC "minishell: export: memory allocation error\n"
+# define ERR_EXPORT_INVALID_IDENTIFIER "minishell: export: `%s': not a valid identifier\n"
+
+/* コマンド実行エラーメッセージ */
+# define ERR_COMMAND_NOT_FOUND "minishell: %s: command not found\n"
+
+/* 構文エラーメッセージ */
+# define ERR_SYNTAX_ERROR "minishell: syntax error\n"
+# define ERR_SYNTAX_NEAR_TOKEN "minishell: syntax error near unexpected token `%s'\n"
+# define ERR_UNCLOSED_QUOTE "minishell: syntax error: unclosed quote\n"
+
+/* リダイレクションエラーメッセージ */
+# define ERR_REDIRECTION_ERROR "minishell: redirection error\n"
 
 #endif
