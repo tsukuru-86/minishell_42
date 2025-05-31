@@ -71,6 +71,12 @@ t_token	*create_expanded_word_token(char *raw_word, int *status)
 	expanded_content = expand_env_vars(raw_word, 0);
 	if (!expanded_content)
 		return (NULL);
+	if (ft_strlen(expanded_content) == 0)
+	{
+		free(expanded_content);
+		*status = 1;
+		return (NULL);
+	}
 	new_token = create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)

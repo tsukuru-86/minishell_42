@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/01 02:01:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:15:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipeline.h"
-#include <stdbool.h>
 
 /* Redirect stdin and stdout based on pipeline pipes */
 static void	pipeline_redirect_io(t_command *current)

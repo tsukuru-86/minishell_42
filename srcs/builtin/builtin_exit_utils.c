@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:26:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/31 00:40:35 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:08:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ void	exit_with_numeric_error(const char *arg)
 	ft_putstr_fd("exit: ", 2);
 	ft_putstr_fd((char *)arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
-	exit(2);
+	exit(255);
 }
