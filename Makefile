@@ -40,6 +40,10 @@ SRCS_FILE = main.c \
 	printf/ft_printf_fd_utils.c \
 	printf/ft_printf_fd_utils2.c \
 	printf/ft_printf_fd.c \
+	redirect/redirect_process.c \
+	redirect/redirect_restore.c \
+	redirect/redirect_save_fds.c \
+	redirect/redirect_setup.c \
 	redirect/redirect_utils.c \
 	redirect/redirect.c \
 	tokenizer/tokenizer_core_logic.c \

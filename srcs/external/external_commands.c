@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/01 02:34:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 04:04:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../error/error_messages.h"
 #include "external.h"
 #include "minishell.h"
-#include "../error/error_messages.h"
 
 void	launch_child(char *cmd_path, char **args)
 {
@@ -55,13 +55,13 @@ int	execute_external_command(t_command *cmd)
 	if (!cmd_path)
 	{
 		ft_printf_fd(2, ERR_COMMAND_NOT_FOUND, args[0]);
-				return (127);
+		return (127);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("minishell: fork");
-				free(cmd_path);
+		free(cmd_path);
 		return (1);
 	}
 	if (pid == 0)
@@ -72,4 +72,3 @@ int	execute_external_command(t_command *cmd)
 	}
 	return (wait_parent(pid, cmd_path));
 }
-

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_utils.c                                   :+:      :+:    :+:   */
+/*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 02:00:00 by muiida           #+#    #+#             */
-/*   Updated: 2025/05/11 02:00:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/01 04:26:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef REDIRECT_H
 # define REDIRECT_H
 
@@ -24,5 +25,13 @@ int		open_redirect_file(t_redirect *redirect);
 void	apply_redirection(t_redirect *redirect, int fd);
 /* Validate all redirections before processing */
 int		validate_redirections(t_redirect *redirect);
+/* Save original file descriptors for later restoration */
+void	save_original_fds(t_redirect *redirect);
+/* Process redirections in order, applying only the last effective one */
+int		process_redirections(t_redirect *redirect);
+/* Set up all redirections in the chain */
+int		setup_redirection(t_redirect *redirect);
+/* Restore all original file descriptors */
+void	restore_redirection(t_redirect *redirect);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/01 01:04:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/01 04:04:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
+#include "minishell.h"
 
 int	builtin_echo(char **args)
 {
@@ -41,9 +41,9 @@ int	builtin_cd(char **args)
 {
 	char	*path;
 
-	if (args[2]!= NULL)
+	if (args[2] != NULL)
 		return (0);
-	if (args[1]==NULL)
+	if (args[1] == NULL)
 		path = getenv("HOME");
 	else
 		path = args[1];

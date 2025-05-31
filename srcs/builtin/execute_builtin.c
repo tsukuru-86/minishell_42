@@ -65,7 +65,8 @@ static void	print_sorted_env(t_env *env_list)
 				count = 0;
 				while (temp != current && ++count)
 					temp = temp->next;
-				if (!printed[count] && (!smallest || env_name_compare(current->name, smallest->name) < 0))
+				if (!printed[count] && (!smallest
+						|| env_name_compare(current->name, smallest->name) < 0))
 					smallest = current;
 			}
 			current = current->next;

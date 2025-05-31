@@ -29,8 +29,13 @@ int	check_file_access(t_redirect *redirect)
 	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
 	{
 		if (access(redirect->file, F_OK) == 0)
-			return (access(redirect->file, W_OK));
-		return (access(".", W_OK));
+		{
+			if (access(redirect->file, W_OK) != 0)
+				return (-1);
+		}
+		else if (access(".", W_OK) != 0)
+			return (-1);
+		return (0);
 	}
 	if (redirect->type == REDIR_IN)
 		return (access(redirect->file, R_OK));
@@ -77,7 +82,7 @@ int	validate_redirections(t_redirect *redirect)
 				return (0);
 			}
 		}
-		if (check_file_access(current) != 0)
+		if (check_file_access(current) == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(current->file, 2);
