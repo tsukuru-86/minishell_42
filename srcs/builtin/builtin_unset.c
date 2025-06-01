@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
 #include "error/error_messages.h"
+#include "minishell.h"
 
 /* エラーメッセージを出力するヘルパー関数 */
 

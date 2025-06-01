@@ -15,7 +15,7 @@
 
 /* Find the last output and input redirections in the chain */
 static void	find_last_redirections_process(t_redirect *redirect,
-			t_redirect **last_out, t_redirect **last_in)
+		t_redirect **last_out, t_redirect **last_in)
 {
 	t_redirect	*current;
 

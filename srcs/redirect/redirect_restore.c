@@ -14,8 +14,8 @@
 #include "redirect.h"
 
 /* Find the last output and input redirections */
-static void	find_last_redirections(t_redirect *redirect,
-			t_redirect **last_out, t_redirect **last_in)
+static void	find_last_redirections(t_redirect *redirect, t_redirect **last_out,
+		t_redirect **last_in)
 {
 	t_redirect	*current;
 

@@ -26,18 +26,15 @@ int	get_builtin_func_idx(char *cmd)
 	builtins[5] = "env";
 	builtins[6] = "exit";
 	builtins[7] = NULL;
-	// builtins = get_builtin_name();
 	i = 0;
 	while (builtins[i])
 	{
 		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
 		{
-			// free((builtins));
 			return (i);
 		}
 		i++;
 	}
-	// free((builtins));
 	return (-1);
 }
 

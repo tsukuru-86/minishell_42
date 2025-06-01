@@ -94,4 +94,3 @@ bool	spawn_pipeline_processes(t_command *cmd)
 	}
 	return (true);
 }
-

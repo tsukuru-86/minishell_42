@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
+#include "minishell.h"
 
 /* ノードをスワップしてリストの先頭を更新 */
 static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
@@ -39,11 +39,10 @@ static t_env	*sort_single_pass(t_env *list_head, int *swapped_flag)
 	while (current && current->next)
 	{
 		next_node = current->next;
-		if (ft_strncmp(current->name, next_node->name,
-				ft_strlen(current->name) + 1) > 0)
+		if (ft_strncmp(current->name, next_node->name, ft_strlen(current->name)
+				+ 1) > 0)
 		{
-			list_head = swap_nodes_in_list(list_head, prev, current,
-					next_node);
+			list_head = swap_nodes_in_list(list_head, prev, current, next_node);
 			*swapped_flag = 1;
 			prev = next_node;
 		}

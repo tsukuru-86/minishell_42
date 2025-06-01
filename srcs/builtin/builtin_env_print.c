@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 03:56:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 04:45:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,6 @@ static t_env	*create_env_node_from_existing(t_env *original)
 	return (new_node);
 }
 
-/* ノードをリストに追加する */
-static void	add_node_to_list(t_env **head, t_env **tail, t_env *new_node)
-{
-	if (!*head)
-	{
-		*head = new_node;
-		*tail = new_node;
-	}
-	else
-	{
-		(*tail)->next = new_node;
-		*tail = new_node;
-	}
-}
-
 /* 環境変数リストのコピーを解放するヘルパー関数 */
 static void	free_env_list_copy(t_env *head)
 {
@@ -92,70 +77,55 @@ static t_env	*duplicate_env_list(t_env *original_head)
 	{
 		new_node = create_env_node_from_existing(current_original);
 		if (!new_node)
-		{
-			free_env_list_copy(new_head);
-			return (NULL);
-		}
-		add_node_to_list(&new_head, &new_tail, new_node);
+			return (free_env_list_copy(new_head), NULL);
+		if (!new_head)
+			new_head = new_node;
+		else
+			new_tail->next = new_node;
+		new_tail = new_node;
 		current_original = current_original->next;
 	}
 	return (new_head);
 }
 
-/* 環境変数リストを指定された形式で表示する
-	* format: 0 = env形式 (NAME=value), 1 = export形式 (declare -x NAME="value")
-	*/
-static void	print_env_list_format(t_env *head, int format)
+/* 環境変数を形式に応じて表示 */
+static void	print_env_format(t_env *env, int format)
 {
-	while (head != NULL)
+	if (format == 0)
 	{
-		if (ft_strncmp(head->name, "?", 2) != 0)
-		{
-			if (format == 0)
-			{
-				ft_putstr_fd(head->name, STDOUT_FILENO);
-				ft_putstr_fd("=", STDOUT_FILENO);
-				if (head->value)
-					ft_putendl_fd(head->value, STDOUT_FILENO);
-				else
-					ft_putendl_fd("", STDOUT_FILENO);
-			}
-			else
-			{
-				ft_printf_fd(STDOUT_FILENO, "declare -x %s", head->name);
-				if (head->value)
-					ft_printf_fd(STDOUT_FILENO, "=\"%s\"", head->value);
-				ft_printf_fd(STDOUT_FILENO, "\n");
-			}
-		}
-		head = head->next;
+		ft_putstr_fd(env->name, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		if (env->value)
+			ft_putendl_fd(env->value, STDOUT_FILENO);
+		else
+			ft_putendl_fd("", STDOUT_FILENO);
+	}
+	else
+	{
+		ft_printf_fd(STDOUT_FILENO, "declare -x %s", env->name);
+		if (env->value)
+			ft_printf_fd(STDOUT_FILENO, "=\"%s\"", env->value);
+		ft_printf_fd(STDOUT_FILENO, "\n");
 	}
 }
 
-/* 統合された環境変数ソート・表示関数
-	* format: 0 = env形式, 1 = export形式
-	*/
+/* 統合された環境変数ソート・表示関数 */
 void	print_sorted_env(int format)
 {
 	t_env	*env_list_copy;
 	t_env	*sorted_list_copy;
+	t_env	*current;
 
 	env_list_copy = duplicate_env_list(*get_env_val());
 	if (!env_list_copy && *get_env_val() != NULL)
-	{
-		perror("minishell: malloc error during list duplication");
-		return ;
-	}
+		return (perror("minishell: malloc error during list duplication"));
 	sorted_list_copy = sort_env_list_copy(env_list_copy);
-	print_env_list_format(sorted_list_copy, format);
+	current = sorted_list_copy;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->name, "?", 2) != 0)
+			print_env_format(current, format);
+		current = current->next;
+	}
 	free_env_list_copy(sorted_list_copy);
-}
-
-/* 環境変数の一覧を表示する機能。
-   内部の環境変数リストから値を持つ変数のみを辞書順で出力する */
-int	builtin_env(char **args)
-{
-	(void)args;
-	print_sorted_env(0);
-	return (0);
 }

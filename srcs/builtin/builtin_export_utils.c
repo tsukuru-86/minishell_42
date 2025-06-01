@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error/error_messages.h"
 #include "builtin_commands.h"
+#include "error/error_messages.h"
 #include "minishell.h"
 
 /* Split export argument into name and value */

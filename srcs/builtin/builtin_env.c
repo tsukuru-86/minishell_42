@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 02:53:01 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 03:54:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 04:45:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,10 @@ t_env	*create_env_node_from_existing(t_env *original)
 	return (new_node);
 }
 
+/* 環境変数の一覧を表示する機能 */
+int	builtin_env(char **args)
+{
+	(void)args;
+	print_sorted_env(0);
+	return (0);
+}

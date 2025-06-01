@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../error/error_messages.h"
 #include "minishell.h"
 #include "tokenizer.h"
-#include "../error/error_messages.h"
 
 /* バッファサイズチェックとエラー処理 */
 static int	check_buffer_size_internal(int word_idx)

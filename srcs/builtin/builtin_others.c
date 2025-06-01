@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/02 03:52:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 04:10:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ int	builtin_pwd(char **args)
 	ft_putendl_fd(cwd, 1);
 	return (0);
 }
-

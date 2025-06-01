@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/02 00:33:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 04:41:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "error/error_messages.h"
+#include "minishell.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -92,7 +92,6 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	rl_clear_history();
-	// clear_history();//macOS
 	free_env_list();
 	return (status);
 }

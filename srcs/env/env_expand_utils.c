@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 
 /* 環境変数の値を取得 */
 char	*expand_env_var(const char *name)

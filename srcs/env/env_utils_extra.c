@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 
 /* Create a new environment node from a string */
 t_env	*create_env_node(const char *str)

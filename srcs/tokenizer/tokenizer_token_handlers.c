@@ -33,7 +33,7 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
 int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	t_token			*new_token;
+	t_token	*new_token;
 
 	if (!extract_quoted_string(stat, input, stat->word_buffer))
 		return (0);
@@ -89,7 +89,7 @@ t_token	*create_expanded_word_token(char *raw_word, int *status)
 void	skip_whitespace(const char *input, int *i)
 {
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'
-			|| input[*i] == '\n' || input[*i] == '\v'
-			|| input[*i] == '\f' || input[*i] == '\r'))
+			|| input[*i] == '\n' || input[*i] == '\v' || input[*i] == '\f'
+			|| input[*i] == '\r'))
 		(*i)++;
 }

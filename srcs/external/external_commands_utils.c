@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "external.h"
+#include "minishell.h"
 
 void	free_env_array(char **env_array, int count)
 {
