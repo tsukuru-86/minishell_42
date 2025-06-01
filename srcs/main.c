@@ -6,12 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/01 02:27:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 00:33:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "error/error_messages.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 static volatile sig_atomic_t	g_signal = 0;
 
@@ -36,12 +38,12 @@ static int	initialize_shell(char **envp)
 	if (!get_env_val())
 	{
 		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
-			2);
-		return (1);
+			STDERR_FILENO);
+		return (0);
 	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	return (0);
+	return (1);
 }
 
 static void	handle_input(char *input, int *status)
@@ -77,8 +79,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	if (initialize_shell(envp))
-		return (1);
+	if (!initialize_shell(envp))
+		return (EXIT_FAILURE);
 	status = 0;
 	while (1)
 	{
@@ -89,8 +91,8 @@ int	main(int argc, char **argv, char **envp)
 		handle_input(input, &status);
 		free(input);
 	}
-	// rl_clear_history();
-	clear_history();
+	rl_clear_history();
+	// clear_history();//macOS
 	free_env_list();
 	return (status);
 }

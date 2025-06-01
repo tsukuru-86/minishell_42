@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 04:45:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 03:12:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
+#include <unistd.h>
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)
@@ -60,36 +61,37 @@ int	set_env_node(const char *name, const char *value)
 	t_env	*node;
 
 	if (!name)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: export: the name is NULL.\n");
 		return (1);
+	}
 	if (ft_strncmp(name, "?", 2) != 0 && !is_valid_identifier(name))
 	{
-		ft_putstr_fd((char *)"minishell: export: `", 2);
-		ft_putstr_fd((char *)name, 2);
-		ft_putstr_fd((char *)"': not a valid identifier\n", 2);
+		ft_printf_fd(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier.\n", name);
 		return (1);
 	}
 	node = get_env_node(name);
-	if (node)
-		return (update_env_value(node, value));
-	return (append_env_node(name, value));
+	if (!node)
+		return (append_env_node(name, value));
+	return (update_env_value(node, value));
 }
 
-/* 環境変数リストを表示する */
+/* 環境変数リストを表示する
+TODO: declare -x は何？
+*/
 void	print_env_list(t_env *head)
 {
 	while (head != NULL)
 	{
 		if (ft_strncmp(head->name, "?", 2) != 0)
 		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(head->name, 1);
+			ft_printf_fd(STDOUT_FILENO, "declare -x %s", head->name);
 			if (head->value)
 			{
-				ft_putstr_fd("=\"", 1);
-				ft_putstr_fd(head->value, 1);
-				ft_putchar_fd('\"', 1);
+				ft_printf_fd(STDOUT_FILENO, "=\"%s\"", head->value);
 			}
-			ft_putchar_fd('\n', 1);
+			ft_printf_fd(STDOUT_FILENO, "\n");
 		}
 		head = head->next;
 	}

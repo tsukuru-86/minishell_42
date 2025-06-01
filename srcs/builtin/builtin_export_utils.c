@@ -37,12 +37,12 @@ static int	validate_and_set_env(char *name, char *value)
 {
 	if (!is_valid_identifier(name))
 	{
-		ft_printf_fd(2, ERR_EXPORT_INVALID_IDENTIFIER, name);
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, name);
 		return (1);
 	}
 	if (set_env_node(name, value) != 0)
 	{
-		ft_putstr_fd((char *)ERR_EXPORT_MEMORY_ALLOC, 2);
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
 		return (1);
 	}
 	return (0);
@@ -78,7 +78,7 @@ static char	*reconstruct_split_args(char **args, int start, int *next_idx)
 }
 
 /* Process a single export argument, returns error code */
-int	process_export_arg(char *arg)
+static int	process_export_arg(char *arg)
 {
 	char	*name;
 	char	*value;

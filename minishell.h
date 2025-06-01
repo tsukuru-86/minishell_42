@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/01 04:03:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 03:38:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_env
 /* パーサー */
 t_command				*parse_tokens(t_token *tokens);
 void					free_command(t_command *cmd);
-int						is_builtin(char *cmd);
+int						get_builtin_func_idx(char *cmd);
 
 /* Redirection types */
 typedef enum e_redir_type
@@ -150,7 +150,6 @@ void					print_tokens(t_token *tokens);
 t_env					**get_env_val(void);
 t_env					*create_env_list(char **envp);
 void					free_env_list(void);
-void					free_env_list_copy(t_env *head);
 t_env					*create_env_node(const char *str);
 char					*expand_env_vars(const char *str, int in_dquote);
 t_env					*get_env_node(const char *name);

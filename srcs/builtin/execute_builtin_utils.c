@@ -13,16 +13,11 @@
 #include "builtin_commands.h"
 #include "minishell.h"
 
-const char	**get_builtin_name(void)
+int	get_builtin_func_idx(char *cmd)
 {
-	const char	**builtins;
+	int			i;
+	const char	*builtins[8];
 
-	builtins = malloc(sizeof(char *) * 8);
-	if (!builtins)
-	{
-		perror("get_builtin_name");
-		exit(EXIT_FAILURE);
-	}
 	builtins[0] = "echo";
 	builtins[1] = "cd";
 	builtins[2] = "pwd";
@@ -31,26 +26,36 @@ const char	**get_builtin_name(void)
 	builtins[5] = "env";
 	builtins[6] = "exit";
 	builtins[7] = NULL;
-	return (builtins);
+	// builtins = get_builtin_name();
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
+		{
+			// free((builtins));
+			return (i);
+		}
+		i++;
+	}
+	// free((builtins));
+	return (-1);
 }
 
-t_builtin_func	*get_builtin_funcs(void)
+t_builtin_func	get_builtin_funcs(char *name)
 {
-	t_builtin_func	*funcs;
+	t_builtin_func	funcs[8];
+	int				i;
 
-	funcs = malloc(sizeof(t_builtin_func) * 8);
-	if (!funcs)
-	{
-		perror("get_builtin_funcs");
-		exit(EXIT_FAILURE);
-	}
-	funcs[0] = builtin_echo;
-	funcs[1] = builtin_cd;
-	funcs[2] = builtin_pwd;
-	funcs[3] = builtin_export;
-	funcs[4] = builtin_unset;
-	funcs[5] = builtin_env;
-	funcs[6] = builtin_exit;
+	i = get_builtin_func_idx(name);
+	if (i < 0 || 7 <= i)
+		return (NULL);
+	funcs[0] = &builtin_echo;
+	funcs[1] = &builtin_cd;
+	funcs[2] = &builtin_pwd;
+	funcs[3] = &builtin_export;
+	funcs[4] = &builtin_unset;
+	funcs[5] = &builtin_env;
+	funcs[6] = &builtin_exit;
 	funcs[7] = NULL;
-	return (funcs);
+	return (funcs[i]);
 }

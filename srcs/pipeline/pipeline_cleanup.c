@@ -1,39 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipeline_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/02 03:41:19 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/02 03:51:42 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/02 03:51:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipeline.h"
 
-/* パイプラインの完了を待機 */
-int	wait_pipeline(t_command *cmd)
+/* パイプラインのクリーンアップ */
+void	cleanup_pipeline(t_command *cmd)
 {
 	t_command	*current;
-	int			status;
-	int			last_status;
 
+	if (!cmd)
+		return ;
 	current = cmd;
-	last_status = 0;
 	while (current)
 	{
-		if (current->pipe.pid != -1)
+		if (current->pipe.read_fd != -1)
 		{
-			if (waitpid(current->pipe.pid, &status, 0) == -1)
-			{
-				perror("waitpid");
-			}
-			else if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
+			close(current->pipe.read_fd);
+			current->pipe.read_fd = -1;
+		}
+		if (current->pipe.write_fd != -1)
+		{
+			close(current->pipe.write_fd);
+			current->pipe.write_fd = -1;
 		}
 		current = current->next;
 	}
-	return (last_status);
+}
+
+/* パイプラインのクリーンアップを行う関数 */
+void	cleanup_pipeline_list_all(t_command *cmd)
+{
+	t_command	*current;
+
+	current = cmd;
+	while (current)
+	{
+		cleanup_pipeline(current);
+		current = current->next;
+	}
 }

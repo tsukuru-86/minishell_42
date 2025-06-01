@@ -38,7 +38,7 @@ static size_t	parse_and_call_fd(va_list args, const char *format, int fd)
 	return (len);
 }
 
-size_t	ft_printf(int fd, const char *format, ...)
+size_t	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	size_t	len;
@@ -50,11 +50,11 @@ size_t	ft_printf(int fd, const char *format, ...)
 		if (*format == '%' && *(format + 1) != '\0')
 		{
 			format++;
-			len += parse_and_call_fd(args, format, fd);
+			len += parse_and_call_fd(args, format, STDOUT_FILENO);
 		}
 		else
 		{
-			len += ft_putchar_fd_cnt(*format, fd);
+			len += ft_putchar_fd_cnt(*format, STDOUT_FILENO);
 		}
 		format++;
 	}

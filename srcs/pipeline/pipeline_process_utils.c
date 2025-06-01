@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/01 02:34:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 03:52:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static void	pipeline_redirect_io(t_command *current)
 static void	pipeline_execute_command_logic(t_command *current)
 {
 	int	status;
+	int	idx;
 
 	if (current->redirects && !setup_redirection(current->redirects))
 		exit(EXIT_FAILURE);
-	if (is_builtin(current->args[0]))
+	idx = get_builtin_func_idx(current->args[0]);
+	if (0 <= idx && idx <= 6)
 	{
 		status = execute_builtin(current->args);
 		if (current->redirects)
@@ -93,39 +95,3 @@ bool	spawn_pipeline_processes(t_command *cmd)
 	return (true);
 }
 
-/* パイプラインのクリーンアップ */
-void	cleanup_pipeline(t_command *cmd)
-{
-	t_command	*current;
-
-	if (!cmd)
-		return ;
-	current = cmd;
-	while (current)
-	{
-		if (current->pipe.read_fd != -1)
-		{
-			close(current->pipe.read_fd);
-			current->pipe.read_fd = -1;
-		}
-		if (current->pipe.write_fd != -1)
-		{
-			close(current->pipe.write_fd);
-			current->pipe.write_fd = -1;
-		}
-		current = current->next;
-	}
-}
-
-/* パイプラインのクリーンアップを行う関数 */
-void	cleanup_pipeline_list_all(t_command *cmd)
-{
-	t_command	*current;
-
-	current = cmd;
-	while (current)
-	{
-		cleanup_pipeline(current);
-		current = current->next;
-	}
-}

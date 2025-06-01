@@ -46,7 +46,7 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 	if (!(*current_token)->next)
 	{
 		free_command(*head_cmd);
-		ft_printf_fd(2, ERR_SYNTAX_NEAR_TOKEN, "newline");
+		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
 		return (0);
 	}
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))
@@ -80,7 +80,7 @@ int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	*current_token = (*current_token)->next;
 	if (!*current_token)
 	{
-		ft_printf_fd(2, ERR_SYNTAX_NEAR_TOKEN, "|");
+		ft_printf_fd(2, ERR_UNEXP_TOKEN, "|");
 		free_command(*head_cmd);
 		*head_cmd = NULL;
 		return (0);

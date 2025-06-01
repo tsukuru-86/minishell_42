@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/01 04:04:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 03:51:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ void	launch_child(char *cmd_path, char **args)
 
 /* 外部コマンドを実行する関数。
    コマンドパスを検索し、子プロセスでコマンドを実行する */
+static int	handle_child_process(char *cmd_path, char **args, t_command *cmd)
+{
+	setup_child_signals();
+	launch_child(cmd_path, args);
+	exit(execute_external_command(cmd));
+}
+
+static int	handle_fork_error(char *cmd_path)
+{
+	perror("minishell: fork");
+	free(cmd_path);
+	return (1);
+}
+
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
@@ -59,16 +73,8 @@ int	execute_external_command(t_command *cmd)
 	}
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("minishell: fork");
-		free(cmd_path);
-		return (1);
-	}
+		return (handle_fork_error(cmd_path));
 	if (pid == 0)
-	{
-		setup_child_signals();
-		launch_child(cmd_path, args);
-		exit(execute_external_command(cmd));
-	}
+		handle_child_process(cmd_path, args, cmd);
 	return (wait_parent(pid, cmd_path));
 }

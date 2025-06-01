@@ -6,32 +6,15 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:35:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 03:57:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/02 03:36:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin_commands.h"
 
-/* 環境変数リストのコピーを解放するヘルパー関数 */
-void	free_env_list_copy(t_env *head)
-{
-	t_env	*current_node;
-	t_env	*next_node;
-
-	current_node = head;
-	while (current_node)
-	{
-		next_node = current_node->next;
-		free(current_node->name);
-		free(current_node->value);
-		free(current_node);
-		current_node = next_node;
-	}
-}
-
 /* ノードをスワップしてリストの先頭を更新 */
-t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
+static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
 		t_env *node2)
 {
 	node1->next = node2->next;
@@ -44,7 +27,7 @@ t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
 }
 
 /* ソートの1回のパスを実行する */
-t_env	*sort_single_pass(t_env *list_head, int *swapped_flag)
+static t_env	*sort_single_pass(t_env *list_head, int *swapped_flag)
 {
 	t_env	*current;
 	t_env	*prev;
