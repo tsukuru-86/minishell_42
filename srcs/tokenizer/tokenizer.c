@@ -37,12 +37,7 @@ static int	process_current_token(t_tokenizer_stat *stat, const char *input)
 		ft_putstr_fd((char *)"minishell: too many tokens\n", STDERR_FILENO);
 		return (0);
 	}
-	if (is_quote(input[stat->i_input]))
-	{
-		if (!handle_quoted_token_creation(stat, input))
-			return (0);
-	}
-	else if (is_meta(input[stat->i_input]))
+	if (is_meta(input[stat->i_input]))
 	{
 		if (!handle_meta_token_creation(stat, input))
 			return (0);
