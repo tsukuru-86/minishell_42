@@ -41,4 +41,5 @@ void	cleanup_tokenizer_vars(t_tokenizer_stat *vars);
 void	finalize_tokenizer(t_tokenizer_stat *vars);
 t_token	*cleanup_and_return_null(t_tokenizer_stat *vars, char *input);
 int		handle_word_token_creation(t_tokenizer_stat *vars, const char *input);
+t_token	*get_last_token(t_token *tokens);
 #endif

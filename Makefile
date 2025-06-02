@@ -19,8 +19,8 @@ SRCS_FILE = main.c \
 	builtin/execute_builtin_utils.c \
 	builtin/identifier_validator.c \
 	env/env_expand.c \
-	env/env_expand_utils2.c \
 	env/env_expand_utils.c \
+	env/env_expand_utils2.c \
 	env/env_utils.c \
 	env/env_utils_extra.c \
 	env/exit_status.c \
@@ -32,8 +32,8 @@ SRCS_FILE = main.c \
 	parser/heredoc.c \
 	parser/heredoc_utils.c \
 	parser/parser.c \
-	parser/parser_tokens.c \
 	parser/parser_token_to_cmd.c \
+	parser/parser_tokens.c \
 	parser/parser_utils3.c \
 	pipeline/excute_pipeline.c \
 	pipeline/pipeline.c \
@@ -42,8 +42,8 @@ SRCS_FILE = main.c \
 	pipeline/pipeline_setup_utils.c \
 	pipeline/pipeline_utils.c \
 	printf/ft_printf_fd.c \
-	printf/ft_printf_fd_utils2.c \
 	printf/ft_printf_fd_utils.c \
+	printf/ft_printf_fd_utils2.c \
 	redirect/redirect.c \
 	redirect/redirect_process.c \
 	redirect/redirect_restore.c \
@@ -56,9 +56,9 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_normal_word_logic.c \
 	tokenizer/tokenizer_quote_processing.c \
 	tokenizer/tokenizer_token_handlers.c \
+	tokenizer/tokenizer_utils.c \
 	tokenizer/tokenizer_utils2.c \
 	tokenizer/tokenizer_utils3.c \
-	tokenizer/tokenizer_utils.c \
 	utils/excute_command.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS_DIR = obj/

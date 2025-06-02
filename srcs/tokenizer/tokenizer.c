@@ -13,9 +13,30 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
+/* トークンの数をカウント */
+static int	count_tokens(t_token *tokens)
+{
+	int		count;
+	t_token	*current;
+
+	count = 0;
+	current = tokens;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
 /* 現在の文字に基づいてトークンを処理 */
 static int	process_current_token(t_tokenizer_stat *stat, const char *input)
 {
+	if (count_tokens(stat->tokens) >= MAX_TOKENS)
+	{
+		ft_putstr_fd((char *)"minishell: too many tokens\n", STDERR_FILENO);
+		return (0);
+	}
 	if (is_quote(input[stat->i_input]))
 	{
 		if (!handle_quoted_token_creation(stat, input))

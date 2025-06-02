@@ -59,3 +59,16 @@ void	print_tokens(t_token *tokens)
 		current = current->next;
 	}
 }
+
+/* トークンリストの最後のトークンを取得 */
+t_token	*get_last_token(t_token *tokens)
+{
+	t_token	*current;
+
+	if (!tokens)
+		return (NULL);
+	current = tokens;
+	while (current->next)
+		current = current->next;
+	return (current);
+}

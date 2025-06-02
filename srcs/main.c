@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 		handle_input(input, &status);
 		free(input);
 	}
-	rl_clear_history();
+	clear_history();
 	free_env_list();
 	return (status);
 }
