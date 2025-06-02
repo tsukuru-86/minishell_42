@@ -34,9 +34,23 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
 	t_token	*new_token;
+	t_token	*last_token;
+	char	*combined_content;
 
 	if (!extract_quoted_string(stat, input, stat->word_buffer))
 		return (0);
+	last_token = get_last_token(stat->tokens);
+	if (last_token && (last_token->type == TOKEN_SINGLE_QUOTE ||
+		last_token->type == TOKEN_DOUBLE_QUOTE) &&
+		!is_delimiter(input[stat->i_input - 1]))
+	{
+		combined_content = ft_strjoin(last_token->content, stat->word_buffer);
+		if (!combined_content)
+			return (0);
+		free(last_token->content);
+		last_token->content = combined_content;
+		return (1);
+	}
 	new_token = create_token(stat->word_buffer, stat->quote_type);
 	if (!new_token)
 		return (0);
