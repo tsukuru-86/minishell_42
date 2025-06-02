@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/01 02:27:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	check_buffer_size_internal(int word_idx)
 static void	set_quote_type_internal(char quote_char, t_token_type *type)
 {
 	if (quote_char == '\'')
-		*type = TOKEN_SINGLE_QUOTE;
+		*type = TOKEN_S_QUOTED_WORD;
 	else if (quote_char == '\"')
-		*type = TOKEN_DOUBLE_QUOTE;
+		*type = TOKEN_D_QUOTED_WORD;
 }
 
 /* クォート内の文字列をバッファにコピー */
@@ -57,7 +57,7 @@ static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 {
 	char	*expanded_str;
 
-	if (type == TOKEN_DOUBLE_QUOTE)
+	if (type == TOKEN_D_QUOTED_WORD)
 	{
 		expanded_str = expand_env_vars(word_buf, 1);
 		if (!expanded_str)

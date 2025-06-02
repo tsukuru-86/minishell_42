@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 04:33:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 05:32:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int			add_argument(t_command *cmd, char *arg);
 int			process_token_in_parse_loop(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
 void		link_commands(t_command *prev, t_command *next);
+char		*merge_adjacent_tokens(t_token **current_token);
 
 #endif

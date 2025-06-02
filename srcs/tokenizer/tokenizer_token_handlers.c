@@ -40,9 +40,9 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	if (!extract_quoted_string(stat, input, stat->word_buffer))
 		return (0);
 	last_token = get_last_token(stat->tokens);
-	if (last_token && (last_token->type == TOKEN_SINGLE_QUOTE ||
-		last_token->type == TOKEN_DOUBLE_QUOTE) &&
-		!is_delimiter(input[stat->i_input - 1]))
+	if (last_token && (last_token->type == TOKEN_S_QUOTED_WORD
+			|| last_token->type == TOKEN_D_QUOTED_WORD)
+		&& !is_delimiter(input[stat->i_input - 1]))
 	{
 		combined_content = ft_strjoin(last_token->content, stat->word_buffer);
 		if (!combined_content)

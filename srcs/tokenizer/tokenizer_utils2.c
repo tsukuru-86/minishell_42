@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/30 08:48:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,61 +36,63 @@ int	init_tokenizer_stat(t_tokenizer_stat *stat, t_command *cmd)
 /* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
 int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	char	buf[1024];
-	int		buf_len;
-	char	quote_c;
-	int		i;
-	int		expansion_status;
-	bool	had_quotes;
+	char		buf[1024];
+	int			buf_len;
+	char		quote_c;
+	t_token		*new_token;
+	t_token_type	token_type;
+	int			i;
 
 	i = stat->i_input;
 	buf_len = 0;
-	had_quotes = false;
-	while (input[i] && !is_delimiter(input[i]) && !is_meta(input[i]))
+	if (is_quote(input[i]))
 	{
-		if (is_quote(input[i]))
-		{
-			had_quotes = true;
-			quote_c = input[i];
-			i++;
-			while (input[i] && input[i] != quote_c)
-			{
-				if (buf_len < 1023)
-					buf[buf_len++] = input[i];
-				i++;
-			}
-			if (input[i] == quote_c)
-				i++;
-		}
-		else
+		quote_c = input[i];
+		i++;
+		while (input[i] && input[i] != quote_c)
 		{
 			if (buf_len < 1023)
 				buf[buf_len++] = input[i];
 			i++;
 		}
+		if (input[i] == quote_c)
+			i++;
+		token_type = (quote_c == '\'') ? TOKEN_S_QUOTED_WORD : TOKEN_D_QUOTED_WORD;
+	}
+	else
+	{
+		while (input[i] && !is_delimiter(input[i]) && !is_quote(input[i])
+			&& !is_meta(input[i]))
+		{
+			if (buf_len < 1023)
+				buf[buf_len++] = input[i];
+			i++;
+		}
+		token_type = TOKEN_WORD;
 	}
 	buf[buf_len] = '\0';
 	stat->i_input = i;
-
-	// 空のクォートの場合でもトークンを生成
-	if (buf_len == 0 && had_quotes)
+	if (token_type == TOKEN_D_QUOTED_WORD)
 	{
-		t_token *empty_tok = create_token("", TOKEN_WORD);
-		if (!empty_tok)
+		char *expanded = expand_env_vars(buf, 1);
+		if (!expanded)
 			return (0);
-		add_token_to_list(&stat->tokens, empty_tok);
-		return (1);
+		new_token = create_token(expanded, token_type);
+		free(expanded);
 	}
-
-	// バッファが空で、クォートもない場合は早期リターン
-	if (buf_len == 0)
-		return (1);
-
-	t_token *new_tok = create_expanded_word_token(buf, &expansion_status);
-	if (!new_tok && expansion_status != 1)
+	else if (token_type == TOKEN_WORD)
+	{
+		char *expanded = expand_env_vars(buf, 0);
+		if (!expanded)
+			return (0);
+		new_token = create_token(expanded, token_type);
+		free(expanded);
+	}
+	else
+		new_token = create_token(buf, token_type);
+	if (!new_token)
 		return (0);
-	if (new_tok)
-		add_token_to_list(&stat->tokens, new_tok);
+	add_token_to_list(&stat->tokens, new_token);
 	return (1);
 }
 

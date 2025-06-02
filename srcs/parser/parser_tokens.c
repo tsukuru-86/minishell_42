@@ -15,7 +15,7 @@
 #include "parser.h"
 
 /*
-** @brief 単語トークンを処理します。
+** @brief 単語トークンを処理します。隣接する非空白トークンを結合します。
 ** @param cmd 現在のコマンド構造体
 ** @param current_token 現在のトークンへのポインタ
 ** @param head_cmd コマンドリストの先頭へのポインタ
@@ -24,12 +24,21 @@
 int	handle_word_token(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
-	if (!add_argument(cmd, (*current_token)->content))
+	char	*merged_content;
+
+	merged_content = merge_adjacent_tokens(current_token);
+	if (!merged_content)
 	{
 		free_command(*head_cmd);
 		return (0);
 	}
-	*current_token = (*current_token)->next;
+	if (!add_argument(cmd, merged_content))
+	{
+		free(merged_content);
+		free_command(*head_cmd);
+		return (0);
+	}
+	free(merged_content);
 	return (1);
 }
 
@@ -103,8 +112,8 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 
 	status = 1;
 	type = (*current_token_ptr)->type;
-	if (type == TOKEN_WORD || type == TOKEN_SINGLE_QUOTE
-		|| type == TOKEN_DOUBLE_QUOTE)
+	if (type == TOKEN_WORD || type == TOKEN_S_QUOTED_WORD
+		|| type == TOKEN_D_QUOTED_WORD)
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
@@ -112,6 +121,8 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 				head_cmd_ptr);
 	else if (type == TOKEN_PIPE)
 		status = handle_pipe_token(cmd_ptr, current_token_ptr, head_cmd_ptr);
+	else if (type == TOKEN_SPACE)
+		*current_token_ptr = (*current_token_ptr)->next;
 	else
 		*current_token_ptr = (*current_token_ptr)->next;
 	return (status);

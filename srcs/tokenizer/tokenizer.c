@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/05/25 00:19:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 	}
 	while (input[vars.i_input])
 	{
-		skip_whitespace(input, &vars.i_input);
-		if (!input[vars.i_input])
-			break ;
-		if (!process_current_token(&vars, input))
+		if (is_delimiter(input[vars.i_input]))
+		{
+			if (!handle_space_token_creation(&vars, input))
+				return (cleanup_and_return_null(&vars, input));
+		}
+		else if (!process_current_token(&vars, input))
 			return (cleanup_and_return_null(&vars, input));
 	}
 	return (vars.tokens);

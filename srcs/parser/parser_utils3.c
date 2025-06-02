@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:45:59 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:48:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 05:32:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,32 @@ void	free_command(t_command *cmd)
 		free(cmd);
 		cmd = next_cmd;
 	}
+}
+
+/*
+** 隣接する非空白トークンを結合して単一の文字列を作成
+*/
+char	*merge_adjacent_tokens(t_token **current_token)
+{
+	char	*result;
+	char	*temp;
+	t_token	*token;
+
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	token = *current_token;
+	while (token && token->type != TOKEN_SPACE && token->type != TOKEN_PIPE
+		&& token->type != TOKEN_REDIR_IN && token->type != TOKEN_REDIR_OUT
+		&& token->type != TOKEN_REDIR_APPEND && token->type != TOKEN_HEREDOC)
+	{
+		temp = ft_strjoin(result, token->content);
+		free(result);
+		if (!temp)
+			return (NULL);
+		result = temp;
+		token = token->next;
+	}
+	*current_token = token;
+	return (result);
 }

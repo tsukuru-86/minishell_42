@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/02 03:38:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ typedef enum e_token_type
 	TOKEN_SPACE,
 	TOKEN_SINGLE_QUOTE,
 	TOKEN_DOUBLE_QUOTE,
-	TOKEN_QUOTED_WORD,
+	TOKEN_S_QUOTED_WORD,
+	TOKEN_D_QUOTED_WORD,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
@@ -145,6 +146,10 @@ int						excute_commands(t_command *cmd);
 t_token					*tokenize(char *input, t_command *cmd);
 void					free_tokens(t_token *tokens);
 void					print_tokens(t_token *tokens);
+
+/* Debug functions */
+void					print_command_debug(t_command *cmd);
+void					print_commands_debug(t_command *commands);
 
 /* Environment variable */
 t_env					**get_env_val(void);
