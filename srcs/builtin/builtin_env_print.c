@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 04:45:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 22:00:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ static void	print_env_format(t_env *env, int format)
 {
 	if (format == 0)
 	{
-		ft_putstr_fd(env->name, STDOUT_FILENO);
-		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_printf_fd(STDOUT_FILENO, "%s=", env->name);
 		if (env->value)
 			ft_putendl_fd(env->value, STDOUT_FILENO);
 		else

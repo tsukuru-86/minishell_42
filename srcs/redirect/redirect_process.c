@@ -41,12 +41,7 @@ static int	apply_output_redirection(t_redirect *last_out)
 		return (1);
 	fd = open_redirect_file(last_out);
 	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(last_out->file, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
-	}
 	apply_redirection(last_out, fd);
 	return (1);
 }
@@ -60,12 +55,7 @@ static int	apply_input_redirection(t_redirect *last_in)
 		return (1);
 	fd = open_redirect_file(last_in);
 	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(last_in->file, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
-	}
 	apply_redirection(last_in, fd);
 	return (1);
 }
