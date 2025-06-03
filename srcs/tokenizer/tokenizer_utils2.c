@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 21:44:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,89 +33,91 @@ int	init_tokenizer_stat(t_tokenizer_stat *stat, t_command *cmd)
 	return (1);
 }
 
-/* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
-int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
+/* クォートされた文字列を抽出する */
+static int	extract_quoted_content(const char *input, int *i, char *buf,
+	int *buf_len)
 {
-	char		buf[1024];
-	int			buf_len;
-	char		quote_c;
-	t_token		*new_token;
-	t_token_type	token_type;
-	int			i;
+	char	quote_c;
 
-	i = stat->i_input;
-	buf_len = 0;
-	if (is_quote(input[i]))
+	quote_c = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote_c)
 	{
-		quote_c = input[i];
-		i++;
-		while (input[i] && input[i] != quote_c)
-		{
-			if (buf_len < 1023)
-				buf[buf_len++] = input[i];
-			i++;
-		}
-		if (input[i] == quote_c)
-			i++;
-		token_type = (quote_c == '\'') ? TOKEN_S_QUOTED_WORD : TOKEN_D_QUOTED_WORD;
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
+		(*i)++;
 	}
+	if (input[*i] == quote_c)
+		(*i)++;
+	if (quote_c == '\'')
+		return (TOKEN_S_QUOTED_WORD);
 	else
+		return (TOKEN_D_QUOTED_WORD);
+}
+
+/* 通常の単語を抽出する */
+static void	extract_word_content(const char *input, int *i, char *buf,
+	int *buf_len)
+{
+	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
+		&& !is_meta(input[*i]))
 	{
-		while (input[i] && !is_delimiter(input[i]) && !is_quote(input[i])
-			&& !is_meta(input[i]))
-		{
-			if (buf_len < 1023)
-				buf[buf_len++] = input[i];
-			i++;
-		}
-		token_type = TOKEN_WORD;
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
+		(*i)++;
 	}
-	buf[buf_len] = '\0';
-	stat->i_input = i;
+}
+
+/* トークンを作成し、必要に応じて環境変数を展開する */
+static t_token	*create_expanded_token(char *buf, t_token_type token_type)
+{
+	char	*expanded;
+	t_token	*new_token;
+
 	if (token_type == TOKEN_D_QUOTED_WORD)
 	{
-		char *expanded = expand_env_vars(buf, 1);
+		expanded = expand_env_vars(buf, 1);
 		if (!expanded)
-			return (0);
+			return (NULL);
 		new_token = create_token(expanded, token_type);
 		free(expanded);
 	}
 	else if (token_type == TOKEN_WORD)
 	{
-		char *expanded = expand_env_vars(buf, 0);
+		expanded = expand_env_vars(buf, 0);
 		if (!expanded)
-			return (0);
+			return (NULL);
 		new_token = create_token(expanded, token_type);
 		free(expanded);
 	}
 	else
 		new_token = create_token(buf, token_type);
+	return (new_token);
+}
+
+/* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
+int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
+{
+	char			buf[1024];
+	int				buf_len;
+	t_token			*new_token;
+	t_token_type	token_type;
+	int				i;
+
+	i = stat->i_input;
+	buf_len = 0;
+	if (is_quote(input[i]))
+		token_type = extract_quoted_content(input, &i, buf, &buf_len);
+	else
+	{
+		extract_word_content(input, &i, buf, &buf_len);
+		token_type = TOKEN_WORD;
+	}
+	buf[buf_len] = '\0';
+	stat->i_input = i;
+	new_token = create_expanded_token(buf, token_type);
 	if (!new_token)
 		return (0);
 	add_token_to_list(&stat->tokens, new_token);
 	return (1);
-}
-
-/* トークンリストと内部で割り当てられたコマンド構造体を解放し、NULLを返す */
-t_token	*cleanup_and_return_null(t_tokenizer_stat *stat, char *input)
-{
-	if (!handle_word_token_creation(stat, input))
-		free_tokens(stat->tokens);
-	stat->tokens = NULL;
-	if (stat->needs_cmd_free && stat->cmd)
-	{
-		free(stat->cmd);
-		stat->cmd = NULL;
-	}
-	return (NULL);
-}
-
-/* トークナイズ処理の最後に呼び出され、内部で割り当てられたコマンド構造体を解放 */
-void	finalize_tokenizer(t_tokenizer_stat *stat)
-{
-	if (stat->needs_cmd_free && stat->cmd)
-	{
-		free(stat->cmd);
-		stat->cmd = NULL;
-	}
 }

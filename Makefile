@@ -58,6 +58,7 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_utils.c \
 	tokenizer/tokenizer_utils2.c \
 	tokenizer/tokenizer_utils3.c \
+	tokenizer/tokenizer_utils4.c \
 	tokenizer/tokenizer.c \
 	utils/debug_utils.c \
 	utils/excute_command.c

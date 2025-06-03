@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:46:04 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 21:49:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,41 @@ int	handle_space_token_creation(t_tokenizer_stat *stat, const char *input)
 		return (0);
 	add_token_to_list(&stat->tokens, new_token);
 	return (1);
+}
+
+/* トークンリストと内部で割り当てられたコマンド構造体を解放し、NULLを返す */
+t_token	*cleanup_and_return_null(t_tokenizer_stat *stat, char *input)
+{
+	if (!handle_word_token_creation(stat, input))
+		free_tokens(stat->tokens);
+	stat->tokens = NULL;
+	if (stat->needs_cmd_free && stat->cmd)
+	{
+		free(stat->cmd);
+		stat->cmd = NULL;
+	}
+	return (NULL);
+}
+
+/* トークナイズ処理の最後に呼び出され、内部で割り当てられたコマンド構造体を解放 */
+void	finalize_tokenizer(t_tokenizer_stat *stat)
+{
+	if (stat->needs_cmd_free && stat->cmd)
+	{
+		free(stat->cmd);
+		stat->cmd = NULL;
+	}
+}
+
+/* トークンリストの最後のトークンを取得 */
+t_token	*get_last_token(t_token *tokens)
+{
+	t_token	*current;
+
+	if (!tokens)
+		return (NULL);
+	current = tokens;
+	while (current->next)
+		current = current->next;
+	return (current);
 }
