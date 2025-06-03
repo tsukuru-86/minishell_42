@@ -30,7 +30,8 @@ int	check_file_access(t_redirect *redirect)
 	{
 		if (access(redirect->file, R_OK) != 0)
 		{
-			perror(redirect->file);
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s: \n", redirect->file,
+				redirect->file, strerror(errno));
 			return (-1);
 		}
 		return (0);
@@ -39,13 +40,14 @@ int	check_file_access(t_redirect *redirect)
 	{
 		if (access(redirect->file, W_OK) != 0)
 		{
-			perror(redirect->file);
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s: \n", redirect->file,
+				redirect->file, strerror(errno));
 			return (-1);
 		}
 	}
 	else if (access(".", W_OK) != 0)
 	{
-		perror(".");
+		perror("minishell: .");
 		return (-1);
 	}
 	return (0);
@@ -76,6 +78,8 @@ void	apply_redirection(t_redirect *redirect, int fd)
 		dup2(fd, STDOUT_FILENO);
 	else if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		dup2(fd, STDIN_FILENO);
+	if (fd == -1)
+		perror("minishell: apply_redirection");
 	close(fd);
 }
 
@@ -98,12 +102,7 @@ int	validate_redirections(t_redirect *redirect)
 			}
 		}
 		if (check_file_access(current) == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(current->file, 2);
-			ft_putstr_fd(": Permission denied\n", 2);
 			return (0);
-		}
 		current = current->next;
 	}
 	return (1);

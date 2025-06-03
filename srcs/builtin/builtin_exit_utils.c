@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:26:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 00:17:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 22:44:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ char	*combine_special_args(char **args)
 /* 数値エラーを処理して終了 */
 void	exit_with_numeric_error(const char *arg)
 {
-	ft_printf_fd(STDERR_FILENO, "exit: %s: numeric argument required.\n ", arg);
+	ft_printf_fd(STDERR_FILENO, "exit: %s: numeric argument required\n ", arg);
 	exit(255);
 }
