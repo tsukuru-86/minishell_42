@@ -24,9 +24,11 @@ static void	find_last_redirections(t_redirect *redirect, t_redirect **last_out,
 	current = redirect;
 	while (current)
 	{
-		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+		if ((current->type == REDIR_OUT || current->type == REDIR_APPEND)
+			&& !*last_out)
 			*last_out = current;
-		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+		else if ((current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+			&& !*last_in)
 			*last_in = current;
 		current = current->next;
 	}

@@ -52,19 +52,26 @@ int	handle_word_token(t_command *cmd, t_token **current_token,
 static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
-	if (!(*current_token)->next)
+	t_token	*file_token;
+
+	file_token = (*current_token)->next;
+	/* Skip any spaces after redirect operator */
+	while (file_token && file_token->type == TOKEN_SPACE)
+		file_token = file_token->next;
+	if (!file_token)
 	{
 		free_command(*head_cmd);
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
 		return (0);
 	}
-	if (!add_redirect(cmd, *current_token, (*current_token)->next))
+	if (!add_redirect(cmd, *current_token, file_token))
 	{
 		free_command(*head_cmd);
 		ft_putstr_fd((char *)ERR_REDIRECTION_ERROR, 2);
 		return (0);
 	}
-	*current_token = (*current_token)->next->next;
+	/* Move current_token to the token after the filename */
+	*current_token = file_token->next;
 	return (1);
 }
 

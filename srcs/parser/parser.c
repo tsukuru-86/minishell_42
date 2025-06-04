@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:49:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/04 18:10:02 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	int			result;
 
 	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
-			&& next->type != TOKEN_DOUBLE_QUOTE))
+			&& next->type != TOKEN_DOUBLE_QUOTE
+			&& next->type != TOKEN_S_QUOTED_WORD
+			&& next->type != TOKEN_D_QUOTED_WORD))
 		return (0);
 	result = determine_redirect_type(cmd, token, next, &type);
 	if (result == 0)

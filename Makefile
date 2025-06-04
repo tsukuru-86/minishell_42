@@ -5,7 +5,10 @@ CFLAGS = -Wall -Wextra -Werror -I. -I/usr/include -Ilibft -Isrcs -g -O0
 
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
+	builtin/builtin_cd.c \
+	builtin/builtin_echo.c \
 	builtin/builtin_env_print.c \
+	builtin/builtin_env_sort.c \
 	builtin/builtin_env.c \
 	builtin/builtin_exit_utils.c \
 	builtin/builtin_exit.c \
@@ -13,11 +16,12 @@ SRCS_FILE = main.c \
 	builtin/builtin_export_sort.c \
 	builtin/builtin_export_utils.c \
 	builtin/builtin_export.c \
-	builtin/builtin_others.c \
+	builtin/builtin_pwd.c \
 	builtin/builtin_unset.c \
 	builtin/execute_builtin_utils.c \
 	builtin/execute_builtin.c \
 	builtin/identifier_validator.c \
+	env/env_expand_buffer.c \
 	env/env_expand_utils.c \
 	env/env_expand_utils2.c \
 	env/env_expand.c \
@@ -44,6 +48,8 @@ SRCS_FILE = main.c \
 	printf/ft_printf_fd_utils.c \
 	printf/ft_printf_fd_utils2.c \
 	printf/ft_printf_fd.c \
+	redirect/redirect_access.c \
+	redirect/redirect_fd.c \
 	redirect/redirect_process.c \
 	redirect/redirect_restore.c \
 	redirect/redirect_save_fds.c \
