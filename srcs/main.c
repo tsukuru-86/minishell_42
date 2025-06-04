@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/04 17:36:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/04 23:05:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static void	handle_input(char *input, int *status)
 		add_history(input);
 	cmd = NULL;
 	tokens = tokenize(input, cmd);
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	if (tokens)
 	{
 		cmd = parse_tokens(tokens);
 		// print_commands_debug(cmd);
 		if (cmd)
 		{
-			// *status = excute_commands(cmd);
+			*status = excute_commands(cmd);
 			set_exit_status(cmd, *status);
 			free_command(cmd);
 		}
