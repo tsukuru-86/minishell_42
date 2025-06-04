@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 05:32:25 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/05 02:16:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 
 t_command	*create_command(void);
 int			add_redirect(t_command *cmd, t_token *token, t_token *next_token);
-int			process_token_in_parse_loop(t_command **cmd_ptr,
-				t_token **current_token_ptr, t_command **head_cmd_ptr);
 int			add_argument(t_command *cmd, char *arg);
 
 /* パーサー内部関数（外部からは呼び出し禁止） */
@@ -32,5 +30,11 @@ int			process_token_in_parse_loop(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
 void		link_commands(t_command *prev, t_command *next);
 char		*merge_adjacent_tokens(t_token **current_token);
+
+/* Token preprocessing functions */
+int			expand_all_variables(t_token *tokens);
+t_token		*remove_quote_tokens(t_token *tokens);
+t_token		*merge_adjacent_non_meta_tokens(t_token *tokens);
+t_token		*preprocess_tokens(t_token *tokens);
 
 #endif

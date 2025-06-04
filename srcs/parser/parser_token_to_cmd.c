@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:48:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/05 02:16:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ static t_command	*parse_tokens_loop(t_token *tokens)
 t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*head;
+	t_token		*preprocessed_tokens;
 
 	if (!tokens)
 		return (NULL);
-	head = parse_tokens_loop(tokens);
-	if (!head || !validate_command(head, tokens))
+	preprocessed_tokens = preprocess_tokens(tokens);
+	if (!preprocessed_tokens)
+		return (NULL);
+	head = parse_tokens_loop(preprocessed_tokens);
+	if (!head || !validate_command(head, preprocessed_tokens))
 		return (NULL);
 	return (head);
 }

@@ -32,6 +32,8 @@ SRCS_FILE = main.c \
 	parser/heredoc.c \
 	parser/heredoc_utils.c \
 	parser/parser.c \
+	parser/parser_preprocess.c \
+	parser/parser_preprocess_utils.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_tokens.c \
 	parser/parser_utils3.c \
