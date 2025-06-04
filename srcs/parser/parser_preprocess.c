@@ -38,6 +38,35 @@ int	expand_all_variables(t_token *tokens)
 	return (1);
 }
 
+t_token	*remove_space_tokens(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*next;
+	t_token	*prev;
+	t_token	*new_head;
+
+	current = tokens;
+	prev = NULL;
+	new_head = tokens;
+	while (current)
+	{
+		next = current->next;
+		if (current->type == TOKEN_SPACE)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				new_head = current->next;
+			free(current->content);
+			free(current);
+		}
+		else
+			prev = current;
+		current = next;
+	}
+	return (new_head);
+}
+
 t_token	*preprocess_tokens(t_token *tokens)
 {
 	t_token	*processed_tokens;
@@ -47,9 +76,8 @@ t_token	*preprocess_tokens(t_token *tokens)
 	processed_tokens = remove_quote_tokens(tokens);
 	if (!processed_tokens)
 		return (NULL);
-	// processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
-	// if (!processed_tokens)
-	//	return (NULL);
+	if (processed_tokens)
+		processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
 	processed_tokens = remove_space_tokens(processed_tokens);
 	return (processed_tokens);
 }
