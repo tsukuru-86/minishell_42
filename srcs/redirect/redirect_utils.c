@@ -5,13 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/11 02:00:00 by muiida           #+#    #+#             */
-/*   Updated: 2025/06/01 03:48:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/05 04:57:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
+#include <stdlib.h>
+#include <string.h>
 
 /* Save the original file descriptor for later restoration */
 int	save_original_fd(t_redirect *redirect)
@@ -23,6 +25,36 @@ int	save_original_fd(t_redirect *redirect)
 	return (-1);
 }
 
+/* Helper function to check directory access */
+static int	check_directory_access(t_redirect *redirect)
+{
+	char	*dir;
+	char	*parent_dir;
+
+	dir = strrchr(redirect->file, '/');
+	if (dir)
+	{
+		parent_dir = strndup(redirect->file, dir - redirect->file);
+		if (!parent_dir)
+			parent_dir = strdup("/");
+		if (access(parent_dir, W_OK) != 0)
+		{
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
+				strerror(errno));
+			free(parent_dir);
+			return (-1);
+		}
+		free(parent_dir);
+	}
+	else if (access(".", W_OK) != 0)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
+			strerror(errno));
+		return (-1);
+	}
+	return (0);
+}
+
 /* Check file access permissions before opening */
 int	check_file_access(t_redirect *redirect)
 {
@@ -30,8 +62,8 @@ int	check_file_access(t_redirect *redirect)
 	{
 		if (access(redirect->file, R_OK) != 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s: \n", redirect->file,
-				redirect->file, strerror(errno));
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
+				strerror(errno));
 			return (-1);
 		}
 		return (0);
@@ -40,16 +72,13 @@ int	check_file_access(t_redirect *redirect)
 	{
 		if (access(redirect->file, W_OK) != 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s: \n", redirect->file,
-				redirect->file, strerror(errno));
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
+				strerror(errno));
 			return (-1);
 		}
 	}
-	else if (access(".", W_OK) != 0)
-	{
-		perror("minishell: .");
-		return (-1);
-	}
+	else
+		return (check_directory_access(redirect));
 	return (0);
 }
 
@@ -66,7 +95,7 @@ int	open_redirect_file(t_redirect *redirect)
 	if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
 		fd = open(redirect->file, O_RDONLY);
 	if (fd == -1)
-		ft_printf_fd(STDOUT_FILENO, "minishell: %s: %s: \n", redirect->file,
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 			strerror(errno));
 	return (fd);
 }
