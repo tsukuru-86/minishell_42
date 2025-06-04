@@ -14,41 +14,37 @@
 #include "redirect.h"
 
 /* Save stdout redirection */
-static void	save_stdout_redirect(t_redirect *current, int *has_stdout_redirect)
+static void	save_stdout_redirect(t_redirect *current, t_redirect **last_stdout)
 {
-	if ((current->type == REDIR_OUT || current->type == REDIR_APPEND)
-		&& !*has_stdout_redirect)
-	{
-		current->original_fd = save_original_fd(current);
-		*has_stdout_redirect = 1;
-	}
+	if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+		*last_stdout = current;
 }
 
 /* Save stdin redirection */
-static void	save_stdin_redirect(t_redirect *current, int *has_stdin_redirect)
+static void	save_stdin_redirect(t_redirect *current, t_redirect **last_stdin)
 {
-	if ((current->type == REDIR_IN || current->type == REDIR_HEREDOC)
-		&& !*has_stdin_redirect)
-	{
-		current->original_fd = save_original_fd(current);
-		*has_stdin_redirect = 1;
-	}
+	if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+		*last_stdin = current;
 }
 
 /* Save original file descriptors for later restoration */
 void	save_original_fds(t_redirect *redirect)
 {
 	t_redirect	*current;
-	int			has_stdout_redirect;
-	int			has_stdin_redirect;
+	t_redirect	*last_stdout;
+	t_redirect	*last_stdin;
 
-	has_stdout_redirect = 0;
-	has_stdin_redirect = 0;
+	last_stdout = NULL;
+	last_stdin = NULL;
 	current = redirect;
 	while (current)
 	{
-		save_stdout_redirect(current, &has_stdout_redirect);
-		save_stdin_redirect(current, &has_stdin_redirect);
+		save_stdout_redirect(current, &last_stdout);
+		save_stdin_redirect(current, &last_stdin);
 		current = current->next;
 	}
+	if (last_stdout)
+		last_stdout->original_fd = save_original_fd(last_stdout);
+	if (last_stdin)
+		last_stdin->original_fd = save_original_fd(last_stdin);
 }

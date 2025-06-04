@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/25 02:49:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/05 00:15:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static int	determine_redirect_type(t_command *cmd, t_token *token,
 int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 {
 	t_redirect	*redir;
+	t_redirect	*current;
 	int			type;
 	int			result;
 
@@ -124,7 +125,14 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	redir = create_redirect(type, next->content);
 	if (!redir)
 		return (0);
-	redir->next = cmd->redirects;
-	cmd->redirects = redir;
+	if (!cmd->redirects)
+		cmd->redirects = redir;
+	else
+	{
+		current = cmd->redirects;
+		while (current->next)
+			current = current->next;
+		current->next = redir;
+	}
 	return (1);
 }
