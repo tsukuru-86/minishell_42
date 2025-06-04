@@ -47,6 +47,9 @@ t_token	*preprocess_tokens(t_token *tokens)
 	processed_tokens = remove_quote_tokens(tokens);
 	if (!processed_tokens)
 		return (NULL);
-	processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
+	// processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
+	// if (!processed_tokens)
+	//	return (NULL);
+	processed_tokens = remove_space_tokens(processed_tokens);
 	return (processed_tokens);
 }
