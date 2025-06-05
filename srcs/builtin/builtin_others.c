@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/03 22:51:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 01:10:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	builtin_cd(char **args)
 	char	*path;
 
 	if (args[2] != NULL)
-		return (0);
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (1);
+	}
 	if (args[1] == NULL)
 		path = getenv("HOME");
 	else
