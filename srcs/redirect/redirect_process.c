@@ -13,8 +13,7 @@
 #include "minishell.h"
 #include "redirect.h"
 
-/* Find the last output and input redirections in the chain */
-static void	find_last_redirections_process(t_redirect *redirect,
+static void	find_last_valid_redirections(t_redirect *redirect,
 		t_redirect **last_out, t_redirect **last_in)
 {
 	t_redirect	*current;
@@ -25,22 +24,40 @@ static void	find_last_redirections_process(t_redirect *redirect,
 	while (current)
 	{
 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
-			*last_out = current;
+		{
+			if (check_file_access(current) != -1)
+				*last_out = current;
+		}
 		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
-			*last_in = current;
+		{
+			if (current->type == REDIR_HEREDOC)
+				*last_in = current;
+			else if (access(current->file, R_OK) == 0)
+				*last_in = current;
+		}
 		current = current->next;
 	}
 }
 
-/* Apply the output redirection */
+static int	try_open_output_file(t_redirect *redirect, int *fd)
+{
+	*fd = open_redirect_file(redirect);
+	if (*fd == -1)
+	{
+		if (check_file_access(redirect) == -1)
+			return (0);
+		return (0);
+	}
+	return (1);
+}
+
 static int	apply_output_redirection(t_redirect *last_out)
 {
 	int	fd;
 
 	if (!last_out)
 		return (1);
-	fd = open_redirect_file(last_out);
-	if (fd == -1)
+	if (!try_open_output_file(last_out, &fd))
 		return (0);
 	apply_redirection(last_out, fd);
 	return (1);
@@ -60,13 +77,12 @@ static int	apply_input_redirection(t_redirect *last_in)
 	return (1);
 }
 
-/* Process redirections in order, applying only the last effective one */
 int	process_redirections(t_redirect *redirect)
 {
 	t_redirect	*last_out;
 	t_redirect	*last_in;
 
-	find_last_redirections_process(redirect, &last_out, &last_in);
+	find_last_valid_redirections(redirect, &last_out, &last_in);
 	if (!apply_output_redirection(last_out))
 		return (0);
 	if (!apply_input_redirection(last_in))

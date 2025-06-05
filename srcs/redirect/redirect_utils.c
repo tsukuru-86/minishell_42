@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/05 04:57:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 01:12:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,4 @@ void	apply_redirection(t_redirect *redirect, int fd)
 	if (fd == -1)
 		perror("minishell: apply_redirection");
 	close(fd);
-}
-
-/* Validate all redirections before processing */
-int	validate_redirections(t_redirect *redirect)
-{
-	t_redirect	*current;
-
-	current = redirect;
-	while (current)
-	{
-		if (current->type == REDIR_IN)
-		{
-			if (access(current->file, F_OK) != 0)
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(current->file, 2);
-				ft_putstr_fd(": No such file or directory\n", 2);
-				return (0);
-			}
-		}
-		if (check_file_access(current) == -1)
-			return (0);
-		current = current->next;
-	}
-	return (1);
 }
