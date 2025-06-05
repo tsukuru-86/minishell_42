@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/05 03:46:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 01:33:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	add_argument(t_command *cmd, char *arg)
 	int		i;
 	char	**new_args;
 
+	if (!arg || ft_strlen(arg) == 0)
+		return (1);
 	i = 0;
 	if (cmd->args)
 	{
