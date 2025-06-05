@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 04:08:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:15:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,25 @@ static int	create_single_output_file(t_redirect *current)
 	return (0);
 }
 
-static int	create_output_files(t_redirect *redirect)
+// static int	create_output_files(t_redirect *redirect)
+// {
+// 	t_redirect	*current;
+
+// 	current = redirect;
+// 	while (current)
+// 	{
+// 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+// 		{
+// 			if (!create_single_output_file(current))
+// 				return (0);
+// 		}
+// 		current = current->next;
+// 	}
+// 	return (1);
+// }
+
+/* Set up all redirections in the chain */
+int	setup_redirection(t_redirect *redirect)
 {
 	t_redirect	*current;
 
@@ -71,22 +89,15 @@ static int	create_output_files(t_redirect *redirect)
 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
 		{
 			if (!create_single_output_file(current))
-				return (0); // エラー発生時は即中断
+				return (0);
+		}
+		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+		{
+			if (!validate_input_redirect(current))
+				return (0);
 		}
 		current = current->next;
 	}
-	return (1);
-}
-
-/* Set up all redirections in the chain */
-int	setup_redirection(t_redirect *redirect)
-{
-	if (!redirect)
-		return (1);
-	if (!validate_redirections(redirect))
-		return (0);
-	if (!create_output_files(redirect))
-		return (0);
 	save_original_fds(redirect);
 	return (process_redirections(redirect));
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/01 04:26:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:15:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int		process_redirections(t_redirect *redirect);
 int		setup_redirection(t_redirect *redirect);
 /* Restore all original file descriptors */
 void	restore_redirection(t_redirect *redirect);
-
+int		validate_input_redirect(t_redirect *current);
 #endif

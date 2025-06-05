@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:12:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 01:11:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:15:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
 
-static int	validate_input_redirect(t_redirect *current)
+int	validate_input_redirect(t_redirect *current)
 {
 	if (current->type == REDIR_IN)
 	{
@@ -26,8 +26,8 @@ static int	validate_input_redirect(t_redirect *current)
 		}
 		if (access(current->file, R_OK) != 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
-				current->file, strerror(errno));
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+				strerror(errno));
 			return (0);
 		}
 	}
@@ -37,18 +37,16 @@ static int	validate_input_redirect(t_redirect *current)
 int	validate_redirections(t_redirect *redirect)
 {
 	t_redirect	*current;
-	int			has_valid_input;
 
 	current = redirect;
-	has_valid_input = 1;
 	while (current)
 	{
 		if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 		{
 			if (!validate_input_redirect(current))
-				has_valid_input = 0;
+				return (0);
 		}
 		current = current->next;
 	}
-	return (has_valid_input);
+	return (1);
 }
