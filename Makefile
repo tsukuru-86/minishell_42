@@ -16,6 +16,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_export_sort.c \
 	builtin/builtin_export_utils.c \
 	builtin/builtin_export.c \
+	builtin/builtin_others.c \
 	builtin/builtin_pwd.c \
 	builtin/builtin_unset.c \
 	builtin/execute_builtin_utils.c \
@@ -35,6 +36,8 @@ SRCS_FILE = main.c \
 	external/external_utils.c \
 	parser/heredoc_utils.c \
 	parser/heredoc.c \
+	parser/parser_preprocess_utils.c \
+	parser/parser_preprocess.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_tokens.c \
 	parser/parser_utils3.c \
