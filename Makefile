@@ -58,7 +58,8 @@ SRCS_FILE = main.c \
 	redirect/redirect_save_fds.c \
 	redirect/redirect_setup.c \
 	redirect/redirect_utils.c \
-	redirect/redirect.c \
+	redirect/redirect_validate.c \
+	tokenizer/tokenizer.c \
 	tokenizer/tokenizer_core_logic.c \
 	tokenizer/tokenizer_meta_utils.c \
 	tokenizer/tokenizer_normal_word_logic.c \
