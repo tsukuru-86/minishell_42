@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 01:14:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:08:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int	create_redirect_out_file(t_redirect *current)
 	}
 	else
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
-			current->file, strerror(errno));
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+			strerror(errno));
 	}
 	return (0);
 }
@@ -43,8 +43,8 @@ static int	create_redirect_append_file(t_redirect *current)
 	}
 	else
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
-			current->file, strerror(errno));
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+			strerror(errno));
 	}
 	return (0);
 }
@@ -69,7 +69,10 @@ static int	create_output_files(t_redirect *redirect)
 	while (current)
 	{
 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
-			create_single_output_file(current);
+		{
+			if (!create_single_output_file(current))
+				return (0); // エラー発生時は即中断
+		}
 		current = current->next;
 	}
 	return (1);
