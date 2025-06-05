@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/05 02:16:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/05 03:45:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char		*merge_adjacent_tokens(t_token **current_token);
 int			expand_all_variables(t_token *tokens);
 t_token		*remove_quote_tokens(t_token *tokens);
 t_token		*merge_adjacent_non_meta_tokens(t_token *tokens);
+t_token		*remove_space_tokens(t_token *tokens);
 t_token		*preprocess_tokens(t_token *tokens);
 
 #endif
