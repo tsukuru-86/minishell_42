@@ -115,7 +115,9 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	int			result;
 
 	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
-			&& next->type != TOKEN_DOUBLE_QUOTE))
+			&& next->type != TOKEN_DOUBLE_QUOTE
+			&& next->type != TOKEN_S_QUOTED_WORD
+			&& next->type != TOKEN_D_QUOTED_WORD))
 		return (0);
 	result = determine_redirect_type(cmd, token, next, &type);
 	if (result != 1)

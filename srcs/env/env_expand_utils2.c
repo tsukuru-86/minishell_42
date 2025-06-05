@@ -69,6 +69,7 @@ static char	*get_regular_env_value(const char *str, int *i)
 int	append_env(const char *str, int *i, char *res, int *j)
 {
 	char	*value;
+	size_t	value_len;
 
 	(*i)++;
 	if (str[*i] == '?')
@@ -77,8 +78,9 @@ int	append_env(const char *str, int *i, char *res, int *j)
 		value = get_regular_env_value(str, i);
 	if (!value)
 		return (-1);
-	ft_strlcpy(res + *j, value, 4096 - *j);
-	*j += ft_strlen(value);
+	value_len = ft_strlen(value);
+	ft_memcpy(res + *j, value, value_len);
+	*j += value_len;
 	free(value);
 	return (0);
 }
