@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 08:57:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:15:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		check_file_access(t_redirect *redirect);
 /* Open the file based on redirection type */
 int		open_redirect_file(t_redirect *redirect);
 /* Apply the redirection using the file descriptor */
-int		apply_redirection(t_redirect *redirect, int fd);
+void	apply_redirection(t_redirect *redirect, int fd);
 /* Validate all redirections before processing */
 int		validate_redirections(t_redirect *redirect);
 /* Save original file descriptors for later restoration */

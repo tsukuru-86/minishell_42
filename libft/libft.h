@@ -6,13 +6,18 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 19:26:51 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/05 09:24:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:46:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <limits.h>
+# include <stdarg.h>
+# include <stdbool.h>
+# include <stddef.h>
+# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -36,7 +41,7 @@ int		ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -57,5 +62,20 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+size_t	ft_putchar_fd_cnt(char c, int fd);
+size_t	ft_putstr_fd_cnt(char *s, int fd);
+size_t	ft_putull_fd(unsigned long long num, int fd);
+size_t	ft_puthex_fd(unsigned long long n, int uppercase, int fd);
+size_t	ft_puthex_addr_fd(uintptr_t n, int fd);
+size_t	ft_putptr_fd(void *ptr, int fd);
+size_t	ft_putnbr_fd_cnt(int n, int fd);
+int		ft_printf_fd(int fd, const char *format, ...);
+size_t	ft_printf(const char *format, ...);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+char	*get_next_line(int fd);
+void	clear_gnl_buffer(int fd);
 
 #endif

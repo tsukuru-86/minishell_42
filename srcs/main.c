@@ -6,14 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/06 08:52:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 03:16:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error/error_messages.h"
 #include "minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 static volatile sig_atomic_t	g_signal = 0;
 
@@ -72,27 +70,40 @@ static void	handle_input(char *input, int *status)
 	}
 }
 
+int	main_loop(void)
+{
+	char	*input;
+	int		status;
+	char	*line;
+
+	while (1)
+	{
+		g_signal = 0;
+		if (isatty(fileno(stdin)))
+			input = readline("minishell> ");
+		else
+		{
+			line = get_next_line(fileno(stdin));
+			input = ft_strtrim(line, "\n");
+			free(line);
+		}
+		handle_input(input, &status);
+		free(input);
+	}
+	return (status);
+}
+
 /* メインプログラム。シェルを初期化し、ユーザー入力を
    繰り返し受け取り処理する無限ループを実行する */
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	int		status;
+	int	status;
 
 	(void)argc;
 	(void)argv;
 	if (!initialize_shell(envp))
 		return (EXIT_FAILURE);
 	status = 0;
-	while (1)
-	{
-		g_signal = 0;
-		input = readline("minishell > ");
-		if (!input)
-			break ;
-		handle_input(input, &status);
-		free(input);
-	}
 	clear_history();
 	free_env_list();
 	return (status);

@@ -1,61 +1,4 @@
 NAME = libft.a
-
-# SOURCE = *.c
-
-# OBJS = *.o
-OBJS = \
-        ft_isalpha.o\
-        ft_isdigit.o\
-        ft_isalnum.o\
-        ft_isascii.o\
-        ft_isprint.o\
-        ft_strlen.o\
-        ft_memset.o\
-        ft_bzero.o\
-        ft_memcpy.o\
-        ft_memmove.o\
-        ft_strlcpy.o\
-        ft_strlcat.o\
-        ft_toupper.o\
-        ft_tolower.o\
-        ft_strchr.o\
-        ft_strrchr.o\
-        ft_strncmp.o\
-        ft_strcmp.o\
-        ft_memchr.o\
-        ft_memcmp.o\
-        ft_strnstr.o\
-        ft_atoi.o\
-        ft_calloc.o\
-        ft_strdup.o\
-        ft_substr.o\
-        ft_strjoin.o\
-        ft_strtrim.o\
-        ft_split.o\
-        ft_itoa.o\
-        ft_strmapi.o\
-        ft_striteri.o\
-        ft_putchar_fd.o\
-        ft_putstr_fd.o\
-        ft_putendl_fd.o\
-        ft_putnbr_fd.o
-CC = cc -Wall -Wextra -Werror
-all: $(NAME)
-$(NAME):$(OBJS)
-	ar rcs $(NAME) $(OBJS)
-$(OBJS):$(SOURCE)
-	$(CC) -c $(SOURCE)
-clean:
-	rm -f $(OBJS)
-fclean:clean
-	rm -f $(NAME)
-re:fclean all
-.PHONY:all clean fclean re
-
-
-
-# NAME = libft.a
-
 SOURCE = \
         ft_isalpha.c\
         ft_isdigit.c\
@@ -74,7 +17,6 @@ SOURCE = \
         ft_strchr.c\
         ft_strrchr.c\
         ft_strncmp.c\
-        ft_strcmp.c\
         ft_memchr.c\
         ft_memcmp.c\
         ft_strnstr.c\
@@ -91,16 +33,22 @@ SOURCE = \
         ft_putchar_fd.c\
         ft_putstr_fd.c\
         ft_putendl_fd.c\
-        ft_putnbr_fd.c
-# CC = cc -Wall -Wextra -Werror
-# all: $(NAME)
-# $(NAME):$(SOURCE:%.c=%.o)
-#     ar rcs $(NAME) $(SOURCE:%.c=%.o)
-# $(SOURCE:%.c=%.o):$(SOURCE)
-#     $(CC) -c $(SOURCE)
-# clean:
-#     rm -f $(SOURCE:%.c=%.o)
-# fclean:clean
-#     rm -f $(NAME)
-# re:fclean all
-# .PHONY:all clean fclean re
+        ft_putnbr_fd.c\
+		ft_printf_fd_utils.c\
+		ft_printf_fd_utils2.c\
+		ft_printf_fd.c\
+		get_next_line.c
+OBJS = $(SOURCE:.c=.o)
+CC = cc -Wall -Wextra -Werror
+
+all: $(NAME)
+$(NAME):$(OBJS)
+	ar rcs $(NAME) $(OBJS)
+$(OBJS):$(SOURCE)
+	$(CC) -c $(SOURCE)
+clean:
+	rm -f $(OBJS)
+fclean:clean
+	rm -f $(NAME)
+re:fclean all
+.PHONY:all clean fclean re

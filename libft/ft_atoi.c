@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 19:20:16 by tkomai            #+#    #+#             */
-/*   Updated: 2024/06/13 15:57:27 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:45:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <limits.h>
 
 int	overflow(const char *s, long result, int sign)
 {

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/04 17:53:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:59:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,13 @@ int				builtin_pwd(char **args);
 int				builtin_exit(char **args);
 int				is_valid_identifier(const char *str);
 int				builtin_env(char **args);
+t_env			*sort_env_list_copy(t_env *list_head);
 void			print_sorted_env(int format);
-void			print_env_format(t_env *env, int format);
-t_env			*duplicate_env_list(t_env *original_head);
-void			free_env_list_copy(t_env *head);
 
 /* exit utils */
 int				is_valid_number(const char *str);
 int				parse_exit_number(const char *str);
 int				is_special_case(char **args);
 char			*combine_special_args(char **args);
-void			exit_with_numeric_error(const char *arg);
 
 #endif

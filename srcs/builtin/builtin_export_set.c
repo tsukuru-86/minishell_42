@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 03:12:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:45:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
-#include <unistd.h>
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)
@@ -68,7 +67,7 @@ int	set_env_node(const char *name, const char *value)
 	if (ft_strncmp(name, "?", 2) != 0 && !is_valid_identifier(name))
 	{
 		ft_printf_fd(STDERR_FILENO,
-			"minishell: export: `%s': not a valid identifier.\n", name);
+			"minishell: export: `%s': not a valid identifier\n", name);
 		return (1);
 	}
 	node = get_env_node(name);

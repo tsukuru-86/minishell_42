@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:26:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 01:10:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 03:03:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
+#include "libft.h"
 #include "minishell.h"
-#include <unistd.h>
 
 /* 文字列が有効な数値かどうかをチェック */
 int	is_valid_number(const char *str)
@@ -57,27 +57,4 @@ int	parse_exit_number(const char *str)
 		i++;
 	}
 	return (result * sign);
-}
-
-/* 特殊なケース（+"100" や -"100"）をチェック */
-int	is_special_case(char **args)
-{
-	if (!args[1] || !args[2] || args[3])
-		return (0);
-	if ((args[1][0] == '+' || args[1][0] == '-') && args[1][1] == '\0')
-		return (1);
-	return (0);
-}
-
-/* 引数を結合して数値文字列を作成（特殊ケースのみ） */
-char	*combine_special_args(char **args)
-{
-	return (ft_strjoin(args[1], args[2]));
-}
-
-/* 数値エラーを処理して終了 */
-void	exit_with_numeric_error(const char *arg)
-{
-	ft_printf_fd(STDERR_FILENO, "exit: %s: numeric argument required\n", arg);
-	exit(2);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:30:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define MAX_TOKENS 1024
 
-int						ft_printf_fd(int fd, const char *format, ...);
 int						is_delimiter(char c);
 int						is_quote(char c);
 int						is_meta(char c);

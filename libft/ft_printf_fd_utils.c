@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:32:53 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/30 08:52:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:31:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_fd.h"
+#include "libft.h"
 
 size_t	ft_putchar_fd_cnt(char c, int fd)
 {

@@ -6,14 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 08:58:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 03:13:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
-#include <stdlib.h>
-#include <string.h>
 
 /* Save the original file descriptor for later restoration */
 int	save_original_fd(t_redirect *redirect)

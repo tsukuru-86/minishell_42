@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/04 17:51:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/03 22:00:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_env	*create_env_node_from_existing(t_env *original)
 }
 
 /* 環境変数リストのコピーを解放するヘルパー関数 */
-void	free_env_list_copy(t_env *head)
+static void	free_env_list_copy(t_env *head)
 {
 	t_env	*current_node;
 	t_env	*next_node;
@@ -61,7 +61,7 @@ void	free_env_list_copy(t_env *head)
 }
 
 /* 環境変数リストを複製する */
-t_env	*duplicate_env_list(t_env *original_head)
+static t_env	*duplicate_env_list(t_env *original_head)
 {
 	t_env	*new_head;
 	t_env	*new_tail;
@@ -89,7 +89,7 @@ t_env	*duplicate_env_list(t_env *original_head)
 }
 
 /* 環境変数を形式に応じて表示 */
-void	print_env_format(t_env *env, int format)
+static void	print_env_format(t_env *env, int format)
 {
 	if (format == 0)
 	{
@@ -106,4 +106,25 @@ void	print_env_format(t_env *env, int format)
 			ft_printf_fd(STDOUT_FILENO, "=\"%s\"", env->value);
 		ft_printf_fd(STDOUT_FILENO, "\n");
 	}
+}
+
+/* 統合された環境変数ソート・表示関数 */
+void	print_sorted_env(int format)
+{
+	t_env	*env_list_copy;
+	t_env	*sorted_list_copy;
+	t_env	*current;
+
+	env_list_copy = duplicate_env_list(*get_env_val());
+	if (!env_list_copy && *get_env_val() != NULL)
+		return (perror("minishell: malloc error during list duplication"));
+	sorted_list_copy = sort_env_list_copy(env_list_copy);
+	current = sorted_list_copy;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->name, "?", 2) != 0)
+			print_env_format(current, format);
+		current = current->next;
+	}
+	free_env_list_copy(sorted_list_copy);
 }

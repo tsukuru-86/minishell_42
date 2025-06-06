@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 04:45:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/06 04:14:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static bool	populate_env_array_from_list(char **env_array, t_env *env_list)
 
 /* 環境変数リストを execve で使用できる文字列配列に変換する関数 */
 char	**env_list_to_array(void)
-
 {
 	char	**env_array;
 	int		count;

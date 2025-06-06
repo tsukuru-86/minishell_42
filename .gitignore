@@ -28,3 +28,4 @@ a.out
 test/logs
 unit_test/
 test*
+42_minishell_tester/
