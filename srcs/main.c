@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/07 03:16:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 11:54:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!initialize_shell(envp))
 		return (EXIT_FAILURE);
-	status = 0;
+	status = main_loop();
 	clear_history();
 	free_env_list();
 	return (status);
