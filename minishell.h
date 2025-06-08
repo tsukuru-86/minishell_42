@@ -31,6 +31,8 @@
 
 # define MAX_TOKENS 1024
 
+extern volatile sig_atomic_t	g_signal;
+
 int						is_delimiter(char c);
 int						is_quote(char c);
 int						is_meta(char c);

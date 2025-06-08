@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/07 11:54:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/08 15:12:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error/error_messages.h"
 #include "minishell.h"
 
-static volatile sig_atomic_t	g_signal = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 /* シグナル処理を行うハンドラ関数。
    Ctrl+C（SIGINT）を受け取った場合、新しいプロンプトを表示する */

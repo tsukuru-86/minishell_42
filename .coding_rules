@@ -98,7 +98,7 @@
 - **typedef**: `t_`プレフィックス（例: `t_command`, `t_token`）
 - **共用体**: `u_`プレフィックス
 - **列挙型**: `e_`プレフィックス（例: `e_token_type`）
-- **グローバル変数**: `g_`プレフィックス（例: `g_signal_number`）
+- **グローバル変数**: `g_`プレフィックス（例: `g_signal`）
 
 ### 3.2 命名ルール
 
@@ -328,7 +328,7 @@ srcs/
 ## 17. フォーマット例（42 Norm準拠）
 
 ```c
-int   g_signal;
+volatile sig_atomic_t   g_signal;
 
 typedef struct s_command
 {

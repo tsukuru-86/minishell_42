@@ -23,10 +23,10 @@ minishell
 test.c
 kabeuchi.c
 test.txt
-minishell_tester/
 a.out
 test/logs
-unit_test/
+tests/
 test*
+minishell_tester/
 42_minishell_tester/
 minishell_tester-nda-cunh
