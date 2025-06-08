@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!initialize_shell(envp))
 		return (EXIT_FAILURE);
-	status = 0;
+	status = main_loop();
 	clear_history();
 	free_env_list();
 	return (status);
