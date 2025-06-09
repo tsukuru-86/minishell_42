@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 05:38:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:57:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,7 @@ int	handle_tokens_and_parse(t_token *tokens)
 		return (2);
 	cmd = parse_tokens(tokens);
 	if (!cmd)
-	{
-		free_tokens(tokens);
 		return (2);
-	}
 	status = process_commands(cmd);
-	free_tokens(tokens);
 	return (status);
 }

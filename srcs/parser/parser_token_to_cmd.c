@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 04:55:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:57:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ t_command	*parse_tokens(t_token *tokens)
 		return (NULL);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))
+	{
+		free_tokens(preprocessed_tokens);
 		return (NULL);
+	}
+	free_tokens(preprocessed_tokens);
 	return (head);
 }

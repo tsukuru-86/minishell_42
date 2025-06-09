@@ -85,7 +85,10 @@ t_token	*preprocess_tokens(t_token *tokens)
 	if (!tokens)
 		return (NULL);
 	if (!expand_all_variables(tokens))
+	{
+		free_tokens(tokens);
 		return (NULL);
+	}
 	processed_tokens = remove_quote_tokens(tokens);
 	if (!processed_tokens)
 		return (NULL);
