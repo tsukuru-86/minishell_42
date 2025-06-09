@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/06 04:05:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:17:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,14 @@ void	launch_child(char *cmd_path, char **args)
 	{
 		err = errno;
 		perror("minishell: execve");
-		free(cmd_path);
-		env_count = count_env_nodes(*get_env_val());
-		free_env_array(env_array, env_count);
+		if (cmd_path)
+			free(cmd_path);
+		if (*get_env_val())
+			env_count = count_env_nodes(*get_env_val());
+		else
+			env_count = 0;
+		if (env_array)
+			free_env_array(env_array, env_count);
 		if (err == ENOENT)
 			exit(127);
 		if (err == EACCES)

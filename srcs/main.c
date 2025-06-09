@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/10 04:58:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:21:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,26 @@ static void	handle_input(char *input, int *status)
 {
 	t_token		*tokens;
 	t_command	*cmd;
+	char		*trimmed;
 
 	if (!input)
 		return ;
+	trimmed = ft_strtrim(input, " \t\n\r");
+	if (!trimmed || !*trimmed)
+	{
+		if (trimmed)
+			free(trimmed);
+		return ;
+	}
 	if (*input)
 		add_history(input);
-	else
-		return ;
 	cmd = NULL;
-	tokens = tokenize(input, cmd);
+	tokens = tokenize(trimmed, cmd);
 	if (tokens)
 		*status = handle_tokens_and_parse(tokens);
 	else
 		*status = 2;
+	free(trimmed);
 }
 
 int	main_loop(void)
@@ -81,6 +88,8 @@ int	main_loop(void)
 				break ;
 			input = ft_strtrim(line, "\n");
 			free(line);
+			if (!input)
+				break ;
 		}
 		if (!input)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/07 03:13:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:18:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int	builtin_exit(char **args)
 		return (1);
 	}
 	status = 0;
-	if (!is_valid_number(args[1]))
+	if (args[1] && !is_valid_number(args[1]))
 		exit_with_numeric_error(args[1]);
-	status = parse_exit_number(args[1]);
+	if (args[1])
+		status = parse_exit_number(args[1]);
 	exit((unsigned int)status);
 	return (status);
 }

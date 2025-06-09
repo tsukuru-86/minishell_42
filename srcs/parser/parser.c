@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/09 16:46:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:16:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ int	add_argument(t_command *cmd, char *arg)
 		return (0);
 	}
 	new_args[i + 1] = NULL;
-	if (cmd->args)
-		free(cmd->args);
+	free(cmd->args);
 	cmd->args = new_args;
 	return (1);
 }

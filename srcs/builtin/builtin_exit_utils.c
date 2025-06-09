@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:26:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/07 03:03:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:18:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	parse_exit_number(const char *str)
 	int	result;
 	int	i;
 
+	if (!str)
+		return (0);
 	sign = 1;
 	result = 0;
 	i = 0;

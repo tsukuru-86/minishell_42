@@ -37,7 +37,8 @@ int	expand_all_variables(t_token *tokens)
 				ft_putstr_fd("minishell: expansion failed\n", 2);
 				return (0);
 			}
-			free(current->content);
+			if (current->content)
+				free(current->content);
 			current->content = expanded;
 		}
 		current = current->next;
