@@ -63,6 +63,7 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 		if (*head_cmd)
 			free_command(*head_cmd);
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
+		*head_cmd = NULL;
 		return (0);
 	}
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/07 01:30:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 04:47:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,5 +178,8 @@ int						execute_command_pipeline(t_command *cmd);
 /* Exit status */
 int						get_exit_status(void);
 void					set_exit_status(t_command *cmd, int status);
+
+/* Command handler */
+int						handle_tokens_and_parse(t_token *tokens);
 
 #endif
