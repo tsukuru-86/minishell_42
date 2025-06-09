@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/31 18:56:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:48:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	init_pipeline(t_command *cmd)
 {
 	t_command	*current;
 
+	if (!cmd)
+		return ;
 	current = cmd;
 	while (current)
 	{
@@ -34,6 +36,8 @@ int	create_pipes(t_command *cmd)
 	t_command	*current;
 	int			pipefd[2];
 
+	if (!cmd)
+		return (0);
 	current = cmd;
 	while (current && current->next)
 	{
@@ -55,13 +59,21 @@ void	close_parent_pipes(t_command *cmd)
 {
 	t_command	*current;
 
+	if (!cmd)
+		return ;
 	current = cmd;
 	while (current)
 	{
 		if (current->pipe.read_fd != -1)
+		{
 			close(current->pipe.read_fd);
+			current->pipe.read_fd = -1;
+		}
 		if (current->pipe.write_fd != -1)
+		{
 			close(current->pipe.write_fd);
+			current->pipe.write_fd = -1;
+		}
 		current = current->next;
 	}
 }

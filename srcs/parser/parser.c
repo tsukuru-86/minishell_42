@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 01:33:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:46:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	add_argument(t_command *cmd, char *arg)
 	int		i;
 	char	**new_args;
 
-	if (!arg || ft_strlen(arg) == 0)
+	if (!cmd || !arg || ft_strlen(arg) == 0)
 		return (1);
 	i = 0;
 	if (cmd->args)
@@ -82,7 +82,8 @@ int	add_argument(t_command *cmd, char *arg)
 		return (0);
 	}
 	new_args[i + 1] = NULL;
-	free(cmd->args);
+	if (cmd->args)
+		free(cmd->args);
 	cmd->args = new_args;
 	return (1);
 }
@@ -91,6 +92,8 @@ int	add_argument(t_command *cmd, char *arg)
 static int	determine_redirect_type(t_command *cmd, t_token *token,
 		t_token *next_token, int *type_out)
 {
+	if (!cmd || !token || !next_token || !type_out)
+		return (0);
 	if (token->type == TOKEN_REDIR_IN)
 		*type_out = REDIR_IN;
 	else if (token->type == TOKEN_REDIR_OUT)
@@ -116,7 +119,8 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 	int			type;
 	int			result;
 
-	if (!next || (next->type != TOKEN_WORD && next->type != TOKEN_SINGLE_QUOTE
+	if (!cmd || !token || !next || (next->type != TOKEN_WORD
+			&& next->type != TOKEN_SINGLE_QUOTE
 			&& next->type != TOKEN_DOUBLE_QUOTE))
 		return (0);
 	result = determine_redirect_type(cmd, token, next, &type);
@@ -131,7 +135,7 @@ int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 		return (1);
 	}
 	current = cmd->redirects;
-	while (current->next)
+	while (current && current->next)
 		current = current->next;
 	current->next = redir;
 	return (1);

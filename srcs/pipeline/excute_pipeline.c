@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/01 04:04:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:48:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 /* パイプラインのセットアップ */
 int	setup_pipeline(t_command *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (!cmd->next)
 		return (1);
 	init_pipeline(cmd);
@@ -27,6 +29,7 @@ int	setup_pipeline(t_command *cmd)
 	if (!spawn_pipeline_processes(cmd))
 	{
 		ft_putstr_fd((char *)"minishell: failed to spawn processes\n", 2);
+		cleanup_pipeline(cmd);
 		return (0);
 	}
 	close_parent_pipes(cmd);
@@ -39,10 +42,13 @@ int	execute_command_pipeline(t_command *cmd)
 	int	pipeline_result;
 	int	status;
 
+	if (!cmd)
+		return (1);
 	pipeline_result = setup_pipeline(cmd);
 	if (pipeline_result == 0)
 	{
 		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
+		cleanup_pipeline_list_all(cmd);
 		return (1);
 	}
 	status = wait_pipeline(cmd);

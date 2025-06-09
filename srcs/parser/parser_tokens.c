@@ -26,16 +26,20 @@ int	handle_word_token(t_command *cmd, t_token **current_token,
 {
 	char	*merged_content;
 
+	if (!cmd || !current_token || !*current_token || !head_cmd)
+		return (0);
 	merged_content = merge_adjacent_tokens(current_token);
 	if (!merged_content)
 	{
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		return (0);
 	}
 	if (!add_argument(cmd, merged_content))
 	{
 		free(merged_content);
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		return (0);
 	}
 	free(merged_content);
@@ -52,19 +56,25 @@ int	handle_word_token(t_command *cmd, t_token **current_token,
 static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
+	if (!cmd || !current_token || !*current_token || !head_cmd)
+		return (0);
 	if (!(*current_token)->next)
 	{
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
 		return (0);
 	}
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))
 	{
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		ft_putstr_fd((char *)ERR_REDIRECTION_ERROR, 2);
 		return (0);
 	}
-	*current_token = (*current_token)->next->next;
+	*current_token = (*current_token)->next;
+	if (*current_token)
+		*current_token = (*current_token)->next;
 	return (1);
 }
 
@@ -78,10 +88,13 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 int	handle_pipe_token(t_command **cmd, t_token **current_token,
 		t_command **head_cmd)
 {
+	if (!cmd || !*cmd || !current_token || !*current_token || !head_cmd)
+		return (0);
 	(*cmd)->next = create_command();
 	if (!(*cmd)->next)
 	{
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		*head_cmd = NULL;
 		return (0);
 	}
@@ -90,7 +103,8 @@ int	handle_pipe_token(t_command **cmd, t_token **current_token,
 	if (!*current_token)
 	{
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "|");
-		free_command(*head_cmd);
+		if (*head_cmd)
+			free_command(*head_cmd);
 		*head_cmd = NULL;
 		return (0);
 	}
@@ -110,6 +124,9 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 	t_token_type	type;
 	int				status;
 
+	if (!cmd_ptr || !*cmd_ptr || !current_token_ptr || !*current_token_ptr
+		|| !head_cmd_ptr)
+		return (0);
 	status = 1;
 	type = (*current_token_ptr)->type;
 	if (type == TOKEN_WORD || type == TOKEN_S_QUOTED_WORD

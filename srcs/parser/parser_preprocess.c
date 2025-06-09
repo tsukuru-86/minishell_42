@@ -18,11 +18,18 @@ int	expand_all_variables(t_token *tokens)
 	t_token	*current;
 	char	*expanded;
 
+	if (!tokens)
+		return (1);
 	current = tokens;
 	while (current)
 	{
 		if (current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD)
 		{
+			if (!current->content)
+			{
+				current = current->next;
+				continue ;
+			}
 			expanded = expand_env_vars(current->content,
 					current->type == TOKEN_D_QUOTED_WORD);
 			if (!expanded)
@@ -45,6 +52,8 @@ t_token	*remove_space_tokens(t_token *tokens)
 	t_token	*prev;
 	t_token	*new_head;
 
+	if (!tokens)
+		return (NULL);
 	current = tokens;
 	prev = NULL;
 	new_head = tokens;
@@ -57,7 +66,8 @@ t_token	*remove_space_tokens(t_token *tokens)
 				prev->next = current->next;
 			else
 				new_head = current->next;
-			free(current->content);
+			if (current->content)
+				free(current->content);
 			free(current);
 		}
 		else
@@ -71,13 +81,16 @@ t_token	*preprocess_tokens(t_token *tokens)
 {
 	t_token	*processed_tokens;
 
-	if (!tokens || !expand_all_variables(tokens))
+	if (!tokens)
+		return (NULL);
+	if (!expand_all_variables(tokens))
 		return (NULL);
 	processed_tokens = remove_quote_tokens(tokens);
 	if (!processed_tokens)
 		return (NULL);
 	if (processed_tokens)
 		processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
-	processed_tokens = remove_space_tokens(processed_tokens);
+	if (processed_tokens)
+		processed_tokens = remove_space_tokens(processed_tokens);
 	return (processed_tokens);
 }
