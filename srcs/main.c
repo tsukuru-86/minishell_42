@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/08 15:12:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/09 13:30:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,12 @@ static void	handle_input(char *input, int *status)
 	t_token		*tokens;
 	t_command	*cmd;
 
+	if (!input)
+		return ;
 	if (*input)
 		add_history(input);
+	else
+		return ;
 	cmd = NULL;
 	tokens = tokenize(input, cmd);
 	(void)tokens;
@@ -84,9 +88,13 @@ int	main_loop(void)
 		else
 		{
 			line = get_next_line(fileno(stdin));
+			if (!line)
+				break ;
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
+		if (!input)
+			break ;
 		handle_input(input, &status);
 		free(input);
 	}
