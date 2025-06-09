@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/10 05:55:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 06:13:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	initialize_shell(char **envp)
 static void	handle_input(char *input, int *status)
 {
 	t_token		*tokens;
-	t_command	*cmd;
 	char		*trimmed;
 
 	if (!input)
@@ -59,14 +58,14 @@ static void	handle_input(char *input, int *status)
 			free(trimmed);
 		return ;
 	}
-	if (*input)
-		add_history(input);
-	cmd = NULL;
-	tokens = tokenize(trimmed, cmd);
-	if (tokens)
-		*status = handle_tokens_and_parse(tokens);
-	else
+	tokens = tokenize(trimmed, NULL);
+	if (!tokens)
+	{
+		free(trimmed);
 		*status = 2;
+		return ;
+	}
+	*status = handle_tokens_and_parse(tokens);
 	free(trimmed);
 }
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:39:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 05:57:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 06:13:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 static int	should_remove_token(t_token *token)
 {
 	if (token->type == TOKEN_SINGLE_QUOTE || token->type == TOKEN_DOUBLE_QUOTE)
-		return (1);
-	if ((token->type == TOKEN_S_QUOTED_WORD
-			|| token->type == TOKEN_D_QUOTED_WORD) && token->content
-		&& ft_strlen(token->content) == 0)
 		return (1);
 	return (0);
 }
