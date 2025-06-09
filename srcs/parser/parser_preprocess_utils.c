@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:39:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/05 04:42:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 05:37:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,62 +59,4 @@ t_token	*remove_quote_tokens(t_token *tokens)
 		current = next;
 	}
 	return (new_head);
-}
-
-static char	*merge_word_chain(t_token *current)
-{
-	char	*merged;
-	char	*temp;
-	t_token	*next;
-
-	if (!current || !current->content)
-		return (NULL);
-	merged = ft_strdup(current->content);
-	if (!merged)
-		return (NULL);
-	next = current->next;
-	while (next && next->type == TOKEN_WORD)
-	{
-		if (!next->content)
-			next->content = ft_strdup("");
-		temp = ft_strjoin(merged, next->content);
-		if (!temp)
-			return (free(merged), NULL);
-		free(merged);
-		merged = temp;
-		current->next = next->next;
-		free(next->content);
-		free(next);
-		next = current->next;
-	}
-	return (merged);
-}
-
-t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
-{
-	t_token	*current;
-	char	*merged;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type != TOKEN_WORD || !current->next
-			|| current->next->type != TOKEN_WORD)
-		{
-			current = current->next;
-			continue ;
-		}
-		if (!current->content)
-			current->content = ft_strdup("");
-		merged = merge_word_chain(current);
-		if (!merged)
-		{
-			current = current->next;
-			continue ;
-		}
-		free(current->content);
-		current->content = merged;
-		current = current->next;
-	}
-	return (tokens);
 }
