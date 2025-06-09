@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 04:55:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 		}
 		else if (!process_current_token(&vars, input))
 			return (cleanup_and_return_null(&vars, input));
+	}
+	if (!check_basic_syntax(vars.tokens))
+	{
+		free_tokens(vars.tokens);
+		return (NULL);
 	}
 	return (vars.tokens);
 }

@@ -6,12 +6,48 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/05 02:16:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 04:55:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "../error/error_messages.h"
+
+/*
+** @brief 先頭のトークンが構文エラーでないかをチェック
+*/
+static int	check_trailing_pipe(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*last_non_space;
+
+	if (!tokens)
+		return (1);
+	last_non_space = NULL;
+	current = tokens;
+	while (current)
+	{
+		if (current->type != TOKEN_SPACE)
+			last_non_space = current;
+		current = current->next;
+	}
+	if (last_non_space && last_non_space->type == TOKEN_PIPE)
+	{
+		ft_printf_fd(2, ERR_UNEXP_TOKEN, "|");
+		return (0);
+	}
+	return (1);
+}
+
+static int	check_syntax_errors(t_token *tokens)
+{
+	if (!tokens)
+		return (1);
+	if (!check_trailing_pipe(tokens))
+		return (0);
+	return (1);
+}
 
 /*
 ** @brief コマンド構造体を検証します。
@@ -21,6 +57,8 @@
 */
 static int	validate_command(t_command *head, t_token *tokens)
 {
+	if (!check_syntax_errors(tokens))
+		return (0);
 	if (head && head->args == NULL && head->redirects == NULL
 		&& head->next == NULL && tokens->type == TOKEN_PIPE)
 	{
