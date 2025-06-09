@@ -58,7 +58,7 @@ static char	*get_regular_env_value(const char *str, int *i)
 	if (env_node && env_node->value)
 		value = ft_strdup(env_node->value);
 	else
-		value = ft_strdup("");
+		value = NULL;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	free(name);
@@ -76,7 +76,7 @@ int	append_env(const char *str, int *i, char *res, int *j)
 	else
 		value = get_regular_env_value(str, i);
 	if (!value)
-		return (-1);
+		return (0);
 	ft_strlcpy(res + *j, value, 4096 - *j);
 	*j += ft_strlen(value);
 	free(value);

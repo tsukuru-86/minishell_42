@@ -1,8 +1,8 @@
 # Minishell バグ修正プラン
 
 ## テスター結果サマリー
-- **テスト通過率**: 95/298 (31.9%)
-- **主要問題**: 構文エラー処理、セグメンテーションフォルト、Heredoc未実装、Export/Unset機能不完全
+- **テスト通過率**: 244/298 (81.9%) ← **大幅改善**
+- **主要問題**: 空の環境変数展開、Export+=オペレーター、Heredoc未実装、ファイルソート順序
 
 ---
 
@@ -13,7 +13,21 @@
 #### 1. セグメンテーションフォルト対策 
 ✅ **修正完了**
 **問題**: ~~多数のコマンドでSEGFAULT発生~~ → **SEGVを完全修正**
-**影響範囲**: 全体のシステム安定性
+**影響範4. Export機能強化**
+   - `+=`演算子実装
+   - スペース・引用符処理改善
+
+### Phase 3: 品質向上（1週間）
+6. **Unset機能改善**
+   - 識別子検証強化
+   - エラーメッセージ統一
+
+7. **特殊ケース対応** 🆕
+   - echo -n オプション複数指定
+   - 特殊なexit code処理
+   - bash特有の展開（$'', $""）
+
+---テム安定性
 **修正済み項目**:
 ✅ `merge_adjacent_tokens`の不完全な結合処理修正
 ✅ `add_argument`のメモリ管理修正
@@ -33,10 +47,11 @@
 - ✅ **構文エラー処理でexit status 2が正しく返される**
 
 **最新テスト結果**:
-- ✅ **builtins**: 43/52 (82.7%) ← 大幅改善
-- ✅ **pipes**: 3/4 (75%)
-- ✅ **redirects**: 63/75 (84%)
-- 総合的に大幅な改善を達成
+- ✅ **総合テスト**: 244/298 (81.9%) ← **大幅改善達成**
+- ✅ **builtins**: 43/52 (82.7%) ← 高品質
+- ✅ **pipes**: 3/4 (75%) ← 良好
+- ✅ **redirects**: 63/75 (84%) ← 高品質
+- 🎯 **目標**: 次回250+/298 (83%+)達成
 
 **発見された新しい問題**:
 - ✅ **空のクォート引数のスペース処理問題を完全修正**
@@ -46,6 +61,22 @@
 - ✅ **cdコマンドの引数エラー処理修正**
   - 修正内容: `builtin_cd`で引数が多すぎる場合のエラーメッセージとexit status 1を追加
   - 検証結果: `cd $PWD hi` → "cd: too many arguments" + exit status 1
+- 🔴 **空の環境変数展開問題（最優先）**
+  - 問題: `echo $EMPYT abc` → minishell: `[ abc]`, bash: `[abc]` (先頭に余分なスペース)
+  - 影響: 複数のテストケースが失敗
+  - 原因: 未定義環境変数の展開時の引数処理不備
+- 🟡 **ファイルソート順序の違い**
+  - 問題: `/bin/ls`の出力順序がbashと異なる（ローカル実装の違い）
+  - 影響: 外部lsコマンドとの出力比較テストが失敗
+- 🟡 **特殊なexit codeの処理**
+  - 問題: `exit 9223372036854775808` → minishell: 0, bash: 2
+  - 原因: オーバーフロー時のエラー処理不備
+- 🟡 **echo -n オプションの複数指定処理**
+  - 問題: `echo -nnnnnnnnnnnnnn -nns -n test` → 処理が不正確
+- 🟡 **printf $'hello' / $"hello" 展開**
+  - 問題: bash特有の展開が未実装（`$hello`として解釈される）
+- 🟡 **リダイレクションとパイプの組み合わせ**
+  - 問題: `< Makefile | printf 'You see me?'` → 出力が異なる
 - ⚠️ **exitコマンドのexit status処理問題**
   - 問題: テスターでexit後のexit codeが取得できない（プロセス終了のため）
 - ⚠️ 引数分割の問題（`ls -l` → `ls-l`として解釈）
@@ -114,6 +145,34 @@
 
 ### 🟡 High（高優先度）
 
+#### 2. 空の環境変数展開問題の修正 🆕
+**問題**: 未定義環境変数が展開される際に余分なスペースが挿入される
+**影響範囲**: 環境変数処理、引数パース
+**推定原因**: [`env_expand.c`](srcs/env/env_expand.c)での空文字列展開処理不備
+
+**具体例**:
+```bash
+Test [echo $EMPYT abc][KO]
+# Minishell: [ abc]  (先頭に余分なスペース)
+# Bash: [abc]
+
+Test [$EMPTY echo $EMPYT abc][KO]  
+# Minishell: []
+# Bash: [abc]
+```
+
+**修正対象ファイル**:
+- `srcs/env/env_expand.c` - 環境変数展開メイン処理
+- `srcs/env/env_expand_utils.c` - 展開補助機能
+- `srcs/parser/parser_preprocess.c` - トークン前処理
+- `srcs/parser/parser_preprocess_utils2.c` - トークン結合処理
+
+**修正手順**:
+1. 未定義環境変数の展開時に空文字列ではなくNULLを返す
+2. トークン結合時に空のトークンを適切に除去
+3. 引数配列作成時に空の引数をスキップ
+4. `$EMPTY command args` パターンでの先頭空文字列の処理改善
+
 #### 3. Heredoc機能の完全実装
 **問題**: `<<`演算子が動作せず（status 127）
 **影響範囲**: リダイレクション機能
@@ -165,6 +224,74 @@
 1. 識別子検証ロジックの厳密化
 2. 不正識別子に対するエラーメッセージ改善
 3. [`error_messages.h`](srcs/error/error_messages.h:18)のエラーメッセージ使用
+
+#### 6. 特殊ケース・bash互換性の向上 🆕
+**問題**: bash特有の機能や特殊ケースの処理不備
+**影響範囲**: コマンドラインシェルとしての互換性
+
+**サブ問題**:
+
+**6.1 echo -n オプション複数指定**
+```bash
+# 問題例
+Test [echo -nnnnnnnnnnnnnn -nns -n test][KO]
+# Minishell: [-nnnnnnnnnnnnnn -nns -n test\n]
+# Bash: [test] (改行なし)
+```
+- **修正対象**: `srcs/builtin/builtin_echo.c`
+- **修正内容**: -n オプション解析の改善、複数指定時の処理
+
+**6.2 特殊なexit code処理**
+```bash
+# 問題例  
+Test [exit 9223372036854775808][KO]
+# Minishell: 0
+# Bash: 2 (オーバーフローエラー)
+```
+- **修正対象**: `srcs/builtin/builtin_exit.c`, `srcs/builtin/builtin_exit_utils.c`
+- **修正内容**: オーバーフロー検出とエラー処理
+
+**6.3 bash特有の展開**
+```bash
+# 問題例
+Test [printf $'hello'][KO]  
+# Minishell: [$hello]
+# Bash: [hello] ($'...'の解釈)
+
+Test [printf $"hello"][KO]
+# Minishell: [$hello]  
+# Bash: [hello] ($"..."の解釈)
+```
+- **修正対象**: `srcs/env/env_expand.c`
+- **修正内容**: $'...' と $"..." の特殊展開対応
+
+**6.4 ファイルソート順序の違い**
+```bash
+# 問題例: /bin/ls の出力順序
+# 解決困難（外部コマンドの実装依存）
+# 優先度: 低（テスト環境依存のため）
+```
+
+#### 7. リダイレクションとパイプの高度な組み合わせ 🆕  
+**問題**: 複雑なリダイレクション・パイプ組み合わせでの動作差異
+**影響範囲**: パイプライン処理
+
+**具体例**:
+```bash
+Test [< Makefile | printf 'You see me?'][KO]
+# Minishell: [] (何も出力されない)
+# Bash: [You see me?]
+```
+
+**修正対象ファイル**:
+- `srcs/pipeline/pipeline.c` - パイプライン処理
+- `srcs/redirect/redirect.c` - リダイレクション処理
+- `srcs/pipeline/pipeline_process_utils.c` - プロセス間連携
+
+**修正手順**:
+1. リダイレクション優先度の見直し
+2. パイプとリダイレクションの実行順序調整
+3. stdin/stdout の適切な処理
 
 ---
 

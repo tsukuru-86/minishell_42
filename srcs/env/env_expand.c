@@ -47,8 +47,7 @@ static char	*expand_env_vars_core(const char *input_str, int in_dquote)
 			append_quoted(input_str, &i, res, &j);
 		else if (is_env_var_start(input_str, i))
 		{
-			if (append_env(input_str, &i, res, &j) < 0)
-				return (NULL);
+			append_env(input_str, &i, res, &j);
 		}
 		else
 			res[j++] = input_str[i++];
