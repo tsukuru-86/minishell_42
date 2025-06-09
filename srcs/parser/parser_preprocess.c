@@ -1,5 +1,21 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*         	while (current)
+	{
+		next = current->next;
+		if (current->type == TOKEN_SPACE)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				new_head = current->next;
+			if (current->content)
+				free(current->content);
+			free(current);
+		}
+		else
+			prev = current;
+		current = next;
+	}                                                 */
 /*                                                        :::      ::::::::   */
 /*   parser_preprocess.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -61,8 +77,7 @@ t_token	*remove_space_tokens(t_token *tokens)
 	while (current)
 	{
 		next = current->next;
-		if (current->type == TOKEN_SPACE || (current->type == TOKEN_WORD
-				&& current->content && ft_strlen(current->content) == 0))
+		if (current->type == TOKEN_SPACE)
 		{
 			if (prev)
 				prev->next = current->next;

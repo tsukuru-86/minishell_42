@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 04:47:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 07:04:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef enum e_token_type
 	TOKEN_DOUBLE_QUOTE,
 	TOKEN_S_QUOTED_WORD,
 	TOKEN_D_QUOTED_WORD,
+	TOKEN_EMPTY_QUOTED,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,

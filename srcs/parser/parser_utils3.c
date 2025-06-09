@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:45:59 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 05:38:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 07:13:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,14 @@ char	*merge_adjacent_tokens(t_token **current_token)
 	if (!current_token || !*current_token)
 		return (NULL);
 	token = *current_token;
-	if (!token->content)
-	{
+	if (token->type == TOKEN_EMPTY_QUOTED)
 		result = ft_strdup("");
-		if (!result)
-			return (NULL);
-	}
+	else if (!token->content)
+		result = ft_strdup("");
 	else
-	{
 		result = ft_strdup(token->content);
-		if (!result)
-			return (NULL);
-	}
+	if (!result)
+		return (NULL);
 	*current_token = token->next;
 	return (result);
 }

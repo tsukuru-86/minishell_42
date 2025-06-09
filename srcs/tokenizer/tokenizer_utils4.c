@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 22:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 21:49:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 07:04:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 static const char	*token_type_to_string(t_token_type type)
 {
 	static const char	*type_names[] = {"WORD", "SPACE", "SINGLE_QUOTE",
-		"DOUBLE_QUOTE", "S_QUOTED_WORD", "D_QUOTED_WORD", "PIPE",
-		"REDIR_IN", "REDIR_OUT", "REDIR_APPEND", "HEREDOC", "ENV_VAR",
-		"END"};
+		"DOUBLE_QUOTE", "S_QUOTED_WORD", "D_QUOTED_WORD", "EMPTY_QUOTED",
+		"PIPE", "REDIR_IN", "REDIR_OUT", "REDIR_APPEND", "HEREDOC",
+		"ENV_VAR", "END"};
 
 	if (type >= 0 && type < (int)(sizeof(type_names) / sizeof(type_names[0])))
 		return (type_names[type]);

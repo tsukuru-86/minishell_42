@@ -131,7 +131,7 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 	status = 1;
 	type = (*current_token_ptr)->type;
 	if (type == TOKEN_WORD || type == TOKEN_S_QUOTED_WORD
-		|| type == TOKEN_D_QUOTED_WORD)
+		|| type == TOKEN_D_QUOTED_WORD || type == TOKEN_EMPTY_QUOTED)
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
