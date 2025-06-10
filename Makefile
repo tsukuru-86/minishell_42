@@ -69,7 +69,8 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_utils.c \
 	utils/command_handler.c \
 	utils/debug_utils.c \
-	utils/excute_command.c
+	utils/excute_command.c \
+	utils/history_utils.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS_DIR = obj/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILE:.c=.o))

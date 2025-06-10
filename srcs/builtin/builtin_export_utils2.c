@@ -6,16 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:55:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:09:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_export_utils.h"
-#include "builtin_export_argutils.h"
+#include "builtin_export.h"
 #include "minishell.h"
 #include "error/error_messages.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 int	append_env_value(const char *name, const char *value)
 {

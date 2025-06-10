@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/10 07:10:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:03:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	initialize_shell(char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	return (1);
 }
-
 static void	handle_input(char *input, int *status)
 {
 	t_token		*tokens;
@@ -58,6 +57,7 @@ static void	handle_input(char *input, int *status)
 			free(trimmed);
 		return ;
 	}
+	add_history(input);
 	tokens = tokenize(trimmed, NULL);
 	if (!tokens)
 	{
@@ -108,7 +108,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!initialize_shell(envp))
 		return (EXIT_FAILURE);
+	load_history_file();
 	status = main_loop();
+	save_history_file();
 	clear_history();
 	free_env_list();
 	return (status);
