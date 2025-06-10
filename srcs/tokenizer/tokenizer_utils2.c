@@ -35,7 +35,7 @@ int	init_tokenizer_stat(t_tokenizer_stat *stat, t_command *cmd)
 
 /* クォートされた文字列を抽出する */
 static int	extract_quoted_content(const char *input, int *i, char *buf,
-	int *buf_len)
+		int *buf_len)
 {
 	char	quote_c;
 
@@ -57,7 +57,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 
 /* 通常の単語を抽出する */
 static void	extract_word_content(const char *input, int *i, char *buf,
-	int *buf_len)
+		int *buf_len)
 {
 	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
 		&& !is_meta(input[*i]))

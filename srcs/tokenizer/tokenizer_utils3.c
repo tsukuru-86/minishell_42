@@ -34,10 +34,10 @@ void	add_token_to_list(t_token **token_list_head, t_token *new_token)
 /* 空白文字をトークンとして処理し、リストに追加 */
 int	handle_space_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	char		space_buf[1024];
-	int			buf_len;
-	int			i;
-	t_token		*new_token;
+	char	space_buf[1024];
+	int		buf_len;
+	int		i;
+	t_token	*new_token;
 
 	i = stat->i_input;
 	buf_len = 0;

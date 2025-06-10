@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/02 03:47:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:19:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,22 @@ int	remove_env_var(const char *name)
 int	builtin_unset(char **args)
 {
 	int	i;
+	int	status;
+	int	is_valid;
 
-	if (!args[1])
-		return (0);
 	i = 1;
+	status = 0;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
+		is_valid = is_valid_identifier(args[i]);
+		if (!is_valid)
 		{
 			print_unset_invalid_identifier_error(args[i]);
-			return (1);
+			status = 1;
 		}
-		remove_env_var(args[i]);
+		else
+			remove_env_var(args[i]);
 		i++;
 	}
-	return (0);
+	return (status);
 }

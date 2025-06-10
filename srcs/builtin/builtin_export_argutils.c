@@ -6,27 +6,20 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:57:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 文字列の前後スペースを除去
-char	*trim_spaces(char *str)
+/*
+** 文字列の前後スペースを除去
+*/
+char	*ft_trim_spaces(const char *src)
 {
-	size_t	start;
-	size_t	end;
-
-	if (!str)
+	if (!src)
 		return (NULL);
-	start = 0;
-	while (str[start] == ' ' || str[start] == '\t')
-		start++;
-	end = ft_strlen(str);
-	while (end > start && (str[end - 1] == ' ' || str[end - 1] == '\t'))
-		end--;
-	return (ft_substr(str, start, end - start));
+	return (ft_strtrim(src, " \t\n\v\f\r"));
 }
 
 // クォートで囲まれていれば除去
@@ -68,7 +61,7 @@ static char	*get_export_value(char *raw_val)
 	char	*trimmed;
 	char	*stripped;
 
-	trimmed = trim_spaces(raw_val);
+	trimmed = ft_trim_spaces(raw_val);
 	stripped = strip_quotes(trimmed);
 	free(trimmed);
 	return (stripped);

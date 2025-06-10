@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 05:32:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:07:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:36:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,22 @@ t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
 	return (tokens);
 }
 
+static t_token	*remove_empty_token(t_token *tokens, t_token *curr,
+			t_token *prev)
+{
+	t_token	*next;
+
+	next = curr->next;
+	if (prev)
+		prev->next = next;
+	else
+		tokens = next;
+	if (curr->content)
+		free(curr->content);
+	free(curr);
+	return (tokens);
+}
+
 t_token	*remove_empty_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -100,13 +116,7 @@ t_token	*remove_empty_tokens(t_token *tokens)
 		if ((!current->content || current->content[0] == '\0')
 			&& current->type == TOKEN_WORD)
 		{
-			if (prev)
-				prev->next = next;
-			else
-				tokens = next;
-			if (current->content)
-				free(current->content);
-			free(current);
+			tokens = remove_empty_token(tokens, current, prev);
 			current = next;
 			continue ;
 		}

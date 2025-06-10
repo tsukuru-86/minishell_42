@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 12:35:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:48:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,10 @@ t_token		*merge_adjacent_non_meta_tokens(t_token *tokens);
 t_token		*remove_space_tokens(t_token *tokens);
 t_token		*preprocess_tokens(t_token *tokens);
 t_token		*remove_empty_tokens(t_token *tokens);
-
+void		cleanup_heredoc(t_heredoc *heredoc);
+/* Heredoc input functions */
+int			read_heredoc_input(int fd, t_heredoc *heredoc);
+int			read_heredoc_tty(int fd, t_heredoc *heredoc);
+int			read_heredoc_non_tty(int fd, t_heredoc *heredoc);
+int			process_heredoc_line(char *line, int fd, t_heredoc *heredoc);
 #endif

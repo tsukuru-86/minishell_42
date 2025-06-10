@@ -50,7 +50,7 @@ static void	restore_fds(t_redirect *last_out, t_redirect *last_in)
 }
 
 /* Clean up heredoc files */
-static void	cleanup_heredocs(t_redirect *redirect)
+void	cleanup_heredocs(t_redirect *redirect)
 {
 	t_redirect	*current;
 
@@ -72,5 +72,4 @@ void	restore_redirection(t_redirect *redirect)
 		return ;
 	find_last_redirections(redirect, &last_out, &last_in);
 	restore_fds(last_out, last_in);
-	cleanup_heredocs(redirect);
 }

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
-#include "../error/error_messages.h"
 
 /*
 ** @brief 先頭のトークンが構文エラーでないかをチェック

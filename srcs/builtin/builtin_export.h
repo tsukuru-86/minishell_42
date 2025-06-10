@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:43 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 14:09:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:36:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ int		is_valid_identifier(const char *str);
 /* Split export argument into name and value */
 void	split_export_arg(char *arg, char **name, char **value, int *append);
 
-char	*trim_spaces(char *str);
-char	*strip_quotes(char *str);
+char	*ft_trim_spaces(const char *src);
+char	*unquote(const char *src);
+char	*trim_and_unquote(const char *src);
+void	normalize_export_args(char **name, char **value);
+char	*create_new_value(const char *old_value, const char *append_value);
+
 void	split_export_arg(char *arg, char **name, char **value, int *append);
 
 #endif

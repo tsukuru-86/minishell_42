@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:32:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:07:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
+#include <stdio.h>
 
 /* Save the original file descriptor for later restoration */
 int	save_original_fd(t_redirect *redirect)
@@ -88,10 +89,16 @@ int	open_redirect_file(t_redirect *redirect)
 	fd = -1;
 	if (redirect->type == REDIR_OUT)
 		fd = open(redirect->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (redirect->type == REDIR_APPEND)
+	else if (redirect->type == REDIR_APPEND)
 		fd = open(redirect->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
+	else if (redirect->type == REDIR_HEREDOC)
 		fd = open(redirect->file, O_RDONLY);
+	else if (redirect->type == REDIR_IN)
+		fd = open(redirect->file, O_RDONLY);
+	printf("[TRACE] pid=%d, open heredoc: fd=%d, file=%s, errno=%d\n", getpid(),
+		fd, redirect->file, errno);
+	printf("[DEBUG] open_redirect_file: type=%d, file=%s, fd=%d, errno=%d\n",
+		redirect->type, redirect->file, fd, errno);
 	if (fd == -1)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 			strerror(errno));

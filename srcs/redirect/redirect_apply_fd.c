@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:32:38 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:56:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:25:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,26 @@ void	apply_output_redirection_fd(t_redirect *redirect, int fd)
 	close(fd);
 }
 
-void	apply_input_redirection_fd(t_redirect *redirect, int fd)
+void	apply_input_redirection_fd(int fd)
 {
-	int	dup_ret;
-	int	saved_errno;
+	int			dup_ret;
+	int			saved_errno;
+	struct stat	st;
 
 	dup_ret = dup2(fd, STDIN_FILENO);
 	saved_errno = errno;
+	printf("[TRACE] pid=%d, dup2: fd=%d -> STDIN_FILENO, ret=%d, errno=%d\n",
+		getpid(), fd, dup_ret, saved_errno);
+	{
+		if (fstat(STDIN_FILENO, &st) == 0)
+			printf("[TRACE] pid=%d, fstat(STDIN_FILENO): mode=%o\n", getpid(),
+				st.st_mode);
+		else
+			printf("[TRACE] pid=%d, fstat(STDIN_FILENO) failed: errno=%d\n",
+				getpid(), errno);
+	}
 	printf("[DEBUG] apply_input_redirection_fd: fd=%d, ret=%d, errno=%d\n", fd,
 		dup_ret, saved_errno);
-	if (redirect->type == REDIR_HEREDOC && redirect->file)
-		unlink(redirect->file);
 	if (fd == -1)
 		perror("minishell: apply_input_redirection_fd");
 	close(fd);

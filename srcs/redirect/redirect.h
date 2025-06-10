@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:37:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 16:26:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 void	apply_output_redirection_fd(t_redirect *redirect, int fd);
-void	apply_input_redirection_fd(t_redirect *redirect, int fd);
+void	apply_input_redirection_fd(int fd);
 
 /* Save the original file descriptor for later restoration */
 int		save_original_fd(t_redirect *redirect);
@@ -36,5 +36,6 @@ int		process_redirections(t_redirect *redirect);
 int		setup_redirection(t_redirect *redirect);
 /* Restore all original file descriptors */
 void	restore_redirection(t_redirect *redirect);
+void	cleanup_heredocs(t_redirect *redirect);
 int		validate_input_redirect(t_redirect *current);
 #endif

@@ -16,16 +16,22 @@
    先頭が英字かアンダースコアで始まり、その後は英数字とアンダースコアのみを含む必要がある */
 int	is_valid_identifier(const char *str)
 {
+	int	i;
+
 	if (str == NULL || *str == '\0')
 		return (0);
-	if (!ft_isalpha(*str) && *str != '_')
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-	str++;
-	while (*str)
+	i = 0;
+	while (str[i])
 	{
-		if (!ft_isalnum(*str) && *str != '_')
+		if (str[i] == '=')
 			return (0);
-		str++;
+		if (str[i] == ' ' || str[i] == '\'' || str[i] == '\"')
+			return (0);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
 	}
 	return (1);
 }

@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/09 16:48:25 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 16:29:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../redirect/redirect.h"
 #include "minishell.h"
 #include "pipeline.h"
 
@@ -52,6 +53,8 @@ int	execute_command_pipeline(t_command *cmd)
 		return (1);
 	}
 	status = wait_pipeline(cmd);
+	if (cmd && cmd->redirects)
+		cleanup_heredocs(cmd->redirects);
 	cleanup_pipeline_list_all(cmd);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:24:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:39:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,24 +90,4 @@ int	write_heredoc_content(int fd, char *content)
 	if (write(fd, "\n", 1) == -1)
 		return (0);
 	return (1);
-}
-
-void	cleanup_heredoc(t_heredoc *heredoc)
-{
-	if (!heredoc)
-		return ;
-	if (heredoc->delimiter)
-		free(heredoc->delimiter);
-	if (heredoc->content)
-		free(heredoc->content);
-	if (heredoc->temp_file)
-	{
-		if (!heredoc->is_closed)
-		{
-			unlink(heredoc->temp_file);
-			heredoc->is_closed = true;
-		}
-		free(heredoc->temp_file);
-	}
-	free(heredoc);
 }

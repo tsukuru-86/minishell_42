@@ -16,6 +16,8 @@ SRCS_FILE = main.c \
 	builtin/builtin_export_set.c \
 	builtin/builtin_export_sort.c \
 	builtin/builtin_export_utils2.c \
+	builtin/builtin_export_utils3.c \
+	builtin/builtin_export_utils4.c \
 	builtin/builtin_export_utils.c \
 	builtin/builtin_pwd.c \
 	builtin/builtin_unset.c \
@@ -23,6 +25,7 @@ SRCS_FILE = main.c \
 	builtin/execute_builtin_utils.c \
 	builtin/identifier_validator.c \
 	env/env_expand.c \
+	env/env_expand_quote.c \
 	env/env_expand_utils2.c \
 	env/env_expand_utils.c \
 	env/env_utils.c \
@@ -30,13 +33,18 @@ SRCS_FILE = main.c \
 	env/exit_status.c \
 	external/external_commands.c \
 	external/external_commands_child_utils.c \
+	external/external_commands_exec.c \
 	external/external_commands_find.c \
 	external/external_commands_utils.c \
 	external/external_utils.c \
 	parser/heredoc.c \
+	parser/heredoc_input.c \
+	parser/heredoc_process.c \
+	parser/heredoc_utils2.c \
 	parser/heredoc_utils.c \
 	parser/parser.c \
 	parser/parser_preprocess.c \
+	parser/parser_preprocess_space.c \
 	parser/parser_preprocess_utils2.c \
 	parser/parser_preprocess_utils.c \
 	parser/parser_tokens.c \

@@ -6,86 +6,72 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 14:09:25 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:38:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_export.h"
-#include "minishell.h"
 #include "error/error_messages.h"
+#include "minishell.h"
 
 int	append_env_value(const char *name, const char *value)
 {
 	t_env	*node;
 	char	*new_val;
-	size_t	len1;
-	size_t	len2;
 
 	node = get_env_node(name);
 	if (!node)
 		return (set_env_node(name, value));
-	if (node->value)
-		len1 = ft_strlen(node->value);
-	else
-		len1 = 0;
-	if (value)
-		len2 = ft_strlen(value);
-	else
-		len2 = 0;
-	new_val = (char *)malloc(len1 + len2 + 1);
+	new_val = create_new_value(node->value, value);
 	if (!new_val)
 		return (1);
-	if (node->value)
-		ft_strlcpy(new_val, node->value, len1 + 1);
-	else
-		new_val[0] = '\0';
-	if (value)
-		ft_strlcpy(new_val + len1, value, len2 + 1);
 	if (node->value)
 		free(node->value);
 	node->value = new_val;
 	return (0);
 }
 
-int	validate_and_set_env(char *name, char *value)
+static void	handle_invalid_identifier(char *n, char *v)
 {
-	if (!is_valid_identifier(name))
-	{
-		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, name);
-		return (1);
-	}
-	if (set_env_node(name, value) != 0)
-	{
-		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
-		return (1);
-	}
-	return (0);
+	if (n)
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, n);
+	else
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, "");
+	if (n)
+		free(n);
+	if (v)
+		free(v);
 }
 
-char	*reconstruct_split_args(char **args, int start, int *next_idx)
+static void	cleanup_strings(char *n, char *v)
 {
-	char	*result;
-	char	*temp;
-	int		i;
+	if (n)
+		free(n);
+	if (v)
+		free(v);
+}
 
-	if (!args[start] || !ft_strchr(args[start], '='))
-		return (NULL);
-	result = ft_strdup(args[start]);
-	if (!result)
-		return (NULL);
-	i = start + 1;
-	while (args[i] && !ft_strchr(args[i], '=') && !is_valid_identifier(args[i]))
+int	validate_and_set_env(char *name, char *value)
+{
+	int		ret;
+	char	*n;
+	char	*v;
+
+	n = NULL;
+	v = NULL;
+	if (name)
+		n = ft_strdup(name);
+	if (value)
+		v = ft_strdup(value);
+	normalize_export_args(&n, &v);
+	if (!is_valid_identifier(n))
 	{
-		temp = ft_strjoin(result, " ");
-		free(result);
-		if (!temp)
-			return (NULL);
-		result = ft_strjoin(temp, args[i]);
-		free(temp);
-		if (!result)
-			return (NULL);
-		i++;
+		handle_invalid_identifier(n, v);
+		return (1);
 	}
-	*next_idx = i;
-	return (result);
+	ret = set_env_node(n, v);
+	if (ret != 0)
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
+	cleanup_strings(n, v);
+	return (ret != 0);
 }

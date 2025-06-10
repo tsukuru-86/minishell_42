@@ -73,7 +73,7 @@ static int	apply_input_redirection(t_redirect *last_in)
 	fd = open_redirect_file(last_in);
 	if (fd == -1)
 		return (0);
-	apply_input_redirection_fd(last_in, fd);
+	apply_input_redirection_fd(fd);
 	return (1);
 }
 

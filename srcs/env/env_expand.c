@@ -6,14 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 07:04:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:57:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "minishell.h"
 
-/* 文字が環境変数の開始を示すかどうかをチェック */
 static int	is_env_var_start(const char *str, int i)
 {
 	if (str[i] == '$' && str[i + 1])
@@ -22,49 +21,77 @@ static int	is_env_var_start(const char *str, int i)
 	return (0);
 }
 
-/* Append quoted section starting at str[i] */
-static void	append_quoted(const char *str, int *i, char *res, int *j)
+void	append_c_escaped(const char *str, int *i, char *buf, int *k)
 {
-	res[(*j)++] = str[(*i)++];
-	while (str[*i] && str[*i] != '\'')
-		res[(*j)++] = str[(*i)++];
-	if (str[*i])
-		res[(*j)++] = str[(*i)++];
+	if (str[*i] == 'n')
+		buf[(*k)++] = '\n';
+	else if (str[*i] == 't')
+		buf[(*k)++] = '\t';
+	else if (str[*i] == 'r')
+		buf[(*k)++] = '\r';
+	else if (str[*i] == '\\')
+		buf[(*k)++] = '\\';
+	else if (str[*i] == '\'')
+		buf[(*k)++] = '\'';
+	else if (str[*i] == '\"')
+		buf[(*k)++] = '\"';
+	else if (str[*i])
+		buf[(*k)++] = str[*i];
 }
 
-/* Expand environment variables in string */
-static char	*expand_env_vars_core(const char *input_str, int in_dquote)
+static void	append_quoted_expand_core(const char *str, int *i, char *buf)
+{
+	int	k;
+
+	(*i)++;
+	k = 0;
+	process_quote_content(str, i, buf, &k);
+	buf[k] = '\0';
+}
+
+static void	append_quoted_expand(const char *str, int *i, char *res, int *j)
+{
+	int		k;
+	char	*buf;
+
+	k = 0;
+	buf = (char *)malloc(4096);
+	if (!buf)
+		return ;
+	append_quoted_expand_core(str, i, buf);
+	k = 0;
+	while (buf[k])
+		res[(*j)++] = buf[k++];
+	if (str[*i])
+		(*i)++;
+	free(buf);
+}
+
+char	*expand_env_vars(const char *input_str, int in_dquote)
 {
 	int		i;
 	int		j;
-	char	res[4096];
+	char	*res;
+	char	*ret;
 
+	(void)in_dquote;
 	i = 0;
 	j = 0;
+	res = (char *)malloc(4096);
+	if (!res)
+		return (NULL);
 	while (input_str[i])
 	{
-		if (input_str[i] == '\'' && !in_dquote)
-			append_quoted(input_str, &i, res, &j);
+		if ((input_str[i] == '\'' || input_str[i] == '\"') && (i == 0
+				|| input_str[i - 1] != '\\'))
+			append_quoted_expand(input_str, &i, res, &j);
 		else if (is_env_var_start(input_str, i))
-		{
 			append_env(input_str, &i, res, &j);
-		}
 		else
 			res[j++] = input_str[i++];
 	}
 	res[j] = '\0';
-	return (ft_strdup(res));
-}
-
-/* 環境変数展開のメイン関数 */
-char	*expand_env_vars(const char *input_str, int in_dquote)
-{
-	char	*expanded;
-
-	if (!input_str)
-		return (NULL);
-	expanded = expand_env_vars_core(input_str, in_dquote);
-	if (!expanded)
-		return (NULL);
-	return (expanded);
+	ret = ft_strdup(res);
+	free(res);
+	return (ret);
 }

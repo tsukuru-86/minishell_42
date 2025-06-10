@@ -6,70 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:24:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 06:48:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
-
-static int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
-{
-	int		is_delimiter;
-	char	*expanded;
-
-	is_delimiter = (ft_strcmp(line, heredoc->delimiter) == 0);
-	if (is_delimiter)
-	{
-		free(line);
-		return (1);
-	}
-	if (!heredoc->delimiter_is_quoted)
-	{
-		expanded = expand_env_vars(line, 0);
-		if (!expanded)
-		{
-			free(line);
-			return (0);
-		}
-		if (!write_heredoc_content(fd, expanded))
-		{
-			free(expanded);
-			free(line);
-			return (0);
-		}
-		free(expanded);
-	}
-	else
-	{
-		if (!write_heredoc_content(fd, line))
-		{
-			free(line);
-			return (0);
-		}
-	}
-	free(line);
-	return (2);
-}
-
-static int	read_heredoc_input(int fd, t_heredoc *heredoc)
-{
-	char	*line;
-	int		result;
-
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		result = process_heredoc_line(line, fd, heredoc);
-		if (result == 0)
-			return (0);
-		if (result == 1)
-			break ;
-	}
-	return (1);
-}
 
 /*
  * heredoc 構造体に関するリソースをクリーンアップする。

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/10 14:03:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:02:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	initialize_shell(char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	return (1);
 }
+
 static void	handle_input(char *input, int *status)
 {
 	t_token		*tokens;

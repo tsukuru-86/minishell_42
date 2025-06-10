@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:03:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 14:06:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,28 @@ char	*get_history_path(void)
 	return (path);
 }
 
+static void	process_history_buffer(char *buf)
+{
+	char	*line;
+	char	*saveptr;
+	char	*token;
+
+	line = buf;
+	saveptr = NULL;
+	token = strtok_r(line, "\n", &saveptr);
+	while (token)
+	{
+		add_history(token);
+		token = strtok_r(NULL, "\n", &saveptr);
+	}
+}
+
 void	load_history_file(void)
 {
 	char	*path;
 	int		fd;
 	char	buf[4096];
 	ssize_t	rlen;
-	char	*line;
-	char	*saveptr;
-	char	*token;
 
 	path = get_history_path();
 	if (!path)
@@ -53,25 +66,31 @@ void	load_history_file(void)
 	if (rlen > 0)
 	{
 		buf[rlen] = '\0';
-		line = buf;
-		saveptr = NULL;
-		token = strtok_r(line, "\n", &saveptr);
-		while (token)
-		{
-			add_history(token);
-			token = strtok_r(NULL, "\n", &saveptr);
-		}
+		process_history_buffer(buf);
 	}
 	close(fd);
 	free(path);
 }
 
-void	save_history_file(void)
+static void	write_history_entries(int fd)
 {
-	char		*path;
-	int			fd;
 	HIST_ENTRY	**hist_list;
 	int			i;
+
+	hist_list = history_list();
+	i = 0;
+	while (hist_list && hist_list[i])
+	{
+		write(fd, hist_list[i]->line, strlen(hist_list[i]->line));
+		write(fd, "\n", 1);
+		i++;
+	}
+}
+
+void	save_history_file(void)
+{
+	char	*path;
+	int		fd;
 
 	path = get_history_path();
 	if (!path)
@@ -82,14 +101,7 @@ void	save_history_file(void)
 		free(path);
 		return ;
 	}
-	hist_list = history_list();
-	i = 0;
-	while (hist_list && hist_list[i])
-	{
-		write(fd, hist_list[i]->line, strlen(hist_list[i]->line));
-		write(fd, "\n", 1);
-		i++;
-	}
+	write_history_entries(fd);
 	close(fd);
 	free(path);
 }
