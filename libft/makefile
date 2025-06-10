@@ -37,7 +37,8 @@ SOURCE = \
 		ft_printf_fd_utils.c\
 		ft_printf_fd_utils2.c\
 		ft_printf_fd.c\
-		get_next_line.c
+		get_next_line.c\
+		ft_strcmp.c
 OBJS = $(SOURCE:.c=.o)
 CC = cc -Wall -Wextra -Werror
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 13:28:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:55:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	launch_child(char *cmd_path, char **args)
 	char	*path_env;
 	char	buf[256];
 	int		stdin_fd;
+	ssize_t	n;
 
 	env_array = env_list_to_array();
 	if (!env_array)
@@ -41,7 +42,7 @@ void	launch_child(char *cmd_path, char **args)
 	printf("[DEBUG] execve: PATH=%s\n", path_env ? path_env : "NULL");
 	if (stdin_fd != -1)
 	{
-		ssize_t n = read(stdin_fd, buf, 255);
+		n = read(stdin_fd, buf, 255);
 		if (n > 0)
 		{
 			buf[n] = '\0';

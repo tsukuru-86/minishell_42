@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/07 01:45:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:50:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
+#include "builtin_export_argutils.h"
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)

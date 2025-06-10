@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:32:38 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:32:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:56:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	apply_output_redirection_fd(t_redirect *redirect, int fd)
 
 void	apply_input_redirection_fd(t_redirect *redirect, int fd)
 {
-	int dup_ret;
-	int saved_errno;
+	int	dup_ret;
+	int	saved_errno;
 
 	dup_ret = dup2(fd, STDIN_FILENO);
 	saved_errno = errno;

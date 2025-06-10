@@ -11,9 +11,11 @@ SRCS_FILE = main.c \
 	builtin/builtin_env_print.c \
 	builtin/builtin_exit.c \
 	builtin/builtin_exit_utils.c \
+	builtin/builtin_export_argutils.c \
 	builtin/builtin_export.c \
 	builtin/builtin_export_set.c \
 	builtin/builtin_export_sort.c \
+	builtin/builtin_export_utils2.c \
 	builtin/builtin_export_utils.c \
 	builtin/builtin_pwd.c \
 	builtin/builtin_unset.c \
@@ -46,6 +48,7 @@ SRCS_FILE = main.c \
 	pipeline/pipeline_process_utils.c \
 	pipeline/pipeline_setup_utils.c \
 	pipeline/pipeline_utils.c \
+	redirect/redirect_apply_fd.c \
 	redirect/redirect.c \
 	redirect/redirect_process.c \
 	redirect/redirect_restore.c \

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 13:33:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:37:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define REDIRECT_H
 
 # include "minishell.h"
-#include "minishell.h"
-void	apply_output_redirection_fd(t_redirect *redirect, int fd);
-void	apply_input_redirection_fd(t_redirect *redirect, int fd);
 
 void	apply_output_redirection_fd(t_redirect *redirect, int fd);
 void	apply_input_redirection_fd(t_redirect *redirect, int fd);
