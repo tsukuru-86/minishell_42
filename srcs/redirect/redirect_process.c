@@ -59,7 +59,7 @@ static int	apply_output_redirection(t_redirect *last_out)
 		return (1);
 	if (!try_open_output_file(last_out, &fd))
 		return (0);
-	apply_redirection(last_out, fd);
+	apply_output_redirection_fd(last_out, fd);
 	return (1);
 }
 
@@ -73,7 +73,7 @@ static int	apply_input_redirection(t_redirect *last_in)
 	fd = open_redirect_file(last_in);
 	if (fd == -1)
 		return (0);
-	apply_redirection(last_in, fd);
+	apply_input_redirection_fd(last_in, fd);
 	return (1);
 }
 

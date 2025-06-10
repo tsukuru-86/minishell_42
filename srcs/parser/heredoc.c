@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 00:10:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:24:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,38 @@
 
 static int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 {
-	char	*trimmed;
 	int		is_delimiter;
+	char	*expanded;
 
-	trimmed = ft_strtrim(line, " \t\n");
-	if (!trimmed)
-	{
-		free(line);
-		return (0);
-	}
-	is_delimiter = (ft_strncmp(trimmed, heredoc->delimiter,
-				ft_strlen(heredoc->delimiter)) == 0
-			&& ft_strlen(trimmed) == ft_strlen(heredoc->delimiter));
-	free(trimmed);
+	is_delimiter = (ft_strcmp(line, heredoc->delimiter) == 0);
 	if (is_delimiter)
 	{
 		free(line);
 		return (1);
 	}
-	if (!write_heredoc_content(fd, line))
+	if (!heredoc->delimiter_is_quoted)
 	{
-		free(line);
-		return (0);
+		expanded = expand_env_vars(line, 0);
+		if (!expanded)
+		{
+			free(line);
+			return (0);
+		}
+		if (!write_heredoc_content(fd, expanded))
+		{
+			free(expanded);
+			free(line);
+			return (0);
+		}
+		free(expanded);
+	}
+	else
+	{
+		if (!write_heredoc_content(fd, line))
+		{
+			free(line);
+			return (0);
+		}
 	}
 	free(line);
 	return (2);

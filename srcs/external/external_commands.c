@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 05:17:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:28:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	launch_child(char *cmd_path, char **args)
 	char	**env_array;
 	int		env_count;
 	int		err;
+	char	*path_env;
+	char	buf[256];
+	int		stdin_fd;
 
 	env_array = env_list_to_array();
 	if (!env_array)
@@ -27,6 +30,34 @@ void	launch_child(char *cmd_path, char **args)
 		free(cmd_path);
 		exit(127);
 	}
+	/* --- DEBUG LOG: execve直前の状態 --- */
+	stdin_fd = dup(0);
+	path_env = getenv("PATH");
+	if (args && args[0])
+		printf("[DEBUG] execve: argv[0]=%s\n", args[0]);
+	else
+		printf("[DEBUG] execve: argv[0]=NULL\n");
+	printf("[DEBUG] execve: cmd_path=%s\n", cmd_path ? cmd_path : "NULL");
+	printf("[DEBUG] execve: PATH=%s\n", path_env ? path_env : "NULL");
+	if (stdin_fd != -1)
+	{
+		ssize_t n = read(stdin_fd, buf, 255);
+		if (n > 0)
+		{
+			buf[n] = '\0';
+			printf("[DEBUG] execve: stdin peek='%s'\n", buf);
+		}
+		else
+		{
+			printf("[DEBUG] execve: stdin read failed or empty (n=%zd)\n", n);
+		}
+		close(stdin_fd);
+	}
+	else
+	{
+		printf("[DEBUG] execve: dup(0) failed\n");
+	}
+	/* --- DEBUG LOG END --- */
 	if (execve(cmd_path, args, env_array) == -1)
 	{
 		err = errno;

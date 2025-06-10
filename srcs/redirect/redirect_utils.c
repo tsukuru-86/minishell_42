@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/07 03:13:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:32:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,4 @@ int	open_redirect_file(t_redirect *redirect)
 }
 
 /* Apply the redirection using the file descriptor */
-void	apply_redirection(t_redirect *redirect, int fd)
-{
-	if (redirect->type == REDIR_OUT || redirect->type == REDIR_APPEND)
-		dup2(fd, STDOUT_FILENO);
-	else if (redirect->type == REDIR_IN || redirect->type == REDIR_HEREDOC)
-		dup2(fd, STDIN_FILENO);
-	if (fd == -1)
-		perror("minishell: apply_redirection");
-	close(fd);
-}
+/* 関数定義はredirect_apply_fd.cへ移動 */
