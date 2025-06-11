@@ -13,38 +13,54 @@
 #include "minishell.h"
 #include "redirect.h"
 
-/* Apply the input redirection */
+static int	apply_out_redirect(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open_redirect_file(redir);
+	if (fd == -1)
+		return (0);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
+static int	apply_in_redirect(t_redirect *redir)
+{
+	int	fd;
+
+	fd = open_redirect_file(redir);
+	if (fd == -1)
+		return (0);
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
 int	process_redirections(t_redirect *redirect)
 {
 	t_redirect	*current;
-	int			fd;
 
 	current = redirect;
 	while (current)
 	{
 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
 		{
-			fd = open_redirect_file(current);
-			if (fd == -1)
+			if (!apply_out_redirect(current))
 				return (0);
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-			close(fd);
 		}
 		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 		{
-			fd = open_redirect_file(current);
-			if (fd == -1)
+			if (!apply_in_redirect(current))
 				return (0);
-			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-			close(fd);
 		}
 		current = current->next;
 	}

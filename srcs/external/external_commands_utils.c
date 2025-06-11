@@ -6,13 +6,16 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 12:11:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 06:07:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
 #include "minishell.h"
 
+/*
+** 環境変数配列の解放
+*/
 void	free_env_array(char **env_array, int count)
 {
 	int	i;
@@ -28,8 +31,9 @@ void	free_env_array(char **env_array, int count)
 	free(env_array);
 }
 
-/* 環境変数リスト内のノード数をカウントする関数 */
-
+/*
+** 環境変数リスト内のノード数をカウント
+*/
 int	count_env_nodes(t_env *env_list)
 {
 	t_env	*current;
@@ -45,13 +49,30 @@ int	count_env_nodes(t_env *env_list)
 	return (count);
 }
 
+/*
+** 子プロセスでのexecve失敗時の処理
+*/
 int	handle_child_process(char *cmd_path, char **args)
 {
 	setup_child_signals();
 	launch_child(cmd_path, args);
-	return (1);
+	if (errno == EACCES)
+	{
+		perror(cmd_path);
+		exit(126);
+	}
+	if (errno == ENOENT)
+	{
+		perror(cmd_path);
+		exit(127);
+	}
+	perror(cmd_path);
+	exit(1);
 }
 
+/*
+** fork失敗時の処理
+*/
 int	handle_fork_error(char *cmd_path)
 {
 	perror("minishell: fork");
@@ -59,6 +80,9 @@ int	handle_fork_error(char *cmd_path)
 	return (1);
 }
 
+/*
+** コマンドパスがディレクトリか判定
+*/
 int	check_if_directory(char *cmd_path, char *cmd_name)
 {
 	struct stat	st;
@@ -75,4 +99,4 @@ int	check_if_directory(char *cmd_path, char *cmd_name)
 	return (handle_stat_error(cmd_name));
 }
 
-// execute_external_commandはexternal_commands_exec.cへ移動
+/* execute_external_commandはexternal_commands_exec.cへ移動 */
