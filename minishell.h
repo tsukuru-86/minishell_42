@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:35:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ void							restore_redirection(t_redirect *redirect);
 int								setup_redirection(t_redirect *redirect);
 void							free_redirect(t_redirect *redirect);
 t_redirect						*create_redirect(int type, char *file);
-
+void							cleanup_heredocs(t_redirect *redirect);
 /* Command */
 void							external_command(void);
 int								execute_builtin(char **args);

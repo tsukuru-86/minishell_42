@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:36:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
-#include "../minishell.h"
+#include "minishell.h"
 
 // static char	**ensure_env_vars(char **env_array)
 // {

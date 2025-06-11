@@ -28,6 +28,7 @@ static int	process_export_arg(char *arg)
 	else
 		ret = validate_and_set_env(name, value);
 	free(name);
+	free(value);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:34:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	apply_redirection(t_redirect *redirect, int fd);
 int		validate_redirections(t_redirect *redirect);
 void	save_original_fds(t_redirect *redirect);
 int		process_redirections(t_redirect *redirect);
-void	cleanup_heredocs(t_redirect *redirect);
 int		validate_input_redirect(t_redirect *current);
 
 void	apply_output_redirection_fd(t_redirect *redirect, int fd);
@@ -49,6 +48,5 @@ int		process_redirections(t_redirect *redirect);
 int		setup_redirection(t_redirect *redirect);
 /* Restore all original file descriptors */
 void	restore_redirection(t_redirect *redirect);
-void	cleanup_heredocs(t_redirect *redirect);
 int		validate_input_redirect(t_redirect *current);
 #endif
