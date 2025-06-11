@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 06:13:38 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 04:50:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	builtin_cd(char **args)
 		path = args[1];
 	if (chdir(path) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd:");
-		perror(path);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
 	return (0);
