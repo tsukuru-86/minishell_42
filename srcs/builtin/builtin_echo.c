@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 06:21:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 05:50:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,29 @@ static int	is_echo_n_option(const char *s)
 	return (1);
 }
 
+static void	putstr_echo(const char *s)
+{
+	int		i;
+	char	c;
+	int		in_squote;
+	int		in_dquote;
+
+	i = 0;
+	in_squote = 0;
+	in_dquote = 0;
+	while (s[i])
+	{
+		c = s[i];
+		if (c == '\'' && !in_dquote)
+			in_squote = !in_squote;
+		else if (c == '\"' && !in_squote)
+			in_dquote = !in_dquote;
+		else
+			ft_putchar_fd(c, 1);
+		i++;
+	}
+}
+
 int	builtin_echo(char **args)
 {
 	int	newline;
@@ -45,7 +68,7 @@ int	builtin_echo(char **args)
 	{
 		if (i > first_arg)
 			ft_putchar_fd(' ', 1);
-		ft_putstr_fd(args[i], 1);
+		putstr_echo(args[i]);
 		i++;
 	}
 	if (newline)
