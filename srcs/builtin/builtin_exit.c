@@ -6,42 +6,17 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 12:30:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:07:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
 
-/* 数値エラーを処理して終了 */
-static void	exit_with_numeric_error(const char *arg)
-{
-	ft_printf_fd(STDERR_FILENO, "exit: %s: numeric argument required\n", arg);
-	exit(2);
-}
-
-/* 文字が空白か判定 */
-static int	is_space(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
-}
-
-static int	is_overflow(unsigned long long num, int digit)
-{
-	if (num > 9223372036854775807ULL / 10)
-		return (1);
-	if (num == 9223372036854775807ULL / 10)
-	{
-		if ((unsigned long long)digit > 7)
-			return (1);
-	}
-	return (0);
-}
-
 int	parse_exit_number(const char *str)
 {
-	int	i;
-	int	digit;
+	int					i;
+	int					digit;
 	unsigned long long	num;
 
 	i = 0;

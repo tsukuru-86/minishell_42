@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:26:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 13:03:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:07:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,51 +35,27 @@ int	is_valid_number(const char *str)
 	return (1);
 }
 
-/* 数値文字列を整数に変換（+"100"や-"100"にも対応） */
-// static int	is_exitnum_overflow(unsigned long long num, int sign)
-// {
-// 	if ((sign == 1 && num > 9223372036854775807ULL) || (sign == -1
-// 			&& num > 9223372036854775808ULL))
-// 		return (1);
-// 	return (0);
-// }
+/* 数値エラーを処理して終了 */
+void	exit_with_numeric_error(const char *arg)
+{
+	ft_printf_fd(STDERR_FILENO, "exit: %s: numeric argument required\n", arg);
+	exit(2);
+}
 
-// static int	parse_exit_digits(const char *str, int *digit_count,
-// 		unsigned long long *num)
-// {
-// 	int	i;
+/* 文字が空白か判定 */
+int	is_space(char c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
 
-// 	i = 0;
-// 	*digit_count = 0;
-// 	*num = 0;
-// 	while (str[i] && ft_isdigit(str[i]))
-// 	{
-// 		if (*digit_count > 19)
-// 			return (1);
-// 		*num = (*num) * 10 + (str[i] - '0');
-// 		(*digit_count)++;
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// int	parse_exit_number(const char *str)
-// {
-// 	int					sign;
-// 	int					i;
-// 	int					digit_count;
-// 	unsigned long long	num;
-
-// 	sign = 1;
-// 	i = 0;
-// 	if (str[i] == '+' || str[i] == '-')
-// 	{
-// 		if (str[i] == '-')
-// 			sign = -1;
-// 		i++;
-// 	}
-// 	if (parse_exit_digits(str + i, &digit_count, &num) || digit_count == 0
-// 		|| is_exitnum_overflow(num, sign))
-// 		return (2);
-// 	return ((int)((num * sign) & 0xFF));
-// }
+int	is_overflow(unsigned long long num, int digit)
+{
+	if (num > 9223372036854775807ULL / 10)
+		return (1);
+	if (num == 9223372036854775807ULL / 10)
+	{
+		if ((unsigned long long)digit > 7)
+			return (1);
+	}
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/07 01:59:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:07:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,8 @@ int				is_valid_number(const char *str);
 int				parse_exit_number(const char *str);
 int				is_special_case(char **args);
 char			*combine_special_args(char **args);
+void			exit_with_numeric_error(const char *arg);
+int				is_space(char c);
+int				is_overflow(unsigned long long num, int digit);
 
 #endif
