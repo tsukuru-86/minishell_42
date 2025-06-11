@@ -1,0 +1,16 @@
+{
+    "mcp": {
+        "servers": {
+            "mcp-clangd": {
+                "type": "stdio",
+                "command": "/home/chinachu/42/minishell_42/mcp-language-server/mcp-language-server",
+                "args": [
+                    "-workspace",
+                    "/home/chinachu/42/minishell_42",
+                    "-lsp",
+                    "clangd"
+                ]
+            }
+        }
+    }
+}
