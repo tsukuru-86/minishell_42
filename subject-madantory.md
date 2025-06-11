@@ -91,5 +91,5 @@ Your shell must implement the following:
 ## Codeing Rules
 
 1. ヘッダー
-  - 公開API: minishell.h
+  - モジュール外から使う公開API: minishell.h
   - モジュール内部でのみ使われる関数: scrs/<module>>/<module>>.h

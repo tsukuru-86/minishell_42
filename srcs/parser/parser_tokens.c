@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../error/error_messages.h"
+#include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
 

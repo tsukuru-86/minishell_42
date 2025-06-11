@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/10 16:29:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../redirect/redirect.h"
 #include "minishell.h"
 #include "pipeline.h"
 

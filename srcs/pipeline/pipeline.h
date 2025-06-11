@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 02:41:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/01 02:01:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPELINE_H
 # define PIPELINE_H
-# include "minishell.h"
+# include "../../minishell.h"
 
 void	cleanup_pipeline(t_command *cmd);
 void	cleanup_pipeline_list_all(t_command *cmd);

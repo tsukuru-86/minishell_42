@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXTERNAL_H
 # define EXTERNAL_H
 
-# include "minishell.h"
+# include "../minishell.h"
 
 /* 外部コマンド実行コア関数 */
 void	execute_child_process(t_command *cmd);

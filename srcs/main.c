@@ -6,12 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/11 12:08:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error/error_messages.h"
-#include "minishell.h"
+#include "../minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
 

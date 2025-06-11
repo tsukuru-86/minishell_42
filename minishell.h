@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 11:46:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@
 # include <unistd.h>
 
 # define MAX_TOKENS 1024
+
+/* エラーメッセージ定義 */
+# define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: few arguments\n"
+# define ERR_UNSET_INVALID_ID "minishell: unset: `%s': not a valid identifier\n"
+# define ERR_EXPORT_MALLOC "minishell: export: memory allocation error\n"
+# define ERR_EXPORT_INVALID_ID "minishell: export:`%s':not a valid identifier\n"
+# define ERR_COMMAND_NOT_FOUND "minishell: %s: command not found\n"
+# define ERR_SYNTAX_ERROR "minishell: syntax error\n"
+# define ERR_UNEXP_TOKEN "minishell: syntax error near unexpected token `%s'\n"
+# define ERR_UNCLOSED_QUOTE "minishell: syntax error: unclosed quote\n"
+# define ERR_REDIRECTION_ERROR "minishell: redirection error\n"
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -166,7 +177,7 @@ t_env							*get_env_node(const char *name);
 int								set_env_node(const char *name,
 									const char *value);
 
-/* Redirection */
+/* Redirection - Public API */
 void							restore_redirection(t_redirect *redirect);
 int								setup_redirection(t_redirect *redirect);
 void							free_redirect(t_redirect *redirect);
@@ -177,6 +188,11 @@ void							external_command(void);
 int								execute_builtin(char **args);
 int								execute_builtin_with_redirect(t_command *cmd);
 int								execute_external_command(t_command *cmd);
+
+/* ビルトインコマンド - Public API */
+int								execute_builtin(char **args);
+int								execute_builtin_with_redirect(t_command *cmd);
+int								get_builtin_func_idx(char *cmd);
 
 /* Pipeline */
 int								execute_command_pipeline(t_command *cmd);

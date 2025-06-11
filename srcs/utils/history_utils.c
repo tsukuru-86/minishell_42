@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:03:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ char	*get_history_path(void)
 	home = getenv("HOME");
 	if (!home)
 		return (NULL);
-	len = strlen(home) + strlen("/.minishell_history") + 1;
+	len = ft_strlen(home) + ft_strlen("/.minishell_history") + 1;
 	path = (char *)malloc(len);
 	if (!path)
 		return (NULL);
-	strcpy(path, home);
-	strcat(path, "/.minishell_history");
+	ft_strlcpy(path, home, len);
+	ft_strlcat(path, "/.minishell_history", len);
 	return (path);
 }
 
@@ -81,7 +81,7 @@ static void	write_history_entries(int fd)
 	i = 0;
 	while (hist_list && hist_list[i])
 	{
-		write(fd, hist_list[i]->line, strlen(hist_list[i]->line));
+		write(fd, hist_list[i]->line, ft_strlen(hist_list[i]->line));
 		write(fd, "\n", 1);
 		i++;
 	}

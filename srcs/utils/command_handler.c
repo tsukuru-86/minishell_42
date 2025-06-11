@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 06:07:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:26:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../error/error_messages.h"
+#include "error/error_messages.h"
 #include "minishell.h"
 
 int	process_commands(t_command *cmd)

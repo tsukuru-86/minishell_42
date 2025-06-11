@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 05:57:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:26:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../error/error_messages.h"
+#include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
 
