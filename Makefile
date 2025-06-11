@@ -101,19 +101,6 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-#$(OBJS_DIR):
-# 	mkdir -p $(OBJS_DIR)
-# 	mkdir -p $(OBJS_DIR)builtin
-# 	mkdir -p $(OBJS_DIR)env
-# 	mkdir -p $(OBJS_DIR)external
-# 	mkdir -p $(OBJS_DIR)heredoc
-# 	mkdir -p $(OBJS_DIR)parser
-# 	mkdir -p $(OBJS_DIR)pipeline
-# 	mkdir -p $(OBJS_DIR)redirect
-# 	mkdir -p $(OBJS_DIR)tokenizer
-# 	mkdir -p $(OBJS_DIR)utils
-# 	mkdir -p $(OBJS_DIR)printf
-
 clean:
 	make -C $(LIBFT_DIR) clean
 	rm -rf $(OBJS_DIR)
@@ -125,4 +112,12 @@ re: fclean all
 
 cre: clean all
 
-.PHONY: all clean fclean re cre
+test: $(NAME)
+	cd minishell_tester-nda-cunh && \
+	./tester -e
+# @echo "Running tests..."
+# cat test/test_inputs/* | ./$(NAME) > test/output.txt
+# @diff test/output.txt test/expected_output.txt || (echo "Tests failed!" && exit 1)
+# @echo "All tests passed!"
+
+.PHONY: all clean fclean re cre test

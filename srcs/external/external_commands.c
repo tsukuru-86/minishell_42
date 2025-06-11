@@ -6,13 +6,95 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 12:10:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../error/error_messages.h"
 #include "external.h"
 #include "minishell.h"
+
+static int	is_env_present(char **env_array, char *name)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	while (env_array && env_array[i])
+	{
+		k = 0;
+		while (name[k] && env_array[i][k] && name[k] == env_array[i][k])
+			k++;
+		if (name[k] == '\0' && env_array[i][k] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int	count_env_array(char **env_array)
+{
+	int	count;
+
+	count = 0;
+	while (env_array && env_array[count])
+		count++;
+	return (count);
+}
+
+static char	**add_missing_env_vars(char **env_array, char **vars, int added)
+{
+	int		count;
+	char	**new_env;
+	int		i;
+	int		x;
+
+	count = count_env_array(env_array);
+	new_env = (char **)malloc(sizeof(char *) * (count + added + 1));
+	if (!new_env)
+		return (env_array);
+	i = 0;
+	while (i < count)
+	{
+		new_env[i] = env_array[i];
+		i++;
+	}
+	x = 0;
+	while (x < added)
+	{
+		new_env[i + x] = vars[x];
+		x++;
+	}
+	new_env[i + x] = NULL;
+	return (new_env);
+}
+
+static char	**ensure_env_vars(char **env_array)
+{
+	char	*vars[3];
+	char	*names[3];
+	int		added;
+	int		i;
+
+	names[0] = "LC_COLLATE";
+	names[1] = "LANG";
+	names[2] = "PATH";
+	added = 0;
+	i = 0;
+	while (i < 3)
+	{
+		if (!is_env_present(env_array, names[i]))
+		{
+			vars[added] = getenv(names[i]);
+			if (vars[added])
+				added++;
+		}
+		i++;
+	}
+	if (added == 0)
+		return (env_array);
+	return (add_missing_env_vars(env_array, vars, added));
+}
 
 void	launch_child(char *cmd_path, char **args)
 {
@@ -25,6 +107,7 @@ void	launch_child(char *cmd_path, char **args)
 		free(cmd_path);
 		exit(127);
 	}
+	env_array = ensure_env_vars(env_array);
 	execve(cmd_path, args, env_array);
 	perror("minishell: execve failed");
 	exit(127);
@@ -32,50 +115,3 @@ void	launch_child(char *cmd_path, char **args)
 
 /* 外部コマンドを実行する関数。
    コマンドパスを検索し、子プロセスでコマンドを実行する */
-int	handle_child_process(char *cmd_path, char **args)
-{
-	setup_child_signals();
-	launch_child(cmd_path, args);
-	return (1);
-}
-
-int	handle_fork_error(char *cmd_path)
-{
-	perror("minishell: fork");
-	free(cmd_path);
-	return (1);
-}
-
-int	check_if_directory(char *cmd_path, char *cmd_name)
-{
-	struct stat	st;
-
-	if (stat(cmd_path, &st) == 0)
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			ft_printf_fd(2, "minishell: %s: Is a directory\n", cmd_name);
-			return (126);
-		}
-		return (0);
-	}
-	return (handle_stat_error(cmd_name));
-}
-
-int	execute_external_command(t_command *cmd)
-{
-	char	*cmd_path;
-	char	**args;
-	int		result;
-
-	args = cmd->args;
-	if (!args || !args[0] || ft_strlen(args[0]) == 0)
-		return (0);
-	cmd_path = find_command_path(args[0]);
-	if (!cmd_path)
-		return (handle_command_not_found(args));
-	result = handle_directory_check(cmd_path, args);
-	if (result != 0)
-		return (result);
-	return (execute_external_main(cmd_path, args));
-}

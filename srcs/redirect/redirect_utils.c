@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:07:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:32:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,8 @@ int	open_redirect_file(t_redirect *redirect)
 		fd = open(redirect->file, O_RDONLY);
 	else if (redirect->type == REDIR_IN)
 		fd = open(redirect->file, O_RDONLY);
-	printf("[TRACE] pid=%d, open heredoc: fd=%d, file=%s, errno=%d\n", getpid(),
-		fd, redirect->file, errno);
-	printf("[DEBUG] open_redirect_file: type=%d, file=%s, fd=%d, errno=%d\n",
-		redirect->type, redirect->file, fd, errno);
 	if (fd == -1)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 			strerror(errno));
 	return (fd);
 }
-
-/* Apply the redirection using the file descriptor */
-/* 関数定義はredirect_apply_fd.cへ移動 */

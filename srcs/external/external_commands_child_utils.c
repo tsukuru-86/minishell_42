@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 04:14:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 12:11:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ static char	*create_env_string(t_env *env_node)
 	result = (char *)malloc(name_len + 1 + value_len + 1);
 	if (!result)
 		return (NULL);
-	ft_strlcpy(result, env_node->name, ft_strlen(env_node->name));
+	ft_strlcpy(result, env_node->name, name_len + value_len + 2);
 	result[name_len] = '=';
 	if (env_node->value)
-		ft_strlcpy(result + name_len + 1, env_node->value,
-			ft_strlen(env_node->value));
+		ft_strlcpy(result + name_len + 1, env_node->value, value_len + 1);
 	else
 		result[name_len + 1] = '\0';
 	return (result);

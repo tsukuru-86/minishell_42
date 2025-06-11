@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/11 07:02:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 12:08:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static int	initialize_shell(char **envp)
 
 static void	handle_input(char *input, int *status)
 {
-	t_token		*tokens;
-	char		*trimmed;
+	t_token	*tokens;
+	char	*trimmed;
 
 	if (!input)
 		return ;
@@ -98,9 +98,9 @@ int	main_loop(void)
 	}
 	return (status);
 }
-
 /* メインプログラム。シェルを初期化し、ユーザー入力を
    繰り返し受け取り処理する無限ループを実行する */
+
 int	main(int argc, char **argv, char **envp)
 {
 	int	status;

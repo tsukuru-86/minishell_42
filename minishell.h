@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 14:05:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:46:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+void							print_env_array(const char *label, char **env);
 int								is_delimiter(char c);
 int								is_quote(char c);
 int								is_meta(char c);
