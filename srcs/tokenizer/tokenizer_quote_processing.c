@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 04:40:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 12:19:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,16 @@ int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 		char *word_buf)
 {
 	char	quote_char;
+	int		len;
 
 	if (!input || !stat || !is_quote(input[stat->i_input]))
 		return (0);
 	quote_char = input[stat->i_input];
 	set_quote_type_internal(quote_char, &stat->quote_type);
 	stat->i_input++;
-	if (copy_quoted_content_internal(input, &stat->i_input, word_buf,
-			quote_char) < 0)
+	len = copy_quoted_content_internal(
+			input, &stat->i_input, word_buf, quote_char);
+	if (len < 0)
 		return (0);
 	if (input[stat->i_input] != quote_char)
 	{
@@ -98,7 +100,11 @@ int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 		return (0);
 	}
 	stat->i_input++;
-	if (!expand_and_copy_if_double_quote_internal(word_buf, stat->quote_type))
-		return (0);
+	if (stat->quote_type == TOKEN_D_QUOTED_WORD)
+	{
+		if (!expand_and_copy_if_double_quote_internal(
+				word_buf, stat->quote_type))
+			return (0);
+	}
 	return (1);
 }
