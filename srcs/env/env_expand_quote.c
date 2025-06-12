@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:55:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:57:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:01:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	process_quote_content(const char *str, int *i, char *buf, int *k)
 	info.k = k;
 	while (str[*i] && str[*i] != info.quote && *k < 4095)
 		process_char_by_type(str, i, &info);
+	(*i)++;
 }

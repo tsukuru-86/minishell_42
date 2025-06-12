@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 06:08:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:46:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,28 @@ static int	is_echo_n_option(const char *s)
 	return (1);
 }
 
+/*
+** デバッグ用: トークナイズ直後の引数配列を出力
+*/
+// static void	debug_print_args(char **args)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (args[i])
+// 	{
+// 		printf("[%d]=%s\n", i, args[i]);
+// 		i++;
+// 	}
+// }
+
 int	builtin_echo(char **args)
 {
 	int	newline;
 	int	i;
 	int	first_arg;
 
+	i = 0;
 	newline = 1;
 	i = 1;
 	while (is_echo_n_option(args[i]))
@@ -47,7 +63,7 @@ int	builtin_echo(char **args)
 	{
 		if (i > first_arg)
 			ft_putchar_fd(' ', 1);
-		ft_putstr_fd((char *)args[i], 1);
+		ft_putstr_fd(args[i], 1);
 		i++;
 	}
 	if (newline)

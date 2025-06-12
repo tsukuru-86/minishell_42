@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 06:57:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:44:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,53 +39,22 @@ void	append_c_escaped(const char *str, int *i, char *buf, int *k)
 		buf[(*k)++] = str[*i];
 }
 
-static void	append_quoted_expand_core(const char *str, int *i, char *buf)
-{
-	int	k;
-
-	(*i)++;
-	k = 0;
-	process_quote_content(str, i, buf, &k);
-	buf[k] = '\0';
-}
-
-static void	append_quoted_expand(const char *str, int *i, char *res, int *j)
-{
-	int		k;
-	char	*buf;
-
-	k = 0;
-	buf = (char *)malloc(4096);
-	if (!buf)
-		return ;
-	append_quoted_expand_core(str, i, buf);
-	k = 0;
-	while (buf[k])
-		res[(*j)++] = buf[k++];
-	if (str[*i])
-		(*i)++;
-	free(buf);
-}
-
-char	*expand_env_vars(const char *input_str, int in_dquote)
+char	*expand_env_vars(const char *input_str, int expand)
 {
 	int		i;
 	int		j;
 	char	*res;
 	char	*ret;
 
-	(void)in_dquote;
 	i = 0;
 	j = 0;
+	(void)expand;
 	res = (char *)malloc(4096);
 	if (!res)
 		return (NULL);
 	while (input_str[i])
 	{
-		if ((input_str[i] == '\'' || input_str[i] == '\"') && (i == 0
-				|| input_str[i - 1] != '\\'))
-			append_quoted_expand(input_str, &i, res, &j);
-		else if (is_env_var_start(input_str, i))
+		if (is_env_var_start(input_str, i))
 			append_env(input_str, &i, res, &j);
 		else
 			res[j++] = input_str[i++];
