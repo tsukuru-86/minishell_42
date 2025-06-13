@@ -58,9 +58,7 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 {
 	if (!cmd || !current_token || !*current_token || !head_cmd)
 		return (0);
-	/* printf("[DEBUG] handle_redirect_token: type=%d, content='%s'\n",
-		(*current_token)->type, (*current_token)->content); */
-	if (!(*current_token)->next)
+	if (!((*current_token)->next))
 	{
 		if (*head_cmd)
 			free_command(*head_cmd);

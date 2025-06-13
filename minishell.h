@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 17:37:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:23:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-// # include <sys/syslimits.h> // macOS
-# include <sys/stat.h> //Linux
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+/** # include <sys/syslimits.h> // macOS*/
 
 # define MAX_TOKENS 1024
 
@@ -201,6 +201,7 @@ int								get_exit_status(void);
 void							set_exit_status(t_command *cmd, int status);
 
 /* Command handler */
+void							handle_input(char *input, int *status);
 
 /* history_utils */
 char							*get_history_path(void);

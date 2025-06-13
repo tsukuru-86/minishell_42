@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 06:19:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 19:54:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	remove_env_var(const char *name)
 	prev = NULL;
 	while (current)
 	{
-		if (ft_strncmp(current->name, name, ft_strlen(current->name)) == 0)
+		if (ft_strcmp(current->name, name) == 0)
 		{
 			if (prev)
 				prev->next = current->next;

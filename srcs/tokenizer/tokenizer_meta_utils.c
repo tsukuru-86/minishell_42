@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 17:05:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 19:50:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,11 @@ t_token	*create_meta_token(const char *input, int *i)
 
 	len = 0;
 	meta_str[len++] = input[*i];
-	/* printf("[DEBUG] create_meta_token: input[%d]='%c'\n", *i, input[*i]); */
 	type = get_meta_type(input, i);
-	/* printf("[DEBUG] create_meta_token: determined type=%d\n", type); */
 	if (type == TOKEN_REDIR_APPEND)
 		meta_str[len++] = '>';
 	else if (type == TOKEN_HEREDOC)
 		meta_str[len++] = '<';
 	meta_str[len] = '\0';
-	/* printf("[DEBUG] create_meta_token: meta_str='%s'\n", meta_str); */
 	return (create_token(meta_str, type));
 }

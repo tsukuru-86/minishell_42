@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 03:22:41 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:57:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:02:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void		process_quote_content(const char *str, int *i, char *buf, int *k);
 /* display */
 int			display_all_env_vars(int fd);
 char		*expand_env_vars(const char *input_str, int in_dquote);
+char		*expand_redirect_filename(const char *filename);
 #endif

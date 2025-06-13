@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 15:44:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:02:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,40 @@ char	*expand_env_vars(const char *input_str, int expand)
 
 	i = 0;
 	j = 0;
-	(void)expand;
 	res = (char *)malloc(4096);
 	if (!res)
 		return (NULL);
-	while (input_str[i])
+	while (input_str[i] && j < 4095)
 	{
-		if (is_env_var_start(input_str, i))
+		if (expand && is_env_var_start(input_str, i))
 			append_env(input_str, &i, res, &j);
 		else
 			res[j++] = input_str[i++];
+	}
+	res[j] = '\0';
+	ret = ft_strdup(res);
+	free(res);
+	return (ret);
+}
+
+char	*expand_redirect_filename(const char *filename)
+{
+	int		i;
+	int		j;
+	char	*res;
+	char	*ret;
+
+	i = 0;
+	j = 0;
+	res = (char *)malloc(4096);
+	if (!res)
+		return (NULL);
+	while (filename[i] && j < 4095)
+	{
+		if (is_env_var_start(filename, i))
+			append_env(filename, &i, res, &j);
+		else
+			res[j++] = filename[i++];
 	}
 	res[j] = '\0';
 	ret = ft_strdup(res);

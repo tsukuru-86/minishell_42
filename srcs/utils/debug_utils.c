@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 18:18:35 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 19:51:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,11 @@ const char	*get_token_type_str(t_token_type type)
 
 void	print_tokens_debug(const t_token *tokens, int debug)
 {
-	int	i;
-
-	if (!debug || !tokens)
-		return ;
-	i = 0;
-	while (tokens)
-	{
-		if (tokens->content)
-		{
-			printf("[DEBUG][token %d] content: \"%s\", type: %s\n", i,
-				tokens->content, get_token_type_str(tokens->type));
-		}
-		else
-		{
-			printf("[DEBUG][token %d] content: (null), type: %s\n", i,
-				get_token_type_str(tokens->type));
-		}
-		tokens = tokens->next;
-		i++;
-	}
+	(void)tokens;
+	(void)debug;
 }
 
 void	print_args_debug(char **args)
 {
-	int	i;
-
-	if (!args)
-		return ;
-	i = 0;
-	while (args[i])
-	{
-		printf("[DEBUG][args %d] \"%s\"\n", i, args[i]);
-		i++;
-	}
+	(void)args;
 }

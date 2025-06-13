@@ -6,27 +6,30 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 16:48:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:03:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
+#include "../env/env.h"
 
 t_redirect	*create_redirect(int type, char *file)
 {
 	t_redirect	*redirect;
+	char		*expanded_file;
 
 	redirect = (t_redirect *)malloc(sizeof(t_redirect));
 	if (!redirect)
 		return (NULL);
 	redirect->type = type;
-	redirect->file = ft_strdup(file);
-	if (!redirect->file)
+	expanded_file = expand_redirect_filename(file);
+	if (!expanded_file)
 	{
 		free(redirect);
 		return (NULL);
 	}
+	redirect->file = expanded_file;
 	redirect->original_fd = -1;
 	redirect->next = NULL;
 	return (redirect);

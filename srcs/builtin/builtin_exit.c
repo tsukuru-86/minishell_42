@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 06:07:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 19:58:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,13 @@ int	builtin_exit(char **args)
 {
 	long long	n;
 	int			status;
+	int			arg_count;
 
 	write(1, "exit\n", 5);
-	if (args[1] && args[2])
+	arg_count = 0;
+	while (args[arg_count])
+		arg_count++;
+	if (arg_count > 2)
 	{
 		put_exit_error("too many arguments\n", NULL);
 		return (1);
@@ -100,5 +104,4 @@ int	builtin_exit(char **args)
 		exit(status);
 	}
 	exit(0);
-	return (0);
 }

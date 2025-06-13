@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 11:32:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:04:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ int	save_original_fd(t_redirect *redirect)
 	return (-1);
 }
 
+/* Helper function to create parent directory path */
+static char	*get_parent_dir(const char *file, char *dir)
+{
+	int	len;
+
+	len = dir - file;
+	if (len == 0)
+		return (ft_strdup("/"));
+	else
+		return (ft_substr(file, 0, len));
+}
+
 /* Helper function to check directory access */
 static int	check_directory_access(t_redirect *redirect)
 {
@@ -33,10 +45,10 @@ static int	check_directory_access(t_redirect *redirect)
 	dir = strrchr(redirect->file, '/');
 	if (dir)
 	{
-		parent_dir = strndup(redirect->file, dir - redirect->file);
+		parent_dir = get_parent_dir(redirect->file, dir);
 		if (!parent_dir)
-			parent_dir = strdup("/");
-		if (access(parent_dir, W_OK) != 0)
+			return (-1);
+		if (access(parent_dir, F_OK) != 0 || access(parent_dir, W_OK) != 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 				strerror(errno));

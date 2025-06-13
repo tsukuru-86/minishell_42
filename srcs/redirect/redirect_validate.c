@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:12:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 04:15:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:04:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ int	validate_input_redirect(t_redirect *current)
 	{
 		if (access(current->file, F_OK) != 0)
 		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(current->file, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+				strerror(errno));
 			return (0);
 		}
 		if (access(current->file, R_OK) != 0)

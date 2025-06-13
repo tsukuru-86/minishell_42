@@ -5,90 +5,109 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 20:46:04 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 21:49:13 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/13 18:41:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokenizer.h"
+#include <stdio.h>
 
-/* トークンをリストの末尾に追加する関数。 */
-void	add_token_to_list(t_token **token_list_head, t_token *new_token)
+/* 環境変数を展開してトークンを作成 */
+static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 {
-	t_token	*current;
+	char	*expanded;
+	t_token	*new_token;
+	int		in_quotes;
 
-	if (!token_list_head || !new_token)
-		return ;
-	if (!(*token_list_head))
-	{
-		*token_list_head = new_token;
-		return ;
-	}
-	current = *token_list_head;
-	while (current->next)
-		current = current->next;
-	current->next = new_token;
+	if (type == TOKEN_D_QUOTED_WORD)
+		in_quotes = 1;
+	else
+		in_quotes = 0;
+	expanded = expand_env_vars(buf, in_quotes);
+	if (!expanded)
+		return (NULL);
+	new_token = create_token(expanded, type);
+	free(expanded);
+	return (new_token);
 }
 
-/* 空白文字をトークンとして処理し、リストに追加 */
-int	handle_space_token_creation(t_tokenizer_stat *stat, const char *input)
+/* トークンを作成し、必要に応じて環境変数を展開する */
+t_token	*create_expanded_token(char *buf, t_token_type token_type)
 {
-	char	space_buf[1024];
-	int		buf_len;
-	int		i;
-	t_token	*new_token;
+	if (token_type == TOKEN_EMPTY_QUOTED)
+		return (create_token("", token_type));
+	else if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
+		return (create_expanded_var_token(buf, token_type));
+	else
+		return (create_token(buf, token_type));
+}
+
+/* クォートされた文字列を抽出する */
+static int	extract_quoted_content(const char *input, int *i, char *buf,
+		int *buf_len)
+{
+	char	quote_c;
+	int		start;
+	int		ret;
+
+	quote_c = input[*i];
+	start = *i;
+	(*i)++;
+	*buf_len = 0;
+	while (input[*i] && input[*i] != quote_c)
+	{
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
+		(*i)++;
+	}
+	if (input[*i] == quote_c)
+		(*i)++;
+	if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
+		ret = TOKEN_EMPTY_QUOTED;
+	else if (quote_c == '\'')
+		ret = TOKEN_S_QUOTED_WORD;
+	else
+		ret = TOKEN_D_QUOTED_WORD;
+	buf[*buf_len] = '\0';
+	return (ret);
+}
+
+/* 通常の単語を抽出する */
+static void	extract_word_content(const char *input, int *i, char *buf,
+		int *buf_len)
+{
+	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
+		&& !is_meta(input[*i]))
+	{
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
+		(*i)++;
+	}
+}
+
+/* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
+int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
+{
+	char			buf[1024];
+	int				buf_len;
+	t_token			*new_token;
+	t_token_type	token_type;
+	int				i;
 
 	i = stat->i_input;
 	buf_len = 0;
-	while (input[i] && is_delimiter(input[i]))
+	if (is_quote(input[i]))
+		token_type = extract_quoted_content(input, &i, buf, &buf_len);
+	else
 	{
-		if (buf_len < 1023)
-			space_buf[buf_len++] = input[i];
-		i++;
+		extract_word_content(input, &i, buf, &buf_len);
+		token_type = TOKEN_WORD;
 	}
-	space_buf[buf_len] = '\0';
+	buf[buf_len] = '\0';
 	stat->i_input = i;
-	new_token = create_token(space_buf, TOKEN_SPACE);
-	if (!new_token)
-		return (0);
+	new_token = create_expanded_token(buf, token_type);
 	add_token_to_list(&stat->tokens, new_token);
 	return (1);
-}
-
-/* トークンリストと内部で割り当てられたコマンド構造体を解放し、NULLを返す */
-t_token	*cleanup_and_return_null(t_tokenizer_stat *stat, char *input)
-{
-	if (!handle_word_token_creation(stat, input))
-		free_tokens(stat->tokens);
-	stat->tokens = NULL;
-	if (stat->needs_cmd_free && stat->cmd)
-	{
-		free(stat->cmd);
-		stat->cmd = NULL;
-	}
-	return (NULL);
-}
-
-/* トークナイズ処理の最後に呼び出され、内部で割り当てられたコマンド構造体を解放 */
-void	finalize_tokenizer(t_tokenizer_stat *stat)
-{
-	if (stat->needs_cmd_free && stat->cmd)
-	{
-		free(stat->cmd);
-		stat->cmd = NULL;
-	}
-}
-
-/* トークンリストの最後のトークンを取得 */
-t_token	*get_last_token(t_token *tokens)
-{
-	t_token	*current;
-
-	if (!tokens)
-		return (NULL);
-	current = tokens;
-	while (current->next)
-		current = current->next;
-	return (current);
 }
