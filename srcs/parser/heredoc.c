@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:48:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:18:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,33 @@ static int	finalize_heredoc(t_command *cmd, t_heredoc *heredoc)
 	return (1);
 }
 
+static int	process_heredoc_content(int fd, t_heredoc *heredoc)
+{
+	if (!isatty(STDIN_FILENO))
+		return (read_heredoc_from_pipe(fd, heredoc));
+	else
+		return (read_heredoc_input(fd, heredoc));
+}
+
 int	handle_heredoc(t_command *cmd, char *delimiter)
 {
 	t_heredoc	*heredoc;
 	int			fd;
 
+	printf("[DEBUG] handle_heredoc: start, delimiter='%s'\n", delimiter);
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
+	{
+		printf("[DEBUG] handle_heredoc: init_heredoc failed\n");
 		return (0);
+	}
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 	{
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	if (!read_heredoc_input(fd, heredoc))
+	if (!process_heredoc_content(fd, heredoc))
 	{
 		close(fd);
 		cleanup_heredoc(heredoc);

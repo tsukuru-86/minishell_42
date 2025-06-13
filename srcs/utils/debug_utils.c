@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 20:21:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 08:39:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,16 @@ void	print_tokens_debug(const t_token *tokens, int debug)
 	}
 }
 
-void	print_args_debug(char **args, int debug)
+void	print_args_debug(char **args)
 {
 	int	i;
 
-	if (!debug || !args)
+	if (!args)
 		return ;
 	i = 0;
 	while (args[i])
 	{
-		if (args[i])
-			printf("[DEBUG][args %d] \"%s\"\n", i, args[i]);
-		else
-			printf("[DEBUG][args %d] (null)\n", i);
+		printf("[DEBUG][args %d] \"%s\"\n", i, args[i]);
 		i++;
 	}
 }

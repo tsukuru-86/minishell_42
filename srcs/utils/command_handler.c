@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 17:35:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 08:38:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "minishell.h"
 #include "utils/debug_utils.h"
 
-int	process_commands(t_command *cmd, int debug)
+int	process_commands(t_command *cmd)
 {
 	int	status;
 
 	if (cmd)
 	{
 		if (cmd->args)
-			print_args_debug(cmd->args, debug);
+			print_args_debug(cmd->args);
 		status = excute_commands(cmd);
 		set_exit_status(cmd, status);
 		free_command(cmd);
@@ -31,7 +31,7 @@ int	process_commands(t_command *cmd, int debug)
 	return (2);
 }
 
-int	handle_tokens_and_parse(t_token *tokens, int debug)
+int	handle_tokens_and_parse(t_token *tokens)
 {
 	t_command	*cmd;
 	int			status;
@@ -41,6 +41,6 @@ int	handle_tokens_and_parse(t_token *tokens, int debug)
 	cmd = parse_tokens(tokens);
 	if (!cmd)
 		return (2);
-	status = process_commands(cmd, debug);
+	status = process_commands(cmd);
 	return (status);
 }

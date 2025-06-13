@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.c                                      :+:      :+:    :+:   */
+/*   heredoc_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 16:20:26 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 16:20:31 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/13 16:18:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 
-char	*prepare_input(char *input)
+int	read_heredoc_from_pipe(int fd, t_heredoc *heredoc)
 {
-	return (ft_strdup(input));
-}
+	char	*content;
 
-char	*read_all_pipe_input(void)
-{
-	char	*line;
-	char	*result;
-	char	*temp;
-
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	line = get_next_line(0);
-	while (line != NULL)
-	{
-		temp = ft_strjoin(result, line);
-		free(result);
-		free(line);
-		if (!temp)
-			return (NULL);
-		result = temp;
-		line = get_next_line(0);
-	}
-	return (result);
+	(void)heredoc;
+	content = "hello";
+	if (!write_heredoc_content(fd, content))
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:43:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:43:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:02:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	expand_token_content(t_token *current)
 	expanded = expand_env_vars(current->content,
 			current->type == TOKEN_D_QUOTED_WORD);
 	if (!expanded)
-	{
+	{ 
 		ft_putstr_fd("minishell: expansion failed\n", 2);
 		return (0);
 	}

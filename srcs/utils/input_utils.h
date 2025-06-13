@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.h                                     :+:      :+:    :+:   */
+/*   input_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 08:42:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 08:43:01 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/13 16:17:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/13 16:17:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRING_UTILS_H
-# define STRING_UTILS_H
+#ifndef INPUT_UTILS_H
+# define INPUT_UTILS_H
 
-char	*str_replace_backslash_n(const char *src);
+char	*prepare_input(char *input);
+char	*read_all_pipe_input(void);
 
 #endif

@@ -39,6 +39,7 @@ SRCS_FILE = main.c \
 	external/external_utils.c \
 	parser/heredoc.c \
 	parser/heredoc_input.c \
+	parser/heredoc_pipe.c \
 	parser/heredoc_process.c \
 	parser/heredoc_utils2.c \
 	parser/heredoc_utils.c \
@@ -79,6 +80,7 @@ SRCS_FILE = main.c \
 	utils/debug_utils.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
+	utils/input_utils.c \
 	utils/string_utils.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS_DIR = obj/

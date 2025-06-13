@@ -58,6 +58,8 @@ static int	handle_redirect_token(t_command *cmd, t_token **current_token,
 {
 	if (!cmd || !current_token || !*current_token || !head_cmd)
 		return (0);
+	printf("[DEBUG] handle_redirect_token: type=%d, content='%s'\n",
+		(*current_token)->type, (*current_token)->content);
 	if (!(*current_token)->next)
 	{
 		if (*head_cmd)
@@ -135,8 +137,10 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 		status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
+	{
 		status = handle_redirect_token(*cmd_ptr, current_token_ptr,
 				head_cmd_ptr);
+	}
 	else if (type == TOKEN_PIPE)
 		status = handle_pipe_token(cmd_ptr, current_token_ptr, head_cmd_ptr);
 	else if (type == TOKEN_SPACE)
