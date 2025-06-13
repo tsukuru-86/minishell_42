@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:23:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 06:36:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "utils/debug_utils.h"
 #include "utils/input_utils.h"
 
-int	main_loop(void);
+int		main_loop(void);
+int		handle_empty_input(char *input);
+void	process_valid_input(char *input, int *status);
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -31,12 +33,24 @@ void	signal_handler(int signum)
 
 static int	initialize_shell(char **envp)
 {
+	char	*pwd;
+
 	*get_env_val() = create_env_list(envp);
 	if (!get_env_val())
 	{
 		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
 			STDERR_FILENO);
 		return (0);
+	}
+	set_env_node("?", "0");
+	if (!get_env_node("PWD"))
+	{
+		pwd = getcwd(NULL, 0);
+		if (pwd)
+		{
+			set_env_node("PWD", pwd);
+			free(pwd);
+		}
 	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -45,23 +59,19 @@ static int	initialize_shell(char **envp)
 
 void	handle_input(char *input, int *status)
 {
-	t_token	*tokens;
-	char	*prepared;
+	int	empty_status;
 
 	if (!input)
 		return ;
-	prepared = prepare_input(input);
-	if (!prepared)
-		return ;
-	add_history(input);
-	tokens = tokenize(prepared, NULL);
-	free(prepared);
-	if (!tokens)
+	empty_status = handle_empty_input(input);
+	if (empty_status != -1)
 	{
-		*status = 2;
+		*status = empty_status;
+		if (input && *input)
+			add_history(input);
 		return ;
 	}
-	*status = handle_tokens_and_parse(tokens);
+	process_valid_input(input, status);
 }
 
 int	main(int argc, char **argv, char **envp)

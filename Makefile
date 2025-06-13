@@ -37,6 +37,7 @@ SRCS_FILE = main.c \
 	external/external_commands_find.c \
 	external/external_commands_utils.c \
 	external/external_utils.c \
+	main_loop.c \
 	parser/heredoc.c \
 	parser/heredoc_input.c \
 	parser/heredoc_pipe.c \
@@ -46,8 +47,9 @@ SRCS_FILE = main.c \
 	parser/parser.c \
 	parser/parser_preprocess.c \
 	parser/parser_preprocess_space.c \
-	parser/parser_preprocess_utils2.c \
 	parser/parser_preprocess_utils.c \
+	parser/parser_token_merge.c \
+	parser/parser_token_remove.c \
 	parser/parser_tokens.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_utils3.c \
@@ -78,6 +80,7 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_utils.c \
 	utils/command_handler.c \
 	utils/debug_utils.c \
+	utils/empty_input_handler.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
 	utils/input_utils.c \
