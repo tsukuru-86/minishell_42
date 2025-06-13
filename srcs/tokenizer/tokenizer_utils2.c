@@ -55,7 +55,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 	if (input[*i] == quote_c)
 		(*i)++;
 	if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
-		ret = TOKEN_EMPTY_QUOTED;
+		ret = TOKEN_WORD;
 	else if (quote_c == '\'')
 		ret = TOKEN_S_QUOTED_WORD;
 	else

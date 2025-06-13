@@ -29,6 +29,13 @@ static char	*join_and_cleanup_token(char *merged, t_token *next)
 	return (temp);
 }
 
+static int	is_mergeable_token(t_token *token)
+{
+	if (!token)
+		return (0);
+	return (token->type == TOKEN_WORD);
+}
+
 static char	*merge_word_chain(t_token *current)
 {
 	char	*merged;
@@ -41,7 +48,7 @@ static char	*merge_word_chain(t_token *current)
 	if (!merged)
 		return (NULL);
 	next = current->next;
-	while (next && next->type == TOKEN_WORD)
+	while (next && is_mergeable_token(next))
 	{
 		temp = join_and_cleanup_token(merged, next);
 		if (!temp)
@@ -62,11 +69,12 @@ t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
 	t_token	*current;
 	char	*merged;
 
+	printf("[DEBUG] merge_adjacent_non_meta_tokens: start\n");
 	current = tokens;
 	while (current)
 	{
-		if (current->type != TOKEN_WORD || !current->next
-			|| current->next->type != TOKEN_WORD)
+		if (!is_mergeable_token(current) || !current->next
+			|| !is_mergeable_token(current->next))
 		{
 			current = current->next;
 			continue ;

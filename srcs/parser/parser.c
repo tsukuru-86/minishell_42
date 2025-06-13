@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 16:09:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:02:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,10 @@ static int	determine_redirect_type(t_command *cmd, t_token *token,
 		*type_out = REDIR_APPEND;
 	else if (token->type == TOKEN_HEREDOC)
 	{
-		printf("[DEBUG] HEREDOC: %s\n", next_token->content);
 		if (!handle_heredoc(cmd, next_token->content))
 		{
-			printf("[DEBUG] handle_heredoc failed\n");
 			return (0);
 		}
-		printf("[DEBUG] handle_heredoc succeeded\n");
 		return (2);
 	}
 	else

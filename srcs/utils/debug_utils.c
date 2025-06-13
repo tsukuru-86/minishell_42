@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 08:39:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:08:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug_utils.h"
 
-static const char	*get_token_type_str(t_token_type type)
+const char	*get_token_type_str(t_token_type type)
 {
 	static const char	*types[] = {[TOKEN_WORD] = "WORD",
 	[TOKEN_SPACE] = "SPACE", [TOKEN_SINGLE_QUOTE] = "S_QUOTE",
@@ -39,11 +39,15 @@ void	print_tokens_debug(const t_token *tokens, int debug)
 	while (tokens)
 	{
 		if (tokens->content)
+		{
 			printf("[DEBUG][token %d] content: \"%s\", type: %s\n", i,
 				tokens->content, get_token_type_str(tokens->type));
+		}
 		else
+		{
 			printf("[DEBUG][token %d] content: (null), type: %s\n", i,
 				get_token_type_str(tokens->type));
+		}
 		tokens = tokens->next;
 		i++;
 	}

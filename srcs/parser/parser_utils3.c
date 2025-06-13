@@ -62,9 +62,7 @@ char	*merge_adjacent_tokens(t_token **current_token)
 	if (!current_token || !*current_token)
 		return (NULL);
 	token = *current_token;
-	if (token->type == TOKEN_EMPTY_QUOTED)
-		result = ft_strdup("");
-	else if (!token->content)
+	if (!token->content)
 		result = ft_strdup("");
 	else
 		result = ft_strdup(token->content);
