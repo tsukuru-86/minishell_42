@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 08:38:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:08:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	process_commands(t_command *cmd)
 
 	if (cmd)
 	{
-		if (cmd->args)
-			print_args_debug(cmd->args);
+		/*if (cmd->args)
+			print_args_debug(cmd->args);*/
 		status = excute_commands(cmd);
 		set_exit_status(cmd, status);
 		free_command(cmd);
