@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 15:46:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 17:46:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,26 @@ static int	is_echo_n_option(const char *s)
 /*
 ** デバッグ用: トークナイズ直後の引数配列を出力
 */
-// static void	debug_print_args(char **args)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	while (args[i])
-// 	{
-// 		printf("[%d]=%s\n", i, args[i]);
-// 		i++;
-// 	}
-// }
+static void	putstr_echo_escaped(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\\' && s[i + 1] == 'n')
+		{
+			ft_putchar_fd('\n', 1);
+			i += 2;
+		}
+		else
+		{
+			ft_putchar_fd(s[i], 1);
+			i++;
+		}
+	}
+}
 
 int	builtin_echo(char **args)
 {
@@ -63,7 +72,7 @@ int	builtin_echo(char **args)
 	{
 		if (i > first_arg)
 			ft_putchar_fd(' ', 1);
-		ft_putstr_fd(args[i], 1);
+		putstr_echo_escaped(args[i]);
 		i++;
 	}
 	if (newline)

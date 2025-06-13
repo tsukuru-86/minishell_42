@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:13:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 17:08:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*ft_trim_spaces(const char *src)
 	return (ft_strtrim(src, " \t\n\v\f\r"));
 }
 
-// クォートで囲まれていれば除去
 char	*strip_quotes(char *str)
 {
 	size_t	len;
@@ -37,7 +36,6 @@ char	*strip_quotes(char *str)
 	return (ft_strdup(str));
 }
 
-// export引数をname, value, appendに分解
 static int	is_append_pattern(char *arg, char *plus_pos, char *equal_pos)
 {
 	char	*p;

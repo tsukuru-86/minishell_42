@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/06 04:15:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 17:12:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,6 @@ static int	create_single_output_file(t_redirect *current)
 	}
 	return (0);
 }
-
-// static int	create_output_files(t_redirect *redirect)
-// {
-// 	t_redirect	*current;
-
-// 	current = redirect;
-// 	while (current)
-// 	{
-// 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
-// 		{
-// 			if (!create_single_output_file(current))
-// 				return (0);
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (1);
-// }
 
 /* Set up all redirections in the chain */
 int	setup_redirection(t_redirect *redirect)

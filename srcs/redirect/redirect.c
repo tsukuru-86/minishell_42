@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/01 04:57:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:48:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ t_redirect	*create_redirect(int type, char *file)
 
 void	free_redirect(t_redirect *redirect)
 {
+	t_redirect	*next;
+
 	if (!redirect)
 		return ;
+	next = redirect->next;
 	if (redirect->file)
 		free(redirect->file);
 	free(redirect);
+	if (next)
+		free_redirect(next);
 }

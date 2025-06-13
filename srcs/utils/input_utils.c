@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_commands.c                                :+:      :+:    :+:   */
+/*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 17:32:43 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/12 20:20:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/12 20:22:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "external.h"
 #include "minishell.h"
+#include "utils/string_utils.h"
 
-void	launch_child(char *cmd_path, char **args)
+char	*prepare_input(char *input)
 {
-	char	**env_array;
+	char	*trimmed;
+	char	*replaced;
 
-	env_array = env_list_to_array();
-	if (!env_array)
+	trimmed = ft_strtrim(input, " \t\n\r");
+	if (!trimmed || !*trimmed)
 	{
-		perror("minishell: env_list_to_array failed");
-		free(cmd_path);
-		exit(127);
+		if (trimmed)
+			free(trimmed);
+		return (NULL);
 	}
-	execve(cmd_path, args, env_array);
-	perror("minishell: execve failed");
-	exit(127);
+	replaced = str_replace_backslash_n(trimmed);
+	free(trimmed);
+	return (replaced);
 }

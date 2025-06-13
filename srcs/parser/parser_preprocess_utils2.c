@@ -87,7 +87,7 @@ t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
 }
 
 static t_token	*remove_empty_token(t_token *tokens, t_token *curr,
-			t_token *prev)
+		t_token *prev)
 {
 	t_token	*next;
 

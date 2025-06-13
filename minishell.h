@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/11 16:35:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/12 17:37:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,6 @@ int								get_exit_status(void);
 void							set_exit_status(t_command *cmd, int status);
 
 /* Command handler */
-int								handle_tokens_and_parse(t_token *tokens);
 
 /* history_utils */
 char							*get_history_path(void);

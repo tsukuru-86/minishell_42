@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_commands.c                                :+:      :+:    :+:   */
+/*   debug_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 17:32:43 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/12 17:32:35 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/12 17:35:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "external.h"
-#include "minishell.h"
+#ifndef DEBUG_UTILS_H
+# define DEBUG_UTILS_H
 
-void	launch_child(char *cmd_path, char **args)
-{
-	char	**env_array;
+# include "minishell.h"
 
-	env_array = env_list_to_array();
-	if (!env_array)
-	{
-		perror("minishell: env_list_to_array failed");
-		free(cmd_path);
-		exit(127);
-	}
-	execve(cmd_path, args, env_array);
-	perror("minishell: execve failed");
-	exit(127);
-}
+void	print_tokens_debug(const t_token *tokens, int debug);
+void	print_args_debug(char **args, int debug);
+
+int	handle_tokens_and_parse(t_token *tokens, int debug);
+
+#endif

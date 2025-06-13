@@ -5,17 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/17 20:37:10 by muiida    	+#+    #+#    #+#             */
-/*   Updated: 2025/06/11 16:36:08 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/12 20:20:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils/debug_utils.h"
 
 volatile sig_atomic_t	g_signal = 0;
 
-/* シグナル処理を行うハンドラ関数。
-   Ctrl+C（SIGINT）を受け取った場合、新しいプロンプトを表示する */
 void	signal_handler(int signum)
 {
 	g_signal = signum;
@@ -27,8 +26,6 @@ void	signal_handler(int signum)
 	}
 }
 
-/* シェルの初期化を行う関数。
-   環境変数リストの作成とシグナルハンドラの設定を行う */
 static int	initialize_shell(char **envp)
 {
 	*get_env_val() = create_env_list(envp);
@@ -46,27 +43,24 @@ static int	initialize_shell(char **envp)
 static void	handle_input(char *input, int *status)
 {
 	t_token	*tokens;
-	char	*trimmed;
+	char	*prepared;
 
 	if (!input)
 		return ;
-	trimmed = ft_strtrim(input, " \t\n\r");
-	if (!trimmed || !*trimmed)
-	{
-		if (trimmed)
-			free(trimmed);
+	prepared = prepare_input(input);
+	if (!prepared)
 		return ;
-	}
 	add_history(input);
-	tokens = tokenize(trimmed, NULL);
+	tokens = tokenize(prepared, NULL);
+	free(prepared);
+	print_tokens_debug(tokens, g_debug);
 	if (!tokens)
 	{
-		free(trimmed);
 		*status = 2;
 		return ;
 	}
-	*status = handle_tokens_and_parse(tokens);
-	free(trimmed);
+	*status = handle_tokens_and_parse(tokens, g_debug);
+	free_tokens(tokens);
 }
 
 int	main_loop(void)
@@ -78,11 +72,11 @@ int	main_loop(void)
 	while (1)
 	{
 		g_signal = 0;
-		if (isatty(fileno(stdin)))
+		if (isatty(STDIN_FILENO))
 			input = readline("minishell> ");
 		else
 		{
-			line = get_next_line(fileno(stdin));
+			line = get_next_line(0);
 			if (!line)
 				break ;
 			input = ft_strtrim(line, "\n");
@@ -97,8 +91,6 @@ int	main_loop(void)
 	}
 	return (status);
 }
-/* メインプログラム。シェルを初期化し、ユーザー入力を
-   繰り返し受け取り処理する無限ループを実行する */
 
 int	main(int argc, char **argv, char **envp)
 {
