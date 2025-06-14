@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:14:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:21:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils/input_utils.h"
-
 
 int	validate_input(char *input)
 {

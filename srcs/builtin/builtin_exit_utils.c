@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:10:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:16:25 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:17:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ long long	ft_atoll_safe(const char *str, int *overflow)
 	}
 	return (res * sign);
 }
-

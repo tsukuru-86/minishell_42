@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 15:55:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:24:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,6 @@ void	debug_print_with_str(const char *prefix, const char *str, bool is_debug)
 		printf("%s'%s'\n", prefix, str);
 }
 
-void	debug_print_with_int(const char *prefix, int value, bool is_debug)
-{
-	if (is_debug)
-		printf("%s%d\n", prefix, value);
-}
-
 void	debug_print_tokens(t_token *tokens, bool is_debug)
 {
 	t_token	*tmp;
@@ -66,7 +60,7 @@ void	debug_print_tokens(t_token *tokens, bool is_debug)
 		return ;
 	if (!tokens)
 	{
-		printf("[DEBUG] Token list: NULL\n");
+		printf("[DEBUG] Token list: NULL \n");
 		return ;
 	}
 	else
