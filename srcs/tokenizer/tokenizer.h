@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 18:41:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		is_delimiter(char c);
 int		is_quote(char c);
 int		is_meta(char c);
 t_token	*create_token(char *content, t_token_type type);
+t_token	*safe_create_token(char *content, t_token_type type);
 t_token	*create_meta_token(const char *input, int *i);
 int		extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 			char *word_buf);
