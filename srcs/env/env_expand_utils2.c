@@ -32,14 +32,9 @@ static char	*extract_env_name(const char *str)
 /* Handle exit status variable ($?) */
 static char	*get_exit_status_value(int *i)
 {
-	t_env	*env_node;
 	char	*value;
 
-	env_node = get_env_node("?");
-	if (env_node && env_node->value)
-		value = ft_strdup(env_node->value);
-	else
-		value = ft_strdup("0");
+	value = ft_itoa(get_exit_status());
 	(*i)++;
 	return (value);
 }

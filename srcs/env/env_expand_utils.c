@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:56:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/30 08:19:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 19:35:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ char	*expand_env_var(const char *name)
 	if (ft_strncmp(name, "?", 2) == 0)
 		return (ft_itoa(get_exit_status()));
 	env_node = get_env_node(name);
-	if (!env_node)
+	if (!env_node || !env_node->value)
 		return (ft_strdup(""));
 	value = ft_strdup(env_node->value);
 	if (!value)
-		return (NULL);
+		return (ft_strdup(""));
 	return (value);
 }
 

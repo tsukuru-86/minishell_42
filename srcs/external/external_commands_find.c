@@ -6,11 +6,17 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:13:11 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 19:36:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <limits.h>
+#include <sys/stat.h>
+
+#ifndef PATH_MAX
+# define PATH_MAX 4096
+#endif
 
 /* Get the PATH environment variable string */
 static char	*get_path_env_value(void)
@@ -119,7 +125,11 @@ char	*find_command_path(char *cmd)
 	}
 	path_env_str = get_path_env_value();
 	if (!path_env_str)
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
 		return (NULL);
+	}
 	executable_path = search_in_path(path_env_str, cmd);
 	return (executable_path);
 }
