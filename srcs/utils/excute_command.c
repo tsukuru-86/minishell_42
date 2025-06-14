@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/14 17:07:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:40:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static int	execute_single_command(t_command *cmd)
 	int	idx;
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
+	{
+		set_env_node("?", "1");
 		return (1);
+	}
 	idx = get_builtin_func_idx(cmd->args[0]);
 	if (0 <= idx && idx <= 6)
 		status = execute_builtin_with_redirect(cmd);

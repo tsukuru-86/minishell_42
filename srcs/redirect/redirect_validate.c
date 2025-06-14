@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:12:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:04:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:40:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ int	validate_input_redirect(t_redirect *current)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
 				strerror(errno));
+			set_env_node("?", "1");
 			return (0);
 		}
 		if (access(current->file, R_OK) != 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
 				strerror(errno));
+			set_env_node("?", "1");
 			return (0);
 		}
 	}

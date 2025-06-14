@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/15 07:34:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:41:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	is_env_var_start(const char *str, int i)
 		if (str[i + 1] == '"' || str[i + 1] == '\'' || str[i + 1] == ' ')
 			return (2);
 	}
+	else if (str[i] == '$' && !str[i + 1])
+		return (0);
 	return (0);
 }
 
@@ -43,11 +45,22 @@ void	append_c_escaped(const char *str, int *i, char *buf, int *k)
 		buf[(*k)++] = str[*i];
 }
 
+static void	process_expansion(const char *input_str, int *i, char *res,
+		int *j)
+{
+	int	env_check;
+
+	env_check = is_env_var_start(input_str, *i);
+	if (env_check == 1)
+		append_env(input_str, i, res, j);
+	else
+		res[(*j)++] = input_str[(*i)++];
+}
+
 char	*expand_env_vars(const char *input_str, int expand)
 {
 	int		i;
 	int		j;
-	int		env_check;
 	char	*res;
 	char	*ret;
 
@@ -58,11 +71,8 @@ char	*expand_env_vars(const char *input_str, int expand)
 		return (NULL);
 	while (input_str[i] && j < 4095)
 	{
-		env_check = is_env_var_start(input_str, i);
-		if (expand && env_check == 1)
-			append_env(input_str, &i, res, &j);
-		else if (expand && env_check == 2)
-			i++;
+		if (expand)
+			process_expansion(input_str, &i, res, &j);
 		else
 			res[j++] = input_str[i++];
 	}
