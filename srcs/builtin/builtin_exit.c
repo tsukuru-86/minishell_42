@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 19:00:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:15:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,61 +15,15 @@
 /*
 ** 文字列をlong longへ変換
 */
+long long	ft_atoll_safe(const char *str, int *overflow);
+int			is_numeric_string(const char *str);
+void		put_exit_error(const char *msg, const char *arg);
+
 static long long	ft_atoll(const char *str)
 {
-	long long	res;
-	int			sign;
-	int			i;
+	int	overflow;
 
-	res = 0;
-	sign = 1;
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i] - '0');
-		i++;
-	}
-	return (res * sign);
-}
-
-/*
-** 数値文字列か判定
-*/
-static int	is_numeric(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i] >= '0' && str[i] <= '9')
-		i++;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	return (!str[i]);
-}
-
-/*
-** エラーメッセージ出力補助
-*/
-static void	put_exit_error(const char *msg, const char *arg)
-{
-	ft_putstr_fd("minishell: exit: ", 2);
-	if (arg)
-		ft_putstr_fd((char *)arg, 2);
-	ft_putstr_fd((char *)msg, 2);
+	return (ft_atoll_safe(str, &overflow));
 }
 
 /*
@@ -87,7 +41,7 @@ static void	process_exit_args(char **args, int arg_count)
 	}
 	if (args[1])
 	{
-		if (!is_numeric(args[1]))
+		if (!is_numeric_string(args[1]))
 		{
 			put_exit_error(": numeric argument required\n", args[1]);
 			exit(2);

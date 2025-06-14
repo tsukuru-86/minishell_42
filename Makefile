@@ -11,6 +11,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_env_print.c \
 	builtin/builtin_exit.c \
 	builtin/builtin_exit_utils.c \
+	builtin/builtin_exit_error.c \
 	builtin/builtin_export_argutils.c \
 	builtin/builtin_export.c \
 	builtin/builtin_export_set.c \
