@@ -73,6 +73,7 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_normal_word_logic.c \
 	tokenizer/tokenizer_quote_processing.c \
 	tokenizer/tokenizer_syntax_check.c \
+	tokenizer/tokenizer_syntax_check_advanced.c \
 	tokenizer/tokenizer_token_handlers.c \
 	tokenizer/tokenizer_utils2.c \
 	tokenizer/tokenizer_utils3.c \

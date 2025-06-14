@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 20:05:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ int		handle_word_token_creation(t_tokenizer_stat *vars, const char *input);
 int		handle_space_token_creation(t_tokenizer_stat *vars, const char *input);
 t_token	*get_last_token(t_token *tokens);
 int		check_basic_syntax(t_token *tokens);
+int		check_advanced_syntax(t_token *tokens);
 void	free_tokens(t_token *tokens);
 #endif

@@ -6,13 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 17:07:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 20:06:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
+#include "tokenizer/tokenizer.h"
 
 /*
 ** @brief 先頭のトークンが構文エラーでないかをチェック
@@ -58,6 +59,8 @@ static int	check_syntax_errors(t_token *tokens)
 static int	validate_command(t_command *head, t_token *tokens)
 {
 	if (!check_syntax_errors(tokens))
+		return (0);
+	if (!check_advanced_syntax(tokens))
 		return (0);
 	if (head && head->args == NULL && head->redirects == NULL
 		&& head->next == NULL && tokens->type == TOKEN_PIPE)

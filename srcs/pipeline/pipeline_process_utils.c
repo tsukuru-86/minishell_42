@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 05:33:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 20:05:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	pipeline_execute_command_logic(t_command *current)
 	int	status;
 	int	idx;
 
+	if (!current || !current->args || !current->args[0])
+		exit(127);
 	pipeline_redirect_io(current);
 	if (current->redirects && !setup_redirection(current->redirects))
 		exit(EXIT_FAILURE);
