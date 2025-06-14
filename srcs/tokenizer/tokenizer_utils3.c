@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 18:41:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 	expanded = expand_env_vars(buf, in_quotes);
 	if (!expanded)
 		return (NULL);
-	new_token = create_token(expanded, type);
+	new_token = safe_create_token(expanded, type);
 	free(expanded);
 	return (new_token);
 }
@@ -37,11 +37,11 @@ static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 t_token	*create_expanded_token(char *buf, t_token_type token_type)
 {
 	if (token_type == TOKEN_EMPTY_QUOTED)
-		return (create_token("", token_type));
+		return (safe_create_token("", token_type));
 	else if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
 		return (create_expanded_var_token(buf, token_type));
 	else
-		return (create_token(buf, token_type));
+		return (safe_create_token(buf, token_type));
 }
 
 /* クォートされた文字列を抽出する */

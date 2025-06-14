@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/13 20:23:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 13:59:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@
 /** # include <sys/syslimits.h> // macOS*/
 
 # define MAX_TOKENS 1024
+
+/* デバッグフラグ定数 */
+# ifdef DEBUG
+#  define DEBUG_ENABLED 1
+# else
+#  define DEBUG_ENABLED 0
+# endif
 
 /* エラーメッセージ定義 */
 # define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: few arguments\n"
@@ -202,6 +209,17 @@ void							set_exit_status(t_command *cmd, int status);
 
 /* Command handler */
 void							handle_input(char *input, int *status);
+
+/* Debug functions */
+void							debug_print(const char *message, bool is_debug);
+void							debug_print_with_str(const char *prefix,
+									const char *str, bool is_debug);
+void							debug_print_with_int(const char *prefix,
+									int value, bool is_debug);
+void							debug_print_tokens(t_token *tokens,
+									bool is_debug);
+void							debug_print_command_args(char **args,
+									bool is_debug);
 
 /* history_utils */
 char							*get_history_path(void);

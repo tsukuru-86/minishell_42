@@ -6,12 +6,32 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/10 04:55:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 13:47:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokenizer.h"
+
+t_token	*safe_create_token(char *content, t_token_type type)
+{
+	t_token	*token;
+
+	if (!content)
+		return (NULL);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->content = ft_strdup(content);
+	if (!token->content)
+	{
+		free(token);
+		return (NULL);
+	}
+	token->type = type;
+	token->next = NULL;
+	return (token);
+}
 
 /* トークンの数をカウント */
 static int	count_tokens(t_token *tokens)
@@ -51,7 +71,19 @@ static int	process_current_token(t_tokenizer_stat *stat, const char *input)
 	return (1);
 }
 
-/* 入力文字列をトークンに分割 */
+/* 構文エラー時のクリーンアップ処理 */
+static t_token	*handle_syntax_error(t_tokenizer_stat *vars)
+{
+	set_exit_status(NULL, 2);
+	free_tokens(vars->tokens);
+	if (vars->needs_cmd_free && vars->cmd)
+	{
+		free(vars->cmd);
+		vars->cmd = NULL;
+	}
+	return (NULL);
+}
+
 t_token	*tokenize(char *input, t_command *cmd_param)
 {
 	t_tokenizer_stat	vars;
@@ -74,9 +106,7 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 			return (cleanup_and_return_null(&vars, input));
 	}
 	if (!check_basic_syntax(vars.tokens))
-	{
-		free_tokens(vars.tokens);
-		return (NULL);
-	}
+		return (handle_syntax_error(&vars));
+	finalize_tokenizer(&vars);
 	return (vars.tokens);
 }

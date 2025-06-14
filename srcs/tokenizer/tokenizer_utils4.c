@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:42:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 18:43:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	finalize_tokenizer(t_tokenizer_stat *vars)
 {
 	if (!vars)
 		return ;
+	if (vars->needs_cmd_free && vars->cmd)
+	{
+		free(vars->cmd);
+		vars->cmd = NULL;
+	}
 }
 
 /* トークナイザーのクリーンアップとNULL返却 */
@@ -55,6 +60,11 @@ t_token	*cleanup_and_return_null(t_tokenizer_stat *vars, char *input)
 	{
 		free_tokens(vars->tokens);
 		vars->tokens = NULL;
+	}
+	if (vars && vars->needs_cmd_free && vars->cmd)
+	{
+		free(vars->cmd);
+		vars->cmd = NULL;
 	}
 	if (input)
 		free(input);
@@ -67,7 +77,7 @@ int	handle_space_token_creation(t_tokenizer_stat *vars, const char *input)
 	t_token	*space_token;
 
 	(void)input;
-	space_token = create_token(" ", TOKEN_SPACE);
+	space_token = safe_create_token(" ", TOKEN_SPACE);
 	if (!space_token)
 		return (0);
 	add_token_to_list(&vars->tokens, space_token);

@@ -51,7 +51,7 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 		last_token->content = combined_content;
 		return (1);
 	}
-	new_token = create_token(stat->word_buffer, stat->quote_type);
+	new_token = safe_create_token(stat->word_buffer, stat->quote_type);
 	if (!new_token)
 		return (0);
 	add_token_to_list(&stat->tokens, new_token);
@@ -91,7 +91,7 @@ t_token	*create_expanded_word_token(char *raw_word, int *status)
 		*status = 1;
 		return (NULL);
 	}
-	new_token = create_token(expanded_content, TOKEN_WORD);
+	new_token = safe_create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)
 		return (NULL);

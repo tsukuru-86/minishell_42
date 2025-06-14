@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 13:26:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:55:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,11 @@ t_command	*parse_tokens(t_token *tokens)
 	preprocessed_tokens = preprocess_tokens(tokens);
 	if (!preprocessed_tokens)
 		return (NULL);
+	debug_print_with_str("[DEBUG] After preprocessing, tokens: ",
+		(preprocessed_tokens
+			&& preprocessed_tokens->content) ? preprocessed_tokens->content : "NULL",
+		DEBUG_ENABLED);
+	debug_print_tokens(preprocessed_tokens, DEBUG_ENABLED);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))
 	{

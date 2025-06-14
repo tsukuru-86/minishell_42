@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/05/26 03:38:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
 		ft_putstr_fd((char *)" expand env vars for word\n", 2);
 		return (false);
 	}
-	new_token = create_token(expanded_content, TOKEN_WORD);
+	new_token = safe_create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)
 	{

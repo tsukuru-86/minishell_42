@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 06:36:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/14 13:47:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "utils/debug_utils.h"
 #include "utils/input_utils.h"
 
-int		main_loop(void);
-int		handle_empty_input(char *input);
-void	process_valid_input(char *input, int *status);
+int						main_loop(void);
+int						handle_empty_input(char *input);
+void					process_valid_input(char *input, int *status);
 
 volatile sig_atomic_t	g_signal = 0;
 
