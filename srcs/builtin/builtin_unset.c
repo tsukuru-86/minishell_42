@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/14 19:37:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:35:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	process_unset_var(char *arg)
 	if (!is_valid)
 	{
 		print_unset_invalid_identifier_error(arg);
-		return (0);
+		return (1);
 	}
 	remove_env_var(arg);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/13 20:02:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:34:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@
 static int	is_env_var_start(const char *str, int i)
 {
 	if (str[i] == '$' && str[i + 1])
-		if ((ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
+	{
+		if (ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?')
 			return (1);
+		if (str[i + 1] == '"' || str[i + 1] == '\'' || str[i + 1] == ' ')
+			return (2);
+	}
 	return (0);
 }
 
@@ -43,6 +47,7 @@ char	*expand_env_vars(const char *input_str, int expand)
 {
 	int		i;
 	int		j;
+	int		env_check;
 	char	*res;
 	char	*ret;
 
@@ -53,8 +58,11 @@ char	*expand_env_vars(const char *input_str, int expand)
 		return (NULL);
 	while (input_str[i] && j < 4095)
 	{
-		if (expand && is_env_var_start(input_str, i))
+		env_check = is_env_var_start(input_str, i);
+		if (expand && env_check == 1)
 			append_env(input_str, &i, res, &j);
+		else if (expand && env_check == 2)
+			i++;
 		else
 			res[j++] = input_str[i++];
 	}
@@ -68,6 +76,7 @@ char	*expand_redirect_filename(const char *filename)
 {
 	int		i;
 	int		j;
+	int		env_check;
 	char	*res;
 	char	*ret;
 
@@ -78,8 +87,11 @@ char	*expand_redirect_filename(const char *filename)
 		return (NULL);
 	while (filename[i] && j < 4095)
 	{
-		if (is_env_var_start(filename, i))
+		env_check = is_env_var_start(filename, i);
+		if (env_check == 1)
 			append_env(filename, &i, res, &j);
+		else if (env_check == 2)
+			i++;
 		else
 			res[j++] = filename[i++];
 	}
