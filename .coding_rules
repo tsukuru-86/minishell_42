@@ -1,5 +1,14 @@
 # Roo コーディングルール - minishellプロジェクト
 
+## "mcp-clangd
+
+- definition: Retrieves the complete source code definition of function, type, constant, etc.
+- references: Locates all usages and references of a symbol.
+- diagnostics: Provides warnings and errors for a file.
+- hover: documentation, type hints, or other hover information for a given line.
+- rename_symbol: Rename a symbol.
+- edit_file: Allows making multiple edits based on line numbers. A more reliable and context-economical way.
+
 ## 42 Norm Version 3 準拠
 
 ## 1. 基本制約（42 Norm + プロジェクト固有）

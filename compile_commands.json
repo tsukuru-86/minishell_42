@@ -1,1577 +1,464 @@
 [
   {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/main.o",
-      "srcs/main.c"
-    ],
     "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/main.c",
-    "output": "/home/chinachu/42/minishell_42/obj/main.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_cd.o",
-      "srcs/builtin/builtin_cd.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_cd.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_cd.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_echo.o",
-      "srcs/builtin/builtin_echo.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_echo.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_echo.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_env.o",
-      "srcs/builtin/builtin_env.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_env.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_env.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_env_print.o",
-      "srcs/builtin/builtin_env_print.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_env_print.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_env_print.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_exit.o",
-      "srcs/builtin/builtin_exit.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_exit.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_exit.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_exit_utils.o",
-      "srcs/builtin/builtin_exit_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_exit_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_exit_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_argutils.o",
-      "srcs/builtin/builtin_export_argutils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_argutils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_argutils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export.o",
-      "srcs/builtin/builtin_export.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_set.o",
-      "srcs/builtin/builtin_export_set.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_set.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_set.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_sort.o",
-      "srcs/builtin/builtin_export_sort.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_sort.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_sort.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_utils2.o",
-      "srcs/builtin/builtin_export_utils2.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_utils2.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_utils2.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_utils3.o",
-      "srcs/builtin/builtin_export_utils3.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_utils3.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_utils3.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_utils4.o",
-      "srcs/builtin/builtin_export_utils4.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_utils4.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_utils4.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_export_utils.o",
-      "srcs/builtin/builtin_export_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_export_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_export_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_pwd.o",
-      "srcs/builtin/builtin_pwd.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_pwd.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_pwd.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/builtin_unset.o",
-      "srcs/builtin/builtin_unset.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/builtin_unset.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/builtin_unset.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/execute_builtin.o",
-      "srcs/builtin/execute_builtin.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/execute_builtin.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/execute_builtin.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/execute_builtin_utils.o",
-      "srcs/builtin/execute_builtin_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/execute_builtin_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/execute_builtin_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/builtin/identifier_validator.o",
-      "srcs/builtin/identifier_validator.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/builtin/identifier_validator.c",
-    "output": "/home/chinachu/42/minishell_42/obj/builtin/identifier_validator.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_expand.o",
-      "srcs/env/env_expand.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_expand.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_expand.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_expand_quote.o",
-      "srcs/env/env_expand_quote.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_expand_quote.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_expand_quote.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_expand_utils2.o",
-      "srcs/env/env_expand_utils2.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_expand_utils2.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_expand_utils2.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_expand_utils.o",
-      "srcs/env/env_expand_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_expand_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_expand_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_utils.o",
-      "srcs/env/env_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/env_utils_extra.o",
-      "srcs/env/env_utils_extra.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/env_utils_extra.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/env_utils_extra.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/env/exit_status.o",
-      "srcs/env/exit_status.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/env/exit_status.c",
-    "output": "/home/chinachu/42/minishell_42/obj/env/exit_status.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_commands.o",
-      "srcs/external/external_commands.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_commands.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_commands.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_commands_child_utils.o",
-      "srcs/external/external_commands_child_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_commands_child_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_commands_child_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_commands_exec.o",
-      "srcs/external/external_commands_exec.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_commands_exec.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_commands_exec.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_commands_find.o",
-      "srcs/external/external_commands_find.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_commands_find.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_commands_find.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_commands_utils.o",
-      "srcs/external/external_commands_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_commands_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_commands_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/external/external_utils.o",
-      "srcs/external/external_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/external/external_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/external/external_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/heredoc.o",
-      "srcs/parser/heredoc.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/heredoc.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/heredoc.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/heredoc_input.o",
-      "srcs/parser/heredoc_input.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/heredoc_input.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/heredoc_input.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/heredoc_process.o",
-      "srcs/parser/heredoc_process.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/heredoc_process.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/heredoc_process.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/heredoc_utils2.o",
-      "srcs/parser/heredoc_utils2.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/heredoc_utils2.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/heredoc_utils2.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/heredoc_utils.o",
-      "srcs/parser/heredoc_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/heredoc_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/heredoc_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser.o",
-      "srcs/parser/parser.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_preprocess.o",
-      "srcs/parser/parser_preprocess.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_preprocess.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_preprocess.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_preprocess_space.o",
-      "srcs/parser/parser_preprocess_space.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_preprocess_space.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_preprocess_space.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_preprocess_utils2.o",
-      "srcs/parser/parser_preprocess_utils2.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_preprocess_utils2.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_preprocess_utils2.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_preprocess_utils.o",
-      "srcs/parser/parser_preprocess_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_preprocess_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_preprocess_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_tokens.o",
-      "srcs/parser/parser_tokens.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_tokens.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_tokens.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_token_to_cmd.o",
-      "srcs/parser/parser_token_to_cmd.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_token_to_cmd.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_token_to_cmd.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/parser/parser_utils3.o",
-      "srcs/parser/parser_utils3.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/parser/parser_utils3.c",
-    "output": "/home/chinachu/42/minishell_42/obj/parser/parser_utils3.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/excute_pipeline.o",
-      "srcs/pipeline/excute_pipeline.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/excute_pipeline.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/excute_pipeline.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/pipeline.o",
-      "srcs/pipeline/pipeline.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/pipeline.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/pipeline.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/pipeline_cleanup.o",
-      "srcs/pipeline/pipeline_cleanup.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/pipeline_cleanup.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/pipeline_cleanup.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/pipeline_process_utils.o",
-      "srcs/pipeline/pipeline_process_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/pipeline_process_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/pipeline_process_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/pipeline_setup_utils.o",
-      "srcs/pipeline/pipeline_setup_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/pipeline_setup_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/pipeline_setup_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/pipeline/pipeline_utils.o",
-      "srcs/pipeline/pipeline_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/pipeline/pipeline_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/pipeline/pipeline_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_apply_fd.o",
-      "srcs/redirect/redirect_apply_fd.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_apply_fd.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_apply_fd.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect.o",
-      "srcs/redirect/redirect.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_process.o",
-      "srcs/redirect/redirect_process.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_process.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_process.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_restore.o",
-      "srcs/redirect/redirect_restore.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_restore.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_restore.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_save_fds.o",
-      "srcs/redirect/redirect_save_fds.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_save_fds.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_save_fds.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_setup.o",
-      "srcs/redirect/redirect_setup.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_setup.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_setup.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_utils.o",
-      "srcs/redirect/redirect_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/redirect/redirect_validate.o",
-      "srcs/redirect/redirect_validate.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/redirect/redirect_validate.c",
-    "output": "/home/chinachu/42/minishell_42/obj/redirect/redirect_validate.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer.o",
-      "srcs/tokenizer/tokenizer.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_core_logic.o",
-      "srcs/tokenizer/tokenizer_core_logic.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_core_logic.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_core_logic.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_meta_utils.o",
-      "srcs/tokenizer/tokenizer_meta_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_meta_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_meta_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_normal_word_logic.o",
-      "srcs/tokenizer/tokenizer_normal_word_logic.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_normal_word_logic.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_normal_word_logic.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_quote_processing.o",
-      "srcs/tokenizer/tokenizer_quote_processing.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_quote_processing.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_quote_processing.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_syntax_check.o",
-      "srcs/tokenizer/tokenizer_syntax_check.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_syntax_check.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_syntax_check.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_token_handlers.o",
-      "srcs/tokenizer/tokenizer_token_handlers.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_token_handlers.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_token_handlers.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_utils2.o",
-      "srcs/tokenizer/tokenizer_utils2.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_utils2.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_utils2.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_utils3.o",
-      "srcs/tokenizer/tokenizer_utils3.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_utils3.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_utils3.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_utils4.o",
-      "srcs/tokenizer/tokenizer_utils4.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_utils4.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_utils4.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/tokenizer/tokenizer_utils.o",
-      "srcs/tokenizer/tokenizer_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/tokenizer/tokenizer_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/tokenizer/tokenizer_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/utils/command_handler.o",
-      "srcs/utils/command_handler.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/utils/command_handler.c",
-    "output": "/home/chinachu/42/minishell_42/obj/utils/command_handler.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/utils/debug_utils.o",
-      "srcs/utils/debug_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/utils/debug_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/utils/debug_utils.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/utils/excute_command.o",
-      "srcs/utils/excute_command.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/utils/excute_command.c",
-    "output": "/home/chinachu/42/minishell_42/obj/utils/excute_command.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
-      "-I.",
-      "-I/usr/include",
-      "-Ilibft",
-      "-Isrcs",
-      "-g",
-      "-O0",
-      "-c",
-      "-o",
-      "obj/utils/history_utils.o",
-      "srcs/utils/history_utils.c"
-    ],
-    "directory": "/home/chinachu/42/minishell_42",
-    "file": "/home/chinachu/42/minishell_42/srcs/utils/history_utils.c",
-    "output": "/home/chinachu/42/minishell_42/obj/utils/history_utils.o"
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_quote_processing.c",
+    "file": "srcs/tokenizer/tokenizer_quote_processing.c"
   }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_utils.c",
+    "file": "srcs/tokenizer/tokenizer_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_normal_word_logic.c",
+    "file": "srcs/tokenizer/tokenizer_normal_word_logic.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_token_handlers.c",
+    "file": "srcs/tokenizer/tokenizer_token_handlers.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_syntax_check.c",
+    "file": "srcs/tokenizer/tokenizer_syntax_check.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_meta_utils.c",
+    "file": "srcs/tokenizer/tokenizer_meta_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer.c",
+    "file": "srcs/tokenizer/tokenizer.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_utils3.c",
+    "file": "srcs/tokenizer/tokenizer_utils3.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_utils2.c",
+    "file": "srcs/tokenizer/tokenizer_utils2.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_core_logic.c",
+    "file": "srcs/tokenizer/tokenizer_core_logic.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/tokenizer/tokenizer_utils4.c",
+    "file": "srcs/tokenizer/tokenizer_utils4.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_expand_utils2.c",
+    "file": "srcs/env/env_expand_utils2.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_utils.c",
+    "file": "srcs/env/env_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_expand_utils.c",
+    "file": "srcs/env/env_expand_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_expand.c",
+    "file": "srcs/env/env_expand.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_utils_extra.c",
+    "file": "srcs/env/env_utils_extra.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/env_expand_quote.c",
+    "file": "srcs/env/env_expand_quote.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/env/exit_status.c",
+    "file": "srcs/env/exit_status.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/pipeline_cleanup.c",
+    "file": "srcs/pipeline/pipeline_cleanup.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/pipeline_setup_utils.c",
+    "file": "srcs/pipeline/pipeline_setup_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/pipeline_process_utils.c",
+    "file": "srcs/pipeline/pipeline_process_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/pipeline.c",
+    "file": "srcs/pipeline/pipeline.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/pipeline_utils.c",
+    "file": "srcs/pipeline/pipeline_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/pipeline/excute_pipeline.c",
+    "file": "srcs/pipeline/excute_pipeline.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_commands_exec.c",
+    "file": "srcs/external/external_commands_exec.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_commands_find.c",
+    "file": "srcs/external/external_commands_find.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_utils.c",
+    "file": "srcs/external/external_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_commands.c",
+    "file": "srcs/external/external_commands.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_commands_child_utils.c",
+    "file": "srcs/external/external_commands_child_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/external/external_commands_utils.c",
+    "file": "srcs/external/external_commands_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/heredoc_input.c",
+    "file": "srcs/parser/heredoc_input.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/heredoc_process.c",
+    "file": "srcs/parser/heredoc_process.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_preprocess.c",
+    "file": "srcs/parser/parser_preprocess.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser.c",
+    "file": "srcs/parser/parser.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/heredoc.c",
+    "file": "srcs/parser/heredoc.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_token_to_cmd.c",
+    "file": "srcs/parser/parser_token_to_cmd.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_preprocess_utils2.c",
+    "file": "srcs/parser/parser_preprocess_utils2.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/heredoc_utils2.c",
+    "file": "srcs/parser/heredoc_utils2.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_preprocess_utils.c",
+    "file": "srcs/parser/parser_preprocess_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/heredoc_utils.c",
+    "file": "srcs/parser/heredoc_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_tokens.c",
+    "file": "srcs/parser/parser_tokens.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_preprocess_space.c",
+    "file": "srcs/parser/parser_preprocess_space.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/parser/parser_utils3.c",
+    "file": "srcs/parser/parser_utils3.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_echo.c",
+    "file": "srcs/builtin/builtin_echo.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export.c",
+    "file": "srcs/builtin/builtin_export.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_utils4.c",
+    "file": "srcs/builtin/builtin_export_utils4.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_utils3.c",
+    "file": "srcs/builtin/builtin_export_utils3.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_exit.c",
+    "file": "srcs/builtin/builtin_exit.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_exit_utils.c",
+    "file": "srcs/builtin/builtin_exit_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_utils2.c",
+    "file": "srcs/builtin/builtin_export_utils2.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_sort.c",
+    "file": "srcs/builtin/builtin_export_sort.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_utils.c",
+    "file": "srcs/builtin/builtin_export_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_unset.c",
+    "file": "srcs/builtin/builtin_unset.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_set.c",
+    "file": "srcs/builtin/builtin_export_set.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_export_argutils.c",
+    "file": "srcs/builtin/builtin_export_argutils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/execute_builtin.c",
+    "file": "srcs/builtin/execute_builtin.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_cd.c",
+    "file": "srcs/builtin/builtin_cd.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_pwd.c",
+    "file": "srcs/builtin/builtin_pwd.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/identifier_validator.c",
+    "file": "srcs/builtin/identifier_validator.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_env_print.c",
+    "file": "srcs/builtin/builtin_env_print.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/builtin_env.c",
+    "file": "srcs/builtin/builtin_env.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/builtin/execute_builtin_utils.c",
+    "file": "srcs/builtin/execute_builtin_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/main.c",
+    "file": "srcs/main.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_apply_fd.c",
+    "file": "srcs/redirect/redirect_apply_fd.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_setup.c",
+    "file": "srcs/redirect/redirect_setup.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_restore.c",
+    "file": "srcs/redirect/redirect_restore.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect.c",
+    "file": "srcs/redirect/redirect.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_utils.c",
+    "file": "srcs/redirect/redirect_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_process.c",
+    "file": "srcs/redirect/redirect_process.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_validate.c",
+    "file": "srcs/redirect/redirect_validate.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/redirect/redirect_save_fds.c",
+    "file": "srcs/redirect/redirect_save_fds.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/excute_command.c",
+    "file": "srcs/utils/excute_command.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/input_utils.c",
+    "file": "srcs/utils/input_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/command_handler.c",
+    "file": "srcs/utils/command_handler.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/debug_utils.c",
+    "file": "srcs/utils/debug_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/history_utils.c",
+    "file": "srcs/utils/history_utils.c"
+  }
+,
+  {
+    "directory": "/home/chinachu/42/minishell_42",
+    "command": "cc -Wall -Wextra -Werror -std=c89 -I. -I./libft -I./srcs -I./srcs/utils -I./srcs/tokenizer -I./srcs/parser -I./srcs/executor -I./srcs/redirect -I./srcs/builtin -c srcs/utils/string_utils.c",
+    "file": "srcs/utils/string_utils.c"
+  }
+
 ]

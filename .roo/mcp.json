@@ -17,7 +17,8 @@
         "references",
         "rename_symbol"
       ],
-      "timeout": 15
+      "timeout": 15,
+      "disabled": false
     }
   }
 }

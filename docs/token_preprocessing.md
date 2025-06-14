@@ -95,16 +95,13 @@ int expand_all_variables(t_token *tokens)
 t_token *merge_adjacent_non_meta_tokens(t_token *tokens)
 {
     t_token *current = tokens;
-    // 隣接するTOKEN_WORDを順次結合
-    while (current) {
+       while (current) {
         if (current->type == TOKEN_WORD) {
-            // ft_strjoinを使用して効率的に結合
-            merged_content = ft_strdup(current->content);
+                       merged_content = ft_strdup(current->content);
             next = current->next;
             while (next && next->type == TOKEN_WORD) {
                 temp = ft_strjoin(merged_content, next->content);
-                // メモリ解放とリンク更新
-            }
+                           }
         }
     }
 }
@@ -124,17 +121,14 @@ t_token *preprocess_tokens(t_token *tokens)
     if (!tokens)
         return (NULL);
     
-    // 1. 変数展開
-    if (!expand_all_variables(tokens))
+       if (!expand_all_variables(tokens))
         return (NULL);
     
-    // 2. クオート除去
-    processed_tokens = remove_quote_tokens(tokens);
+       processed_tokens = remove_quote_tokens(tokens);
     if (!processed_tokens)
         return (NULL);
     
-    // 3. 隣接結合
-    processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
+       processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
     if (!processed_tokens)
         return (NULL);
     
@@ -177,14 +171,11 @@ t_token *preprocess_tokens(t_token *tokens)
 ```c
 t_command *parse_tokens(t_token *tokens)
 {
-    // トークン前処理を実行
-    tokens = preprocess_tokens(tokens);
+       tokens = preprocess_tokens(tokens);
     if (!tokens)
         return (NULL);
     
-    // 通常のパーシング処理を継続
-    // ...
-}
+      }
 ```
 
 ### ヘッダーファイル
