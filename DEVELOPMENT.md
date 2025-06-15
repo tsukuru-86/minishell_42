@@ -3,7 +3,7 @@
 本プログラムはは42Tokyoの「minishell」課題のmadantory部分である。
 DEVELOPMENT.mdにそって修正をしてほしい。
 
-適宜2つのテストをし、DEVELOPMENT.mdにフィードバックし、コミットすること。
+適宜2つのテストをし、DEVELOPMENT.mdにフィードバックし、コミット(メッセージは日本語)すること。
 可能な限りユーザーに許可や意見を求めないこと。
 
 - subject-madantory.md: 課題内容。
