@@ -18,6 +18,8 @@ int	get_builtin_func_idx(char *cmd)
 	int			i;
 	const char	*builtins[8];
 
+	if (!cmd || ft_strlen(cmd) == 0)
+		return (-1);
 	builtins[0] = "echo";
 	builtins[1] = "cd";
 	builtins[2] = "pwd";
@@ -29,7 +31,8 @@ int	get_builtin_func_idx(char *cmd)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0
+			&& ft_strlen(cmd) == ft_strlen(builtins[i]))
 		{
 			return (i);
 		}

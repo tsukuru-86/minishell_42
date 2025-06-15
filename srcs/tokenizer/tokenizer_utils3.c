@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 18:21:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 static void	extract_word_content(const char *input, int *i, char *buf,
 		int *buf_len)
 {
+	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))
+		(*i)++;
 	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
 		&& !is_meta(input[*i]))
 	{
