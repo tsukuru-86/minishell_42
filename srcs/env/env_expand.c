@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/15 07:47:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 10:54:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@ static int	is_env_var_start(const char *str, int i)
 			return (1);
 		if (str[i + 1] == '"' || str[i + 1] == '\'')
 			return (2);
-		if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\n')
-			return (2);
 	}
-	else if (str[i] == '$' && !str[i + 1])
-		return (2);
 	return (0);
 }
 
@@ -56,7 +52,7 @@ static void	process_expansion(const char *input_str, int *i, char *res,
 	if (env_check == 1)
 		append_env(input_str, i, res, j);
 	else if (env_check == 2)
-		res[(*j)++] = input_str[(*i)++];
+		(*i)++;
 	else
 		res[(*j)++] = input_str[(*i)++];
 }
