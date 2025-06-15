@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 11:49:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ char			*combine_special_args(char **args);
 void			exit_with_numeric_error(const char *arg);
 int				is_space(char c);
 int				is_overflow(unsigned long long num, int digit);
+long long		ft_atoll_safe(const char *str, int *overflow);
+int				is_numeric_string(const char *str);
+void			put_exit_error(const char *msg, const char *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:35:38 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 11:49:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	validate_input(char *input)
 	}
 	return (0);
 }
-
-int		handle_tokens_and_parse(t_token *tokens);
 
 int	handle_empty_input(char *input)
 {

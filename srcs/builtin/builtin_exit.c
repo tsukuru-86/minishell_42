@@ -6,19 +6,16 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:15:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 11:49:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin_commands.h"
 
 /*
 ** 文字列をlong longへ変換
 */
-long long	ft_atoll_safe(const char *str, int *overflow);
-int			is_numeric_string(const char *str);
-void		put_exit_error(const char *msg, const char *arg);
-
 static long long	ft_atoll(const char *str)
 {
 	int	overflow;
