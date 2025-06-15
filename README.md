@@ -380,7 +380,7 @@ test
 ## 📁 プロジェクト構造
 
 ```
-minishell_42/
+minishelどうで
 ├── Makefile              # ビルド設定
 ├── minishell.h          # メインヘッダーファイル  
 ├── README.md            # このファイル
