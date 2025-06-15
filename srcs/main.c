@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 13:47:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/15 11:43:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	signal_handler(int signum)
 	g_signal = signum;
 	if (signum == SIGINT)
 	{
-		write(1, "\nminishell > ", 12);
+		write(1, "\n", 1);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -85,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	load_history_file();
 	status = main_loop();
 	save_history_file();
-	clear_history();
+	rl_clear_history();
 	free_env_list();
 	return (status);
 }
