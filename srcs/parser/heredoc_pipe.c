@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 18:54:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/16 05:43:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static char	*read_line_from_pipe(void)
 			break ;
 		buf[pos++] = c;
 	}
-	if (pos == 0)
-		return (NULL);
 	buf[pos] = '\0';
+	if (pos == 0 && r <= 0)
+		return (NULL);
 	return (ft_strdup(buf));
 }
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 19:36:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/16 05:46:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,15 @@ char	*strip_quotes(char *str)
 
 static int	is_append_pattern(char *arg, char *plus_pos, char *equal_pos)
 {
+	char	*p;
+
 	(void)arg;
-	if (!plus_pos || !equal_pos)
+	if (!plus_pos || !equal_pos || plus_pos >= equal_pos)
 		return (0);
-	if (plus_pos + 1 == equal_pos)
-		return (1);
-	if (plus_pos < equal_pos)
-	{
-		while (plus_pos + 1 < equal_pos && *(plus_pos + 1) == ' ')
-			plus_pos++;
-		if (plus_pos + 1 == equal_pos)
-			return (1);
-	}
-	return (0);
+	p = plus_pos + 1;
+	while (p < equal_pos && *p == ' ')
+		p++;
+	return (p == equal_pos);
 }
 
 static char	*get_export_value(char *raw_val)
