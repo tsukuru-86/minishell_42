@@ -49,10 +49,12 @@ SRCS_FILE = main.c \
 	parser/parser_preprocess.c \
 	parser/parser_preprocess_space.c \
 	parser/parser_preprocess_utils.c \
+	parser/parser_token_handlers.c \
 	parser/parser_token_merge.c \
 	parser/parser_token_remove.c \
 	parser/parser_tokens.c \
 	parser/parser_token_to_cmd.c \
+	parser/parser_token_utils.c \
 	parser/parser_utils3.c \
 	pipeline/excute_pipeline.c \
 	pipeline/pipeline.c \
@@ -70,6 +72,7 @@ SRCS_FILE = main.c \
 	redirect/redirect_validate.c \
 	tokenizer/tokenizer.c \
 	tokenizer/tokenizer_core_logic.c \
+	tokenizer/tokenizer_input_processing.c \
 	tokenizer/tokenizer_meta_utils.c \
 	tokenizer/tokenizer_normal_word_logic.c \
 	tokenizer/tokenizer_quote_processing.c \

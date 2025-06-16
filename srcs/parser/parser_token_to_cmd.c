@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:21:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/16 22:59:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	check_trailing_pipe(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (current->type != TOKEN_SPACE)
+		if (current->type != TOKEN_SPACE && current->type != TOKEN_NEWLINE)
 			last_non_space = current;
 		current = current->next;
 	}

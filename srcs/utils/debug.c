@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:24:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/16 22:54:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	type_str[10] = "TOKEN_REDIR_APPEND";
 	type_str[11] = "TOKEN_HEREDOC";
 	type_str[12] = "TOKEN_ENV_VAR";
-	type_str[13] = "TOKEN_END";
-	type_str[14] = "TOKEN_INVALID";
+	type_str[13] = "TOKEN_NEWLINE";
+	type_str[14] = "TOKEN_END";
+	type_str[15] = "TOKEN_INVALID";
 	if (!is_debug)
 		return ;
 	if (token->content == NULL)

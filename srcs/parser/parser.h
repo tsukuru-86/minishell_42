@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 16:19:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 08:34:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@
 t_command	*create_command(void);
 int			add_redirect(t_command *cmd, t_token *token, t_token *next_token);
 int			add_argument(t_command *cmd, char *arg);
+/* Token handler functions */
+int			handle_word_token(t_command *cmd, t_token **current_token,
+				t_command **head_cmd);
+int			handle_pipe_token(t_command **cmd, t_token **current_token,
+				t_command **head_cmd);
+int			handle_redirect_token(t_command *cmd, t_token **current_token,
+				t_command **head_cmd);
+int			handle_redirect_type_tokens(t_command **cmd_ptr,
+				t_token **current_token_ptr, t_command **head_cmd_ptr);
+int			handle_other_tokens(t_token **current_token_ptr, t_token_type type);
+/* Parser utility functions */
+int			handle_word_type_tokens(t_command **cmd_ptr,
+				t_token **current_token_ptr, t_command **head_cmd_ptr);
+int			handle_redirect_type_tokens(t_command **cmd_ptr,
+				t_token **current_token_ptr, t_command **head_cmd_ptr);
+int			handle_other_tokens(t_token **current_token_ptr,
+				t_token_type type);
 /* パーサー内部関数（外部からは呼び出し禁止） */
 int			process_token_in_parse_loop(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
