@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/16 22:45:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:49:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 /** # include <sys/syslimits.h> // macOS*/
 
 # define MAX_TOKENS 1024
+# define PIPE_BUFFER_SIZE 8192
 
 /* デバッグフラグ定数 */
 # ifdef DEBUG
@@ -145,6 +146,15 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC
 }								t_redir_type;
+
+/* Pipe buffer structure for efficient heredoc reading */
+typedef struct s_pipe_buffer
+{
+	char						buffer[PIPE_BUFFER_SIZE];
+	int							pos;
+	int							size;
+	int							line_start;
+}								t_pipe_buffer;
 
 /* Heredoc structure */
 typedef struct s_heredoc

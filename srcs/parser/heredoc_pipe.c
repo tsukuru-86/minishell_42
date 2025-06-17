@@ -6,36 +6,66 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 15:03:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:50:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
+static int	fill_pipe_buffer(t_pipe_buffer *pb)
+{
+	int	bytes_read;
+
+	pb->pos = 0;
+	pb->line_start = 0;
+	bytes_read = read(STDIN_FILENO, pb->buffer, PIPE_BUFFER_SIZE - 1);
+	if (bytes_read <= 0)
+	{
+		pb->size = 0;
+		return (0);
+	}
+	pb->buffer[bytes_read] = '\0';
+	pb->size = bytes_read;
+	return (1);
+}
+
+static char	*extract_line_from_buffer(t_pipe_buffer *pb)
+{
+	char	*line;
+	int		line_len;
+	int		i;
+
+	i = pb->pos;
+	while (i < pb->size && pb->buffer[i] != '\n')
+		i++;
+	line_len = i - pb->pos;
+	line = malloc(line_len + 1);
+	if (!line)
+		return (NULL);
+	ft_memcpy(line, &pb->buffer[pb->pos], line_len);
+	line[line_len] = '\0';
+	if (i < pb->size)
+		pb->pos = i + 1;
+	else
+		pb->pos = i;
+	return (line);
+}
+
 static char	*read_line_from_pipe(void)
 {
-	char	buf[4096];
-	int		pos;
-	char	c;
-	int		r;
+	static t_pipe_buffer	pb = {0};
+	char					*line;
 
-	pos = 0;
-	while (pos < 4095)
+	if (pb.pos >= pb.size)
 	{
-		r = read(STDIN_FILENO, &c, 1);
-		if (r <= 0)
-			break ;
-		if (c == '\n')
-			break ;
-		buf[pos++] = c;
+		if (!fill_pipe_buffer(&pb))
+			return (NULL);
 	}
-	buf[pos] = '\0';
-	debug_print_with_str("[DEBUG] read_line_from_pipe: final line", buf,
+	line = extract_line_from_buffer(&pb);
+	debug_print_with_str("[DEBUG] read_line_from_pipe: final line", line,
 		DEBUG_ENABLED);
-	if (pos == 0 && r <= 0)
-		return (NULL);
-	return (ft_strdup(buf));
+	return (line);
 }
 
 int	read_heredoc_from_pipe(int fd, t_heredoc *heredoc)
