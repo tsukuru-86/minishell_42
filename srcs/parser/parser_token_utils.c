@@ -20,12 +20,17 @@ static int	handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 	t_token	*delimiter_token;
 
 	delimiter_token = (*current_token)->next;
-	if (!add_redirect(cmd, *current_token, delimiter_token))
+	if (!delimiter_token)
 	{
 		if (*head_cmd)
-		{
 			free_command(*head_cmd);
-		}
+		*head_cmd = NULL;
+		return (0);
+	}
+	if (!handle_heredoc(cmd, delimiter_token->content))
+	{
+		if (*head_cmd)
+			free_command(*head_cmd);
 		*head_cmd = NULL;
 		return (0);
 	}

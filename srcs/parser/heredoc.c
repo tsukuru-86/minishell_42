@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 08:34:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:00:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ static int	finalize_heredoc(t_command *cmd, t_heredoc *heredoc)
 
 static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 {
-	if (!isatty(STDIN_FILENO))
-		return (read_heredoc_from_pipe(fd, heredoc));
-	else
-		return (read_heredoc_input(fd, heredoc));
+	return (read_heredoc_input(fd, heredoc));
 }
 
 static int	process_heredoc_file(int fd, t_heredoc *heredoc)

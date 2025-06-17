@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 14:07:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:06:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,19 @@ int	set_env_node(const char *name, const char *value)
 			"minishell: export: `%s': not a valid identifier\n", name);
 		return (1);
 	}
+	node = get_env_node(name);
+	if (!node)
+		return (append_env_node(name, value));
+	return (update_env_value(node, value));
+}
+
+/* Set environment variable without validation (for export internal use) */
+int	set_env_node_direct(const char *name, const char *value)
+{
+	t_env	*node;
+
+	if (!name)
+		return (1);
 	node = get_env_node(name);
 	if (!node)
 		return (append_env_node(name, value));
