@@ -34,19 +34,23 @@ t_token	*remove_empty_tokens(t_token *tokens)
 	t_token	*current;
 	t_token	*prev;
 	t_token	*next;
+	int		is_first_word;
 
 	current = tokens;
 	prev = NULL;
+	is_first_word = 1;
 	while (current)
 	{
 		next = current->next;
 		if ((!current->content || current->content[0] == '\0')
-			&& current->type == TOKEN_WORD)
+			&& current->type == TOKEN_WORD && !is_first_word)
 		{
 			tokens = remove_empty_token(tokens, current, prev);
 			current = next;
 			continue ;
 		}
+		if (current->type == TOKEN_WORD)
+			is_first_word = 0;
 		prev = current;
 		current = next;
 	}

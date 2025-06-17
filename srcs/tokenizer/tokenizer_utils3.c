@@ -36,9 +36,7 @@ static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 /* トークンを作成し、必要に応じて環境変数を展開する */
 t_token	*create_expanded_token(char *buf, t_token_type token_type)
 {
-	if (token_type == TOKEN_EMPTY_QUOTED)
-		return (safe_create_token("", token_type));
-	else if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
+	if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
 		return (create_expanded_var_token(buf, token_type));
 	else
 		return (safe_create_token(buf, token_type));
@@ -65,7 +63,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 	if (input[*i] == quote_c)
 		(*i)++;
 	if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
-		ret = TOKEN_EMPTY_QUOTED;
+		ret = TOKEN_WORD;
 	else if (quote_c == '\'')
 		ret = TOKEN_S_QUOTED_WORD;
 	else

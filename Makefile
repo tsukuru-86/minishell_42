@@ -146,4 +146,7 @@ test2: $(NAME)
 	DEBUG=0
 	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
 
-.PHONY: all clean fclean re cre test1 test2
+debug: CFLAGS += -DDEBUG=1
+debug: cre
+
+.PHONY: all clean fclean re cre test1 test2 debug

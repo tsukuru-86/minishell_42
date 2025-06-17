@@ -22,12 +22,11 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	type_str[3] = "TOKEN_DOUBLE_QUOTE";
 	type_str[4] = "TOKEN_S_QUOTED_WORD";
 	type_str[5] = "TOKEN_D_QUOTED_WORD";
-	type_str[6] = "TOKEN_EMPTY_QUOTED";
-	type_str[7] = "TOKEN_PIPE";
-	type_str[8] = "TOKEN_REDIR_IN";
-	type_str[9] = "TOKEN_REDIR_OUT";
-	type_str[10] = "TOKEN_REDIR_APPEND";
-	type_str[11] = "TOKEN_HEREDOC";
+	type_str[6] = "TOKEN_PIPE";
+	type_str[7] = "TOKEN_REDIR_IN";
+	type_str[8] = "TOKEN_REDIR_OUT";
+	type_str[9] = "TOKEN_REDIR_APPEND";
+	type_str[10] = "TOKEN_HEREDOC";
 	type_str[12] = "TOKEN_ENV_VAR";
 	type_str[13] = "TOKEN_NEWLINE";
 	type_str[14] = "TOKEN_END";
