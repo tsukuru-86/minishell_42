@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:48:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:03:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 	else
 		result = process_unquoted_line(line, fd);
 	free(line);
-	if (result)
-		return (2);
-	return (0);
+	if (!result)
+		return (0);
+	return (2);
 }

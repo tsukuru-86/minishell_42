@@ -109,6 +109,5 @@ int	handle_redirect_token(t_command *cmd, t_token **current_token,
 			return (0);
 		return (1);
 	}
-
 	return (handle_normal_redirect(cmd, current_token, head_cmd));
 }
