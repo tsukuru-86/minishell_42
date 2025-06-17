@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 17:27:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:58:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,31 +61,38 @@ static int	process_heredoc_file(int fd, t_heredoc *heredoc)
 	return (1);
 }
 
+static int	create_heredoc_file(t_heredoc *heredoc)
+{
+	int	fd;
+
+	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		debug_print("[DEBUG] handle_heredoc: open failed", DEBUG_ENABLED);
+		cleanup_heredoc(heredoc);
+		return (-1);
+	}
+	if (!process_heredoc_file(fd, heredoc))
+	{
+		close(fd);
+		return (-1);
+	}
+	close(fd);
+	return (0);
+}
+
 int	handle_heredoc(t_command *cmd, char *delimiter)
 {
 	t_heredoc	*heredoc;
-	int			fd;
 
 	debug_print_with_str("[DEBUG] handle_heredoc: delimiter", delimiter,
 		DEBUG_ENABLED);
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
-	{
-		debug_print("[DEBUG] handle_heredoc: init_heredoc failed",
-			DEBUG_ENABLED);
 		return (0);
-	}
 	debug_print_with_str("[DEBUG] handle_heredoc: temp_file",
 		heredoc->temp_file, DEBUG_ENABLED);
-	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-	{
-		debug_print("[DEBUG] handle_heredoc: open failed", DEBUG_ENABLED);
-		cleanup_heredoc(heredoc);
+	if (create_heredoc_file(heredoc) == -1)
 		return (0);
-	}
-	if (!process_heredoc_file(fd, heredoc))
-		return (0);
-	close(fd);
 	return (finalize_heredoc(cmd, heredoc));
 }

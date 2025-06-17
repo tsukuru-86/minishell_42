@@ -33,7 +33,16 @@ static int	apply_in_redirect(t_redirect *redir)
 {
 	int	fd;
 
-	fd = open_redirect_file(redir);
+	if (redir->type == REDIR_HEREDOC)
+	{
+		debug_print_with_str("REDIR_HEREDOC file", redir->file, DEBUG_ENABLED);
+		fd = open(redir->file, O_RDONLY);
+		debug_print_with_int("REDIR_HEREDOC fd", fd, DEBUG_ENABLED);
+	}
+	else
+	{
+		fd = open_redirect_file(redir);
+	}
 	if (fd == -1)
 		return (0);
 	if (dup2(fd, STDIN_FILENO) == -1)
