@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:20:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:36:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:10:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ char	*reconstruct_split_args(char **args, int start, int *next_idx)
 	char	*result;
 	int		i;
 
-	if (!args[start] || !ft_strchr(args[start], '='))
+	if (!args[start])
+		return (NULL);
+	if (!ft_strchr(args[start], '=') && !ft_strchr(args[start], '+'))
 		return (NULL);
 	result = ft_strdup(args[start]);
 	if (!result)

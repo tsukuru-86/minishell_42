@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/16 05:46:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:07:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ char	*strip_quotes(char *str)
 static int	is_append_pattern(char *arg, char *plus_pos, char *equal_pos)
 {
 	char	*p;
+	char	*var_end;
 
-	(void)arg;
 	if (!plus_pos || !equal_pos || plus_pos >= equal_pos)
+		return (0);
+	var_end = plus_pos - 1;
+	while (var_end >= arg && *var_end == ' ')
+		var_end--;
+	if (var_end < arg)
 		return (0);
 	p = plus_pos + 1;
 	while (p < equal_pos && *p == ' ')
@@ -64,27 +69,27 @@ void	split_export_arg(char *arg, char **name, char **value, int *append)
 {
 	char	*plus_pos;
 	char	*equal_pos;
-	char	*raw_val;
+	char	*var_end;
 
 	*append = 0;
 	plus_pos = ft_strchr(arg, '+');
 	equal_pos = ft_strchr(arg, '=');
 	if (is_append_pattern(arg, plus_pos, equal_pos))
 	{
-		*name = ft_substr(arg, 0, plus_pos - arg);
-		raw_val = equal_pos + 1;
-		*value = get_export_value(raw_val);
+		var_end = plus_pos - 1;
+		while (var_end >= arg && *var_end == ' ')
+			var_end--;
+		*name = ft_substr(arg, 0, var_end - arg + 1);
+		*value = get_export_value(equal_pos + 1);
 		*append = 1;
+		return ;
 	}
-	else if (equal_pos)
+	if (equal_pos)
 	{
 		*name = ft_substr(arg, 0, equal_pos - arg);
-		raw_val = equal_pos + 1;
-		*value = get_export_value(raw_val);
+		*value = get_export_value(equal_pos + 1);
+		return ;
 	}
-	else
-	{
-		*name = ft_strdup(arg);
-		*value = NULL;
-	}
+	*name = ft_strdup(arg);
+	*value = NULL;
 }

@@ -15,6 +15,24 @@
 #include "error/error_messages.h"
 #include "minishell.h"
 
+static int	should_reconstruct_args(char **args, int i)
+{
+	char	*arg;
+	char	*plus_pos;
+	char	*equal_pos;
+
+	arg = args[i];
+	if (!arg || !args[i + 1])
+		return (0);
+	equal_pos = ft_strchr(arg, '=');
+	if (equal_pos && equal_pos[1] == '\0' && !ft_strchr(args[i + 1], '='))
+		return (1);
+	plus_pos = ft_strchr(arg, '+');
+	if (plus_pos && plus_pos[1] == '\0' && ft_strchr(args[i + 1], '='))
+		return (1);
+	return (0);
+}
+
 static int	process_export_arg(char *arg)
 {
 	char	*name;
@@ -39,8 +57,7 @@ int	process_export_with_reconstruction(char **args, int *i)
 	int		next_idx;
 	int		ret;
 
-	if (ft_strchr(args[*i], '=') && ft_strchr(args[*i], '=')[1] == '\0'
-		&& args[*i + 1] && !ft_strchr(args[*i + 1], '='))
+	if (should_reconstruct_args(args, *i))
 	{
 		reconstructed = reconstruct_split_args(args, *i, &next_idx);
 		if (reconstructed)
