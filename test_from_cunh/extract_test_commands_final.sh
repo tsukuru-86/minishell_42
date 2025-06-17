@@ -10,7 +10,8 @@ echo "Extracting test commands from $input_file..."
 
 # extracted_test_commands.txtに抽出結果を保存
 echo "# テストコマンド一覧 (main.valaから抽出)" > "$output_text"
-echo "# 各行が1つのテストコマンド（\\nは実際の改行に変換済み）" >> "$output_text"
+echo "# 各コマンドは --- TEST_START --- と --- TEST_END --- で区切られている" >> "$output_text"
+echo "# 複数行のheredocコマンドも正確に区別可能" >> "$output_text"
 echo "" >> "$output_text"
 
 # run_extracted_tests.shスクリプトを生成
@@ -84,8 +85,11 @@ grep 'add_test\.begin(' "$input_file" | while read line; do
         # \n を実際の改行に変換する（echo -eを使用）
         processed_cmd=$(echo -e "$extracted")
         
-        # ファイルに出力
+        # ファイルに区切り文字付きで出力
+        echo "--- TEST_START ---" >> "$output_text"
         printf "%s\n" "$processed_cmd" >> "$output_text"
+        echo "--- TEST_END ---" >> "$output_text"
+        echo "" >> "$output_text"
         
         # 実行スクリプトに追加
         printf "run_test %q\n" "$processed_cmd" >> "$output_script"
