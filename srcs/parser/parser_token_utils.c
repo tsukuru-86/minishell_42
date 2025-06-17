@@ -20,6 +20,8 @@ static int	handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 	t_token	*delimiter_token;
 
 	delimiter_token = (*current_token)->next;
+	debug_print_with_str("[DEBUG] Creating heredoc redirect with delimiter",
+		delimiter_token->content, DEBUG_ENABLED);
 	if (!add_redirect(cmd, *current_token, delimiter_token))
 	{
 		if (*head_cmd)
@@ -107,5 +109,6 @@ int	handle_redirect_token(t_command *cmd, t_token **current_token,
 			return (0);
 		return (1);
 	}
+
 	return (handle_normal_redirect(cmd, current_token, head_cmd));
 }

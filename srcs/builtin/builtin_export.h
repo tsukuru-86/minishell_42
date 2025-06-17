@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:43 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:36:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:07:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int		append_env_value(const char *name, const char *value);
 char	*reconstruct_split_args(char **args, int start, int *next_idx);
 int		validate_and_set_env(char *name, char *value);
+int		set_env_node_direct(const char *name, const char *value);
 
 int		is_valid_identifier(const char *str);
 /* Split export argument into name and value */

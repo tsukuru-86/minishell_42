@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:38:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:07:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	append_env_value(const char *name, const char *value)
 
 	node = get_env_node(name);
 	if (!node)
-		return (set_env_node(name, value));
+		return (set_env_node_direct(name, value));
 	new_val = create_new_value(node->value, value);
 	if (!new_val)
 		return (1);
@@ -69,9 +69,9 @@ int	validate_and_set_env(char *name, char *value)
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
-	ret = set_env_node(n, v);
+	ret = set_env_node_direct(n, v);
 	if (ret != 0)
 		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
 	cleanup_strings(n, v);
-	return (ret != 0);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:04:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:04:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,11 @@ int	open_redirect_file(t_redirect *redirect)
 	else if (redirect->type == REDIR_APPEND)
 		fd = open(redirect->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redirect->type == REDIR_HEREDOC)
+	{
+		debug_print_with_str("[DEBUG] Processing heredoc for file",
+			redirect->file, DEBUG_ENABLED);
 		fd = open(redirect->file, O_RDONLY);
+	}
 	else if (redirect->type == REDIR_IN)
 		fd = open(redirect->file, O_RDONLY);
 	if (fd == -1)
