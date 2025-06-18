@@ -246,4 +246,3 @@ t_token *preprocess_tokens(t_token *tokens);
 
 ---
 最終更新: 2025/06/05
-作成者: minishell開発チーム

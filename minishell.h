@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/18 06:32:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 13:03:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,9 @@ void							debug_print_tokens(t_token *tokens,
 									bool is_debug);
 void							debug_print_command_args(char **args,
 									bool is_debug);
+
+/* Empty command handler */
+int								handle_empty_command_with_redirects(void);
 
 /* history_utils */
 char							*get_history_path(void);
