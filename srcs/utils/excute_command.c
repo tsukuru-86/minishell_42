@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/18 13:24:01 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:18:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ static int	handle_empty_command(t_command *cmd)
 		restore_redirection(cmd->redirects);
 		return (status);
 	}
+	if (cmd->args && cmd->args[0] && cmd->args[0][0] == '\0')
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		set_env_node("?", "127");
+		return (127);
+	}
 	return (0);
 }
 
@@ -37,7 +43,7 @@ static int	execute_single_command(t_command *cmd)
 		set_env_node("?", "1");
 		return (1);
 	}
-	if (!cmd->args || !cmd->args[0])
+	if (!cmd->args || !cmd->args[0] || cmd->args[0][0] == '\0')
 		return (handle_empty_command(cmd));
 	idx = get_builtin_func_idx(cmd->args[0]);
 	if (0 <= idx && idx <= 6)

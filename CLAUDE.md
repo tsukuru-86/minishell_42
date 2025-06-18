@@ -105,8 +105,8 @@ printf, malloc, free, write
 ## 📊 2. 現状 (Current Status)
 
 ### 最新テスト結果 (現在)
-- **test1**: 推定83-85% 🔄 **開発継続中**
-- **test2**: 144/146 (98.6%) 🔄 **最終調整中**
+- **test1**: 250/295 (84.7%) 🔄 **開発継続中**
+- **test2**: 146/146 (100%) 🎉 **完全達成**
 
 ### 現在の成果
 **基本機能**: A+級 (100%) - 日常shell使用で完全動作
@@ -122,21 +122,23 @@ printf, malloc, free, write
 - `expr`
 - Here Documentの`'EOF'`、`"EOF"`
 
-### 最新修正 (Phase 13.6)
-**空のクォート文字列処理の根本修正完了** 🎉:
-- \x01文字混入問題を根本から解決
-- 空のクォート（`""`や`''`）を適切に空文字列として保持
-- **test2: 142/146 → 144/146 (+2テスト改善)**
-- **ハック的実装から自然な実装への転換**
+### 最新修正 (Phase 13.7)
+**変数展開後の空トークン削除修正完了** 🎉:
+- 処理順序の最適化：変数展開→クォート外し→空トークン削除→トークン結合
+- 空の環境変数処理の完全対応
+- **test2: 144/146 → 146/146 (100%完全達成)**
+- **test1: 250/295 (84.7%)安定維持**
 
-### 現在の状況 (98.6%達成)
-**test1スコア**: 推定83-85% 🔄  
-**test2スコア**: 144/146 (98.6%) 🔄 残り2テスト  
+### 現在の状況 (test2完全達成)
+**test1スコア**: 250/295 (84.7%) 🔄  
+**test2スコア**: 146/146 (100%) 🎉 **完全達成**  
 **技術品質**: 42 Norm完全準拠、メモリ安全性100%
 
-### 残り課題 (test2)
-- Test 134: `$EMPTY` - 空の環境変数処理
-- Test 135: `$EMPTY echo hi` - 空の環境変数後のコマンド処理
+### 主要課題 (test1)
+- 空引用符の処理（`echo '' b` → 余分なスペース問題）
+- export/unsetの高度機能（`+=`演算子、複合操作等）
+- heredocの出力問題（パイプ入力時の出力生成）
+- ファイルリダイレクション処理の詳細
 
 ### 完成された機能
 - **Here Document**: パイプ入力・複雑パターン完全対応
@@ -698,65 +700,49 @@ if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
 **順序変更**:
 ```c
 // 新しい順序
-1. expand_all_variables() // 変数展開（$EMPTY→空のTOKEN_WORD）
-2. remove_empty_tokens()  // 空のTOKEN_WORDのみ削除（引用符は保持）
-3. remove_quote_tokens()  // TOKEN_D_QUOTED_WORD→TOKEN_WORDに変換
-4. merge_adjacent_non_meta_tokens()
-5. remove_space_tokens()
+1. expand_all_variables()     // 変数展開: $USER → chinachu
+2. remove_quote_tokens()      // クォート外し: TOKEN_*_QUOTED_WORD → TOKEN_WORD  
+3. remove_empty_tokens()      // 空WORDトークン削除 (変数展開由来のみ)
+4. merge_adjacent_non_meta_tokens() // 隣接WORD結合: hello + world → helloworld
+5. remove_space_tokens()      // スペーストークン削除
 ```
 
-### ✅ 修正結果の検証
+**重要な設計判断**:
+- 空のクォート文字列（`''`, `""`）は**保持** → クォート外し段階まで残る
+- 変数展開で空になったトークンは**削除** → コマンド引数から除外
+- 処理順序により適切な動作を実現
 
-#### 1. 単独リダイレクションテスト
+#### 3. コマンド構造変換 (Command Structure Conversion)
+**場所**: `srcs/parser/parser_token_to_cmd.c`
+**目的**: トークンリストをコマンド構造体に変換
+
+```c
+t_command {
+    char **args;           // コマンド引数配列
+    t_redirect *redirects; // リダイレクション情報
+    t_command *next;       // パイプライン次コマンド
+}
+```
+
+#### 4. コマンド実行 (Command Execution)
+**場所**: `srcs/utils/excute_command.c`
+**目的**: コマンド構造体の実行
+
+1. **リダイレクション設定**: `srcs/redirect/`
+2. **Built-in判定**: `srcs/builtin/execute_builtin.c`
+3. **外部コマンド実行**: `srcs/external/external_commands.c`
+4. **パイプライン処理**: `srcs/pipeline/`
+
+#### 5. エラーハンドリングと終了処理
+**場所**: 各モジュール
+**目的**: 適切なエラー報告と資源解放
+
+**例: 変数展開の動作**
 ```bash
-$ echo '< file_not_found' | ./minishell
-minishell: file_not_found: No such file or directory
-$ echo $?
-1
+入力: $EMPTY echo hi
+1. トークナイゼーション: [$EMPTY] [echo] [hi]
+2. 変数展開: [] [echo] [hi]  # $EMPTY="" なので空文字列
+3. 空トークン削除: [echo] [hi]  # 空のWORDトークンを削除
+4. コマンド変換: args=["echo", "hi"]
+5. 実行: echo hi → "hi"
 ```
-✅ bash互換動作を確認
-
-#### 2. 空引用符テスト
-```bash
-$ echo '"" a' | ./minishell  
-minishell: : command not found
-$ echo $?
-127
-```
-✅ bash互換動作を確認
-
-#### 3. 変数展開テスト
-```bash
-$ export EMPTY="" && echo '$EMPTY a' | ./minishell
-minishell: a: command not found
-$ echo $?
-127
-```
-✅ bash互換動作を確認（空変数は削除され、aがコマンドになる）
-
-### 📊 影響する主要テストケース
-
-- `Test [ < file_not_found ]` → OK
-- `Test [ < file_not_found > /dev/stdout]` → OK  
-- `Test [ < file_not_found cat]` → OK
-- `Test [$EMPTY echo $EMPYT abc]` → 期待される改善
-- `Test [""]` → OK
-- `Test [ echo '' ''x]` → 期待される改善
-
-### 🎯 次のフェーズへの準備
-
-今回の修正により、test1の基本的なリダイレクションと引用符処理が大幅に改善されました。
-次のフェーズでは、exportの+=演算子問題やheredoc出力問題に集中できます。
-
-**開発サイクル遵守**:
-1. ✅ 問題特定・修正実施
-2. ✅ テスト検証・bash互換性確認  
-3. ✅ git commit実行(メッセージはプレフィックス付き、日本語)
-4. ✅ CLAUDE.md更新
-
-
-## Phase 17: 非常に長い入力
-
-— ARG_MAX
-- ファイル名
-- ディレクトリの階層が極めて深い

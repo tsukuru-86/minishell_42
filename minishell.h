@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/18 13:03:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:51:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_ENV_VAR,
+	TOKEN_EMPTY_VAR,
 	TOKEN_NEWLINE,
 	TOKEN_END
 }								t_token_type;

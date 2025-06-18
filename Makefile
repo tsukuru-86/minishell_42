@@ -148,4 +148,7 @@ test2: $(NAME)
 	DEBUG=0
 	cd ~/42/minishell_42/minishell_tester&&./tester
 
-.PHONY: all clean fclean re cre test1 test2
+debug: 
+	$(MAKE) re CFLAGS="$(CFLAGS) -DDEBUG=1"
+
+.PHONY: all clean fclean re cre test1 test2  debug
