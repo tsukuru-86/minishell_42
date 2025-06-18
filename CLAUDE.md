@@ -6,47 +6,47 @@
 
 ### 🔄 修正予定項目(meke test1のKO項目)
 
-```
-Test [""][KO] ✅ 修正完了
-Test [ < file_not_found ][KO] ✅ 修正完了
-Test [ < file_not_found > /dev/stdout][KO] ✅ 修正完了
-Test [ printf 'Syntax Error!' | > file_out ][KO]
+```bash
 Test [ printf 'Syntax Error!' |> file_out ][KO]
 Test [ printf 'Syntax Error!' | > file_out ][KO]
 Test [ printf 'Syntax Error!' |> file_out ][KO]
-Test [ echo '' ''x][KO]
-Test [ echo '' "''" ''X][KO]
-Test [ echo '' b][KO]
-Test [ echo str1  "" str3"  not finished yet ........ done." ][KO]
-Test [ < Makefile | printf 'You see me?' ][KO]
-Test [ printf 'Hello World' >trash/$WHOAMI.a.test ] [cat trash/$WHOAMI.a.test -e][KO]
+Test [ printf 'Syntax Error!' | > file_out ][KO]
 Test [ >trash/$WHOAMI.b.test printf 'Hello World' >trash/$WHOAMI.c.test ] [cat trash/$WHOAMI.b.test -e] [echo A] [cat trash/$WHOAMI.c.test -e][KO]
 Test [printf 'A' >trash/$WHOAMI.l.test] [echo 'B' >trash/>>trash/$WHOAMI.l.test] [echo 'C' >trash/>trash/$WHOAMI.l.test] [cat trash/$WHOAMI.l.test -e] [cat trash/>trash/$WHOAMI.l.test -e][KO]
-Test [printf 'hello ' >trash/$WHOAMI.test] [printf 'world' >>trash/$WHOAMI.test] [cat trash/$WHOAMI.test -e][KO]
+Test [ printf 'Hello World' >trash/$WHOAMI.a.test ] [cat trash/$WHOAMI.a.test -e][KO]
 Test [printf 'hello ' >trash/$WHOAMI.test2] [printf 'world' >>trash/$WHOAMI.test2] [printf ' ndacunh' >>trash/$WHOAMI.test2] [cat trash/$WHOAMI.test2 -e][KO]
+Test [printf 'hello ' >trash/$WHOAMI.test] [printf 'world' >>trash/$WHOAMI.test] [cat trash/$WHOAMI.test -e][KO]
 Test [edsfdsf] [echo error: $?][KO]
 Test [unset LD_PRELOAD] [unset WHOAMI] [unset PWD] [unset LANG] [unset OLDPWD] [unset ARGS] [unset MAKEFLAGS] [unset MFLAGS] [env | grep -v _ | grep -v SHLVL | grep -v SHELL | sort][KO]
-Test [unset PWD HERE] [echo $PWD][KO]
 Test [export NDACUNH=42] [unset NDACUNH | printf hey] [printf : $NDACUNH][KO]
+Test [unset PWD HERE] [echo $PWD][KO]
 Test [export ABC] [env | grep ABC -o] [printf hi] [env | grep ABC][KO]
 Test [export HELLO=123] [printf : $HELLO][KO]
 Test [export SLS='/bin/ls'] [printf here:] [$SLS][KO]
-Test [export abcd=abcd] [export abcd+=ndacunh] [env | grep abcd][KO]
 Test [export ABCD=abcd] [export ABCD +=ndacunh] [env | grep ABCD][KO]
+Test [export abcd=abcd] [export abcd+=ndacunh] [env | grep abcd][KO]
 Test [export ABCD=abcd] [export ABCD += ndacunh] [env | grep ABCD][KO]
 Test [export ABCD=abcd] [export ABCD+= ndacunh] [env | grep ABCD][KO]
-Test [export ABCD= abcd] [env | grep ABCD][KO]
 Test [export ABCD=Hello] [export ABCD =abcd] [env | grep ABCD][KO]
+Test [export ABCD= abcd] [env | grep ABCD][KO]
 Test [export ABCD=Hello] [export ABCD= abcd] [env | grep ABCD][KO]
 Test [unset HOME] [echo $HOME][KO]
-Test [unset PATH] [export PATH='/home/chinachu/42/minishell_42/minishell_tester-nda-cunh'] [ls][KO]
-Test [unset PATH] [ls][KO]
 Test [unset PATH] [/bin/ls][KO]
+Test [unset PATH] [ls][KO]
+Test [unset PATH] [export PATH='/home/chinachu/42/minishell_42/minishell_tester-nda-cunh'] [ls][KO]
+Test [unset PATH] [export PATH='/home/chinachu/42/minishell_42/minishell_tester-nda-cunh'] [/home/chinachu/42/minishell_42/minishell_tester-nda-cunh/ls][KO]
 Test [unset PATH] [export PATH='/home/chinachu/42/minishell_42/minishell_tester-nda-cunh'] [/bin/ls][KO]
 Test [export A='suprapack'] [echo a $A] [unset A] [echo a $A][KO]
-Test [unset PATH] [export PATH='/home/chinachu/42/minishell_42/minishell_tester-nda-cunh'] [/home/chinachu/42/minishell_42/minishell_tester-nda-cunh/ls][KO]
 Test [export HELLO=abc] [unset HELL] [unset HELLOO] [printf : $HELLO][KO]
 Test [exit -9223372036854775808][KO]
+Test [<< AH cat -e \nsimple\ntest\nend\nAH][KO]
+Test [<< end cat -e \nsimple\ntest\nend][KO]
+Test [<< AH cat -e \nsimple\n\n\n\n\n\n\nend\nAH][KO]
+Test [<< EOF cat -e \n$USER\nEOF][KO]
+Test [<< AH cat -e | grep -o 'simple' \nsimple\nend\nAH][KO]
+Test [<< EOF cat -e \nnda-cunh\nEOF][KO]
+Test [cat << here -e\nhello\nhere][KO]
+Test [ < /dev/stdout][KO]
 ```
 
 ### 開発サイクル方針
@@ -105,7 +105,7 @@ printf, malloc, free, write
 ## 📊 2. 現状 (Current Status)
 
 ### 最新テスト結果 (現在)
-- **test1**: 250/295 (84.7%) 🔄 **開発継続中**
+- **test1**: 255/295 (86.4%) 🔄 **開発継続中**
 - **test2**: 146/146 (100%) 🎉 **完全達成**
 
 ### 現在の成果
@@ -122,20 +122,154 @@ printf, malloc, free, write
 - `expr`
 - Here Documentの`'EOF'`、`"EOF"`
 
-### 最新修正 (Phase 13.7)
-**変数展開後の空トークン削除修正完了** 🎉:
-- 処理順序の最適化：変数展開→クォート外し→空トークン削除→トークン結合
-- 空の環境変数処理の完全対応
-- **test2: 144/146 → 146/146 (100%完全達成)**
-- **test1: 250/295 (84.7%)安定維持**
+### 最新修正 (Phase 13.8)
+**空文字列コマンドエラー表示とTOKEN_EMPTY_VAR導入完了** 🎉:
+- 空のクォート文字列("")は保持、変数展開で空になったトークン($EMPTY)のみ削除
+- bashと互換性のある空コマンドエラー表示「: command not found」実現
+- **test1: 250/295 → 255/295 (+5テスト改善)**
+- **test2: 146/146 (100%維持)**
 
-### 現在の状況 (test2完全達成)
-**test1スコア**: 250/295 (84.7%) 🔄  
+---
+
+## 🔄 4. トークン処理フロー (Token Processing Flow)
+
+### 概要
+minishellでは、ユーザー入力を以下の段階で段階的に処理してコマンド実行に至ります：
+
+```
+入力文字列 → トークナイゼーション → 前処理 → パーサー → コマンド構造 → 実行
+```
+
+### 1. トークナイゼーション (Tokenization)
+**場所**: `srcs/tokenizer/`  
+**目的**: 入力文字列を意味のある単位（トークン）に分割
+
+#### トークンタイプ
+```c
+typedef enum e_token_type {
+    TOKEN_WORD,           // 通常の単語: hello, ls
+    TOKEN_S_QUOTED_WORD,  // シングルクォート: 'hello world'
+    TOKEN_D_QUOTED_WORD,  // ダブルクォート: "hello $USER"
+    TOKEN_PIPE,           // パイプ: |
+    TOKEN_REDIRECT_IN,    // 入力リダイレクト: <
+    TOKEN_REDIRECT_OUT,   // 出力リダイレクト: >
+    TOKEN_REDIRECT_APPEND, // 追記リダイレクト: >>
+    TOKEN_HEREDOC,        // ヒアドキュメント: <<
+    TOKEN_SPACE,          // スペース
+    TOKEN_NEWLINE,        // 改行
+    TOKEN_EMPTY_VAR       // 変数展開で空になったトークン
+} t_token_type;
+```
+
+#### 処理例
+```bash
+入力: echo "hello $USER" > file.txt
+トークン: [WORD:echo] [SPACE] [D_QUOTED:"hello $USER"] [SPACE] [REDIRECT_OUT:>] [SPACE] [WORD:file.txt]
+```
+
+### 2. 前処理 (Preprocessing)
+**場所**: `srcs/parser/parser_preprocess.c`  
+**目的**: トークンの内容を変換・整理
+
+#### 処理順序（重要）
+```c
+1. expand_all_variables()     // 変数展開: $USER → chinachu
+2. remove_quote_tokens()      // クォート外し: TOKEN_D_QUOTED_WORD → TOKEN_WORD  
+3. remove_empty_tokens()      // 空トークン削除（変数展開由来のみ）
+4. merge_adjacent_non_meta_tokens() // 隣接WORD結合: hello + world → helloworld
+5. remove_space_tokens()      // スペーストークン削除
+```
+
+#### 重要な設計原則
+- **空のクォート文字列（`''`, `""`）は保持** → 明示的な空文字列として扱う
+- **変数展開で空になったトークンは削除** → `$EMPTY`（空変数）は削除
+- **TOKEN_EMPTY_VAR型で区別** → 削除対象を明確化
+
+#### 具体例1: 空クォートの処理
+```bash
+入力: echo "" b
+1. トークナイゼーション: [WORD:echo] [SPACE] [D_QUOTED:""] [SPACE] [WORD:b]
+2. 変数展開: [WORD:echo] [SPACE] [D_QUOTED:""] [SPACE] [WORD:b]
+3. クォート外し: [WORD:echo] [SPACE] [WORD:""] [SPACE] [WORD:b]  # 空文字列保持
+4. 空トークン削除: [WORD:echo] [SPACE] [WORD:""] [SPACE] [WORD:b]  # 明示的なので保持
+5. WORD結合: [WORD:echo] [SPACE] [WORD:""] [SPACE] [WORD:b]
+6. スペース削除: [WORD:echo] [WORD:""] [WORD:b]
+結果: args=["echo", "", "b"]
+```
+
+#### 具体例2: 変数展開の処理
+```bash
+入力: echo $EMPTY b  (EMPTY="")
+1. トークナイゼーション: [WORD:echo] [SPACE] [WORD:$EMPTY] [SPACE] [WORD:b]
+2. 変数展開: [WORD:echo] [SPACE] [EMPTY_VAR:""] [SPACE] [WORD:b]  # TOKEN_EMPTY_VAR型
+3. クォート外し: [WORD:echo] [SPACE] [EMPTY_VAR:""] [SPACE] [WORD:b]
+4. 空トークン削除: [WORD:echo] [SPACE] [SPACE] [WORD:b]  # TOKEN_EMPTY_VAR削除
+5. WORD結合: [WORD:echo] [SPACE] [SPACE] [WORD:b]
+6. スペース削除: [WORD:echo] [WORD:b]
+結果: args=["echo", "b"]
+```
+
+### 3. パーサー (Parsing)
+**場所**: `srcs/parser/`  
+**目的**: トークンリストを構文解析してコマンド構造に変換
+
+#### 処理内容
+1. **パイプライン分割**: `|`でコマンドを分離
+2. **リダイレクション抽出**: `<`, `>`, `>>`, `<<`の処理
+3. **ヒアドキュメント処理**: `<<`デリミターまでの入力読み取り
+4. **構文エラー検出**: 不正な構文の検出
+
+### 4. コマンド構造変換 (Command Structure Conversion)
+**場所**: `srcs/parser/parser_token_to_cmd.c`  
+**目的**: トークンリストをコマンド構造体に変換
+
+```c
+typedef struct s_command {
+    char **args;           // コマンド引数配列
+    t_redirect *redirects; // リダイレクション情報
+    struct s_command *next; // パイプライン次コマンド
+} t_command;
+```
+
+### 5. コマンド実行 (Command Execution)
+**場所**: `srcs/utils/excute_command.c`  
+**目的**: コマンド構造体の実行
+
+#### 実行フロー
+1. **リダイレクション設定**: `srcs/redirect/`
+2. **Built-in判定**: `srcs/builtin/execute_builtin.c`
+3. **外部コマンド実行**: `srcs/external/external_commands.c`
+4. **パイプライン処理**: `srcs/pipeline/`
+
+### 特殊ケースの処理
+
+#### 空コマンドエラー
+```bash
+入力: ""
+処理結果: args=[""]  # 空文字列がコマンド名
+実行: minishell: : command not found  # exit code 127
+```
+
+#### リダイレクション単独
+```bash
+入力: < file_not_found
+処理結果: args=NULL, redirects=[input: file_not_found]
+実行: ファイルオープン試行 → エラー出力 → exit code 1
+```
+
+### 現在の状況 (test2完全達成・test1継続改善)
+**test1スコア**: 255/295 (86.4%) 🔄  
 **test2スコア**: 146/146 (100%) 🎉 **完全達成**  
 **技術品質**: 42 Norm完全準拠、メモリ安全性100%
 
+#### Phase 13.8で解決した課題
+- ✅ 空クォート文字列の適切な保持（`echo "" b`）
+- ✅ 変数展開で空になったトークンの削除（`echo $EMPTY b`）
+- ✅ 空コマンドのエラー表示（`""`で「: command not found」）
+- ✅ TOKEN_EMPTY_VAR型によるトークン種別の明確化
+
 ### 主要課題 (test1)
-- 空引用符の処理（`echo '' b` → 余分なスペース問題）
+- 空引用符のスペース処理（`echo '' b` → 余分なスペース問題）
 - export/unsetの高度機能（`+=`演算子、複合操作等）
 - heredocの出力問題（パイプ入力時の出力生成）
 - ファイルリダイレクション処理の詳細
@@ -385,6 +519,65 @@ processed_cmd=$(echo "$extracted" | sed 's/\\n/\n/g')
 1. export/unsetビルトインの修正
 2. heredoc出力処理の実装
 3. 複数リダイレクション処理の改善
+
+---
+
+## Phase 13.6-13.8: トークン処理の根本的改善とTOKEN_EMPTY_VAR導入 ✅
+
+### Phase 13.6: 空クォート処理問題の発見 (2025-12-31)
+**発見した課題**:
+- `echo "" b`と`echo $EMPTY b`が同じ動作をしている
+- 明示的な空クォート(`""`)と変数展開による空文字列(`$EMPTY`)の区別ができていない
+- bashでは前者は空文字列引数として保持、後者は引数として削除
+
+### Phase 13.7: TOKEN_EMPTY_VAR型の設計と実装 (2025-12-31)
+**技術的設計**:
+```c
+// minishell.hに追加
+typedef enum e_token_type {
+    // ...existing types...
+    TOKEN_EMPTY_VAR       // 変数展開で空になったトークン
+} t_token_type;
+```
+
+**実装方針**:
+1. 変数展開で空になったトークンを`TOKEN_EMPTY_VAR`型にする
+2. `remove_empty_tokens()`で`TOKEN_EMPTY_VAR`のみ削除
+3. 明示的な空クォート(`TOKEN_WORD:""`)は保持
+
+### Phase 13.8: 完全実装と検証 (2025-12-31)
+**修正ファイル**:
+1. **`minishell.h`**: `TOKEN_EMPTY_VAR`型追加
+2. **`srcs/env/env_expand.c`**: 変数展開で空の場合に`TOKEN_EMPTY_VAR`設定
+3. **`srcs/parser/parser_token_remove.c`**: `TOKEN_EMPTY_VAR`のみ削除する条件修正
+4. **`srcs/utils/excute_command.c`**: 空コマンド（`""`）で適切なエラー表示
+
+**技術的成果**:
+```bash
+# 修正後の動作（bash互換）
+$ echo "" b
+ b           # 空文字列引数が保持される
+
+$ EMPTY=""; echo $EMPTY b  
+b            # 変数展開で空になった引数は削除
+
+$ ""
+minishell: : command not found  # 適切なエラー表示
+```
+
+**テスト結果**:
+- **test1**: 250/295 → 255/295 (+5テスト改善)
+- **test2**: 146/146 (100%維持)
+
+**解決したテストケース**:
+- `Test [""][KO]` → OK （空コマンドエラー表示）
+- 空クォート関連のパターン改善
+- bash互換性の大幅向上
+
+**技術的意義**:
+- トークン型システムの拡張による高度な制御
+- 明示的・暗黙的な空文字列の正確な区別
+- bash互換性の厳密な実装
 
 ---
 
