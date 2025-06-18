@@ -32,4 +32,4 @@ done < "$TEMPLATE"
 
 # 一時ファイルを Makefile に上書き
 mv "$tmpfile" "$TARGET"
-echo "Makefile を更新しました: ${TARGET}"
+# echo "Makefile を更新しました: ${TARGET}"

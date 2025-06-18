@@ -32,3 +32,5 @@ test*
 minishell_tester*
 .cache/
 
+minishell_tester-nda-cunh
+obj/.builddir_ready
