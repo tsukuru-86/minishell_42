@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/15 19:16:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 06:36:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ static int	execute_single_command(t_command *cmd)
 		set_env_node("?", "1");
 		return (1);
 	}
+	if (!cmd->args || !cmd->args[0])
+	{
+		if (cmd->redirects)
+			restore_redirection(cmd->redirects);
+		return (0);
+	}
 	idx = get_builtin_func_idx(cmd->args[0]);
 	if (0 <= idx && idx <= 6)
 		status = execute_builtin_with_redirect(cmd);
@@ -38,17 +44,17 @@ static int	execute_single_command(t_command *cmd)
 パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
 int	excute_commands(t_command *cmd)
 {
-	if (!cmd || !cmd->args || !cmd->args[0])
+	if (!cmd)
 		return (0);
 	if (!cmd->next)
 	{
-		if (!cmd || !cmd->args || !cmd->args[0])
+		if (cmd->redirects && (!cmd->args || !cmd->args[0]))
+		{
+			return (execute_single_command(cmd));
+		}
+		if (!cmd->args || !cmd->args[0])
 			return (0);
-		if (ft_strlen(cmd->args[0]) == 0)
-			return (127);
 		return (execute_single_command(cmd));
 	}
-	if (cmd->args && cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return (127);
 	return (execute_command_pipeline(cmd));
 }

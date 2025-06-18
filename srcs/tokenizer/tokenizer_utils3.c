@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/16 22:59:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 11:07:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 		int *buf_len)
 {
 	char	quote_c;
-	int		start;
 	int		ret;
 
 	quote_c = input[*i];
-	start = *i;
 	(*i)++;
 	*buf_len = 0;
 	while (input[*i] && input[*i] != quote_c)
@@ -62,9 +60,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 	}
 	if (input[*i] == quote_c)
 		(*i)++;
-	if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
-		ret = TOKEN_WORD;
-	else if (quote_c == '\'')
+	if (quote_c == '\'')
 		ret = TOKEN_S_QUOTED_WORD;
 	else
 		ret = TOKEN_D_QUOTED_WORD;

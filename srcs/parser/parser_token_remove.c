@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:32:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 06:36:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,20 @@ t_token	*remove_empty_tokens(t_token *tokens)
 	t_token	*current;
 	t_token	*prev;
 	t_token	*next;
-	int		is_first_word;
 
 	current = tokens;
 	prev = NULL;
-	is_first_word = 1;
 	while (current)
 	{
 		next = current->next;
 		if ((!current->content || current->content[0] == '\0')
-			&& current->type == TOKEN_WORD && !is_first_word)
+			&& current->type == TOKEN_WORD
+			&& !(current->content && current->content[0] == '\x01'))
 		{
 			tokens = remove_empty_token(tokens, current, prev);
 			current = next;
 			continue ;
 		}
-		if (current->type == TOKEN_WORD)
-			is_first_word = 0;
 		prev = current;
 		current = next;
 	}
