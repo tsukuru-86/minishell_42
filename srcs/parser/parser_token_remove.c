@@ -40,9 +40,7 @@ t_token	*remove_empty_tokens(t_token *tokens)
 	while (current)
 	{
 		next = current->next;
-		if ((!current->content || current->content[0] == '\0')
-			&& current->type == TOKEN_WORD
-			&& !(current->content && current->content[0] == '\x01'))
+		if (!current->content && current->type == TOKEN_WORD)
 		{
 			tokens = remove_empty_token(tokens, current, prev);
 			current = next;

@@ -75,6 +75,7 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_input_processing.c \
 	tokenizer/tokenizer_meta_utils.c \
 	tokenizer/tokenizer_normal_word_logic.c \
+	tokenizer/tokenizer_pipe_redirect_fix.c \
 	tokenizer/tokenizer_quote_processing.c \
 	tokenizer/tokenizer_syntax_check_advanced.c \
 	tokenizer/tokenizer_syntax_check.c \
@@ -87,6 +88,7 @@ SRCS_FILE = main.c \
 	utils/debug.c \
 	utils/debug_int.c \
 	utils/debug_utils.c \
+	utils/empty_command_handler.c \
 	utils/empty_input_handler.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
@@ -140,13 +142,10 @@ cre: clean all
 
 test1: $(NAME)
 	DEBUG=0
-	cd ~/42/minishell_42/minishell_tester-nda-cunh&&./tester 2>&1
+	cd ~/42/minishell_42/minishell_tester-nda-cunh&&./tester
 
 test2: $(NAME)
 	DEBUG=0
-	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
+	cd ~/42/minishell_42/minishell_tester&&./tester
 
-debug: CFLAGS += -DDEBUG=1
-debug: cre
-
-.PHONY: all clean fclean re cre test1 test2 debug
+.PHONY: all clean fclean re cre test1 test2

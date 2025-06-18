@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 08:34:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 11:51:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,8 @@ int		process_input_char(t_tokenizer_stat *vars, const char *input);
 t_token	*get_last_token(t_token *tokens);
 int		check_basic_syntax(t_token *tokens);
 int		check_advanced_syntax(t_token *tokens);
+int		is_pipe_redirect(t_token *prev, t_token *current);
+int		validate_redirect_target(t_token *current, t_token *prev);
+int		check_pipe_redirect_syntax(t_token *tokens);
 void	free_tokens(t_token *tokens);
 #endif

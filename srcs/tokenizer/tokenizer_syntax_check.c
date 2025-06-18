@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:54:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 20:04:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 11:52:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,46 +60,11 @@ static int	check_leading_pipe(t_token *tokens)
 }
 
 /*
-** @brief リダイレクトタイプかチェック
-*/
-static int	is_redirect_token(t_token_type type)
-{
-	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
-		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)
-		return (1);
-	return (0);
-}
-
-/*
-** @brief リダイレクト演算子の後をチェック
+** @brief リダイレクト演算子の後をチェック（パイプ・リダイレクトの組み合わせを考慮）
 */
 static int	check_redirect_target(t_token *tokens)
 {
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	while (current)
-	{
-		if (is_redirect_token(current->type))
-		{
-			next = current->next;
-			while (next && next->type == TOKEN_SPACE)
-				next = next->next;
-			if (!next)
-			{
-				ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
-				return (0);
-			}
-			if (next->type == TOKEN_PIPE || is_redirect_token(next->type))
-			{
-				ft_printf_fd(2, ERR_UNEXP_TOKEN, next->content);
-				return (0);
-			}
-		}
-		current = current->next;
-	}
-	return (1);
+	return (check_pipe_redirect_syntax(tokens));
 }
 
 /*

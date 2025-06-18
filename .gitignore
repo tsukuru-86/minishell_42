@@ -28,11 +28,7 @@ test/logs
 tests/
 test*
 !test_from_cunh
-minishell_tester/
 42_minishell_tester/
-minishell_tester-nda-cunh
-BUGFIX_PLAN.md
-CLAUDE.md
-MCP_SETUP.md
+minishell_tester*
 .cache/
 
