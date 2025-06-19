@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 00:26:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:07:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	if (token->content == NULL)
 		debug_print("[NULL: ", DEBUG_ENABLED);
 	else
-		printf("[%s: ", token->content);
-	printf("%s]\n", type_str[token->type]);
+		ft_printf_fd(STDERR_FILENO, "[%s: ", token->content);
+	ft_printf_fd(STDERR_FILENO, "%s]\n", type_str[token->type]);
 }
 
 void	debug_print(const char *message, bool is_debug)
 {
 	if (is_debug)
-		printf("%s\n", message);
+		ft_printf_fd(STDERR_FILENO, "%s\n", message);
 }
 
 void	debug_print_with_str(const char *prefix, const char *str, bool is_debug)
 {
 	if (is_debug)
-		printf("%s'%s'\n", prefix, str);
+		ft_printf_fd(STDERR_FILENO, "%s'%s'\n", prefix, str);
 }
 
 void	debug_print_tokens(t_token *tokens, bool is_debug)

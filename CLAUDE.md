@@ -7,10 +7,6 @@
 ### 🔄 修正予定項目(meke test1のKO項目)
 
 ```bash
-Test [ printf 'Syntax Error!' |> file_out ][KO]
-Test [ printf 'Syntax Error!' | > file_out ][KO]
-Test [ printf 'Syntax Error!' |> file_out ][KO]
-Test [ printf 'Syntax Error!' | > file_out ][KO]
 Test [ >trash/$WHOAMI.b.test printf 'Hello World' >trash/$WHOAMI.c.test ] [cat trash/$WHOAMI.b.test -e] [echo A] [cat trash/$WHOAMI.c.test -e][KO]
 Test [printf 'A' >trash/$WHOAMI.l.test] [echo 'B' >trash/>>trash/$WHOAMI.l.test] [echo 'C' >trash/>trash/$WHOAMI.l.test] [cat trash/$WHOAMI.l.test -e] [cat trash/>trash/$WHOAMI.l.test -e][KO]
 Test [ printf 'Hello World' >trash/$WHOAMI.a.test ] [cat trash/$WHOAMI.a.test -e][KO]
@@ -105,7 +101,7 @@ printf, malloc, free, write
 ## 📊 2. 現状 (Current Status)
 
 ### 最新テスト結果 (現在)
-- **test1**: 255/295 (86.4%) 🔄 **開発継続中**
+- **test1**: 257/295 (87.1%) 🔄 **開発継続中**
 - **test2**: 146/146 (100%) 🎉 **完全達成**
 
 ### 現在の成果
@@ -114,19 +110,20 @@ printf, malloc, free, write
 - echo、cd、pwd、env、export、unset等の内蔵コマンド完璧
 - 基本的な変数展開、クォート処理完璧
 
-**高度機能**: B級 (82.9%) - 満足できない
+**高度機能**: B+級 (87.1%) - 着実に改善中
 - 複雑なパイプライン処理、環境変数高度処理
 - 構文エラー検出、exit code適切な返却
+- パイプ直後のリダイレクト対応完了
 
 **不要な機能**
 - `expr`
 - Here Documentの`'EOF'`、`"EOF"`
 
-### 最新修正 (Phase 13.8)
-**空文字列コマンドエラー表示とTOKEN_EMPTY_VAR導入完了** 🎉:
-- 空のクォート文字列("")は保持、変数展開で空になったトークン($EMPTY)のみ削除
-- bashと互換性のある空コマンドエラー表示「: command not found」実現
-- **test1: 250/295 → 255/295 (+5テスト改善)**
+### 最新修正 (Phase 17)
+**パイプ直後リダイレクトの正常処理実装** 🎉:
+- パイプ直後のリダイレクト（`|> file_out`, `| > file_out`）を正常処理
+- 空コマンド＋リダイレクトとして認識・処理し、ファイルを作成
+- **test1: 255/295 → 257/295 (+2テスト改善)**
 - **test2: 146/146 (100%維持)**
 
 ---
@@ -258,7 +255,7 @@ typedef struct s_command {
 ```
 
 ### 現在の状況 (test2完全達成・test1継続改善)
-**test1スコア**: 255/295 (86.4%) 🔄  
+**test1スコア**: 257/295 (87.1%) 🔄  
 **test2スコア**: 146/146 (100%) 🎉 **完全達成**  
 **技術品質**: 42 Norm完全準拠、メモリ安全性100%
 
@@ -552,7 +549,7 @@ typedef enum e_token_type {
 3. **`srcs/parser/parser_token_remove.c`**: `TOKEN_EMPTY_VAR`のみ削除する条件修正
 4. **`srcs/utils/excute_command.c`**: 空コマンド（`""`）で適切なエラー表示
 
-**技術的成果**:
+**技術的成果**
 ```bash
 # 修正後の動作（bash互換）
 $ echo "" b
@@ -900,12 +897,7 @@ if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
 5. remove_space_tokens()      // スペーストークン削除
 ```
 
-**重要な設計判断**:
-- 空のクォート文字列（`''`, `""`）は**保持** → クォート外し段階まで残る
-- 変数展開で空になったトークンは**削除** → コマンド引数から除外
-- 処理順序により適切な動作を実現
-
-#### 3. コマンド構造変換 (Command Structure Conversion)
+#### 4. コマンド構造変換 (Command Structure Conversion)
 **場所**: `srcs/parser/parser_token_to_cmd.c`
 **目的**: トークンリストをコマンド構造体に変換
 
@@ -917,7 +909,7 @@ t_command {
 }
 ```
 
-#### 4. コマンド実行 (Command Execution)
+#### 5. コマンド実行 (Command Execution)
 **場所**: `srcs/utils/excute_command.c`
 **目的**: コマンド構造体の実行
 
@@ -926,7 +918,7 @@ t_command {
 3. **外部コマンド実行**: `srcs/external/external_commands.c`
 4. **パイプライン処理**: `srcs/pipeline/`
 
-#### 5. エラーハンドリングと終了処理
+#### 6. エラーハンドリングと終了処理
 **場所**: 各モジュール
 **目的**: 適切なエラー報告と資源解放
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:09:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 19:31:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_pipe_redirect(t_token *prev, t_token *current)
 int	validate_redirect_target(t_token *current, t_token *prev)
 {
 	t_token	*next;
-	
+
 	next = current->next;
 	while (next && next->type == TOKEN_SPACE)
 		next = next->next;

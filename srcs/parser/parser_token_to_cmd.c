@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:02:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 19:31:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,9 @@ t_command	*parse_tokens(t_token *tokens)
 		debug_print("[DEBUG] No tokens remain (empty command)", DEBUG_ENABLED);
 		return (create_command());
 	}
-	
-	/* 先頭トークンがリダイレクトかチェック (単独リダイレクト対応) */
 	first_token = preprocessed_tokens;
 	while (first_token && first_token->type == TOKEN_SPACE)
 		first_token = first_token->next;
-		
 	debug_print_tokens(preprocessed_tokens, DEBUG_ENABLED);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))

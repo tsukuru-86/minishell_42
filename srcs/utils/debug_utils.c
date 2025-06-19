@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 06:36:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 19:26:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ const char	*get_token_type_str(t_token_type type)
 	if (type >= 0 && type < sizeof(types) / sizeof(types[0]) && types[type])
 		return (types[type]);
 	return ("UNKNOWN");
-}
-
-void	print_tokens_debug(const t_token *tokens, int debug)
-{
-	(void)tokens;
-	(void)debug;
 }
 
 void	print_args_debug(char **args)

@@ -5,19 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 07:43:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 14:51:50 by muiida           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                        :::      ::::::::   */
-/*   parser_preprocess.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 02:16:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:45:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/19 19:27:27 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/19 19:43:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +62,8 @@ t_token	*preprocess_tokens(t_token *tokens)
 {
 	t_token	*processed_tokens;
 
+	debug_print("--- Original Tokens ---", DEBUG_ENABLED);
+	debug_print_tokens(tokens, DEBUG_ENABLED);
 	if (!tokens)
 		return (NULL);
 	if (!expand_all_variables(tokens))
@@ -80,14 +71,24 @@ t_token	*preprocess_tokens(t_token *tokens)
 		free_tokens(tokens);
 		return (NULL);
 	}
+	debug_print("--- After expand_all_variables ---", DEBUG_ENABLED);
+	debug_print_tokens(tokens, DEBUG_ENABLED);
 	if (tokens)
 		tokens = remove_empty_tokens(tokens);
+	debug_print("--- After remove_empty_tokens ---", DEBUG_ENABLED);
+	debug_print_tokens(tokens, DEBUG_ENABLED);
 	processed_tokens = remove_quote_tokens(tokens);
+	debug_print("--- After remove_quote_tokens ---", DEBUG_ENABLED);
+	debug_print_tokens(processed_tokens, DEBUG_ENABLED);
 	if (!processed_tokens)
 		return (NULL);
 	if (processed_tokens)
 		processed_tokens = merge_adjacent_non_meta_tokens(processed_tokens);
+	debug_print("--- After merge_adjacent_non_meta_tokens ---", DEBUG_ENABLED);
+	debug_print_tokens(processed_tokens, DEBUG_ENABLED);
 	if (processed_tokens)
 		processed_tokens = remove_space_tokens(processed_tokens);
+	debug_print("--- After remove_space_tokens ---", DEBUG_ENABLED);
+	debug_print_tokens(processed_tokens, DEBUG_ENABLED);
 	return (processed_tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 18:55:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 19:28:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ int	execute_external_command(t_command *cmd)
 	char	*cmd_path;
 	char	**args;
 	int		result;
+	pid_t	pid;
 
 	args = cmd->args;
 	if (!args || !args[0])
 	{
-		/* リダイレクトのみの場合は正常終了(0)（bashと同じ挙動に） */
 		if (cmd->redirects != NULL)
 		{
-			pid_t pid = fork();
+			pid = fork();
 			if (pid == -1)
 				return (1);
 			if (pid == 0)
