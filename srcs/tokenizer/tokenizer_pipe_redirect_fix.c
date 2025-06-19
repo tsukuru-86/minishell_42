@@ -15,13 +15,15 @@
 #include "tokenizer.h"
 
 /*
-** @brief パイプ後のリダイレクションかチェック
+** @brief パイプ後のリダイレクションかチェック（構文エラー扱い）
 */
 int	is_pipe_redirect(t_token *prev, t_token *current)
 {
 	if (prev && prev->type == TOKEN_PIPE
 		&& (current->type == TOKEN_REDIR_OUT
-			|| current->type == TOKEN_REDIR_APPEND))
+			|| current->type == TOKEN_REDIR_APPEND
+			|| current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_HEREDOC))
 		return (1);
 	return (0);
 }
@@ -33,10 +35,17 @@ int	validate_redirect_target(t_token *current, t_token *prev)
 {
 	t_token	*next;
 
+	/* パイプ直後のリダイレクトは構文エラー */
+	if (is_pipe_redirect(prev, current))
+	{
+		ft_printf_fd(2, ERR_UNEXP_TOKEN, "|");
+		return (0);
+	}
+	
 	next = current->next;
 	while (next && next->type == TOKEN_SPACE)
 		next = next->next;
-	if (!next && !is_pipe_redirect(prev, current))
+	if (!next)
 	{
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
 		return (0);

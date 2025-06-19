@@ -106,6 +106,7 @@ t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*head;
 	t_token		*preprocessed_tokens;
+	t_token		*first_token;
 
 	if (!tokens)
 		return (NULL);
@@ -115,6 +116,12 @@ t_command	*parse_tokens(t_token *tokens)
 		debug_print("[DEBUG] No tokens remain (empty command)", DEBUG_ENABLED);
 		return (create_command());
 	}
+	
+	/* 先頭トークンがリダイレクトかチェック (単独リダイレクト対応) */
+	first_token = preprocessed_tokens;
+	while (first_token && first_token->type == TOKEN_SPACE)
+		first_token = first_token->next;
+		
 	debug_print_tokens(preprocessed_tokens, DEBUG_ENABLED);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))
