@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/19 22:12:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:11:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,20 @@ void							load_history_file(void);
 void							save_history_file(void);
 
 /* line_utils */
-void							process_lines(char **lines, int *status);
 void							free_lines(char **lines);
+void							process_lines(char **lines, int *status);
+
+/* parser_token_utils2 */
+void							handle_heredoc_error(t_command **head_cmd);
+void							skip_to_delimiter(t_token **current_token,
+									const char *delimiter);
+
+/* pipeline_process_utils2 */
+void							handle_empty_args(t_command *current);
+void							execute_builtin_command(t_command *current);
+bool							handle_fork_error(t_command *cmd);
+
+/* external_commands_exec2 */
+int								handle_empty_redirect(t_command *cmd);
 
 #endif

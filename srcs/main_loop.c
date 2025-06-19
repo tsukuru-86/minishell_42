@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 20:36:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:56:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,14 @@ static int	handle_non_interactive(int *status)
 {
 	char	*input;
 	char	**lines;
-	char	*debug_msg;
 
 	debug_print("[DEBUG] Enter handle_non_interactive\n", DEBUG_ENABLED);
 	input = read_full_input();
 	if (input)
-		debug_msg = input;
+		debug_print_with_str("[DEBUG] After read_full_input: %s\n",
+			input, DEBUG_ENABLED);
 	else
-		debug_msg = "NULL";
-	debug_print_with_str("[DEBUG] After read_full_input: %s\n",
-		debug_msg, DEBUG_ENABLED);
+		debug_print("[DEBUG] After read_full_input: NULL\n", DEBUG_ENABLED);
 	if (!input)
 		return (0);
 	if (ft_strlen(input) == 0)
@@ -75,10 +73,8 @@ static int	handle_non_interactive(int *status)
 	free(input);
 	if (!lines)
 		return (0);
-	debug_print("[DEBUG] Processing lines...", DEBUG_ENABLED);
 	process_lines(lines, status);
 	free_lines(lines);
-	debug_print("[DEBUG] Exit handle_non_interactive\n", DEBUG_ENABLED);
 	return (0);
 }
 

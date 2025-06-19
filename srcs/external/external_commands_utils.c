@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 06:07:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:07:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,6 @@ int	handle_child_process(char *cmd_path, char **args)
 	}
 	perror(cmd_path);
 	exit(1);
-}
-
-/*
-** fork失敗時の処理
-*/
-int	handle_fork_error(char *cmd_path)
-{
-	perror("minishell: fork");
-	free(cmd_path);
-	return (1);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:28:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:13:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "external.h"
 #include "minishell.h"
 
-int	handle_command_not_found(char **args)
+bool	handle_command_not_found(char **args)
 {
 	pid_t	pid;
 
@@ -39,7 +39,10 @@ int	handle_directory_check(char *cmd_path, char **args)
 		return (0);
 	pid = fork();
 	if (pid == -1)
-		return (handle_fork_error(cmd_path));
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == 0)
 		exit(dir_check);
 	return (wait_parent(pid, cmd_path));
@@ -51,7 +54,10 @@ int	execute_external_main(char *cmd_path, char **args)
 
 	pid = fork();
 	if (pid == -1)
-		return (handle_fork_error(cmd_path));
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == 0)
 		handle_child_process(cmd_path, args);
 	return (wait_parent(pid, cmd_path));
@@ -78,26 +84,10 @@ int	execute_external_command(t_command *cmd)
 	char	*cmd_path;
 	char	**args;
 	int		result;
-	pid_t	pid;
 
 	args = cmd->args;
 	if (!args || !args[0])
-	{
-		if (cmd->redirects != NULL)
-		{
-			pid = fork();
-			if (pid == -1)
-				return (1);
-			if (pid == 0)
-			{
-				if (setup_redirection(cmd->redirects))
-					exit(0);
-				exit(1);
-			}
-			return (wait_parent(pid, NULL));
-		}
-		return (127);
-	}
+		return (handle_empty_redirect(cmd));
 	if (ft_strlen(args[0]) == 0)
 		return (handle_command_not_found(args));
 	cmd_path = find_command_path(args[0]);

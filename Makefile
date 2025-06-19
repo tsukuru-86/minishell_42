@@ -34,6 +34,7 @@ SRCS_FILE = main.c \
 	env/exit_status.c \
 	external/external_commands.c \
 	external/external_commands_child_utils.c \
+	external/external_commands_exec2.c \
 	external/external_commands_exec.c \
 	external/external_commands_find.c \
 	external/external_commands_utils.c \
@@ -55,12 +56,14 @@ SRCS_FILE = main.c \
 	parser/parser_token_remove.c \
 	parser/parser_tokens.c \
 	parser/parser_token_to_cmd.c \
+	parser/parser_token_utils2.c \
 	parser/parser_token_utils.c \
 	parser/parser_utils3.c \
 	parser/parser_utils.c \
 	pipeline/excute_pipeline.c \
 	pipeline/pipeline.c \
 	pipeline/pipeline_cleanup.c \
+	pipeline/pipeline_process_utils2.c \
 	pipeline/pipeline_process_utils.c \
 	pipeline/pipeline_setup_utils.c \
 	pipeline/pipeline_utils.c \

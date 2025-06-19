@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 19:31:40 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:54:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 */
 int	is_pipe_redirect(t_token *prev, t_token *current)
 {
-	if (prev && prev->type == TOKEN_PIPE
-		&& (current->type == TOKEN_REDIR_OUT
+	if (prev && prev->type == TOKEN_PIPE && (current->type == TOKEN_REDIR_OUT
 			|| current->type == TOKEN_REDIR_APPEND
 			|| current->type == TOKEN_REDIR_IN
 			|| current->type == TOKEN_HEREDOC))
@@ -43,8 +42,8 @@ int	validate_redirect_target(t_token *current, t_token *prev)
 		ft_printf_fd(2, ERR_UNEXP_TOKEN, "newline");
 		return (0);
 	}
-	if (next && (next->type == TOKEN_PIPE
-			|| (next->type == TOKEN_REDIR_IN || next->type == TOKEN_REDIR_OUT
+	if (next && (next->type == TOKEN_PIPE || (next->type == TOKEN_REDIR_IN
+				|| next->type == TOKEN_REDIR_OUT
 				|| next->type == TOKEN_REDIR_APPEND
 				|| next->type == TOKEN_HEREDOC)))
 	{
