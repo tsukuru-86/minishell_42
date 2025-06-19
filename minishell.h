@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/18 14:51:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 22:12:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,5 +239,9 @@ int								handle_empty_command_with_redirects(void);
 char							*get_history_path(void);
 void							load_history_file(void);
 void							save_history_file(void);
+
+/* line_utils */
+void							process_lines(char **lines, int *status);
+void							free_lines(char **lines);
 
 #endif

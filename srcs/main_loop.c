@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 00:21:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:36:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,17 @@ static char	*read_full_input(void)
 static int	handle_non_interactive(int *status)
 {
 	char	*input;
+	char	**lines;
+	char	*debug_msg;
 
 	debug_print("[DEBUG] Enter handle_non_interactive\n", DEBUG_ENABLED);
 	input = read_full_input();
+	if (input)
+		debug_msg = input;
+	else
+		debug_msg = "NULL";
 	debug_print_with_str("[DEBUG] After read_full_input: %s\n",
-		input ? input : "NULL", DEBUG_ENABLED);
+		debug_msg, DEBUG_ENABLED);
 	if (!input)
 		return (0);
 	if (ft_strlen(input) == 0)
@@ -65,10 +71,13 @@ static int	handle_non_interactive(int *status)
 		free(input);
 		return (0);
 	}
-	debug_print_with_str("[DEBUG] Non-inter input: ", input, DEBUG_ENABLED);
-	handle_input(input, status);
-	debug_print_with_int("[DEBUG] Status: ", *status, DEBUG_ENABLED);
+	lines = ft_split(input, '\n');
 	free(input);
+	if (!lines)
+		return (0);
+	debug_print("[DEBUG] Processing lines...", DEBUG_ENABLED);
+	process_lines(lines, status);
+	free_lines(lines);
 	debug_print("[DEBUG] Exit handle_non_interactive\n", DEBUG_ENABLED);
 	return (0);
 }

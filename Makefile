@@ -95,6 +95,7 @@ SRCS_FILE = main.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
 	utils/input_utils.c \
+	utils/line_utils.c \
 	utils/string_utils.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
 OBJS_DIR = obj/
