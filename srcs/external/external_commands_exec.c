@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 21:03:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 18:55:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,23 @@ int	execute_external_command(t_command *cmd)
 
 	args = cmd->args;
 	if (!args || !args[0])
+	{
+		/* リダイレクトのみの場合は正常終了(0)（bashと同じ挙動に） */
+		if (cmd->redirects != NULL)
+		{
+			pid_t pid = fork();
+			if (pid == -1)
+				return (1);
+			if (pid == 0)
+			{
+				if (setup_redirection(cmd->redirects))
+					exit(0);
+				exit(1);
+			}
+			return (wait_parent(pid, NULL));
+		}
 		return (127);
+	}
 	if (ft_strlen(args[0]) == 0)
 		return (handle_command_not_found(args));
 	cmd_path = find_command_path(args[0]);

@@ -45,6 +45,7 @@ SRCS_FILE = main.c \
 	parser/heredoc_process.c \
 	parser/heredoc_utils2.c \
 	parser/heredoc_utils.c \
+	parser/parser_args.c \
 	parser/parser.c \
 	parser/parser_preprocess.c \
 	parser/parser_preprocess_space.c \
@@ -56,6 +57,7 @@ SRCS_FILE = main.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_token_utils.c \
 	parser/parser_utils3.c \
+	parser/parser_utils.c \
 	pipeline/excute_pipeline.c \
 	pipeline/pipeline.c \
 	pipeline/pipeline_cleanup.c \

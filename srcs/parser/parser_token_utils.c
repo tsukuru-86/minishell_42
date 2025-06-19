@@ -98,6 +98,21 @@ int	handle_redirect_token(t_command *cmd, t_token **current_token,
 {
 	if (!cmd || !current_token || !*current_token || !head_cmd)
 		return (0);
+	if (!cmd->args || !cmd->args[0])
+	{
+		debug_print("[DEBUG] Empty command with redirect", DEBUG_ENABLED);
+		if (!add_redirect(cmd, *current_token, (*current_token)->next))
+		{
+			if (*head_cmd)
+				free_command(*head_cmd);
+			ft_putstr_fd((char *)ERR_REDIRECTION_ERROR, 2);
+			return (0);
+		}
+		*current_token = (*current_token)->next;
+		if (*current_token)
+			*current_token = (*current_token)->next;
+		return (1);
+	}
 	if (!((*current_token)->next))
 	{
 		if (*head_cmd)
@@ -116,3 +131,4 @@ int	handle_redirect_token(t_command *cmd, t_token **current_token,
 	}
 	return (handle_normal_redirect(cmd, current_token, head_cmd));
 }
+

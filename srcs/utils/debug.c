@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 06:32:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 00:26:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	if (!is_debug)
 		return ;
 	if (token->content == NULL)
-		printf("[NULL: ");
+		debug_print("[NULL: ", DEBUG_ENABLED);
 	else
 		printf("[%s: ", token->content);
 	printf("%s]\n", type_str[token->type]);
@@ -60,11 +60,11 @@ void	debug_print_tokens(t_token *tokens, bool is_debug)
 		return ;
 	if (!tokens)
 	{
-		printf("[DEBUG] Token list: NULL \n");
+		debug_print("[DEBUG] Token list: NULL \n", DEBUG_ENABLED);
 		return ;
 	}
 	else
-		printf("[DEBUG] Token list:\n");
+		debug_print("[DEBUG] Token list:\n", DEBUG_ENABLED);
 	tmp = tokens;
 	while (tmp)
 	{
@@ -79,11 +79,12 @@ void	debug_print_command_args(char **args, bool is_debug)
 
 	if (!is_debug || !args)
 		return ;
-	printf("[DEBUG] Command arguments:\n");
+	debug_print("[DEBUG] Command arguments:\n", DEBUG_ENABLED);
 	i = 0;
 	while (args[i])
 	{
-		printf("[DEBUG] args[%d]: '%s'\n", i, args[i]);
+		debug_print_with_int("[DEBUG] i=", i, DEBUG_ENABLED);
+		debug_print_with_str("args[i]=", args[i], DEBUG_ENABLED);
 		i++;
 	}
 }

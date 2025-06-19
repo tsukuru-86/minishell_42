@@ -6,16 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:20:26 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 16:20:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:55:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*prepare_input(char *input)
-{
-	return (ft_strdup(input));
-}
 
 char	*read_all_pipe_input(void)
 {
