@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 09:07:35 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 22:17:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,19 @@ static void	cleanup_strings(char *n, char *v)
 		free(v);
 }
 
+static int	process_env_setting(char *n, char *v)
+{
+	int	ret;
+
+	ret = set_env_node_direct(n, v);
+	if (ret != 0)
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
+	cleanup_strings(n, v);
+	return (ret);
+}
+
 int	validate_and_set_env(char *name, char *value)
 {
-	int		ret;
 	char	*n;
 	char	*v;
 
@@ -69,9 +79,10 @@ int	validate_and_set_env(char *name, char *value)
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
-	ret = set_env_node_direct(n, v);
-	if (ret != 0)
-		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
-	cleanup_strings(n, v);
-	return (ret);
+	if (!value)
+	{
+		cleanup_strings(n, v);
+		return (0);
+	}
+	return (process_env_setting(n, v));
 }
