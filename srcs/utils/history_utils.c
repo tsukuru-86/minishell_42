@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:03:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 14:10:12 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:57:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,15 @@ void	load_history_file(void)
 	free(path);
 }
 
+/* OSによって異なる実装を提供 */
+HIST_ENTRY	**get_history_entries(void);
+
 static void	write_history_entries(int fd)
 {
 	HIST_ENTRY	**hist_list;
 	int			i;
 
-	hist_list = history_list();
+	hist_list = get_history_entries();
 	i = 0;
 	while (hist_list && hist_list[i])
 	{

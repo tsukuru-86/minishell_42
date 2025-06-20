@@ -58,8 +58,8 @@ static int	handle_non_interactive(int *status)
 	debug_print("[DEBUG] Enter handle_non_interactive\n", DEBUG_ENABLED);
 	input = read_full_input();
 	if (input)
-		debug_print_with_str("[DEBUG] After read_full_input: %s\n",
-			input, DEBUG_ENABLED);
+		debug_print_with_str("[DEBUG] After read_full_input: %s\n", input,
+			DEBUG_ENABLED);
 	else
 		debug_print("[DEBUG] After read_full_input: NULL\n", DEBUG_ENABLED);
 	if (!input)

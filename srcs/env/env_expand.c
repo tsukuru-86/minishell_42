@@ -43,8 +43,7 @@ void	append_c_escaped(const char *str, int *i, char *buf, int *k)
 		buf[(*k)++] = str[*i];
 }
 
-static void	process_expansion(const char *input_str, int *i, char *res,
-		int *j)
+static void	process_expansion(const char *input_str, int *i, char *res, int *j)
 {
 	int	env_check;
 

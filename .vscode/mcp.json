@@ -1,0 +1,14 @@
+{
+	"servers": {
+		"mcp-language-server": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/mcp-language-server/mcp-language-server",
+			"args": [
+				"-workspace",
+				"${workspaceFolder}",
+				"-lsp",
+				"clangd"
+			]
+		}
+	}
+}
