@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 21:41:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 23:33:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,18 @@ char	**env_list_to_array(void)
 	return (env_array);
 }
 
-bool	wait_parent(pid_t pid)
+int	wait_parent(pid_t pid)
 {
-	int		status;
-	bool	exit_status;
+	int	status;
 
-	exit_status = true;
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		perror("minishell: waitpid");
+		return (1);
 	}
-	else
-	{
-		if (WIFEXITED(status))
-			exit_status = (WEXITSTATUS(status) == 1);
-		else if (WIFSIGNALED(status))
-			exit_status = (128 + WTERMSIG(status) == 1);
-	}
-	return (exit_status);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 21:41:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 23:33:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*search_in_path(const char *path_env, char *cmd);
 char	**env_list_to_array(void);
 /* 子プロセス関連ユーティリティ */
 void	launch_child(char *cmd_path, char **args);
-bool	wait_parent(pid_t pid);
+int		wait_parent(pid_t pid);
 void	free_env_array(char **env_array, int count);
 int		count_env_nodes(t_env *env_list);
 int		handle_child_process(char *cmd_path, char **args);
