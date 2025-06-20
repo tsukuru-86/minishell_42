@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 16:13:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:03:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "external.h"
 #include "minishell.h"
 
-bool	handle_command_not_found(char **args)
+int	handle_command_not_found(char **args)
 {
 	pid_t	pid;
 

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 16:14:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:03:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_env_array(char **env_array, int count);
 int		count_env_nodes(t_env *env_list);
 int		handle_child_process(char *cmd_path, char **args);
 bool	handle_fork_error(t_command *cmd);
-bool	handle_command_not_found(char **args);
+int		handle_command_not_found(char **args);
 int		check_if_directory(char *cmd_path, char *cmd_name);
 /* 実行補助関数 */
 int		handle_directory_check(char *cmd_path, char **args);

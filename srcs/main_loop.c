@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 08:56:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:31:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ int	main_loop(void)
 			break ;
 		}
 	}
+	if (!isatty(STDIN_FILENO))
+		return (get_exit_status());
 	return (status);
 }
