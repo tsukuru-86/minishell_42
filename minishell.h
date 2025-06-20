@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/20 09:11:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 20:35:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,24 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-/** # include <sys/syslimits.h> // macOS*/
+/** # include <sys/syslimits.h> // __APPLE__*/
+
+# ifdef MACOS
+
+/* macOS固有の関数宣言 - macOSで明示的に宣言が必要なreadline関数 */
+void							rl_replace_line(const char *text,
+									int clear_undo);
+void							rl_clear_history(void);
+void							rl_delete_text(int start, int end);
+int								rl_insert_text(const char *text);
+int								rl_delete(int count, int key);
+int								rl_insert(int c, int count);
+
+# else
+
+HIST_ENTRY						**history_list(void);
+
+# endif
 
 # define MAX_TOKENS 1024
 # define PIPE_BUFFER_SIZE 8192
@@ -257,4 +274,5 @@ bool							handle_fork_error(t_command *cmd);
 /* external_commands_exec2 */
 int								handle_empty_redirect(t_command *cmd);
 
+HIST_ENTRY						*history_get(int index);
 #endif

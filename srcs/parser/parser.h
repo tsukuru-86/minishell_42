@@ -38,8 +38,7 @@ int			handle_word_type_tokens(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
 int			handle_redirect_type_tokens(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
-int			handle_other_tokens(t_token **current_token_ptr,
-				t_token_type type);
+int			handle_other_tokens(t_token **current_token_ptr, t_token_type type);
 /* パーサー内部関数（外部からは呼び出し禁止） */
 int			process_token_in_parse_loop(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);

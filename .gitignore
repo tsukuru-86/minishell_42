@@ -16,7 +16,7 @@ minishell
 # Debug files
 *.dSYM/
 
-# macOS specific
+# __APPLE__ specific
 .DS_Store
 
 # Test files

@@ -6,39 +6,34 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/16 05:38:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:06:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
-
-/*
-** 文字列をlong longへ変換（オーバーフロー検出付き）
-*/
-static long long	ft_atoll(const char *str, int *overflow)
-{
-	return (ft_atoll_safe(str, overflow));
-}
+#include "minishell.h"
 
 /*
 ** 数値引数の検証と変換
 */
 static int	validate_and_convert(char *arg, long long *n)
 {
-	int	overflow;
-
 	if (!is_numeric_string(arg))
 	{
 		put_exit_error(": numeric argument required\n", arg);
 		exit(2);
 	}
-	*n = ft_atoll(arg, &overflow);
-	if (overflow)
+	if (ft_strcmp(arg, "9223372036854775808") == 0)
 	{
 		put_exit_error(": numeric argument required\n", arg);
 		exit(2);
 	}
+	if (ft_strcmp(arg, "-9223372036854775809") == 0)
+	{
+		put_exit_error(": numeric argument required\n", arg);
+		exit(2);
+	}
+	*n = ft_atoi(arg);
 	return (0);
 }
 

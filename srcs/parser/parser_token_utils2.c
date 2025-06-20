@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/input_utils.h"
 #include "parser.h"
+#include "utils/input_utils.h"
 
 void	handle_heredoc_error(t_command **head_cmd)
 {

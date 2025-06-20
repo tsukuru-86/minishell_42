@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_commands_exec2.c                         :+:      :+:    :+:   */
+/*   history_utils_linux.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 09:10:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 09:10:00 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/20 17:00:07 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/20 20:02:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "external/external.h"
 #include "minishell.h"
-#include "utils/input_utils.h"
 
-int	handle_empty_redirect(t_command *cmd)
+/* Linux専用の実装 */
+HIST_ENTRY	**get_history_entries(void)
 {
-	pid_t	pid;
-
-	if (cmd->redirects != NULL)
-	{
-		pid = fork();
-		if (pid == -1)
-			return (1);
-		if (pid == 0)
-		{
-			if (setup_redirection(cmd->redirects))
-				exit(0);
-			exit(1);
-		}
-		return (wait_parent(pid, NULL));
-	}
-	return (127);
+	return (history_list());
 }

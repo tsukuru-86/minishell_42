@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/input_utils.h"
 #include "pipeline/pipeline.h"
+#include "utils/input_utils.h"
 
 void	handle_empty_args(t_command *current)
 {

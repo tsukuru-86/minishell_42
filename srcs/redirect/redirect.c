@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../env/env.h"
 #include "minishell.h"
 #include "redirect.h"
-#include "../env/env.h"
 
 t_redirect	*create_redirect(int type, char *file)
 {
