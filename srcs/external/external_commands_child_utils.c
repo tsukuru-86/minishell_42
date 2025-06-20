@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 16:27:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:41:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static bool	populate_env_array_from_list(char **env_array, t_env *env_list)
 char	**env_list_to_array(void)
 {
 	char	**env_array;
-	int		count;
 	t_env	*env_list;
+	int		count;
 
 	env_list = *get_env_val();
 	count = count_env_nodes(env_list);
@@ -75,11 +75,14 @@ char	**env_list_to_array(void)
 	if (!env_array)
 		return (NULL);
 	if (!populate_env_array_from_list(env_array, env_list))
+	{
+		free(env_array);
 		return (NULL);
+	}
 	return (env_array);
 }
 
-bool	wait_parent(pid_t pid, char *cmd_path)
+bool	wait_parent(pid_t pid)
 {
 	int		status;
 	bool	exit_status;
@@ -96,6 +99,5 @@ bool	wait_parent(pid_t pid, char *cmd_path)
 		else if (WIFSIGNALED(status))
 			exit_status = (128 + WTERMSIG(status) == 1);
 	}
-	free(cmd_path);
 	return (exit_status);
 }

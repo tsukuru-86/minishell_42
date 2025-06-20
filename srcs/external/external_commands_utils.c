@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/20 09:07:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:36:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,7 @@ int	handle_child_process(char *cmd_path, char **args)
 {
 	setup_child_signals();
 	launch_child(cmd_path, args);
-	if (errno == EACCES)
-	{
-		perror(cmd_path);
-		exit(126);
-	}
-	if (errno == ENOENT)
-	{
-		perror(cmd_path);
-		exit(127);
-	}
-	perror(cmd_path);
-	exit(1);
+	return (0);
 }
 
 /*

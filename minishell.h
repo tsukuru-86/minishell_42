@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/20 20:22:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 23:14:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void							rl_delete_text(int start, int end);
 int								rl_insert_text(const char *text);
 int								rl_delete(int count, int key);
 int								rl_insert(int c, int count);
-extern int						rl_point;
-extern int						rl_end;
 HIST_ENTRY						*history_get(int index);
-extern int						history_base;
 # else
 /* Linux固有の関数宣言 */
 HIST_ENTRY						**history_list(void);

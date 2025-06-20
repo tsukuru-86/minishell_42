@@ -29,7 +29,7 @@ int	handle_empty_redirect(t_command *cmd)
 				exit(0);
 			exit(1);
 		}
-		return (wait_parent(pid, NULL));
+		return (wait_parent(pid));
 	}
 	return (127);
 }

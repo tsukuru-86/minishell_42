@@ -43,7 +43,7 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	if (last_token && (last_token->type == TOKEN_S_QUOTED_WORD
 			|| last_token->type == TOKEN_D_QUOTED_WORD)
 		&& !is_delimiter(input[stat->i_input - 1]) && input[stat->i_input
-		- 1] != '\n')
+			- 1] != '\n')
 	{
 		combined_content = ft_strjoin(last_token->content, stat->word_buffer);
 		if (!combined_content)
