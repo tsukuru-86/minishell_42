@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 17:46:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 22:41:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,19 @@ void	process_input_lines(char **lines, int *status)
 			handle_input(lines[i], status);
 		}
 		i++;
+	}
+}
+
+void	process_with_fallback(char *input, int *status)
+{
+	char	**lines;
+
+	debug_print("[DEBUG] Pipe setup failed, using line processing",
+		DEBUG_ENABLED);
+	lines = ft_split(input, '\n');
+	if (lines)
+	{
+		process_input_lines(lines, status);
+		free_string_array(lines);
 	}
 }

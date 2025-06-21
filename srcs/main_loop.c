@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 17:47:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 23:09:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	handle_interactive(int *status)
 	free(input);
 	return (1);
 }
+
 
 static char	*read_full_input(void)
 {
@@ -54,8 +55,9 @@ static int	handle_non_interactive(int *status)
 {
 	char	*input;
 	char	**lines;
+	int		i;
 
-	debug_print("[DEBUG] Enter handle_non_interactive\n", DEBUG_ENABLED);
+	debug_print("[DEBUG] Enter handle_non_interactive (simplified)\n", DEBUG_ENABLED);
 	input = read_full_input();
 	if (!input)
 		return (0);
@@ -64,13 +66,25 @@ static int	handle_non_interactive(int *status)
 		free(input);
 		return (0);
 	}
-	debug_print("[DEBUG] Splitting input into lines\n", DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] Non-interactive input (simplified): '%s'\n", input,
+		DEBUG_ENABLED);
 	lines = ft_split(input, '\n');
+	if (lines)
+	{
+		i = 0;
+		while (lines[i])
+		{
+			if (ft_strlen(lines[i]) > 0)
+			{
+				debug_print_with_str("[DEBUG] Processing line: ", lines[i],
+					DEBUG_ENABLED);
+				handle_input(lines[i], status);
+			}
+			i++;
+		}
+		free_string_array(lines);
+	}
 	free(input);
-	if (!lines)
-		return (0);
-	process_input_lines(lines, status);
-	free_string_array(lines);
 	return (0);
 }
 

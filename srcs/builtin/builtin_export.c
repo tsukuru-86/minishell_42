@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/21 18:28:15 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 19:44:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
+#include "builtin_export.h"
 #include "error/error_messages.h"
 #include "minishell.h"
 
@@ -25,10 +26,26 @@ static int	check_invalid_identifier(char *arg)
 	return (0);
 }
 
+static int	process_single_export_arg(char *arg)
+{
+	char	*name;
+	char	*value;
+	int		append;
+	int		ret;
+
+	split_export_arg(arg, &name, &value, &append);
+	if (append)
+		ret = append_env_value(name, value);
+	else
+		ret = validate_and_set_env(name, value);
+	free(name);
+	free(value);
+	return (ret);
+}
+
 int	builtin_export(char **args)
 {
 	int	i;
-	int	ret;
 	int	has_error;
 
 	if (!args[1])
@@ -46,9 +63,9 @@ int	builtin_export(char **args)
 			i++;
 			continue ;
 		}
-		ret = process_export_with_reconstruction(args, &i);
-		if (ret)
+		if (process_single_export_arg(args[i]))
 			has_error = 1;
+		i++;
 	}
 	return (has_error);
 }
