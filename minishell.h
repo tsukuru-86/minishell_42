@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/20 23:14:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:27:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,6 @@ HIST_ENTRY						**history_list(void);
 # else
 #  define DEBUG_ENABLED 0
 # endif
-
-/* エラーメッセージ定義 */
-# define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: few arguments\n"
-# define ERR_UNSET_INVALID_ID "minishell: unset: `%s': not a valid identifier\n"
-# define ERR_EXPORT_MALLOC "minishell: export: memory allocation error\n"
-# define ERR_EXPORT_INVALID_ID "minishell: export:`%s':not a valid identifier\n"
-# define ERR_COMMAND_NOT_FOUND "minishell: %s: command not found\n"
-# define ERR_SYNTAX_ERROR "minishell: syntax error\n"
-# define ERR_UNEXP_TOKEN "minishell: syntax error near unexpected token `%s'\n"
-# define ERR_UNCLOSED_QUOTE "minishell: syntax error: unclosed quote\n"
-# define ERR_REDIRECTION_ERROR "minishell: redirection error\n"
 
 extern volatile sig_atomic_t	g_signal;
 

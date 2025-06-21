@@ -32,8 +32,6 @@ static int	should_reconstruct_args(char **args, int i)
 		return (1);
 	if (ft_strcmp(next_arg, "=") == 0 || ft_strcmp(next_arg, "+=") == 0)
 		return (1);
-	if (next_arg[0] == '=' || next_arg[0] == '+')
-		return (1);
 	return (0);
 }
 
