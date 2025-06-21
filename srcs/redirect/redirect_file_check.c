@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.h                                      :+:      :+:    :+:   */
+/*   redirect_file_check.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 16:17:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 17:46:50 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/21 17:13:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/21 17:16:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_UTILS_H
-# define INPUT_UTILS_H
+#include "minishell.h"
+#include "redirect.h"
+#include <stdio.h>
 
-# include "minishell.h"
-
-char	*prepare_input(char *input);
-char	*read_all_pipe_input(void);
-int		main_loop(void);
-int		handle_empty_input(char *input);
-void	process_valid_input(char *input, int *status);
-int		handle_tokens_and_parse(t_token *tokens);
-void	free_string_array(char **arr);
-void	process_input_lines(char **lines, int *status);
-#endif
+/* This file was created to separate file checking logic, */
+/* but the functions are already implemented in redirect_utils.c */
+/* Keeping this file for future expansion if needed */

@@ -67,15 +67,14 @@ re: fclean all
 
 cre: clean all
 
-test1: $(NAME)
+test1: cre
 	DEBUG=0
 	cd ~/42/minishell_42/minishell_tester-nda-cunh&&./tester 2>&1
 
-test2: $(NAME)
-	DEBUG=0
+test2: cre
 	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
 
 debug: 
-	$(MAKE) re CFLAGS="$(CFLAGS) -DDEBUG=1"
+	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"
 
 .PHONY: all clean fclean re cre test1 test2  debug

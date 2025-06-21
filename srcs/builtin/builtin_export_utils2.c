@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 22:17:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 16:58:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,6 @@ int	validate_and_set_env(char *name, char *value)
 	{
 		handle_invalid_identifier(n, v);
 		return (1);
-	}
-	if (!value)
-	{
-		cleanup_strings(n, v);
-		return (0);
 	}
 	return (process_env_setting(n, v));
 }

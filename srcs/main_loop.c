@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 12:47:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:47:02 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,10 @@ static char	*read_full_input(void)
 static int	handle_non_interactive(int *status)
 {
 	char	*input;
+	char	**lines;
 
 	debug_print("[DEBUG] Enter handle_non_interactive\n", DEBUG_ENABLED);
 	input = read_full_input();
-	if (input)
-		debug_print_with_str("[DEBUG] After read_full_input: %s\n", input,
-			DEBUG_ENABLED);
-	else
-		debug_print("[DEBUG] After read_full_input: NULL\n", DEBUG_ENABLED);
 	if (!input)
 		return (0);
 	if (ft_strlen(input) == 0)
@@ -68,10 +64,13 @@ static int	handle_non_interactive(int *status)
 		free(input);
 		return (0);
 	}
-	debug_print("[DEBUG] Processing full input as single command\n",
-		DEBUG_ENABLED);
-	handle_input(input, status);
+	debug_print("[DEBUG] Splitting input into lines\n", DEBUG_ENABLED);
+	lines = ft_split(input, '\n');
 	free(input);
+	if (!lines)
+		return (0);
+	process_input_lines(lines, status);
+	free_string_array(lines);
 	return (0);
 }
 

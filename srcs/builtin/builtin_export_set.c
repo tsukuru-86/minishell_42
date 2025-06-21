@@ -6,12 +6,42 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 09:06:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:03:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
+
+/* Create a new environment node */
+static t_env	*create_env_node_safe(const char *name, const char *value)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->name = ft_strdup(name);
+	if (!new_node->name)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	if (value)
+	{
+		new_node->value = ft_strdup(value);
+		if (!new_node->value)
+		{
+			free(new_node->name);
+			free(new_node);
+			return (NULL);
+		}
+	}
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)
@@ -21,15 +51,9 @@ static int	append_env_node(const char *name, const char *value)
 	t_env	**env;
 
 	env = get_env_val();
-	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node = create_env_node_safe(name, value);
 	if (!new_node)
 		return (-1);
-	new_node->name = ft_strdup(name);
-	if (value)
-		new_node->value = ft_strdup(value);
-	else
-		new_node->value = NULL;
-	new_node->next = NULL;
 	if (!*env)
 		*env = new_node;
 	else
@@ -87,24 +111,4 @@ int	set_env_node_direct(const char *name, const char *value)
 	if (!node)
 		return (append_env_node(name, value));
 	return (update_env_value(node, value));
-}
-
-/* 環境変数リストを表示する
-TODO: declare -x は何？
-*/
-void	print_env_list(t_env *head)
-{
-	while (head != NULL)
-	{
-		if (ft_strncmp(head->name, "?", 2) != 0)
-		{
-			ft_printf_fd(STDOUT_FILENO, "declare -x %s", head->name);
-			if (head->value)
-			{
-				ft_printf_fd(STDOUT_FILENO, "=\"%s\"", head->value);
-			}
-			ft_printf_fd(STDOUT_FILENO, "\n");
-		}
-		head = head->next;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 13:31:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:13:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,24 @@ static int	check_directory_access(t_redirect *redirect)
 	return (0);
 }
 
+/* Check input file access */
+static int	check_input_access(t_redirect *redirect)
+{
+	if (access(redirect->file, R_OK) != 0)
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
+			strerror(errno));
+		set_env_node("?", "1");
+		return (-1);
+	}
+	return (0);
+}
+
 /* Check file access permissions before opening */
 int	check_file_access(t_redirect *redirect)
 {
 	if (redirect->type == REDIR_IN)
-	{
-		if (access(redirect->file, R_OK) != 0)
-		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
-				strerror(errno));
-			set_env_node("?", "1");
-			return (-1);
-		}
-		return (0);
-	}
+		return (check_input_access(redirect));
 	if (access(redirect->file, F_OK) == 0)
 	{
 		if (access(redirect->file, W_OK) != 0)

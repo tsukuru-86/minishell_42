@@ -20,14 +20,25 @@ static int	handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 	t_token	*delimiter_token;
 
 	delimiter_token = (*current_token)->next;
-	if (!handle_heredoc(cmd, delimiter_token->content))
+	if (isatty(STDIN_FILENO))
 	{
-		handle_heredoc_error(head_cmd);
-		return (0);
+		if (!handle_heredoc(cmd, delimiter_token->content))
+		{
+			handle_heredoc_error(head_cmd);
+			return (0);
+		}
 	}
-	if (!isatty(STDIN_FILENO) && cmd->redirects && cmd->redirects->file)
-		write_heredoc_content_from_tokens(current_token,
-			delimiter_token->content, cmd->redirects->file);
+	else
+	{
+		if (!handle_heredoc(cmd, delimiter_token->content))
+		{
+			handle_heredoc_error(head_cmd);
+			return (0);
+		}
+		if (cmd->redirects && cmd->redirects->file)
+			write_heredoc_content_from_tokens(current_token,
+				delimiter_token->content, cmd->redirects->file);
+	}
 	skip_to_delimiter(current_token, delimiter_token->content);
 	return (1);
 }

@@ -27,6 +27,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_exit_utils.c \
 	builtin/builtin_export_argutils.c \
 	builtin/builtin_export.c \
+	builtin/builtin_export_print.c \
 	builtin/builtin_export_set.c \
 	builtin/builtin_export_sort.c \
 	builtin/builtin_export_utils2.c \
@@ -83,6 +84,7 @@ SRCS_FILE = main.c \
 	pipeline/pipeline_utils.c \
 	redirect/redirect_apply_fd.c \
 	redirect/redirect.c \
+	redirect/redirect_file_check.c \
 	redirect/redirect_process.c \
 	redirect/redirect_restore.c \
 	redirect/redirect_save_fds.c \
@@ -114,6 +116,7 @@ SRCS_FILE = main.c \
 	utils/history_utils_linux.c \
 	utils/input_utils.c \
 	utils/line_utils.c \
+	utils/non_interactive_utils.c \
 	utils/readline_utils.c \
 	utils/string_utils.c
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILE))
@@ -164,15 +167,14 @@ re: fclean all
 
 cre: clean all
 
-test1: $(NAME)
+test1: cre
 	DEBUG=0
 	cd ~/42/minishell_42/minishell_tester-nda-cunh&&./tester 2>&1
 
-test2: $(NAME)
-	DEBUG=0
+test2: cre
 	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
 
 debug: 
-	$(MAKE) re CFLAGS="$(CFLAGS) -DDEBUG=1"
+	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"
 
 .PHONY: all clean fclean re cre test1 test2  debug

@@ -1,0 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   non_interactive_utils.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 17:45:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/21 17:46:30 by muiida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "input_utils.h"
+
+void	free_string_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void	process_input_lines(char **lines, int *status)
+{
+	int	i;
+
+	i = 0;
+	while (lines[i])
+	{
+		if (ft_strlen(lines[i]) > 0)
+		{
+			debug_print_with_str("[DEBUG] Processing line: ", lines[i],
+				DEBUG_ENABLED);
+			handle_input(lines[i], status);
+		}
+		i++;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 12:48:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:09:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 	else
 	{
 		debug_print("[DEBUG] Non-interactive heredoc", DEBUG_ENABLED);
-		return (1);
+		return (read_heredoc_from_pipe(fd, heredoc));
 	}
 }
 
