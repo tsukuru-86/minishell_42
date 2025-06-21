@@ -86,9 +86,11 @@ SRCS_FILE = main.c \
 	redirect/redirect.c \
 	redirect/redirect_file_check.c \
 	redirect/redirect_process.c \
+	redirect/redirect_process_helpers.c \
 	redirect/redirect_restore.c \
 	redirect/redirect_save_fds.c \
 	redirect/redirect_setup.c \
+	redirect/redirect_utils2.c \
 	redirect/redirect_utils.c \
 	redirect/redirect_validate.c \
 	tokenizer/tokenizer.c \

@@ -35,3 +35,32 @@ void	skip_to_delimiter(t_token **current_token, const char *delimiter)
 		*current_token = (*current_token)->next;
 	}
 }
+
+int	handle_interactive_heredoc(t_command *cmd, t_token *delimiter_token,
+		t_command **head_cmd, t_token **current_token)
+{
+	debug_print("[DEBUG] Interactive mode", DEBUG_ENABLED);
+	if (!handle_heredoc(cmd, delimiter_token->content))
+	{
+		handle_heredoc_error(head_cmd);
+		return (0);
+	}
+	*current_token = delimiter_token->next;
+	return (1);
+}
+
+int	handle_noninteractive_heredoc(t_command *cmd, t_token *delimiter_token,
+		t_command **head_cmd, t_token **current_token)
+{
+	debug_print("[DEBUG] Non-interactive mode", DEBUG_ENABLED);
+	if (!handle_heredoc(cmd, delimiter_token->content))
+	{
+		handle_heredoc_error(head_cmd);
+		return (0);
+	}
+	write_heredoc_content_from_tokens(current_token,
+		delimiter_token->content, cmd->redirects->file);
+	skip_to_delimiter(current_token, delimiter_token->content);
+	*current_token = NULL;
+	return (1);
+}
