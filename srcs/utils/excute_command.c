@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/06/18 14:18:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:17:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,15 @@ static int	handle_empty_command(t_command *cmd)
 
 static int	execute_single_command(t_command *cmd)
 {
-	int	status;
-	int	idx;
+	int		status;
+	int		idx;
+	t_env	*status_node;
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
 	{
+		status_node = get_env_node("?");
+		if (status_node && ft_strcmp(status_node->value, "0") == 0)
+			return (0);
 		set_env_node("?", "1");
 		return (1);
 	}

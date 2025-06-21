@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 23:42:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:31:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	check_directory_access(t_redirect *redirect)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 				strerror(errno));
+			set_env_node("?", "1");
 			free(parent_dir);
 			return (-1);
 		}
@@ -61,6 +62,7 @@ static int	check_directory_access(t_redirect *redirect)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 			strerror(errno));
+		set_env_node("?", "1");
 		return (-1);
 	}
 	return (0);
@@ -75,6 +77,7 @@ int	check_file_access(t_redirect *redirect)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 				strerror(errno));
+			set_env_node("?", "1");
 			return (-1);
 		}
 		return (0);
@@ -85,12 +88,12 @@ int	check_file_access(t_redirect *redirect)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", redirect->file,
 				strerror(errno));
+			set_env_node("?", "1");
 			return (-1);
 		}
+		return (0);
 	}
-	else
-		return (check_directory_access(redirect));
-	return (0);
+	return (check_directory_access(redirect));
 }
 
 /* Open the file based on redirection type */

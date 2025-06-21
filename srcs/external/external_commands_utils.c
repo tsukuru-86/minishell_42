@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/20 21:36:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:23:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
 #include "minishell.h"
+#include "../redirect/redirect.h"
 
 /*
 ** 環境変数配列の解放
@@ -55,6 +56,19 @@ int	count_env_nodes(t_env *env_list)
 int	handle_child_process(char *cmd_path, char **args)
 {
 	setup_child_signals();
+	launch_child(cmd_path, args);
+	return (0);
+}
+
+int	handle_child_process_with_redirect(char *cmd_path, char **args,
+	t_command *cmd)
+{
+	setup_child_signals();
+	if (cmd->redirects)
+	{
+		if (!process_redirections(cmd->redirects))
+			exit(1);
+	}
 	launch_child(cmd_path, args);
 	return (0);
 }

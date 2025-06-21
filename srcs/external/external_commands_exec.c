@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 22:24:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:22:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_directory_check(char *cmd_path, char **args)
 	return (wait_parent(pid));
 }
 
-int	execute_external_main(char *cmd_path, char **args)
+int	execute_external_main(char *cmd_path, char **args, t_command *cmd)
 {
 	pid_t	pid;
 
@@ -59,7 +59,7 @@ int	execute_external_main(char *cmd_path, char **args)
 		return (1);
 	}
 	if (pid == 0)
-		handle_child_process(cmd_path, args);
+		handle_child_process_with_redirect(cmd_path, args, cmd);
 	return (wait_parent(pid));
 }
 
@@ -99,7 +99,7 @@ int	execute_external_command(t_command *cmd)
 		free(cmd_path);
 		return (result);
 	}
-	result = execute_external_main(cmd_path, args);
+	result = execute_external_main(cmd_path, args, cmd);
 	free(cmd_path);
 	return (result);
 }

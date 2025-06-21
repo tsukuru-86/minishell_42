@@ -55,6 +55,7 @@ SRCS_FILE = main.c \
 	main_loop.c \
 	parser/heredoc.c \
 	parser/heredoc_input.c \
+	parser/heredoc_noninteractive.c \
 	parser/heredoc_pipe.c \
 	parser/heredoc_process.c \
 	parser/heredoc_utils2.c \

@@ -18,21 +18,21 @@
 static int	should_reconstruct_args(char **args, int i)
 {
 	char	*arg;
+	char	*next_arg;
 	int		len;
 
 	arg = args[i];
-	if (!arg || !args[i + 1])
+	next_arg = args[i + 1];
+	if (!arg || !next_arg)
 		return (0);
 	len = ft_strlen(arg);
 	if (len > 0 && arg[len - 1] == '=')
 		return (1);
 	if (len > 1 && arg[len - 2] == '+' && arg[len - 1] == '=')
 		return (1);
-	if (ft_strcmp(args[i + 1], "=") == 0)
+	if (ft_strcmp(next_arg, "=") == 0 || ft_strcmp(next_arg, "+=") == 0)
 		return (1);
-	if (ft_strcmp(args[i + 1], "+=") == 0)
-		return (1);
-	if (args[i + 1][0] == '=' || args[i + 1][0] == '+')
+	if (next_arg[0] == '=' || next_arg[0] == '+')
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 19:58:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:48:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,13 @@ static int	finalize_heredoc(t_command *cmd, t_heredoc *heredoc)
 
 static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 {
-	return (read_heredoc_input(fd, heredoc));
+	if (isatty(STDIN_FILENO))
+		return (read_heredoc_input(fd, heredoc));
+	else
+	{
+		debug_print("[DEBUG] Non-interactive heredoc", DEBUG_ENABLED);
+		return (1);
+	}
 }
 
 static int	process_heredoc_file(int fd, t_heredoc *heredoc)

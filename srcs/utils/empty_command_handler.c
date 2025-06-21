@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 12:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 08:54:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:16:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ static void	copy_stdin_to_stdout(void)
 */
 int	handle_empty_command_with_redirects(void)
 {
+	t_env	*status_node;
+
 	copy_stdin_to_stdout();
+	status_node = get_env_node("?");
+	if (status_node && status_node->value)
+		return (ft_atoi(status_node->value));
 	return (0);
 }
