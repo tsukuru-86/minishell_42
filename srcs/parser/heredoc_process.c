@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 16:03:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:20:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	process_unquoted_line(char *line, int fd)
 {
 	char	*expanded;
 
-	expanded = expand_env_vars(line, 0);
+	expanded = expand_env_vars(line, 1);
 	if (!expanded)
 	{
 		free(line);

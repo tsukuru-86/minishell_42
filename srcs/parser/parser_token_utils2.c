@@ -26,7 +26,8 @@ void	skip_to_delimiter(t_token **current_token, const char *delimiter)
 	*current_token = (*current_token)->next;
 	while (*current_token)
 	{
-		if ((*current_token)->type == TOKEN_WORD
+		if (((*current_token)->type == TOKEN_WORD
+			|| (*current_token)->type == TOKEN_NEWLINE)
 			&& ft_strcmp((*current_token)->content, delimiter) == 0)
 		{
 			*current_token = (*current_token)->next;

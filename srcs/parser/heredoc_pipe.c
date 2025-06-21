@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 20:04:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:20:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*extract_line_from_buffer(t_pipe_buffer *pb)
 		return (NULL);
 	ft_memcpy(line, &pb->buffer[pb->pos], line_len);
 	line[line_len] = '\0';
-	if (i < pb->size)
+	if (i < pb->size && pb->buffer[i] == '\n')
 		pb->pos = i + 1;
 	else
 		pb->pos = i;
@@ -83,6 +83,8 @@ int	read_heredoc_from_pipe(int fd, t_heredoc *heredoc)
 				DEBUG_ENABLED);
 			break ;
 		}
+		debug_print_with_str("[DEBUG] read_heredoc_from_pipe: processing line",
+			line, DEBUG_ENABLED);
 		result = process_heredoc_line(line, fd, heredoc);
 		if (result == 0)
 			return (0);
