@@ -54,24 +54,76 @@ static int	apply_in_redirect(t_redirect *redir)
 	return (1);
 }
 
-int	process_redirections(t_redirect *redirect)
+static t_redirect	*find_last_output_redirect(t_redirect *redirect)
 {
 	t_redirect	*current;
+	t_redirect	*last_out;
+
+	current = redirect;
+	last_out = NULL;
+	while (current)
+	{
+		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+			last_out = current;
+		current = current->next;
+	}
+	return (last_out);
+}
+
+static t_redirect	*find_last_input_redirect(t_redirect *redirect)
+{
+	t_redirect	*current;
+	t_redirect	*last_in;
+
+	current = redirect;
+	last_in = NULL;
+	while (current)
+	{
+		if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
+			last_in = current;
+		current = current->next;
+	}
+	return (last_in);
+}
+
+static int	process_non_effective_redirects(t_redirect *redirect,
+	t_redirect *last_out, t_redirect *last_in)
+{
+	t_redirect	*current;
+	int			fd;
 
 	current = redirect;
 	while (current)
 	{
-		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+		if (current != last_out && current != last_in)
 		{
-			if (!apply_out_redirect(current))
-				return (0);
-		}
-		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
-		{
-			if (!apply_in_redirect(current))
-				return (0);
+			if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+			{
+				fd = open_redirect_file(current);
+				if (fd == -1)
+					return (0);
+				close(fd);
+			}
 		}
 		current = current->next;
 	}
+	return (1);
+}
+
+int	process_redirections(t_redirect *redirect)
+{
+	t_redirect	*last_out;
+	t_redirect	*last_in;
+
+	if (!redirect)
+		return (1);
+	last_out = find_last_output_redirect(redirect);
+	last_in = find_last_input_redirect(redirect);
+	if (!process_non_effective_redirects(redirect, last_out, last_in))
+		return (0);
+	if (last_out && !apply_out_redirect(last_out))
+		return (0);
+	if (last_in && !apply_in_redirect(last_in))
+		return (0);
 	return (1);
 }
