@@ -61,6 +61,5 @@ int	handle_noninteractive_heredoc(t_command *cmd, t_token *delimiter_token,
 	write_heredoc_content_from_tokens(current_token,
 		delimiter_token->content, cmd->redirects->file);
 	skip_to_delimiter(current_token, delimiter_token->content);
-	*current_token = NULL;
 	return (1);
 }
