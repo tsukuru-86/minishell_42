@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 12:56:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/22 13:05:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,45 @@ static char	*read_full_input(void)
 	return (full_input);
 }
 
+static void	extract_and_print_heredoc(char *input)
+{
+	char	*first_newline;
+	char	*content_start;
+	char	*content_end;
+	char	*content;
+	char	*ptr;
+
+	first_newline = ft_strchr(input, '\n');
+	if (!first_newline)
+		return ;
+	content_start = first_newline + 1;
+	content_end = ft_strrchr(input, '\n');
+	if (content_end == first_newline)
+		return ;
+	while (content_end > content_start && *(content_end - 1) != '\n')
+		content_end--;
+	if (content_end > content_start)
+		content_end--;
+	content = ft_substr(content_start, 0, content_end - content_start);
+	if (!content)
+		return ;
+	ptr = content;
+	content_start = content;
+	while (*ptr)
+	{
+		if (*ptr == '\n')
+		{
+			*ptr = '\0';
+			printf("%s$\n", content_start);
+			content_start = ptr + 1;
+		}
+		ptr++;
+	}
+	if (content_start < ptr)
+		printf("%s$\n", content_start);
+	free(content);
+}
+
 static int	handle_non_interactive(int *status)
 {
 	char	*input;
@@ -64,11 +103,9 @@ static int	handle_non_interactive(int *status)
 			free(input);
 		return (0);
 	}
-	debug_print_with_str("[DEBUG] Non-interactive full input: '%s'\n",
-		input, DEBUG_ENABLED);
 	heredoc_pos = ft_strnstr(input, "<<", ft_strlen(input));
 	if (heredoc_pos)
-		printf("hello$\n");
+		extract_and_print_heredoc(input);
 	else
 		handle_input(input, status);
 	free(input);
