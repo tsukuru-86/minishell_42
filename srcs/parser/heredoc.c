@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 16:33:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 23:01:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
  * heredoc 構造体に関するリソースをクリーンアップする。
  * heredoc->temp_fileはunlink されない。リダイレクトによって所有される。
  * 成功した場合は1を、失敗した場合は0を返す。
-
  */
 static int	finalize_heredoc(t_command *cmd, t_heredoc *heredoc)
 {
