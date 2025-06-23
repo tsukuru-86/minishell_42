@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 16:44:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 21:47:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			process_heredoc_line(char *line, int fd, t_heredoc *heredoc);
 /* Non-interactive heredoc functions */
 int			write_heredoc_content_from_tokens(t_token **current_token,
 				char *delimiter, char *temp_file);
+int			write_heredoc_from_stdin(t_command *cmd, char *delimiter);
 /* Heredoc redirect handlers */
 int			handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 				t_command **head_cmd);

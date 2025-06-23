@@ -72,6 +72,7 @@ SRCS_FILE = main.c \
 	parser/parser_tokens.c \
 	parser/parser_token_to_cmd.c \
 	parser/parser_token_utils2.c \
+	parser/parser_token_utils3.c \
 	parser/parser_token_utils.c \
 	parser/parser_utils3.c \
 	parser/parser_utils.c \
