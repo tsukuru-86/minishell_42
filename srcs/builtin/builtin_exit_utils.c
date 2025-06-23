@@ -6,16 +6,24 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:10:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:17:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:03:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_overflow(long long res, int digit)
+static int	check_overflow(long long res, int digit, int sign)
 {
-	if (res > (9223372036854775807LL - digit) / 10)
-		return (1);
+	if (sign > 0)
+	{
+		if (res > (9223372036854775807LL - digit) / 10)
+			return (1);
+	}
+	else
+	{
+		if (res > (long long)(9223372036854775808ULL - digit) / 10)
+			return (1);
+	}
 	return (0);
 }
 
@@ -43,6 +51,17 @@ static int	parse_sign(const char *str, int *i)
 	return (sign);
 }
 
+static int	is_llong_min(const char *str)
+{
+	const char	*llong_min_str = "9223372036854775808";
+	int			i;
+
+	i = 0;
+	while (llong_min_str[i] && str[i] == llong_min_str[i])
+		i++;
+	return (llong_min_str[i] == '\0' && (str[i] < '0' || str[i] > '9'));
+}
+
 long long	ft_atoll_safe(const char *str, int *overflow)
 {
 	long long	res;
@@ -53,9 +72,11 @@ long long	ft_atoll_safe(const char *str, int *overflow)
 	*overflow = 0;
 	i = skip_whitespace(str);
 	sign = parse_sign(str, &i);
+	if (sign == -1 && is_llong_min(str + i))
+		return (-9223372036854775807LL - 1);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (check_overflow(res, str[i] - '0'))
+		if (check_overflow(res, str[i] - '0', sign))
 		{
 			*overflow = 1;
 			return (0);

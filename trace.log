@@ -1,2 +1,0 @@
-write(1, "echo hello\n", 11)            = 11
-+++ exited with 0 +++

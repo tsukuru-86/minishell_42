@@ -16,7 +16,7 @@ minishell
 # Debug files
 *.dSYM/
 
-# macOS specific
+# __APPLE__ specific
 .DS_Store
 
 # Test files
@@ -27,10 +27,14 @@ a.out
 test/logs
 tests/
 test*
-minishell_tester/
+!test_from_cunh
 42_minishell_tester/
-minishell_tester-nda-cunh
-BUGFIX_PLAN.md
-CLAUDE.md
-MCP_SETUP.md
+minishell_tester*
 .cache/
+trash/
+
+minishell_tester-nda-cunh
+obj/.builddir_ready
+file_out
+srcs/parser/heredoc_noninteractive.c
+docs/phase40_analysis.md

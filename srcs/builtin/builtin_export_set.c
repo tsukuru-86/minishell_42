@@ -6,12 +6,42 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/10 14:07:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
+
+/* Create a new environment node */
+static t_env	*create_env_node_safe(const char *name, const char *value)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->name = ft_strdup(name);
+	if (!new_node->name)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	if (value)
+	{
+		new_node->value = ft_strdup(value);
+		if (!new_node->value)
+		{
+			free(new_node->name);
+			free(new_node);
+			return (NULL);
+		}
+	}
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
 
 /* Append a new variable to the environment list */
 static int	append_env_node(const char *name, const char *value)
@@ -21,15 +51,9 @@ static int	append_env_node(const char *name, const char *value)
 	t_env	**env;
 
 	env = get_env_val();
-	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node = create_env_node_safe(name, value);
 	if (!new_node)
 		return (-1);
-	new_node->name = ft_strdup(name);
-	if (value)
-		new_node->value = ft_strdup(value);
-	else
-		new_node->value = NULL;
-	new_node->next = NULL;
 	if (!*env)
 		*env = new_node;
 	else
@@ -45,12 +69,12 @@ static int	append_env_node(const char *name, const char *value)
 /* Update the value of an existing environment variable */
 static int	update_env_value(t_env *env_node, const char *value)
 {
-	if (env_node->value)
-		free(env_node->value);
 	if (value)
+	{
+		if (env_node->value)
+			free(env_node->value);
 		env_node->value = ft_strdup(value);
-	else
-		env_node->value = NULL;
+	}
 	return (0);
 }
 
@@ -73,25 +97,20 @@ int	set_env_node(const char *name, const char *value)
 	node = get_env_node(name);
 	if (!node)
 		return (append_env_node(name, value));
-	return (update_env_value(node, value));
+	if (value != NULL)
+		return (update_env_value(node, value));
+	return (0);
 }
 
-/* 環境変数リストを表示する
-TODO: declare -x は何？
-*/
-void	print_env_list(t_env *head)
+/* Set environment variable without validation (for export internal use) */
+int	set_env_node_direct(const char *name, const char *value)
 {
-	while (head != NULL)
-	{
-		if (ft_strncmp(head->name, "?", 2) != 0)
-		{
-			ft_printf_fd(STDOUT_FILENO, "declare -x %s", head->name);
-			if (head->value)
-			{
-				ft_printf_fd(STDOUT_FILENO, "=\"%s\"", head->value);
-			}
-			ft_printf_fd(STDOUT_FILENO, "\n");
-		}
-		head = head->next;
-	}
+	t_env	*node;
+
+	if (!name)
+		return (1);
+	node = get_env_node(name);
+	if (!node)
+		return (append_env_node(name, value));
+	return (update_env_value(node, value));
 }

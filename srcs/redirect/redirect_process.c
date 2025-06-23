@@ -29,40 +29,61 @@ static int	apply_out_redirect(t_redirect *redir)
 	return (1);
 }
 
+static int	open_heredoc_file(t_redirect *redir)
+{
+	debug_print_with_str("REDIR_HEREDOC file", redir->file, DEBUG_ENABLED);
+	if (access(redir->file, F_OK) != 0)
+	{
+		debug_print("REDIR_HEREDOC file not found", DEBUG_ENABLED);
+		return (-1);
+	}
+	if (access(redir->file, R_OK) != 0)
+	{
+		debug_print("REDIR_HEREDOC file not readable", DEBUG_ENABLED);
+		return (-1);
+	}
+	return (open(redir->file, O_RDONLY));
+}
+
 static int	apply_in_redirect(t_redirect *redir)
 {
 	int	fd;
 
-	fd = open_redirect_file(redir);
+	if (redir->type == REDIR_HEREDOC)
+		fd = open_heredoc_file(redir);
+	else
+		fd = open_redirect_file(redir);
 	if (fd == -1)
+	{
+		debug_print("apply_in_redirect: open failed", DEBUG_ENABLED);
 		return (0);
+	}
+	debug_print_with_int("apply_in_redirect: dup2 STDIN", fd, DEBUG_ENABLED);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
+		debug_print("apply_in_redirect: dup2 failed", DEBUG_ENABLED);
 		close(fd);
 		return (0);
 	}
 	close(fd);
+	debug_print("apply_in_redirect: success", DEBUG_ENABLED);
 	return (1);
 }
 
 int	process_redirections(t_redirect *redirect)
 {
-	t_redirect	*current;
+	t_redirect	*last_out;
+	t_redirect	*last_in;
 
-	current = redirect;
-	while (current)
-	{
-		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
-		{
-			if (!apply_out_redirect(current))
-				return (0);
-		}
-		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
-		{
-			if (!apply_in_redirect(current))
-				return (0);
-		}
-		current = current->next;
-	}
+	if (!redirect)
+		return (1);
+	last_out = find_last_output_redirect(redirect);
+	last_in = find_last_input_redirect(redirect);
+	if (!process_non_effective_redirects(redirect, last_out, last_in))
+		return (0);
+	if (last_out && !apply_out_redirect(last_out))
+		return (0);
+	if (last_in && !apply_in_redirect(last_in))
+		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:38:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:30:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ int	append_env_value(const char *name, const char *value)
 	t_env	*node;
 	char	*new_val;
 
+	if (!name || !is_valid_identifier(name))
+	{
+		if (name)
+			ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, name);
+		else
+			ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, "");
+		return (1);
+	}
 	node = get_env_node(name);
 	if (!node)
-		return (set_env_node(name, value));
+		return (set_env_node_direct(name, value));
 	new_val = create_new_value(node->value, value);
 	if (!new_val)
 		return (1);
@@ -51,27 +59,39 @@ static void	cleanup_strings(char *n, char *v)
 		free(v);
 }
 
+static int	process_env_setting(char *n, char *v)
+{
+	int	ret;
+
+	ret = set_env_node_direct(n, v);
+	if (ret != 0)
+		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
+	cleanup_strings(n, v);
+	return (ret);
+}
+
 int	validate_and_set_env(char *name, char *value)
 {
-	int		ret;
 	char	*n;
 	char	*v;
 
 	n = NULL;
 	v = NULL;
+	debug_print_with_str("[DEBUG] Export name: ", name, DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] Export value: ", value, DEBUG_ENABLED);
 	if (name)
 		n = ft_strdup(name);
 	if (value)
 		v = ft_strdup(value);
 	normalize_export_args(&n, &v);
+	debug_print_with_str("[DEBUG] After normalize name: ", n, DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] After normalize value: ", v, DEBUG_ENABLED);
 	if (!is_valid_identifier(n))
 	{
+		debug_print("[DEBUG] Invalid identifier detected", DEBUG_ENABLED);
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
-	ret = set_env_node(n, v);
-	if (ret != 0)
-		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_MALLOC, 2);
-	cleanup_strings(n, v);
-	return (ret != 0);
+	debug_print("[DEBUG] Identifier valid, processing", DEBUG_ENABLED);
+	return (process_env_setting(n, v));
 }

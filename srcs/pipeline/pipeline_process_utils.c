@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:42:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:05:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,19 @@ static void	pipeline_redirect_io(t_command *current)
 /* Execute current command within pipeline: handle redirection and run */
 static void	pipeline_execute_command_logic(t_command *current)
 {
-	int	status;
 	int	idx;
 
-	if (!current || !current->args || !current->args[0])
+	if (!current)
 		exit(127);
+	if (!current->args || !current->args[0])
+		handle_empty_args(current);
 	if (current->redirects && !setup_redirection(current->redirects))
 		exit(1);
 	idx = get_builtin_func_idx(current->args[0]);
 	if (0 <= idx && idx <= 6)
-	{
-		status = execute_builtin(current->args);
-		if (current->redirects)
-			restore_redirection(current->redirects);
-		exit(status);
-	}
+		execute_builtin_command(current);
 	else
-	{
-		status = execute_external_command(current);
-		exit(status);
-	}
+		exit(execute_external_command(current));
 }
 
 /* Execute a pipeline command in child: set up env, redirect I/O, close pipes,
@@ -80,11 +73,7 @@ bool	spawn_pipeline_processes(t_command *cmd)
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("fork");
-			cleanup_pipeline(cmd);
-			return (false);
-		}
+			return (handle_fork_error(cmd));
 		if (pid == 0)
 		{
 			execute_pipeline_command(cmd, current);

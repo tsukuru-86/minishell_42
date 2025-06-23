@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:24:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:07:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,34 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	type_str[3] = "TOKEN_DOUBLE_QUOTE";
 	type_str[4] = "TOKEN_S_QUOTED_WORD";
 	type_str[5] = "TOKEN_D_QUOTED_WORD";
-	type_str[6] = "TOKEN_EMPTY_QUOTED";
-	type_str[7] = "TOKEN_PIPE";
-	type_str[8] = "TOKEN_REDIR_IN";
-	type_str[9] = "TOKEN_REDIR_OUT";
-	type_str[10] = "TOKEN_REDIR_APPEND";
-	type_str[11] = "TOKEN_HEREDOC";
+	type_str[6] = "TOKEN_PIPE";
+	type_str[7] = "TOKEN_REDIR_IN";
+	type_str[8] = "TOKEN_REDIR_OUT";
+	type_str[9] = "TOKEN_REDIR_APPEND";
+	type_str[10] = "TOKEN_HEREDOC";
 	type_str[12] = "TOKEN_ENV_VAR";
-	type_str[13] = "TOKEN_END";
-	type_str[14] = "TOKEN_INVALID";
+	type_str[13] = "TOKEN_NEWLINE";
+	type_str[14] = "TOKEN_END";
+	type_str[15] = "TOKEN_INVALID";
 	if (!is_debug)
 		return ;
 	if (token->content == NULL)
-		printf("[NULL: ");
+		debug_print("[NULL: ", DEBUG_ENABLED);
 	else
-		printf("[%s: ", token->content);
-	printf("%s]\n", type_str[token->type]);
+		ft_printf_fd(STDERR_FILENO, "[%s: ", token->content);
+	ft_printf_fd(STDERR_FILENO, "%s]\n", type_str[token->type]);
 }
 
 void	debug_print(const char *message, bool is_debug)
 {
 	if (is_debug)
-		printf("%s\n", message);
+		ft_printf_fd(STDERR_FILENO, "%s\n", message);
 }
 
 void	debug_print_with_str(const char *prefix, const char *str, bool is_debug)
 {
 	if (is_debug)
-		printf("%s'%s'\n", prefix, str);
+		ft_printf_fd(STDERR_FILENO, "%s'%s'\n", prefix, str);
 }
 
 void	debug_print_tokens(t_token *tokens, bool is_debug)
@@ -60,11 +60,11 @@ void	debug_print_tokens(t_token *tokens, bool is_debug)
 		return ;
 	if (!tokens)
 	{
-		printf("[DEBUG] Token list: NULL \n");
+		debug_print("[DEBUG] Token list: NULL \n", DEBUG_ENABLED);
 		return ;
 	}
 	else
-		printf("[DEBUG] Token list:\n");
+		debug_print("[DEBUG] Token list:\n", DEBUG_ENABLED);
 	tmp = tokens;
 	while (tmp)
 	{
@@ -79,11 +79,12 @@ void	debug_print_command_args(char **args, bool is_debug)
 
 	if (!is_debug || !args)
 		return ;
-	printf("[DEBUG] Command arguments:\n");
+	debug_print("[DEBUG] Command arguments:\n", DEBUG_ENABLED);
 	i = 0;
 	while (args[i])
 	{
-		printf("[DEBUG] args[%d]: '%s'\n", i, args[i]);
+		debug_print_with_int("[DEBUG] i=", i, DEBUG_ENABLED);
+		debug_print_with_str("args[i]=", args[i], DEBUG_ENABLED);
 		i++;
 	}
 }

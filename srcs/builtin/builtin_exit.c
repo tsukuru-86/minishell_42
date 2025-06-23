@@ -6,21 +6,35 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 11:49:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 21:03:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin_commands.h"
+#include "minishell.h"
 
 /*
-** 文字列をlong longへ変換
+** 数値引数の検証と変換
 */
-static long long	ft_atoll(const char *str)
+static int	validate_and_convert(char *arg, long long *n)
 {
-	int	overflow;
-
-	return (ft_atoll_safe(str, &overflow));
+	if (!is_numeric_string(arg))
+	{
+		put_exit_error(": numeric argument required\n", arg);
+		exit(2);
+	}
+	if (ft_strcmp(arg, "9223372036854775808") == 0)
+	{
+		put_exit_error(": numeric argument required\n", arg);
+		exit(2);
+	}
+	if (ft_strcmp(arg, "-9223372036854775809") == 0)
+	{
+		put_exit_error(": numeric argument required\n", arg);
+		exit(2);
+	}
+	*n = ft_atoi(arg);
+	return (0);
 }
 
 /*
@@ -38,12 +52,7 @@ static void	process_exit_args(char **args, int arg_count)
 	}
 	if (args[1])
 	{
-		if (!is_numeric_string(args[1]))
-		{
-			put_exit_error(": numeric argument required\n", args[1]);
-			exit(2);
-		}
-		n = ft_atoll(args[1]);
+		validate_and_convert(args[1], &n);
 		status = (int)(n % 256);
 		if (status < 0)
 			status += 256;

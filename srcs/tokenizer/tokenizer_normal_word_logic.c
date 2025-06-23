@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 07:55:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 22:13:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	collect_plain_word_segment(const char *input, int *i,
 
 	word_idx = 0;
 	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
-		&& !is_meta(input[*i]))
+		&& !is_meta(input[*i]) && input[*i] != '\n')
 	{
 		if (word_idx >= MAX_TOKENS - 1)
 		{

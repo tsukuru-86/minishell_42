@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 17:08:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:20:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,10 @@ static void	print_env_format(t_env *env, int format)
 {
 	if (format == 0)
 	{
-		ft_printf_fd(STDOUT_FILENO, "%s=", env->name);
 		if (env->value)
-			ft_putendl_fd(env->value, STDOUT_FILENO);
-		else
-			ft_putendl_fd("", STDOUT_FILENO);
+		{
+			ft_printf_fd(STDOUT_FILENO, "%s=%s\n", env->name, env->value);
+		}
 	}
 	else
 	{
@@ -116,7 +115,10 @@ void	print_sorted_env(int format)
 
 	env_list_copy = duplicate_env_list(*get_env_val());
 	if (!env_list_copy && *get_env_val() != NULL)
-		return (perror("minishell: malloc error during list duplication"));
+	{
+		perror("minishell: malloc error during list duplication");
+		return ;
+	}
 	sorted_list_copy = sort_env_list_copy(env_list_copy);
 	current = sorted_list_copy;
 	while (current != NULL)

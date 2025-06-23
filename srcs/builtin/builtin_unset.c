@@ -6,20 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/15 07:35:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/16 05:37:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "error/error_messages.h"
 #include "minishell.h"
-
-/* エラーメッセージを出力するヘルパー関数 */
-
-static void	print_unset_invalid_identifier_error(const char *identifier)
-{
-	ft_printf_fd(2, ERR_UNSET_INVALID_ID, identifier);
-}
 
 /* 単一の環境変数ノードを解放する */
 static void	free_single_env_node(t_env *node)
@@ -62,14 +55,6 @@ int	remove_env_var(const char *name)
 /* 単一変数のunset処理 */
 static int	process_unset_var(char *arg)
 {
-	int	is_valid;
-
-	is_valid = is_valid_identifier(arg);
-	if (!is_valid)
-	{
-		print_unset_invalid_identifier_error(arg);
-		return (1);
-	}
 	remove_env_var(arg);
 	return (0);
 }

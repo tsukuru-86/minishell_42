@@ -15,5 +15,5 @@
 void	debug_print_with_int(const char *prefix, int value, bool is_debug)
 {
 	if (is_debug)
-		printf("%s%d\n", prefix, value);
+		ft_printf_fd(STDERR_FILENO, "%s%d\n", prefix, value);
 }

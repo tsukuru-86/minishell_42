@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/03 21:49:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 22:11:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	is_delimiter(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n');
+	return (c == ' ' || c == '\t');
 }
 
 int	is_quote(char c)

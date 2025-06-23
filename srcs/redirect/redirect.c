@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/13 20:03:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 23:12:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../env/env.h"
 #include "minishell.h"
 #include "redirect.h"
-#include "../env/env.h"
 
 t_redirect	*create_redirect(int type, char *file)
 {
@@ -43,7 +43,11 @@ void	free_redirect(t_redirect *redirect)
 		return ;
 	next = redirect->next;
 	if (redirect->file)
+	{
+		if (redirect->type == REDIR_HEREDOC)
+			unlink(redirect->file);
 		free(redirect->file);
+	}
 	free(redirect);
 	if (next)
 		free_redirect(next);

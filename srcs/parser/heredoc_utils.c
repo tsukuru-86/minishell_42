@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:39:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 23:08:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,28 @@
 char	*get_temp_filename(void)
 {
 	static int	counter = 0;
-	char		*num_str;
-	char		*filename;
+	char		*pid_str;
+	char		*temp;
+	char		*result;
 
-	num_str = ft_itoa(counter++);
-	if (!num_str)
+	pid_str = ft_itoa(getpid() + counter++);
+	if (!pid_str)
 		return (NULL);
-	filename = ft_strjoin("/tmp/heredoc_", num_str);
-	free(num_str);
-	return (filename);
+	temp = ft_strjoin("/tmp/heredoc_", pid_str);
+	free(pid_str);
+	if (!temp)
+		return (NULL);
+	result = temp;
+	return (result);
+}
+
+int	write_heredoc_content(int fd, char *content)
+{
+	if (write(fd, content, ft_strlen(content)) == -1)
+		return (0);
+	if (write(fd, "\n", 1) == -1)
+		return (0);
+	return (1);
 }
 
 static char	*create_heredoc_file(void)
@@ -81,13 +94,4 @@ t_heredoc	*init_heredoc(char *delimiter)
 		return (NULL);
 	}
 	return (heredoc);
-}
-
-int	write_heredoc_content(int fd, char *content)
-{
-	if (write(fd, content, ft_strlen(content)) == -1)
-		return (0);
-	if (write(fd, "\n", 1) == -1)
-		return (0);
-	return (1);
 }

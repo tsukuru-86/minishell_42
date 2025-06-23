@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 06:52:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:22:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	handle_command_not_found(char **args)
 		ft_printf_fd(2, ERR_COMMAND_NOT_FOUND, args[0]);
 		exit(127);
 	}
-	return (wait_parent(pid, NULL));
+	return (wait_parent(pid));
 }
 
 int	handle_directory_check(char *cmd_path, char **args)
@@ -39,22 +39,28 @@ int	handle_directory_check(char *cmd_path, char **args)
 		return (0);
 	pid = fork();
 	if (pid == -1)
-		return (handle_fork_error(cmd_path));
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == 0)
 		exit(dir_check);
-	return (wait_parent(pid, cmd_path));
+	return (wait_parent(pid));
 }
 
-int	execute_external_main(char *cmd_path, char **args)
+int	execute_external_main(char *cmd_path, char **args, t_command *cmd)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
-		return (handle_fork_error(cmd_path));
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == 0)
-		handle_child_process(cmd_path, args);
-	return (wait_parent(pid, cmd_path));
+		handle_child_process_with_redirect(cmd_path, args, cmd);
+	return (wait_parent(pid));
 }
 
 int	handle_stat_error(char *cmd_name)
@@ -80,13 +86,20 @@ int	execute_external_command(t_command *cmd)
 	int		result;
 
 	args = cmd->args;
-	if (!args || !args[0] || ft_strlen(args[0]) == 0)
-		return (127);
+	if (!args || !args[0])
+		return (handle_empty_redirect(cmd));
+	if (ft_strlen(args[0]) == 0)
+		return (handle_command_not_found(args));
 	cmd_path = find_command_path(args[0]);
 	if (!cmd_path)
 		return (handle_command_not_found(args));
 	result = handle_directory_check(cmd_path, args);
 	if (result != 0)
+	{
+		free(cmd_path);
 		return (result);
-	return (execute_external_main(cmd_path, args));
+	}
+	result = execute_external_main(cmd_path, args, cmd);
+	free(cmd_path);
+	return (result);
 }

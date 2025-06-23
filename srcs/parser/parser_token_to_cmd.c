@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:21:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:53:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	check_trailing_pipe(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (current->type != TOKEN_SPACE)
+		if (current->type != TOKEN_SPACE && current->type != TOKEN_NEWLINE)
 			last_non_space = current;
 		current = current->next;
 	}
@@ -106,6 +106,7 @@ t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*head;
 	t_token		*preprocessed_tokens;
+	t_token		*first_token;
 
 	if (!tokens)
 		return (NULL);
@@ -115,6 +116,9 @@ t_command	*parse_tokens(t_token *tokens)
 		debug_print("[DEBUG] No tokens remain (empty command)", DEBUG_ENABLED);
 		return (create_command());
 	}
+	first_token = preprocessed_tokens;
+	while (first_token && first_token->type == TOKEN_SPACE)
+		first_token = first_token->next;
 	debug_print_tokens(preprocessed_tokens, DEBUG_ENABLED);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))

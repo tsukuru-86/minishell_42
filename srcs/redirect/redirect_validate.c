@@ -6,17 +6,31 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:12:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 07:40:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 23:47:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirect.h"
 
+static int	is_invalid_input_device(const char *filename)
+{
+	if (ft_strcmp(filename, "/dev/stdout") == 0)
+		return (1);
+	if (ft_strcmp(filename, "/dev/stderr") == 0)
+		return (1);
+	return (0);
+}
+
 int	validate_input_redirect(t_redirect *current)
 {
 	if (current->type == REDIR_IN)
 	{
+		if (is_invalid_input_device(current->file))
+		{
+			set_env_node("?", "0");
+			return (0);
+		}
 		if (access(current->file, F_OK) != 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,

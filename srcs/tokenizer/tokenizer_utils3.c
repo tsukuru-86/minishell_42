@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/15 18:21:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 22:13:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 /* トークンを作成し、必要に応じて環境変数を展開する */
 t_token	*create_expanded_token(char *buf, t_token_type token_type)
 {
-	if (token_type == TOKEN_EMPTY_QUOTED)
-		return (safe_create_token("", token_type));
-	else if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
+	if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
 		return (create_expanded_var_token(buf, token_type));
 	else
 		return (safe_create_token(buf, token_type));
@@ -49,11 +47,9 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 		int *buf_len)
 {
 	char	quote_c;
-	int		start;
 	int		ret;
 
 	quote_c = input[*i];
-	start = *i;
 	(*i)++;
 	*buf_len = 0;
 	while (input[*i] && input[*i] != quote_c)
@@ -64,9 +60,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 	}
 	if (input[*i] == quote_c)
 		(*i)++;
-	if (*buf_len == 0 && input[start] == quote_c && input[*i - 1] == quote_c)
-		ret = TOKEN_EMPTY_QUOTED;
-	else if (quote_c == '\'')
+	if (quote_c == '\'')
 		ret = TOKEN_S_QUOTED_WORD;
 	else
 		ret = TOKEN_D_QUOTED_WORD;
@@ -81,7 +75,7 @@ static void	extract_word_content(const char *input, int *i, char *buf,
 	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))
 		(*i)++;
 	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
-		&& !is_meta(input[*i]))
+		&& !is_meta(input[*i]) && input[*i] != '\n')
 	{
 		if (*buf_len < 1023)
 			buf[(*buf_len)++] = input[*i];

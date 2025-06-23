@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/14 13:59:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:27:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,25 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-/** # include <sys/syslimits.h> // macOS*/
+/** # include <sys/syslimits.h> // __APPLE__*/
+
+# ifdef MACOS
+/* macOS固有の関数宣言 - macOSで明示的に宣言が必要なreadline関数 */
+void							rl_replace_line(const char *text,
+									int clear_undo);
+void							rl_clear_history(void);
+void							rl_delete_text(int start, int end);
+int								rl_insert_text(const char *text);
+int								rl_delete(int count, int key);
+int								rl_insert(int c, int count);
+HIST_ENTRY						*history_get(int index);
+# else
+/* Linux固有の関数宣言 */
+HIST_ENTRY						**history_list(void);
+# endif
 
 # define MAX_TOKENS 1024
+# define PIPE_BUFFER_SIZE 8192
 
 /* デバッグフラグ定数 */
 # ifdef DEBUG
@@ -37,17 +53,6 @@
 # else
 #  define DEBUG_ENABLED 0
 # endif
-
-/* エラーメッセージ定義 */
-# define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: few arguments\n"
-# define ERR_UNSET_INVALID_ID "minishell: unset: `%s': not a valid identifier\n"
-# define ERR_EXPORT_MALLOC "minishell: export: memory allocation error\n"
-# define ERR_EXPORT_INVALID_ID "minishell: export:`%s':not a valid identifier\n"
-# define ERR_COMMAND_NOT_FOUND "minishell: %s: command not found\n"
-# define ERR_SYNTAX_ERROR "minishell: syntax error\n"
-# define ERR_UNEXP_TOKEN "minishell: syntax error near unexpected token `%s'\n"
-# define ERR_UNCLOSED_QUOTE "minishell: syntax error: unclosed quote\n"
-# define ERR_REDIRECTION_ERROR "minishell: redirection error\n"
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -65,13 +70,14 @@ typedef enum e_token_type
 	TOKEN_DOUBLE_QUOTE,
 	TOKEN_S_QUOTED_WORD,
 	TOKEN_D_QUOTED_WORD,
-	TOKEN_EMPTY_QUOTED,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_ENV_VAR,
+	TOKEN_EMPTY_VAR,
+	TOKEN_NEWLINE,
 	TOKEN_END
 }								t_token_type;
 
@@ -144,6 +150,15 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC
 }								t_redir_type;
+
+/* Pipe buffer structure for efficient heredoc reading */
+typedef struct s_pipe_buffer
+{
+	char						buffer[PIPE_BUFFER_SIZE];
+	int							pos;
+	int							size;
+	int							line_start;
+}								t_pipe_buffer;
 
 /* Heredoc structure */
 typedef struct s_heredoc
@@ -221,9 +236,29 @@ void							debug_print_tokens(t_token *tokens,
 void							debug_print_command_args(char **args,
 									bool is_debug);
 
+/* Empty command handler */
+int								handle_empty_command_with_redirects(void);
+
 /* history_utils */
 char							*get_history_path(void);
 void							load_history_file(void);
 void							save_history_file(void);
+
+/* line_utils */
+void							free_lines(char **lines);
+void							process_lines(char **lines, int *status);
+
+/* parser_token_utils2 */
+void							handle_heredoc_error(t_command **head_cmd);
+void							skip_to_delimiter(t_token **current_token,
+									const char *delimiter);
+
+/* pipeline_process_utils2 */
+void							handle_empty_args(t_command *current);
+void							execute_builtin_command(t_command *current);
+bool							handle_fork_error(t_command *cmd);
+
+/* external_commands_exec2 */
+int								handle_empty_redirect(t_command *cmd);
 
 #endif

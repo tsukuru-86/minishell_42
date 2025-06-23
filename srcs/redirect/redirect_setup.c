@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 17:12:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:29:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ int	setup_redirection(t_redirect *redirect)
 		if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
 		{
 			if (!create_single_output_file(current))
+			{
+				set_env_node("?", "1");
 				return (0);
+			}
 		}
 		else if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 		{

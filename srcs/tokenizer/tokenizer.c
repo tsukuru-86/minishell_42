@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/14 13:47:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/17 08:34:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,6 @@ t_token	*safe_create_token(char *content, t_token_type type)
 	token->type = type;
 	token->next = NULL;
 	return (token);
-}
-
-/* トークンの数をカウント */
-static int	count_tokens(t_token *tokens)
-{
-	int		count;
-	t_token	*current;
-
-	count = 0;
-	current = tokens;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}
-
-/* 現在の文字に基づいてトークンを処理 */
-static int	process_current_token(t_tokenizer_stat *stat, const char *input)
-{
-	if (count_tokens(stat->tokens) >= MAX_TOKENS)
-	{
-		ft_putstr_fd((char *)"minishell: too many tokens\n", STDERR_FILENO);
-		return (0);
-	}
-	if (is_meta(input[stat->i_input]))
-	{
-		if (!handle_meta_token_creation(stat, input))
-			return (0);
-	}
-	else
-	{
-		if (!handle_word_token_creation(stat, input))
-			return (0);
-		finalize_tokenizer(stat);
-	}
-	return (1);
 }
 
 /* 構文エラー時のクリーンアップ処理 */
@@ -97,12 +59,7 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 	}
 	while (input[vars.i_input])
 	{
-		if (is_delimiter(input[vars.i_input]))
-		{
-			if (!handle_space_token_creation(&vars, input))
-				return (cleanup_and_return_null(&vars, input));
-		}
-		else if (!process_current_token(&vars, input))
+		if (!process_input_char(&vars, input))
 			return (cleanup_and_return_null(&vars, input));
 	}
 	if (!check_basic_syntax(vars.tokens))

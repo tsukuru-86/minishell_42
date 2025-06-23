@@ -22,13 +22,9 @@ int	is_valid_identifier(const char *str)
 		return (0);
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		if (str[i] == '=')
-			return (0);
-		if (str[i] == ' ' || str[i] == '\'' || str[i] == '\"')
-			return (0);
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;

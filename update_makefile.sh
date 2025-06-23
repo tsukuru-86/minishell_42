@@ -5,8 +5,18 @@ SRC_DIR="srcs"
 TEMPLATE="Makefile.template"
 TARGET="Makefile"
 
+# OS検出
+UNAME_S=$(uname -s)
+
 # srcs/*.c を取得 (main.c はテンプレート側で扱う想定なので除外)
-files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' | sort) )
+# また、OS依存のファイルも除外
+if [ "$UNAME_S" = "Darwin" ]; then
+  # macOS環境では、Linux用のファイルを除外
+  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_linux.c' | sort) )
+else
+  # Linux環境では、macOS用のファイルを除外
+  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_macos.c' | sort) )
+fi
 len=${#files[@]}
 
 # 出力用一時ファイル
@@ -32,4 +42,4 @@ done < "$TEMPLATE"
 
 # 一時ファイルを Makefile に上書き
 mv "$tmpfile" "$TARGET"
-echo "Makefile を更新しました: ${TARGET}"
+# echo "Makefile を更新しました: ${TARGET}"

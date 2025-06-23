@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 06:07:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/22 15:45:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
 #include "minishell.h"
+#include "../redirect/redirect.h"
 
 /*
 ** 環境変数配列の解放
@@ -56,28 +57,26 @@ int	handle_child_process(char *cmd_path, char **args)
 {
 	setup_child_signals();
 	launch_child(cmd_path, args);
-	if (errno == EACCES)
-	{
-		perror(cmd_path);
-		exit(126);
-	}
-	if (errno == ENOENT)
-	{
-		perror(cmd_path);
-		exit(127);
-	}
-	perror(cmd_path);
-	exit(1);
+	return (0);
 }
 
-/*
-** fork失敗時の処理
-*/
-int	handle_fork_error(char *cmd_path)
+int	handle_child_process_with_redirect(char *cmd_path, char **args,
+	t_command *cmd)
 {
-	perror("minishell: fork");
-	free(cmd_path);
-	return (1);
+	setup_child_signals();
+	debug_print_with_str("[DEBUG] Child redirect: ", cmd_path, DEBUG_ENABLED);
+	if (cmd->redirects)
+	{
+		debug_print("[DEBUG] Processing redirections in child", DEBUG_ENABLED);
+		if (!process_redirections(cmd->redirects))
+		{
+			debug_print("[DEBUG] Redirection failed in child", DEBUG_ENABLED);
+			exit(1);
+		}
+		debug_print("[DEBUG] Redirection successful in child", DEBUG_ENABLED);
+	}
+	launch_child(cmd_path, args);
+	return (0);
 }
 
 /*

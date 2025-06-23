@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 19:51:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:18:05 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ const char	*get_token_type_str(t_token_type type)
 	[TOKEN_SPACE] = "SPACE", [TOKEN_SINGLE_QUOTE] = "S_QUOTE",
 	[TOKEN_DOUBLE_QUOTE] = "D_QUOTE",
 	[TOKEN_S_QUOTED_WORD] = "S_QUOTED_WORD",
-	[TOKEN_D_QUOTED_WORD] = "D_QUOTED_WORD",
-	[TOKEN_EMPTY_QUOTED] = "EMPTY_QUOTED", [TOKEN_PIPE] = "PIPE",
+	[TOKEN_D_QUOTED_WORD] = "D_QUOTED_WORD", [TOKEN_PIPE] = "PIPE",
 	[TOKEN_REDIR_IN] = "REDIR_IN", [TOKEN_REDIR_OUT] = "REDIR_OUT",
 	[TOKEN_REDIR_APPEND] = "REDIR_APPEND", [TOKEN_HEREDOC] = "HEREDOC",
 	[TOKEN_ENV_VAR] = "ENV_VAR", [TOKEN_END] = "END"};
@@ -29,13 +28,11 @@ const char	*get_token_type_str(t_token_type type)
 	return ("UNKNOWN");
 }
 
-void	print_tokens_debug(const t_token *tokens, int debug)
-{
-	(void)tokens;
-	(void)debug;
-}
-
 void	print_args_debug(char **args)
 {
-	(void)args;
+	while (*args)
+	{
+		debug_print_with_str("[DEBUG] arg: ", *args, DEBUG_ENABLED);
+		args++;
+	}
 }

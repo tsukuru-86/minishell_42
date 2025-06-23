@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 15:55:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 06:32:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,19 @@ int	is_empty_command_tokens(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if ((current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD
-				|| current->type == TOKEN_S_QUOTED_WORD) && current->content
-			&& ft_strlen(current->content) > 0)
+		if (current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD
+			|| current->type == TOKEN_S_QUOTED_WORD)
+		{
+			if (current->content)
+				return (0);
+		}
+		if (current->type != TOKEN_WORD && current->type != TOKEN_D_QUOTED_WORD
+			&& current->type != TOKEN_S_QUOTED_WORD
+			&& current->type != TOKEN_NEWLINE)
 		{
 			return (0);
 		}
-		if ((current->type != TOKEN_WORD && current->type != TOKEN_D_QUOTED_WORD
-				&& current->type != TOKEN_S_QUOTED_WORD) || !current->content
-			|| ft_strlen(current->content) == 0)
-		{
-			current = current->next;
-			continue ;
-		}
-		return (0);
+		current = current->next;
 	}
 	return (1);
 }
