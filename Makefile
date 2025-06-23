@@ -117,6 +117,8 @@ SRCS_FILE = main.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
 	utils/history_utils_linux.c \
+	utils/input_limits2.c \
+	utils/input_limits.c \
 	utils/input_utils.c \
 	utils/line_utils.c \
 	utils/non_interactive_utils.c \

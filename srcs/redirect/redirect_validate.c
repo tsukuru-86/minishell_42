@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:12:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 23:47:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:09:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	is_invalid_input_device(const char *filename)
 
 int	validate_input_redirect(t_redirect *current)
 {
+	if (!check_filename_limit(current->file))
+		return (0);
 	if (current->type == REDIR_IN)
 	{
 		if (is_invalid_input_device(current->file))

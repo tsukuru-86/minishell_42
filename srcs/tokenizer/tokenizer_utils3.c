@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 22:13:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:04:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokenizer.h"
-#include <stdio.h>
 
 /* 環境変数を展開してトークンを作成 */
 static t_token	*create_expanded_var_token(char *buf, t_token_type type)

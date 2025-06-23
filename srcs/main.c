@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 15:58:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:08:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ void	handle_input(char *input, int *status)
 		DEBUG_ENABLED);
 	if (!input)
 		return ;
+	if (!check_input_line_limit(input))
+	{
+		*status = 1;
+		return ;
+	}
 	empty_status = handle_empty_input(input);
 	if (empty_status != -1)
 	{

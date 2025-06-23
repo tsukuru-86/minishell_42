@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:17:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:36:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:04:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_export.h"
 #include "libft.h"
-#include <stdlib.h>
 
 /*
 ** 文字列の両端クォートを除去

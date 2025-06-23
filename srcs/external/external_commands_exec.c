@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 13:22:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:09:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	execute_external_command(t_command *cmd)
 		return (handle_empty_redirect(cmd));
 	if (ft_strlen(args[0]) == 0)
 		return (handle_command_not_found(args));
+	if (!check_args_limit(args))
+		return (1);
 	cmd_path = find_command_path(args[0]);
 	if (!cmd_path)
 		return (handle_command_not_found(args));

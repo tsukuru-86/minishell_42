@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/21 18:27:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:08:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include "srcs/utils/system_limits.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -260,5 +261,11 @@ bool							handle_fork_error(t_command *cmd);
 
 /* external_commands_exec2 */
 int								handle_empty_redirect(t_command *cmd);
+
+/* input_limits */
+int								check_input_line_limit(const char *input);
+int								check_filename_limit(const char *filename);
+int								check_args_limit(char **args);
+int								check_pipe_buffer_limit(size_t size);
 
 #endif

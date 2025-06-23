@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:37:47 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 06:37:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:04:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokenizer.h"
-#include <stdio.h>
 
 /* トークナイザの状態を初期化。cmdがNULLの場合、新しいコマンド構造体を割り当てる */
 int	init_tokenizer_stat(t_tokenizer_stat *stat, t_command *cmd)

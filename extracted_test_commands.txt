@@ -1,0 +1,1512 @@
+# テストコマンド一覧 (main.valaから抽出)
+# 各コマンドは --- TEST_START --- と --- TEST_END --- で区切られている
+# 複数行のheredocコマンドも正確に区別可能
+
+--- TEST_START ---
+|
+--- TEST_END ---
+
+--- TEST_START ---
+| echo oi
+--- TEST_END ---
+
+--- TEST_START ---
+| |
+--- TEST_END ---
+
+--- TEST_START ---
+| | |
+--- TEST_END ---
+
+--- TEST_START ---
+| $
+--- TEST_END ---
+
+--- TEST_START ---
+>
+--- TEST_END ---
+
+--- TEST_START ---
+>>
+--- TEST_END ---
+
+--- TEST_START ---
+>>>
+--- TEST_END ---
+
+--- TEST_START ---
+<
+--- TEST_END ---
+
+--- TEST_START ---
+<<
+--- TEST_END ---
+
+--- TEST_START ---
+echo hi <
+--- TEST_END ---
+
+--- TEST_START ---
+cat    <| ls
+--- TEST_END ---
+
+--- TEST_START ---
+echo hi | >
+--- TEST_END ---
+
+--- TEST_START ---
+echo hi | > >>
+--- TEST_END ---
+
+--- TEST_START ---
+echo hi | < |
+--- TEST_END ---
+
+--- TEST_START ---
+echo hi |   | 
+--- TEST_END ---
+
+--- TEST_START ---
+echo $EMPYT
+--- TEST_END ---
+
+--- TEST_START ---
+echo $EMPYT    abc
+--- TEST_END ---
+
+--- TEST_START ---
+echo $EMPYT abc
+--- TEST_END ---
+
+--- TEST_START ---
+echo $EMPYT abc   $EMPTY
+--- TEST_END ---
+
+--- TEST_START ---
+echo $EMPYT abc $EMPTY
+--- TEST_END ---
+
+--- TEST_START ---
+$EMPTY echo $EMPYT abc
+--- TEST_END ---
+
+--- TEST_START ---
+$
+--- TEST_END ---
+
+--- TEST_START ---
+.. | .. | ..
+--- TEST_END ---
+
+--- TEST_START ---
+./no_permission
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls -la 
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls -l 
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls -l -a 
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls -l -a -t 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "Hello World" 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Hello World' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "Hello World" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo 'Hello World' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "Hello World" | cat -e 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Hello World' | cat -e 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "Hello World" | cat -e | cat -e 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "cat Makefile | cat > $USER"   
+--- TEST_END ---
+
+--- TEST_START ---
+ echo 'cat Makefile | cat > $USER'   
+--- TEST_END ---
+
+--- TEST_START ---
+ /bin/ls | /usr/bin/cat -e 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ' ' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '    ' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '        ' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "        " 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "    " 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo " " 
+--- TEST_END ---
+
+--- TEST_START ---
+echo hello'world'
+--- TEST_END ---
+
+--- TEST_START ---
+echo hello""world
+--- TEST_END ---
+
+--- TEST_START ---
+echo ''
+--- TEST_END ---
+
+--- TEST_START ---
+echo "$PWD"
+--- TEST_END ---
+
+--- TEST_START ---
+echo '$PWD'
+--- TEST_END ---
+
+--- TEST_START ---
+echo "> >> < * ? [ ] | ; [ ] || && ( }) & # $  <<"
+--- TEST_END ---
+
+--- TEST_START ---
+echo '> >> < * ? [ ] | ; [ ] || && ( }) & # $  <<'
+--- TEST_END ---
+
+--- TEST_START ---
+echo "exit_code ->$? user ->$USER home -> $HOME"
+--- TEST_END ---
+
+--- TEST_START ---
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+--- TEST_END ---
+
+--- TEST_START ---
+echo "$"
+--- TEST_END ---
+
+--- TEST_START ---
+echo '$'
+--- TEST_END ---
+
+--- TEST_START ---
+echo $
+--- TEST_END ---
+
+--- TEST_START ---
+echo $?
+--- TEST_END ---
+
+--- TEST_START ---
+echo $?HELLO
+--- TEST_END ---
+
+--- TEST_START ---
+ printf  $"  $USER  a"  
+--- TEST_END ---
+
+--- TEST_START ---
+ 
+--- TEST_END ---
+
+--- TEST_START ---
+""
+--- TEST_END ---
+
+--- TEST_START ---
+ cat -e < Makefile < ../.gitignor  
+--- TEST_END ---
+
+--- TEST_START ---
+ < file_not_found 
+--- TEST_END ---
+
+--- TEST_START ---
+ < file_not_found cat
+--- TEST_END ---
+
+--- TEST_START ---
+ < file_not_found > /dev/stdout
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -n salut
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnn1 salut
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnn1 salut  nvobwriov wr gow v '$USER>eef>$USER' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnnnnnnn1 salut  nvobwriov wr gow v '$USER>eef>$USER'  
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnnnnnnn1 salut  nvobwriov wr gow v '>p' 
+--- TEST_END ---
+
+--- TEST_START ---
+ cat -e < Makefile < ../.gitignore 
+--- TEST_END ---
+
+--- TEST_START ---
+ ls -l | cat -e  | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' | | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' < | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!'  >> | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' | > file_out 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' |> file_out 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' | 
+--- TEST_END ---
+
+--- TEST_START ---
+ | >x printf 'Syntax Error!' 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' > 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' << 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>' test '<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>'
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '<'
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '<<'
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>>'
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo 'test<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "|" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test '< 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ' test <' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">test<" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">test" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "test<" 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' | | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' < | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!'  >> | ls 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' | > file_out 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Syntax Error!' |> file_out 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' | 
+--- TEST_END ---
+
+--- TEST_START ---
+ | >x printf 'Syntax Error!' 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' > 
+--- TEST_END ---
+
+--- TEST_START ---
+ >x printf 'Syntax Error!' << 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>' test '<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>'
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo 'test<' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "|" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '>test '< 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ' test <' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">test<" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ">test" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "test<" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo hello|cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+ echo hello      |cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+ echo hello|               cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+ echo         hello        |               cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+ ls|ls|ls|ls|ls|ls|cat    -e
+--- TEST_END ---
+
+--- TEST_START ---
+ ls|ls|ls|ls|ls|ls|ls|ls |ls | ls    | ls | ls | cat    -e
+--- TEST_END ---
+
+--- TEST_START ---
+ command_not_found | echo 'abc'
+--- TEST_END ---
+
+--- TEST_START ---
+ command_not_found | cat
+--- TEST_END ---
+
+--- TEST_START ---
+ cat Makefile | cat /dev/urandom | ls | wc -w 
+--- TEST_END ---
+
+--- TEST_START ---
+ ls | ls |ls | ls| ls |ls| ls|ls | ls | ls | ls | ls
+--- TEST_END ---
+
+--- TEST_START ---
+ cat Makefile | md5sum 
+--- TEST_END ---
+
+--- TEST_START ---
+ cat Makefile | grep -o SRC | tr 'n' ' ' 
+--- TEST_END ---
+
+--- TEST_START ---
+ cat /dev/urandom | head -c 15 | wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ cat /dev/urandom | strings | grep -o "[A-Z][0-9]" | tr -d 'n' | head -c 15 | wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $ 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $ USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $USER$ 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $USER $ 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "$USER$" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo "$USER $" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $JENEXISTEPAS 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $ JENEXISTEPAS 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $USER_$USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $USER$USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER $USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "$USERn" 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf $? 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf $?? 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf $??? $?? $? 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "$USER$USER'' = ' $L ANG '" '' 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "$USER$USER" 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | wc -l
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | wc -l
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | wc -l
+--- TEST_END ---
+
+--- TEST_START ---
+ echo $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | wc -l
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "$USER$USER'' = ' $L ANG '" 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf "=  PATH    "  't$USER  ' "" 
+--- TEST_END ---
+
+--- TEST_START ---
+ prin"tf "$USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ pri"tf" $USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ pri"tf $USER" 
+--- TEST_END ---
+
+--- TEST_START ---
+ "printf" $USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ "printf" ""$USER"bj'r'" 
+--- TEST_END ---
+
+--- TEST_START ---
+ "pr'int'f" ""$'USER'"bj'r'" 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf $'hello' 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf $"hello" 
+--- TEST_END ---
+
+--- TEST_START ---
+ ''''''"/bin/ls"'''''' 
+--- TEST_END ---
+
+--- TEST_START ---
+ /b'i"n/ls' -l  
+--- TEST_END ---
+
+--- TEST_START ---
+ /b''i"n/''ls -"na'"th'an
+--- TEST_END ---
+
+--- TEST_START ---
+ /b'i''''''''n/"l's 
+--- TEST_END ---
+
+--- TEST_START ---
+ /b'in/l's -l'a'
+--- TEST_END ---
+
+--- TEST_START ---
+ '/'b"in/l"s 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '$?' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo ''$USER'' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '''$USER''' 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '' b
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '' ''x
+--- TEST_END ---
+
+--- TEST_START ---
+ echo '' "''" ''X
+--- TEST_END ---
+
+--- TEST_START ---
+ echo$USER 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -n $USER -n hello supra $USER
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -n test
+--- TEST_END ---
+
+--- TEST_START ---
+ echo test -n 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnn -nns -n test 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo -nnnnnnnnnnnnnn -nnn -n test 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo str1  "" str3"  not finished yet ........ done." 
+--- TEST_END ---
+
+--- TEST_START ---
+ echo  Ichi Ni San Yon Go | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+ < Makefile cat | md5sum 
+--- TEST_END ---
+
+--- TEST_START ---
+ < file_not_found cat | wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ < Makefile cmd_not_found | wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ < Makefile | printf 'You see me?' 
+--- TEST_END ---
+
+--- TEST_START ---
+ < Makefile wc -w  < tester.vala 
+--- TEST_END ---
+
+--- TEST_START ---
+ wc -w < tester.vala < Makefile 
+--- TEST_END ---
+
+--- TEST_START ---
+ ls | wc -w < tester.vala < Makefile 
+--- TEST_END ---
+
+--- TEST_START ---
+ < Makefile < tester.vala wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ ls | < Makefile < tester.vala wc -c 
+--- TEST_END ---
+
+--- TEST_START ---
+ printf 'Hello World' >trash/$WHOAMI.a.test ", "cat trash/$WHOAMI.a.test -e
+--- TEST_END ---
+
+--- TEST_START ---
+ >trash/$WHOAMI.b.test printf 'Hello World' >trash/$WHOAMI.c.test ", "cat trash/$WHOAMI.b.test -e", "echo A", "cat trash/$WHOAMI.c.test -e
+--- TEST_END ---
+
+--- TEST_START ---
+$PWD
+--- TEST_END ---
+
+--- TEST_START ---
+$EMPTY
+--- TEST_END ---
+
+--- TEST_START ---
+$EMPTY echo hi
+--- TEST_END ---
+
+--- TEST_START ---
+./test_files/invalid_permission
+--- TEST_END ---
+
+--- TEST_START ---
+./missing.out
+--- TEST_END ---
+
+--- TEST_START ---
+missing.out
+--- TEST_END ---
+
+--- TEST_START ---
+"aaa"
+--- TEST_END ---
+
+--- TEST_START ---
+'aaa'
+--- TEST_END ---
+
+--- TEST_START ---
+test_files
+--- TEST_END ---
+
+--- TEST_START ---
+./test_files
+--- TEST_END ---
+
+--- TEST_START ---
+/test_files
+--- TEST_END ---
+
+--- TEST_START ---
+minishell.h
+--- TEST_END ---
+
+--- TEST_START ---
+$
+--- TEST_END ---
+
+--- TEST_START ---
+$?
+--- TEST_END ---
+
+--- TEST_START ---
+README.md
+--- TEST_END ---
+
+--- TEST_START ---
+edsfdsf" , "echo error: $?
+--- TEST_END ---
+
+--- TEST_START ---
+clear | pwd
+--- TEST_END ---
+
+--- TEST_START ---
+clear | pwd | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+clear | pwd . | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+pwd
+--- TEST_END ---
+
+--- TEST_START ---
+pwd ..
+--- TEST_END ---
+
+--- TEST_START ---
+pwd .
+--- TEST_END ---
+
+--- TEST_START ---
+pwd . | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+pwd | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+printf a | pwd | cat -e
+--- TEST_END ---
+
+--- TEST_START ---
+unset LD_PRELOAD", "unset WHOAMI", "unset PWD", "unset LANG", "unset OLDPWD", "unset ARGS", "unset MAKEFLAGS", "unset MFLAGS", "env | grep -v _ | grep -v SHLVL | grep -v SHELL | sort
+--- TEST_END ---
+
+--- TEST_START ---
+ env | grep USER | md5sum 
+--- TEST_END ---
+
+--- TEST_START ---
+ env | grep USER 
+--- TEST_END ---
+
+--- TEST_START ---
+unset 6_a
+--- TEST_END ---
+
+--- TEST_START ---
+unset ndacunh
+--- TEST_END ---
+
+--- TEST_START ---
+unset 0oui
+--- TEST_END ---
+
+--- TEST_START ---
+unset PWD HERE", "echo $PWD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABC", "env | grep ABC -o", "printf hi", "env | grep ABC
+--- TEST_END ---
+
+--- TEST_START ---
+export NDACUNH=42", "unset NDACUNH | printf hey", "printf : $NDACUNH
+--- TEST_END ---
+
+--- TEST_START ---
+export GHOST=123 | env | grep GHOST
+--- TEST_END ---
+
+--- TEST_START ---
+export hello
+--- TEST_END ---
+
+--- TEST_START ---
+""export HELLO=123""", "printf : $HELLO
+--- TEST_END ---
+
+--- TEST_START ---
+export A-
+--- TEST_END ---
+
+--- TEST_START ---
+export HELLO=123 A
+--- TEST_END ---
+
+--- TEST_START ---
+export HELLO="123 A-"
+--- TEST_END ---
+
+--- TEST_START ---
+export hello world
+--- TEST_END ---
+
+--- TEST_START ---
+export HELLO-=123
+--- TEST_END ---
+
+--- TEST_START ---
+export =
+--- TEST_END ---
+
+--- TEST_START ---
+export 123
+--- TEST_END ---
+
+--- TEST_START ---
+""export SLS='/bin/ls'""", "printf here:", "$SLS
+--- TEST_END ---
+
+--- TEST_START ---
+export UNO=1 DOS-2 TRES=3 | env | grep TRES
+--- TEST_END ---
+
+--- TEST_START ---
+export abcd=abcd", "export abcd+=ndacunh", "env | grep abcd
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD=abcd", "export ABCD +=ndacunh", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD=abcd", "export ABCD += ndacunh", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD=abcd", "export ABCD+= ndacunh", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD =abcd", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD= abcd", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD=Hello", "export ABCD =abcd", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+export ABCD=Hello", "export ABCD= abcd", "env | grep ABCD
+--- TEST_END ---
+
+--- TEST_START ---
+unset HELLO=
+--- TEST_END ---
+
+--- TEST_START ---
+unset
+--- TEST_END ---
+
+--- TEST_START ---
+unset HELLO1 HELLO2
+--- TEST_END ---
+
+--- TEST_START ---
+unset HOME", "echo $HOME
+--- TEST_END ---
+
+--- TEST_START ---
+unset PATH", "/bin/ls
+--- TEST_END ---
+
+--- TEST_START ---
+unset PATH", "ls
+--- TEST_END ---
+
+--- TEST_START ---
+unset PATH", @"export PATH='$PWD'", "ls
+--- TEST_END ---
+
+--- TEST_START ---
+unset PATH", @"export PATH='$PWD'", "/bin/ls
+--- TEST_END ---
+
+--- TEST_START ---
+unset PATH", @"export PATH='$PWD'", @"$PWD/ls
+--- TEST_END ---
+
+--- TEST_START ---
+export A='suprapack'", "echo a $A", "unset A", "echo a $A
+--- TEST_END ---
+
+--- TEST_START ---
+export HELLO=abc", "unset HELLO
+--- TEST_END ---
+
+--- TEST_START ---
+export HELLO=abc", "unset HELL", "unset HELLOO", "printf : $HELLO
+--- TEST_END ---
+
+--- TEST_START ---
+exit 123
+--- TEST_END ---
+
+--- TEST_START ---
+exit 298
+--- TEST_END ---
+
+--- TEST_START ---
+exit 256
+--- TEST_END ---
+
+--- TEST_START ---
+exit +100
+--- TEST_END ---
+
+--- TEST_START ---
+exit "+100"
+--- TEST_END ---
+
+--- TEST_START ---
+exit +"100"
+--- TEST_END ---
+
+--- TEST_START ---
+exit -100
+--- TEST_END ---
+
+--- TEST_START ---
+exit "-100"
+--- TEST_END ---
+
+--- TEST_START ---
+exit -"100"
+--- TEST_END ---
+
+--- TEST_START ---
+exit hello
+--- TEST_END ---
+
+--- TEST_START ---
+exit 42 world
+--- TEST_END ---
+
+--- TEST_START ---
+exit 9223372036854775807
+--- TEST_END ---
+
+--- TEST_START ---
+exit 9223372036854775808
+--- TEST_END ---
+
+--- TEST_START ---
+exit -9223372036854775807
+--- TEST_END ---
+
+--- TEST_START ---
+exit -9223372036854775808
+--- TEST_END ---
+
+--- TEST_START ---
+exit -9223372036854775809
+--- TEST_END ---
+
+--- TEST_START ---
+<< end cat -e
+simple
+test
+end
+--- TEST_END ---
+
+--- TEST_START ---
+<< AH cat -e
+simple
+test
+end
+AH
+--- TEST_END ---
+
+--- TEST_START ---
+<< AH cat -e
+simple
+
+
+
+end
+AH
+--- TEST_END ---
+
+--- TEST_START ---
+<< AH cat -e | grep -o 'simple'
+simple
+end
+AH
+--- TEST_END ---
+
+--- TEST_START ---
+<< EOF cat -e
+$USER
+EOF
+--- TEST_END ---
+
+--- TEST_START ---
+<< EOF cat -e
+nda-cunh
+EOF
+--- TEST_END ---
+
+--- TEST_START ---
+cat << here -e
+hello
+here
+--- TEST_END ---
+
+--- TEST_START ---
+cat << here -e
+hello
+here
+--- TEST_END ---
+
+--- TEST_START ---
+*
+--- TEST_END ---
+
+--- TEST_START ---
+*/*
+--- TEST_END ---
+
+--- TEST_START ---
+*/*
+--- TEST_END ---
+
+--- TEST_START ---
+echo *
+--- TEST_END ---
+
+--- TEST_START ---
+echo D*
+--- TEST_END ---
+
+--- TEST_START ---
+echo *Z
+--- TEST_END ---
+
+--- TEST_START ---
+echo *t hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo *t
+--- TEST_END ---
+
+--- TEST_START ---
+echo $*
+--- TEST_END ---
+
+--- TEST_START ---
+echo hola*hola *
+--- TEST_END ---
+
+--- TEST_START ---
+echo $hola*
+--- TEST_END ---
+
+--- TEST_START ---
+echo $HOME*
+--- TEST_END ---
+
+--- TEST_START ---
+cd *
+--- TEST_END ---
+
+--- TEST_START ---
+cd *
+--- TEST_END ---
+
+--- TEST_START ---
+cd *
+--- TEST_END ---
+
+--- TEST_START ---
+echo hola || cat
+--- TEST_END ---
+
+--- TEST_START ---
+pwd || ls
+--- TEST_END ---
+
+--- TEST_START ---
+echo hola || echo bonjour
+--- TEST_END ---
+
+--- TEST_START ---
+echo hola && echo bonjour
+--- TEST_END ---
+
+--- TEST_START ---
+echo bonjour || echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo bonjour && echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo -n bonjour && echo -n hola
+--- TEST_END ---
+
+--- TEST_START ---
+pwd && ls && echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+pwd || ls && echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+pwd && ls || echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+pwd || ls || echo hola
+--- TEST_END ---
+
+--- TEST_START ---
+ls || export ""
+--- TEST_END ---
+
+--- TEST_START ---
+export "" || ls
+--- TEST_END ---
+
+--- TEST_START ---
+ls && export ""
+--- TEST_END ---
+
+--- TEST_START ---
+export "" && ls
+--- TEST_END ---
+
+--- TEST_START ---
+export "" && unset ""
+--- TEST_END ---
+
+--- TEST_START ---
+ls || ;
+--- TEST_END ---
+
+--- TEST_START ---
+; || ls
+--- TEST_END ---
+
+--- TEST_START ---
+ls && ;
+--- TEST_END ---
+
+--- TEST_START ---
+; && ls
+--- TEST_END ---
+
+--- TEST_START ---
+ls || <
+--- TEST_END ---
+
+--- TEST_START ---
+ls && <
+--- TEST_END ---
+
+--- TEST_START ---
+cat | echo || ls
+--- TEST_END ---
+
+--- TEST_START ---
+cat | echo && ls
+--- TEST_END ---
+
+--- TEST_START ---
+ls || cat | echo
+--- TEST_END ---
+
+--- TEST_START ---
+ls && cat | echo
+--- TEST_END ---
+
+--- TEST_START ---
+(ls)
+--- TEST_END ---
+
+--- TEST_START ---
+( ( ls ) )
+--- TEST_END ---
+
+--- TEST_START ---
+( ( ) ls )
+--- TEST_END ---
+
+--- TEST_START ---
+ls && (ls)
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+( ( ls&&pwd ) )
+--- TEST_END ---
+
+--- TEST_START ---
+( ( ls ) &&pwd )
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && ( ( pwd ) ) )
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd) > hola $> cat hola
+--- TEST_END ---
+
+--- TEST_START ---
+> hola ls && pwd
+--- TEST_END ---
+
+--- TEST_START ---
+> hola (ls && pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+(> pwd) $> ls
+--- TEST_END ---
+
+--- TEST_START ---
+(< pwd) $> ls
+--- TEST_END ---
+
+--- TEST_START ---
+(< pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+( ( ( ( ( pwd) ) ) ) )
+--- TEST_END ---
+
+--- TEST_START ---
+() pwd
+--- TEST_END ---
+
+--- TEST_START ---
+> pwd (ls)
+--- TEST_END ---
+
+--- TEST_START ---
+(ls||pwd)&&(ls||pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+(lss||pwd)&&(lss||pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+(lss&&pwd)&&(lss&&pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd | wc) > hola $> cat hola
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd | wc) > hola $> (ls && pwd | wc) > hola $> cat hola
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd | wc) >> hola $> echo hey&&(ls && pwd | wc) > hola $> cat hola
+--- TEST_END ---
+
+--- TEST_START ---
+(pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+(ls && pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+(ls -z || pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo hey > hola $> (pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo hey > hola $> (ls && pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+echo hey > hola $> (ls -z || pwd | wc) < hola
+--- TEST_END ---
+
+--- TEST_START ---
+(ls -z || pwd && ls)
+--- TEST_END ---
+
+--- TEST_START ---
+ls || (cat Makefile|grep srcs) && (pwd|wc)
+--- TEST_END ---
+
+--- TEST_START ---
+ls -z && (ls) && (pwd)
+--- TEST_END ---
+
+--- TEST_START ---
+(ls > Docs/hey && pwd) > hola $> cat hola $> cat Docs/hey
+--- TEST_END ---
+
+--- TEST_START ---
+ls > Docs/hey && pwd > hola $> cat hola $> cat Docs/hey
+--- TEST_END ---
+
+--- TEST_START ---
+cd ../.. && pwd && pwd
+--- TEST_END ---
+
+--- TEST_START ---
+(cd ../.. && pwd) && pwd
+--- TEST_END ---
+
+--- TEST_START ---
+ls -z || cd ../../..&&pwd $> pwd
+--- TEST_END ---
+
+--- TEST_START ---
+ls -z || (cd ../../..&&pwd) $> pwd
+--- TEST_END ---
+
+--- TEST_START ---
+ls *
+--- TEST_END ---
+
+--- TEST_START ---
+ls *.*
+--- TEST_END ---
+
+--- TEST_START ---
+ls *.hola
+--- TEST_END ---
+
+--- TEST_START ---
+cat M*le
+--- TEST_END ---
+
+--- TEST_START ---
+cat M*ee
+--- TEST_END ---
+
+--- TEST_START ---
+cat Make*file
+--- TEST_END ---
+

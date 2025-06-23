@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 23:48:06 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:10:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static int	fill_pipe_buffer(t_pipe_buffer *pb)
 	pb->line_start = 0;
 	bytes_read = read(STDIN_FILENO, pb->buffer, PIPE_BUFFER_SIZE - 1);
 	if (bytes_read <= 0)
+	{
+		pb->size = 0;
+		return (0);
+	}
+	if (!check_pipe_buffer_limit(bytes_read))
 	{
 		pb->size = 0;
 		return (0);
