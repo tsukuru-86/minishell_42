@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 21:22:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ static int	append_env_node(const char *name, const char *value)
 /* Update the value of an existing environment variable */
 static int	update_env_value(t_env *env_node, const char *value)
 {
-	if (env_node->value)
-		free(env_node->value);
 	if (value)
+	{
+		if (env_node->value)
+			free(env_node->value);
 		env_node->value = ft_strdup(value);
-	else
-		env_node->value = NULL;
+	}
 	return (0);
 }
 
@@ -97,7 +97,9 @@ int	set_env_node(const char *name, const char *value)
 	node = get_env_node(name);
 	if (!node)
 		return (append_env_node(name, value));
-	return (update_env_value(node, value));
+	if (value != NULL)
+		return (update_env_value(node, value));
+	return (0);
 }
 
 /* Set environment variable without validation (for export internal use) */

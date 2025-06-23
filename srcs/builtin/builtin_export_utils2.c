@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 15:46:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:30:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ int	append_env_value(const char *name, const char *value)
 	t_env	*node;
 	char	*new_val;
 
+	if (!name || !is_valid_identifier(name))
+	{
+		if (name)
+			ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, name);
+		else
+			ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, "");
+		return (1);
+	}
 	node = get_env_node(name);
 	if (!node)
 		return (set_env_node_direct(name, value));

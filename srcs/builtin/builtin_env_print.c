@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 20:51:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:20:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,12 @@ static void	print_env_format(t_env *env, int format)
 		{
 			ft_printf_fd(STDOUT_FILENO, "%s=%s\n", env->name, env->value);
 		}
-		else
-		{
-			ft_printf_fd(STDOUT_FILENO, "%s=\n", env->name);
-		}
 	}
 	else
 	{
 		ft_printf_fd(STDOUT_FILENO, "declare -x %s", env->name);
 		if (env->value)
 			ft_printf_fd(STDOUT_FILENO, "=\"%s\"", env->value);
-		else
-			ft_printf_fd(STDOUT_FILENO, "=\"\"");
 		ft_printf_fd(STDOUT_FILENO, "\n");
 	}
 }
