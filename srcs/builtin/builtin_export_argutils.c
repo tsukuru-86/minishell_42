@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 20:07:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/22 22:05:19 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	split_export_arg(char *arg, char **name, char **value, int *append)
 	char	*plus_pos;
 	char	*equal_pos;
 	char	*var_end;
+	char	*raw_name;
 
 	*append = 0;
 	plus_pos = ft_strchr(arg, '+');
@@ -82,14 +83,19 @@ void	split_export_arg(char *arg, char **name, char **value, int *append)
 		*name = ft_substr(arg, 0, var_end - arg + 1);
 		*value = get_export_value(equal_pos + 1);
 		*append = 1;
+		debug_print_with_str("[DEBUG] append name: ", *name, DEBUG_ENABLED);
 		return ;
 	}
 	if (equal_pos)
 	{
-		*name = ft_substr(arg, 0, equal_pos - arg);
+		raw_name = ft_substr(arg, 0, equal_pos - arg);
+		debug_print_with_str("[DEBUG] raw name: ", raw_name, DEBUG_ENABLED);
+		*name = ft_trim_spaces(raw_name);
 		*value = get_export_value(equal_pos + 1);
+		debug_print_with_str("[DEBUG] trimmed: ", *name, DEBUG_ENABLED);
+		free(raw_name);
 		return ;
 	}
-	*name = ft_strdup(arg);
+	*name = ft_trim_spaces(arg);
 	*value = NULL;
 }

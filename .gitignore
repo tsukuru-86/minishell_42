@@ -31,8 +31,10 @@ test*
 42_minishell_tester/
 minishell_tester*
 .cache/
+trash/
 
 minishell_tester-nda-cunh
 obj/.builddir_ready
 file_out
 srcs/parser/heredoc_noninteractive.c
+docs/phase40_analysis.md

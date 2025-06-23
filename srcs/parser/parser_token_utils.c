@@ -14,37 +14,6 @@
 #include "minishell.h"
 #include "parser.h"
 
-static int	handle_heredoc_redirect(t_command *cmd,
-	t_token **current_token, t_command **head_cmd)
-{
-	t_token	*delimiter_token;
-
-	delimiter_token = (*current_token)->next;
-	if (isatty(STDIN_FILENO))
-		return (handle_interactive_heredoc(cmd, delimiter_token,
-				head_cmd, current_token));
-	else
-		return (handle_noninteractive_heredoc(cmd, delimiter_token,
-				head_cmd, current_token));
-}
-
-/*
-** @brief WORDタイプのトークンを処理します。
-** @param cmd_ptr 現在のコマンド構造体へのポインタ
-** @param current_token_ptr 現在のトークンへのポインタ
-** @param head_cmd_ptr コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
-*/
-int	handle_word_type_tokens(t_command **cmd_ptr, t_token **current_token_ptr,
-		t_command **head_cmd_ptr)
-{
-	int	status;
-
-	debug_print("[DEBUG] Handling WORD token", DEBUG_ENABLED);
-	status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
-	return (status);
-}
-
 /*
 ** @brief リダイレクトトークンを処理します。
 ** @param cmd 現在のコマンド構造体
@@ -95,7 +64,12 @@ int	handle_redirect_token(t_command *cmd, t_token **current_token,
 	if (!cmd || !current_token || !*current_token || !head_cmd)
 		return (0);
 	if (!cmd->args || !cmd->args[0])
+	{
+		if ((*current_token)->type == TOKEN_HEREDOC)
+			return (handle_heredoc_with_lookahead(cmd, current_token,
+					head_cmd));
 		return (handle_empty_cmd_redirect(cmd, current_token, head_cmd));
+	}
 	if (!((*current_token)->next))
 	{
 		if (*head_cmd)

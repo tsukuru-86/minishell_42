@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 21:21:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/22 15:46:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,21 @@ int	validate_and_set_env(char *name, char *value)
 
 	n = NULL;
 	v = NULL;
+	debug_print_with_str("[DEBUG] Export name: ", name, DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] Export value: ", value, DEBUG_ENABLED);
 	if (name)
 		n = ft_strdup(name);
 	if (value)
 		v = ft_strdup(value);
 	normalize_export_args(&n, &v);
+	debug_print_with_str("[DEBUG] After normalize name: ", n, DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] After normalize value: ", v, DEBUG_ENABLED);
 	if (!is_valid_identifier(n))
 	{
+		debug_print("[DEBUG] Invalid identifier detected", DEBUG_ENABLED);
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
+	debug_print("[DEBUG] Identifier valid, processing", DEBUG_ENABLED);
 	return (process_env_setting(n, v));
 }

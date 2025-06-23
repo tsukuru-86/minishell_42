@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 06:39:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 01:13:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_temp_filename(void)
 	num_str = ft_itoa(counter++);
 	if (!num_str)
 		return (NULL);
-	filename = ft_strjoin("/tmp/heredoc_", num_str);
+	filename = ft_strjoin("./heredoc_", num_str);
 	free(num_str);
 	return (filename);
 }
