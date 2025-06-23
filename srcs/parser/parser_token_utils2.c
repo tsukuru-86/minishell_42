@@ -65,6 +65,7 @@ static int	is_delimiter_line(char *line, char *delimiter)
 static int	process_heredoc_lines(int fd, char *delimiter)
 {
 	char	*line;
+	char	*expanded;
 
 	line = get_next_line(STDIN_FILENO);
 	while (line != NULL)
@@ -74,7 +75,14 @@ static int	process_heredoc_lines(int fd, char *delimiter)
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
+		expanded = expand_env_vars(line, 1);
+		if (expanded)
+		{
+			write(fd, expanded, ft_strlen(expanded));
+			free(expanded);
+		}
+		else
+			write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
