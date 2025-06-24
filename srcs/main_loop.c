@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 21:46:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 11:42:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static int	handle_interactive(int *status)
 
 	input = readline("minishell> ");
 	if (!input)
+	{
+		if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 5);
 		return (0);
+	}
 	debug_print_with_str("[DEBUG] Interactive input: ", input, DEBUG_ENABLED);
 	handle_input(input, status);
 	debug_print_with_int("[DEBUG] Status: ", *status, DEBUG_ENABLED);

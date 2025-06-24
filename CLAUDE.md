@@ -2,19 +2,7 @@
 
 ## 🎯 1. 目的・仕様 (Project Overview)
 ### プロジェクト基本目的
-42Tokyo「minishell」(概要:./subject-madantory.md)課題のmandatory部分実装。`make test1`、`make test2`のテストスコア100%にする(MUST)。
-
-### 🔄 修正予定項目(make test1のKO項目)
-
-```bash
-Test [export ABC] [env | grep ABC -o] [printf hi] [env | grep ABC][KO]
-Test [export ABCD=abcd] [export ABCD += ndacunh] [env | grep ABCD][KO]
-Test [export ABCD=abcd] [export ABCD +=ndacunh] [env | grep ABCD][KO]
-Test [export ABCD =abcd] [env | grep ABCD][KO]
-Test [export ABCD=Hello] [export ABCD =abcd] [env | grep ABCD][KO]
-Test [<< end cat -e \nsimple\ntest\nend][KO]
-Test [<< AH cat -e \nsimple\n\n\n\n\n\n\nend\nAH][KO]
-```
+42Tokyo「minishell」(概要:./subject-madantory.md)課題のmandatory部分実装。~~`make test1`、`make test2`のテストスコア100%にする(完了)。~~
 
 ### 🚨 重要: export コマンド仕様 (bash互換実装必須)
 
@@ -29,7 +17,7 @@ export VAR2
 #### 引数処理ルール
 1. **変数名のみ**: 値をNULLで登録、既に登録済みの場合は何もしない
 2. **エラー処理**: 不適切な変数名の場合、その引数のみスキップ（他の引数は処理継続）
-3. **空白解析**: `export VAR =value` は `VAR` と `=value` の2つの引数として解釈
+3. **空白解析**: `export VAR =value` は `VAR` と `=value` の2つの引数として解釈(export基本動作)
 
 #### 実際のbash動作例
 ```bash
@@ -37,7 +25,7 @@ $ export ABCD                    # 値なしで登録
 $ export |grep ABCD
 declare -x ABCD                  # 値なしで表示
 
-$ export ABCD =abcd DEF          # エラーがあっても他は処理
+$ export ABCD =abcd DEF          # 個別に評価。エラーがあっても他は処理。イコールなしで登録済みの時は元の値維持
 bash: export: `=abcd': not a valid identifier
 $ export |grep ABCD
 declare -x ABCD                  # 元の値維持（エラー時は変更なし）
