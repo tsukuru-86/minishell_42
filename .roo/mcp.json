@@ -2,10 +2,10 @@
   "mcpServers": {
     "mcp-clangd": {
       "type": "stdio",
-      "command": "$/home/chinachu/42/minishell_42/mcp-language-server/mcp-language-server",
+      "command": "/home/chinachu/go/bin/mcp-language-server",
       "args": [
         "-workspace",
-        "${workspace}",
+        "/home/chinachu/42/minishell_42",
         "-lsp",
         "clangd"
       ],
@@ -17,7 +17,7 @@
         "references",
         "rename_symbol"
       ],
-      "timeout": 15,
+      "timeout": 20,
       "disabled": false
     }
   }

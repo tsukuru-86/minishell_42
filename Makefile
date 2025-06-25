@@ -8,12 +8,12 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
     # macOS固有のフラグを追加
     CFLAGS += -DMACOS
-    $(info Found macOS. Use readline compatibility mode.)
+    $(info MacOS環境を検出しました。readline関数の互換性対応を有効化します。)
 endif
 ifeq ($(UNAME_S),Linux)
     # Linux固有のフラグを追加
     CFLAGS += -DLINUX
-    $(info Found Linux. Use GNU readline.)
+    $(info Linux環境を検出しました。標準のreadline関数を使用します。)
 endif
 
 SRCS_DIR = srcs/
@@ -41,7 +41,6 @@ SRCS_FILE = main.c \
 	builtin/identifier_validator.c \
 	env/env_expand.c \
 	env/env_expand_quote.c \
-	env/env_expand_redirect.c \
 	env/env_expand_utils2.c \
 	env/env_expand_utils.c \
 	env/env_utils.c \
@@ -179,9 +178,6 @@ test1: cre
 
 test2: cre
 	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
-
-test2: cre
-	cd ~/42/minishell_42/interactive_tester&&./tester 2>&1
 
 debug: 
 	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"

@@ -6,12 +6,19 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:43 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/17 09:07:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 14:39:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_EXPORT_H
 # define BUILTIN_EXPORT_H
+
+typedef struct s_export_arg
+{
+	char	**name;
+	char	**value;
+	int		*append;
+}	t_export_arg;
 
 int		append_env_value(const char *name, const char *value);
 char	*reconstruct_split_args(char **args, int start, int *next_idx);
@@ -23,6 +30,7 @@ int		is_valid_identifier(const char *str);
 void	split_export_arg(char *arg, char **name, char **value, int *append);
 
 char	*ft_trim_spaces(const char *src);
+char	*strip_quotes(char *str);
 char	*unquote(const char *src);
 char	*trim_and_unquote(const char *src);
 void	normalize_export_args(char **name, char **value);

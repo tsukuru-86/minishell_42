@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/15 10:54:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 14:39:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "minishell.h"
 
-static int	is_env_var_start(const char *str, int i)
+int	is_env_var_start(const char *str, int i)
 {
 	if (str[i] == '$' && str[i + 1])
 	{

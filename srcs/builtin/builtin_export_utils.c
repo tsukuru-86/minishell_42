@@ -74,3 +74,27 @@ int	process_export_with_reconstruction(char **args, int *i)
 	(*i)++;
 	return (ret);
 }
+
+/*
+** 文字列の前後スペースを除去
+*/
+char	*ft_trim_spaces(const char *src)
+{
+	if (!src)
+		return (NULL);
+	return (ft_strtrim(src, " \t\n\v\f\r"));
+}
+
+char	*strip_quotes(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if ((str[0] == '\'' && str[len - 1] == '\''))
+		return (ft_substr(str, 1, len - 2));
+	if ((str[0] == '"' && str[len - 1] == '"'))
+		return (ft_substr(str, 1, len - 2));
+	return (ft_strdup(str));
+}
