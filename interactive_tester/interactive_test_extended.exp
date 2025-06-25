@@ -1,0 +1,543 @@
+#!/usr/bin/expect -f
+
+# minishell 拡張インタラクティブテスト用expectスクリプト
+# test1とtest2の主要テストケースを統合
+# 作成日: 2025年6月24日
+
+# タイムアウト設定（10秒に延長）
+set timeout 10
+
+# カラー出力設定
+proc print_test_header {test_name} {
+	puts "\n\033\[1;34m=== $test_name ===\033\[0m"
+}
+
+proc print_category_header {category_name} {
+	puts "\n\033\[1;35m◆◆◆ $category_name ◆◆◆\033\[0m"
+}
+
+proc print_success {message} {
+	puts "\n\033\[1;32m✓ $message\033\[0m"
+}
+
+proc print_error {message} {
+	puts "\n\033\[1;31m✗ $message\033\[0m"
+}
+
+proc print_info {message} {
+	puts "\033\[1;33m→ $message\033\[0m"
+}
+
+# テスト結果保存用変数
+set test_results {}
+set test_count 0
+set passed_count 0
+set syntax_error_tests 0
+set syntax_error_passed 0
+set builtin_tests 0
+set builtin_passed 0
+set pipe_tests 0
+set pipe_passed 0
+set redirect_tests 0
+set redirect_passed 0
+set variable_tests 0
+set variable_passed 0
+
+# テスト結果記録関数
+proc record_test {test_name status output category} {
+	global test_results test_count passed_count
+	global syntax_error_tests syntax_error_passed
+	global builtin_tests builtin_passed
+	global pipe_tests pipe_passed
+	global redirect_tests redirect_passed
+	global variable_tests variable_passed
+	
+	incr test_count
+	
+	# カテゴリ別カウント
+	switch $category {
+		"syntax" {
+			incr syntax_error_tests
+			if {$status == "PASS"} { incr syntax_error_passed }
+		}
+		"builtin" {
+			incr builtin_tests
+			if {$status == "PASS"} { incr builtin_passed }
+		}
+		"pipe" {
+			incr pipe_tests
+			if {$status == "PASS"} { incr pipe_passed }
+		}
+		"redirect" {
+			incr redirect_tests
+			if {$status == "PASS"} { incr redirect_passed }
+		}
+		"variable" {
+			incr variable_tests
+			if {$status == "PASS"} { incr variable_passed }
+		}
+	}
+	
+	if {$status == "PASS"} {
+		incr passed_count
+		print_success "$test_name"
+	} else {
+		print_error "$test_name"
+	}
+	lappend test_results "$test_name: $status"
+	if {$output != ""} {
+		lappend test_results "  Output: $output"
+	}
+}
+
+# プロンプト待機関数
+proc wait_for_prompt {} {
+	expect {
+		-re "minishell>\[ \t\]*" { return 1 }
+		timeout {
+			print_error "プロンプト待機でタイムアウトしました"
+			return 0
+		}
+	}
+}
+
+# コマンド実行とテスト関数
+proc run_test {test_name command expected_pattern category} {
+	global spawn_id
+	
+	print_info "テスト実行: $command"
+	
+	# コマンド送信
+	send "$command\r"
+	
+	# 出力をキャプチャ
+	set output ""
+	expect {
+		-re $expected_pattern {
+			set output $expect_out(buffer)
+			record_test $test_name "PASS" "" $category
+			return 1
+		}
+		"minishell> " {
+			set output $expect_out(buffer)
+			record_test $test_name "FAIL" "期待する出力が見つかりませんでした" $category
+			return 0
+		}
+		timeout {
+			record_test $test_name "FAIL" "タイムアウト" $category
+			return 0
+		}
+	}
+}
+
+# 構文エラーテスト関数（エラーが期待される）
+proc run_syntax_error_test {test_name command category} {
+	global spawn_id
+	
+	print_info "構文エラーテスト: $command"
+	
+	send "$command\r"
+	
+	expect {
+		-re "(syntax error|parse error|bash:|command not found)" {
+			record_test $test_name "PASS" "構文エラーが正しく検出されました" $category
+			wait_for_prompt
+			return 1
+		}
+		"minishell> " {
+			record_test $test_name "FAIL" "構文エラーが検出されませんでした" $category
+			return 0
+		}
+		timeout {
+			record_test $test_name "FAIL" "タイムアウト" $category
+			return 0
+		}
+	}
+}
+
+# セットアップ関数
+proc setup_test_environment {} {
+	# 現在の作業ディレクトリを確認
+	set current_dir [pwd]
+	print_info "現在の作業ディレクトリ: $current_dir"
+	
+	# 必要なディレクトリとファイルの作成
+	if {[catch {exec mkdir -p ./test_files} result]} {
+		print_error "test_filesディレクトリ作成エラー: $result"
+		return 0
+	} else {
+		print_info "test_filesディレクトリ作成成功"
+	}
+	
+	if {[catch {exec mkdir -p ./outfiles} result]} {
+		print_error "outfilesディレクトリ作成エラー: $result"
+		return 0
+	} else {
+		print_info "outfilesディレクトリ作成成功"
+	}
+	
+	# テスト用ファイルの作成
+	if {[catch {
+		set test_file [open "./test_files/infile" w]
+		puts $test_file "hello world"
+		puts $test_file "test line"
+		puts $test_file "oi test"
+		close $test_file
+		print_info "infileの作成成功"
+	} result]} {
+		print_error "infile作成エラー: $result"
+		return 0
+	}
+	
+	if {[catch {
+		set big_file [open "./test_files/infile_big" w]
+		puts $big_file "big file content"
+		puts $big_file "oi in big file"
+		puts $big_file "more content"
+		close $big_file
+		print_info "infile_bigの作成成功"
+	} result]} {
+		print_error "infile_big作成エラー: $result"
+		return 0
+	}
+	
+	# ファイル存在確認
+	if {[file exists "./test_files/infile"]} {
+		print_success "infileの存在確認: OK"
+	} else {
+		print_error "infileの存在確認: NG"
+		return 0
+	}
+	
+	if {[file exists "./test_files/infile_big"]} {
+		print_success "infile_bigの存在確認: OK"
+	} else {
+		print_error "infile_bigの存在確認: NG"
+		return 0
+	}
+	
+	# ファイル内容確認
+	if {[catch {
+		set test_content [exec cat ./test_files/infile]
+		print_info "infile内容: $test_content"
+	} result]} {
+		print_error "infile読み取りエラー: $result"
+	}
+	
+	print_success "テスト環境のセットアップが完了しました"
+	return 1
+}
+# メイン処理開始
+puts "\033\[1;36m=== minishell 拡張インタラクティブテスト開始 ===\033\[0m"
+puts "タイムアウト設定: $timeout 秒"
+puts "統合テストケース数: 約130個"
+
+# minishellの存在確認
+if {![file exists "../minishell"]} {
+	print_error "minishell実行ファイルが見つかりません"
+	print_info "make コマンドでビルドしてください"
+	exit 1
+}
+
+# テスト環境セットアップ
+if {![setup_test_environment]} {
+	print_error "テスト環境のセットアップに失敗しました"
+	exit 1
+}
+
+# minishell起動
+print_info "minishell を起動中..."
+spawn ../minishell
+
+# 初期プロンプト待機
+if {![wait_for_prompt]} {
+	print_error "minishell の起動に失敗しました"
+	exit 1
+}
+
+print_success "minishell が正常に起動しました"
+
+# ========== 構文エラーテスト（20ケース） ==========
+print_category_header "構文エラーテスト"
+
+run_syntax_error_test "パイプ単体" "|" "syntax"
+run_syntax_error_test "パイプ+echo" "| echo oi" "syntax"
+run_syntax_error_test "連続パイプ" "| |" "syntax"
+run_syntax_error_test "三連パイプ" "| | |" "syntax"
+run_syntax_error_test "出力リダイレクト単体" ">" "syntax"
+run_syntax_error_test "追記リダイレクト単体" ">>" "syntax"
+run_syntax_error_test "三連出力リダイレクト" ">>>" "syntax"
+run_syntax_error_test "入力リダイレクト単体" "<" "syntax"
+run_syntax_error_test "二連入力リダイレクト" "<<" "syntax"
+run_syntax_error_test "不完全な入力リダイレクト" "echo hi <" "syntax"
+run_syntax_error_test "不完全なパイプリダイレクト" "cat    <| ls" "syntax"
+run_syntax_error_test "パイプ後リダイレクト" "echo hi | >" "syntax"
+run_syntax_error_test "無効なリダイレクト順序" "< > echo hi" "syntax"
+run_syntax_error_test "空のパイプ" "echo | |" "syntax"
+run_syntax_error_test "変数だけのパイプ" "| \$" "syntax"
+run_syntax_error_test "引用符不一致" "echo \"hello" "syntax"
+run_syntax_error_test "引用符不一致2" "echo 'hello" "syntax"
+run_syntax_error_test "無効な変数名" "export 123VAR=value" "syntax"
+run_syntax_error_test "無効な変数展開" "echo \$123" "syntax"
+run_syntax_error_test "無効な引用符組み合わせ" "echo \"hello'world" "syntax"
+
+# ========== ビルトインコマンドテスト（30ケース） ==========
+print_category_header "ビルトインコマンドテスト"
+
+# echo テスト
+run_test "echo基本" "echo hello world" "hello world.*minishell>" "builtin"
+run_test "echo引用符" "echo \"hello world\"" "hello world.*minishell>" "builtin"
+run_test "echo単一引用符" "echo 'hello world'" "hello world.*minishell>" "builtin"
+run_test "echo混合引用符" "echo hello'world'" "helloworld.*minishell>" "builtin"
+run_test "echo空引用符" "echo \"\"" "minishell>" "builtin"
+run_test "echo特殊文字" "echo '> >> < * ? \[ \] | ; \[ \] || && ( ) & # \$ \\ <<'" ".*minishell>" "builtin"
+
+# 変数展開テスト
+run_test "PWD変数展開" "echo \"\$PWD\"" "/.*minishell>" "builtin"
+run_test "PWD単一引用符" "echo '\$PWD'" {\$PWD.*minishell>} "builtin"
+run_test "USER変数" "echo \$USER" ".*minishell>" "builtin"
+run_test "存在しない変数" "echo \$JENEXISTEPAS" "minishell>" "builtin"
+run_test "終了コード変数" "echo \$\?" ".*minishell>" "builtin"
+run_test "ドル記号単体" "echo \$" "\$.*minishell>" "builtin"
+
+# pwd テスト
+run_test "pwd基本" "pwd" "/.*minishell>" "builtin"
+run_test "pwd引数付き" "pwd oi" "/.*minishell>" "builtin"
+
+# export/unset テスト（独立テストに変更）
+run_test "export設定" "export HELLO=123" "minishell>" "builtin"
+run_test "export複雑" "export COMPLEX=\"123 A-\"" "minishell>" "builtin"
+run_test "システム変数確認" "echo \$HOME" "/.*minishell>" "builtin"
+run_test "unset新規変数" "unset NONEXISTENT_VAR" "minishell>" "builtin"
+run_test "export表示確認" "export" ".*minishell>" "builtin"
+
+# env テスト
+run_test "env表示" "env" ".*=.*minishell>" "builtin"
+
+# cd テスト
+run_test "cd現在ディレクトリ" "cd ." "minishell>" "builtin"
+run_test "cd HOME" "cd \$HOME" "minishell>" "builtin"
+run_test "cd戻る" "cd -" "minishell>" "builtin"
+
+# exit テスト（最後にテスト）
+# run_test "exit 0" "exit 0" ".*" "builtin"
+
+# ========== パイプラインテスト（15ケース） ==========
+print_category_header "パイプラインテスト"
+
+run_test "echo→cat基本" "echo hello | cat" "hello.*minishell>" "pipe"
+run_test "echo→cat-e" "echo hello | cat -e" "hello.*minishell>" "pipe"
+run_test "ls三連パイプ" "ls | ls | ls" ".*minishell>" "pipe"
+run_test "存在しないコマンド→echo" "command_not_found | echo 'abc'" "abc.*minishell>" "pipe"
+run_test "env→sort" "env | sort" ".*minishell>" "pipe"
+run_test "env→grep" "env | grep USER" ".*USER.*minishell>" "pipe"
+run_test "echo→grep" "echo hello world | grep hello" "hello.*minishell>" "pipe"
+run_test "cat→grep" "cat ../interactive_tester/test_files/infile | grep hello" "hello.*minishell>" "pipe"
+run_test "echo→wc" "echo hello world test | wc -w" "3.*minishell>" "pipe"
+run_test "ls→head" "ls | head -5" ".*minishell>" "pipe"
+run_test "四連パイプ" "echo test | cat | cat | cat" "test.*minishell>" "pipe"
+run_test "パイプでエラー" "false | echo success" "success.*minishell>" "pipe"
+run_test "複雑なパイプ" "echo one two three | tr ' ' '\\n' | sort" ".*minishell>" "pipe"
+run_test "パイプ+変数" "echo \$USER | cat" ".*minishell>" "pipe"
+run_test "長いパイプライン" "echo hello | cat | grep hello | wc -l" ".*minishell>" "pipe"
+
+# ========== リダイレクションテスト（25ケース） ==========
+print_category_header "リダイレクションテスト"
+
+# 出力リダイレクト
+
+run_test "(出力リダイレクト準備)" "mkdir -p ./outfiles" "minishell>" "variable"
+run_test "出力リダイレクト基本" "echo hello > ./outfiles/test1.txt" "minishell>" "redirect"
+run_test "出力確認1" "cat ./outfiles/test1.txt" "hello.*minishell>" "redirect"
+run_test "出力上書き" "echo world > ./outfiles/test1.txt" "minishell>" "redirect"
+run_test "上書き確認" "cat ./outfiles/test1.txt" "world.*minishell>" "redirect"
+
+# 追記リダイレクト
+run_test "追記リダイレクト" "echo append >> ./outfiles/test1.txt" "minishell>" "redirect"
+run_test "追記確認" "cat ./outfiles/test1.txt" "world.*append.*minishell>" "redirect"
+
+# 入力リダイレクト
+run_test "入力リダイレクト基本" "cat < ../interactive_tester/test_files/infile" "hello world.*minishell>" "redirect"
+run_test "grep入力リダイレクト" "grep hello < ../interactive_tester/test_files/infile" "hello.*minishell>" "redirect"
+run_test "wc入力リダイレクト" "wc -l < ../interactive_tester/test_files/infile" ".*minishell>" "redirect"
+
+# 複合リダイレクト
+run_test "入出力リダイレクト" "cat < ../interactive_tester/test_files/infile > ./outfiles/test2.txt" "minishell>" "redirect"
+run_test "複合確認" "cat ./outfiles/test2.txt" "hello world.*minishell>" "redirect"
+
+# リダイレクト+パイプ
+run_test "パイプ+出力リダイレクト" "echo hello | cat > ./outfiles/test3.txt" "minishell>" "redirect"
+run_test "パイプ出力確認" "cat ./outfiles/test3.txt" "hello.*minishell>" "redirect"
+
+# エラーケース
+run_test "存在しないファイル入力" "cat < ./nonexistent.txt" ".*No such file.*minishell>" "redirect"
+run_test "権限なしディレクトリ" "echo test > /root/test.txt" ".*Permission denied.*minishell>" "redirect"
+
+# 複数リダイレクト
+run_test "複数出力リダイレクト" "echo hello > ./outfiles/test4.txt > ./outfiles/test5.txt" "minishell>" "redirect"
+run_test "最後のリダイレクト確認" "cat ./outfiles/test5.txt" "hello.*minishell>" "redirect"
+
+# 変数展開リダイレクト
+run_test "変数展開リダイレクト(準備)" "mkdir -p ./outfiles" "minishell>" "variable"
+run_test "変数展開リダイレクト" "echo \$USER > ./outfiles/user.txt" "minishell>" "redirect"
+run_test "変数展開確認" "cat ./outfiles/user.txt" ".*minishell>" "redirect"
+
+# スペース付きリダイレクト
+run_test "スペース付きリダイレクト" "echo spaced    >    ./outfiles/spaced.txt" "minishell>" "redirect"
+run_test "スペース確認" "cat ./outfiles/spaced.txt" "spaced.*minishell>" "redirect"
+
+# ファイル名に変数
+run_test "ファイル名変数展開" "echo varfile > ./outfiles/\$USER.txt" "minishell>" "redirect"
+
+# 大きなファイル処理
+run_test "大きなファイル入力" "cat < ../interactive_tester/test_files/infile_big" ".*oi in big file.*minishell>" "redirect"
+run_test "大きなファイルgrep" "grep oi < ../interactive_tester/test_files/infile_big" ".*oi.*minishell>" "redirect"
+
+# ========== 変数展開テスト（20ケース） ==========
+print_category_header "変数展開テスト"
+
+# 基本的な変数展開
+run_test "HOME変数" "echo \$HOME" "/.*minishell>" "variable"
+run_test "PATH変数" "echo \$PATH" ".*minishell>" "variable"
+run_test "存在しない変数2" "echo \$NONEXISTENT" "minishell>" "variable"
+run_test "変数後文字" "echo \$USER_suffix" ".*minishell>" "variable"
+
+# 引用符と変数展開
+run_test "二重引用符内変数" "echo \"\$USER is current user\"" ".*is current user.*minishell>" "variable"
+run_test "単一引用符内変数" "echo '\$USER is current user'" {.*is current user.*minishell>} "variable"
+run_test "混合引用符変数" "echo \"\$USER\" 'literal \$USER'" {.*literal \$USER.*minishell>} "variable"
+
+# 終了コード変数
+run_test "成功後の終了コード" "echo| echo \$\?" "0.*minishell>" "variable"
+run_test "終了コード確認" "echo \$\?" ".*minishell>" "variable"
+
+# 失敗後の終了コードテスト
+run_test "存在しないコマンド実行" "nonexistent_cmd_xyz" ".*command not found.*minishell>" "variable"
+run_test "失敗後の終了コード1" "echo \$\?" "(1|2|127).*minishell>" "variable"
+run_test "存在しないファイル" "cat /nonexistent/file/path" ".*No such file.*minishell>" "variable"
+run_test "失敗後の終了コード2" "echo \$\?" "(1|2|127).*minishell>" "variable"
+run_test "成功コマンド実行" "echo success" "success.*minishell>" "variable"
+run_test "成功後の終了コードリセット" "echo \$\?" "0.*minishell>" "variable"
+
+# 特殊変数
+run_test "ドル単体2" "echo \"\$\"" "\\$.*minishell>" "variable"
+run_test "ドル+文字" "echo \$abc" ".*minishell>" "variable"
+
+# export済み変数の展開（独立テストに変更）
+run_test "export設定テスト" "export TESTVAR=hello" "minishell>" "variable"
+run_test "システム変数展開" "echo \$HOME" "/.*minishell>" "variable"
+run_test "ユーザー変数展開" "echo \$USER" ".*minishell>" "variable"
+run_test "パス変数展開" "echo \$PATH" ".*minishell>" "variable"
+
+# 複雑な変数展開
+run_test "変数内変数名" "export VAR=USER; echo \$\$VAR" ".*minishell>" "variable"
+run_test "連続変数展開" "echo \$USER\$HOME" ".*minishell>" "variable"
+run_test "変数+リダイレクト(準備)" "mkdir -p ./outfiles" "minishell>" "variable"
+run_test "変数+リダイレクト" "echo \$USER > ./outfiles/uservar.txt" "minishell>" "variable"
+run_test "変数リダイレクト確認" "cat ./outfiles/uservar.txt" ".*minishell>" "variable"
+
+# unset後の変数展開（独立テストに変更）
+run_test "unset実行" "unset TESTVAR" "minishell>" "variable"
+run_test "未定義変数確認" "echo \$UNDEFINED_VAR" "minishell>" "variable"
+
+# ========== 履歴機能テスト ==========
+print_category_header "履歴機能テスト"
+
+# コマンド実行
+run_test "履歴用コマンド" "echo history_test_extended" "history_test_extended.*minishell>" "builtin"
+
+# 上矢印キーで履歴呼び出し
+print_info "履歴機能テスト: 上矢印キー"
+send "\033\[A"
+expect {
+	"echo history_test_extended" {
+		print_success "履歴機能が正常に動作しています"
+		record_test "履歴呼び出し" "PASS" "" "builtin"
+		send "\r"
+		wait_for_prompt
+	}
+	timeout {
+		record_test "履歴呼び出し" "FAIL" "履歴が呼び出されませんでした" "builtin"
+	}
+}
+
+# ========== エラーハンドリングテスト ==========
+print_category_header "エラーハンドリングテスト"
+
+# 存在しないコマンド
+run_test "存在しないコマンド" "nonexistent_command_xyz" ".*command not found.*minishell>" "builtin"
+run_test "空のコマンド" "" "minishell>" "builtin"
+run_test "スペースのみ" "   " "minishell>" "builtin"
+
+# ========== クリーンアップ ==========
+print_info "テストファイルをクリーンアップ中..."
+catch {exec rm -f ../interactive_tester/test_files/infile ../interactive_tester/test_files/infile_big}
+catch {exec rm -f ./outfiles/*.txt}
+catch {exec rmdir ./test_files ./outfiles}
+
+# ========== 終了テスト ==========
+print_category_header "終了テスト"
+
+# exit コマンドでテスト終了
+print_info "exit コマンドでminishellを終了します"
+send "exit\r"
+expect {
+	eof {
+		print_success "exit コマンドで正常に終了しました"
+		record_test "exit コマンド" "PASS" "" "builtin"
+	}
+	timeout {
+		print_error "exit コマンドでの終了がタイムアウトしました"
+		record_test "exit コマンド" "FAIL" "タイムアウト" "builtin"
+		close
+	}
+}
+
+# ========== テスト結果の表示 ==========
+puts "\n\033\[1;36m=== テスト結果サマリー ===\033\[0m"
+puts "実行テスト数: $test_count"
+puts "成功: $passed_count"
+puts "失敗: [expr $test_count - $passed_count]"
+puts "成功率: [expr $passed_count * 100 / $test_count]%"
+
+puts "\n\033\[1;36m=== カテゴリ別結果 ===\033\[0m"
+puts "構文エラーテスト: $syntax_error_passed/$syntax_error_tests ([expr $syntax_error_tests > 0 ? $syntax_error_passed * 100 / $syntax_error_tests : 0]%)"
+puts "ビルトインテスト: $builtin_passed/$builtin_tests ([expr $builtin_tests > 0 ? $builtin_passed * 100 / $builtin_tests : 0]%)"
+puts "パイプテスト: $pipe_passed/$pipe_tests ([expr $pipe_tests > 0 ? $pipe_passed * 100 / $pipe_tests : 0]%)"
+puts "リダイレクトテスト: $redirect_passed/$redirect_tests ([expr $redirect_tests > 0 ? $redirect_passed * 100 / $redirect_tests : 0]%)"
+puts "変数展開テスト: $variable_passed/$variable_tests ([expr $variable_tests > 0 ? $variable_passed * 100 / $variable_tests : 0]%)"
+
+# 結果をファイルに保存
+set result_file [open "test_results_extended_[clock format [clock seconds] -format %Y%m%d_%H%M%S].txt" w]
+puts $result_file "=== minishell 拡張インタラクティブテスト結果 ==="
+puts $result_file "実行日時: [clock format [clock seconds]]"
+puts $result_file "実行テスト数: $test_count"
+puts $result_file "成功: $passed_count"
+puts $result_file "失敗: [expr $test_count - $passed_count]"
+puts $result_file "成功率: [expr $passed_count * 100 / $test_count]%"
+
+puts $result_file "\n=== カテゴリ別結果 ==="
+puts $result_file "構文エラーテスト: $syntax_error_passed/$syntax_error_tests ([expr $syntax_error_tests > 0 ? $syntax_error_passed * 100 / $syntax_error_tests : 0]%)"
+puts $result_file "ビルトインテスト: $builtin_passed/$builtin_tests ([expr $builtin_tests > 0 ? $builtin_passed * 100 / $builtin_tests : 0]%)"
+puts $result_file "パイプテスト: $pipe_passed/$pipe_tests ([expr $pipe_tests > 0 ? $pipe_passed * 100 / $pipe_tests : 0]%)"
+puts $result_file "リダイレクトテスト: $redirect_passed/$redirect_tests ([expr $redirect_tests > 0 ? $redirect_passed * 100 / $redirect_tests : 0]%)"
+puts $result_file "変数展開テスト: $variable_passed/$variable_tests ([expr $variable_tests > 0 ? $variable_passed * 100 / $variable_tests : 0]%)"
+
+puts $result_file "\n=== 詳細結果 ==="
+
+# 詳細結果を出力
+set i 0
+while {$i < [llength $test_results]} {
+	puts $result_file [lindex $test_results $i]
+	incr i
+}
+
+close $result_file
+print_success "テスト結果を test_results_extended_[clock format [clock seconds] -format %Y%m%d_%H%M%S].txt に保存しました"
+
+# 終了コード設定
+if {$passed_count == $test_count} {
+	exit 0
+} else {
+	exit 1
+}

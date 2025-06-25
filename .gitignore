@@ -26,7 +26,6 @@ test.txt
 a.out
 test/logs
 tests/
-test*
 !test_from_cunh
 42_minishell_tester/
 minishell_tester*

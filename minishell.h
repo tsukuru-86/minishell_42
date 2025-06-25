@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/24 00:08:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 01:09:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,8 @@ char							*expand_env_vars(const char *str,
 t_env							*get_env_node(const char *name);
 int								set_env_node(const char *name,
 									const char *value);
+int								is_env_var_start(const char *str, int i);
+char							*expand_redirect_filename(const char *filename);
 
 /* Redirection - Public API */
 void							restore_redirection(t_redirect *redirect);
