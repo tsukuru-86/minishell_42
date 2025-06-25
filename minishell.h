@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/25 01:09:01 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:38:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,15 +229,12 @@ void							set_exit_status(t_command *cmd, int status);
 void							handle_input(char *input, int *status);
 
 /* Debug functions */
-void							debug_print(const char *message, bool is_debug);
+void							debug_print(const char *message);
 void							debug_print_with_str(const char *prefix,
-									const char *str, bool is_debug);
-void							debug_print_with_int(const char *prefix,
-									int value, bool is_debug);
-void							debug_print_tokens(t_token *tokens,
-									bool is_debug);
-void							debug_print_command_args(char **args,
-									bool is_debug);
+									const char *str);
+void							debug_print_with_int(const char *prefix, const int value);
+void							debug_print_tokens(t_token *tokens);
+void							debug_print_command_args(char **args);
 
 /* Empty command handler */
 int								handle_empty_command_with_redirects(void);

@@ -302,8 +302,8 @@ static int	process_heredoc_lines(int fd, char *delimiter)
 ft_printf_fd(STDERR_FILENO, "[DEBUG] %s\n", message);
 
 // ✅ 安全: debug_print系関数使用
-debug_print_with_str("[DEBUG] Message: ", message, DEBUG_ENABLED);
-debug_print_with_int("[DEBUG] Value: ", value, DEBUG_ENABLED);
+debug_print_with_str("[DEBUG] Message: ", message);
+debug_print_with_int("[DEBUG] Value: ", value);
 ```
 
 #### 今後の開発への必須事項

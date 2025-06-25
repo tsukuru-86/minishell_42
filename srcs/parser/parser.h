@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 21:47:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:07:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		cleanup_heredoc(t_heredoc *heredoc);
 /* Heredoc input functions */
 int			read_heredoc_input(int fd, t_heredoc *heredoc);
 int			read_heredoc_tty(int fd, t_heredoc *heredoc);
-int			read_heredoc_from_pipe(int fd, t_heredoc *heredoc);
+int			process_pipe_heredoc_lines(int fd, t_heredoc *heredoc);
 int			process_heredoc_line(char *line, int fd, t_heredoc *heredoc);
 /* Non-interactive heredoc functions */
 int			write_heredoc_content_from_tokens(t_token **current_token,

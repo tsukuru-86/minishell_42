@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/24 00:10:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:47:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ static char	*read_line_from_pipe(void)
 			return (NULL);
 	}
 	line = extract_line_from_buffer(&pb);
-	debug_print_with_str("[DEBUG] read_line_from_pipe: final line", line,
-		DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] read_line_from_pipe: final line", line);
 	return (line);
 }
 
-static int	process_pipe_heredoc_lines(int fd, t_heredoc *heredoc)
+int	process_pipe_heredoc_lines(int fd, t_heredoc *heredoc)
 {
 	char	*line;
 	int		result;
@@ -83,8 +82,7 @@ static int	process_pipe_heredoc_lines(int fd, t_heredoc *heredoc)
 		line = read_line_from_pipe();
 		if (!line)
 			break ;
-		debug_print_with_str("[DEBUG] Processing heredoc line", line,
-			DEBUG_ENABLED);
+		debug_print_with_str("[DEBUG] Processing heredoc line", line);
 		result = process_heredoc_line(line, fd, heredoc);
 		if (result == 0)
 			return (0);
@@ -94,8 +92,8 @@ static int	process_pipe_heredoc_lines(int fd, t_heredoc *heredoc)
 	return (1);
 }
 
-int	read_heredoc_from_pipe(int fd, t_heredoc *heredoc)
-{
-	debug_print("[DEBUG] read_heredoc_from_pipe: starting", DEBUG_ENABLED);
-	return (process_pipe_heredoc_lines(fd, heredoc));
-}
+// int	read_heredoc_from_pipe(int fd, t_heredoc *heredoc)
+// {
+// 	debug_print("[DEBUG] read_heredoc_from_pipe: starting");
+// 	return (process_pipe_heredoc_lines(fd, heredoc));
+// }

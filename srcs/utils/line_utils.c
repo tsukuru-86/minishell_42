@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 20:34:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 20:35:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:48:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	process_lines(char **lines, int *status)
 	i = 0;
 	while (lines[i])
 	{
-		debug_print_with_str("[DEBUG] Processing line: ", lines[i],
-			DEBUG_ENABLED);
+		debug_print_with_str("[DEBUG] Processing line: ", lines[i]);
 		handle_input(lines[i], status);
 		i++;
 	}

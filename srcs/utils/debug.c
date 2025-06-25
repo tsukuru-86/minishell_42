@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/19 20:07:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:45:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	debug_print_token(const t_token *token, bool is_debug)
+void	debug_print_token(const t_token *token)
 {
 	char	*type_str[18];
 
@@ -31,60 +31,60 @@ void	debug_print_token(const t_token *token, bool is_debug)
 	type_str[13] = "TOKEN_NEWLINE";
 	type_str[14] = "TOKEN_END";
 	type_str[15] = "TOKEN_INVALID";
-	if (!is_debug)
+	if (!DEBUG_ENABLED)
 		return ;
 	if (token->content == NULL)
-		debug_print("[NULL: ", DEBUG_ENABLED);
+		debug_print("[NULL: ");
 	else
 		ft_printf_fd(STDERR_FILENO, "[%s: ", token->content);
 	ft_printf_fd(STDERR_FILENO, "%s]\n", type_str[token->type]);
 }
 
-void	debug_print(const char *message, bool is_debug)
+void	debug_print(const char *message)
 {
-	if (is_debug)
+	if (DEBUG_ENABLED)
 		ft_printf_fd(STDERR_FILENO, "%s\n", message);
 }
 
-void	debug_print_with_str(const char *prefix, const char *str, bool is_debug)
+void	debug_print_with_str(const char *prefix, const char *str)
 {
-	if (is_debug)
+	if (DEBUG_ENABLED)
 		ft_printf_fd(STDERR_FILENO, "%s'%s'\n", prefix, str);
 }
 
-void	debug_print_tokens(t_token *tokens, bool is_debug)
+void	debug_print_tokens(t_token *tokens)
 {
 	t_token	*tmp;
 
-	if (!is_debug)
+	if (!DEBUG_ENABLED)
 		return ;
 	if (!tokens)
 	{
-		debug_print("[DEBUG] Token list: NULL \n", DEBUG_ENABLED);
+		debug_print("[DEBUG] Token list: NULL \n");
 		return ;
 	}
 	else
-		debug_print("[DEBUG] Token list:\n", DEBUG_ENABLED);
+		debug_print("[DEBUG] Token list:\n");
 	tmp = tokens;
 	while (tmp)
 	{
-		debug_print_token(tmp, is_debug);
+		debug_print_token(tmp);
 		tmp = tmp->next;
 	}
 }
 
-void	debug_print_command_args(char **args, bool is_debug)
+void	debug_print_command_args(char **args)
 {
 	int	i;
 
-	if (!is_debug || !args)
+	if (!DEBUG_ENABLED || !args)
 		return ;
-	debug_print("[DEBUG] Command arguments:\n", DEBUG_ENABLED);
+	debug_print("[DEBUG] Command arguments:\n");
 	i = 0;
 	while (args[i])
 	{
-		debug_print_with_int("[DEBUG] i=", i, DEBUG_ENABLED);
-		debug_print_with_str("args[i]=", args[i], DEBUG_ENABLED);
+		debug_print_with_int("[DEBUG] i=", i);
+		debug_print_with_str("args[i]=", args[i]);
 		i++;
 	}
 }

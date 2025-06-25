@@ -31,8 +31,8 @@ int	execute_builtin(char **args)
 	t_builtin_func	func;
 	int				status;
 
-	debug_print_with_str("[DEBUG] Executing builtin: ", args[0], DEBUG_ENABLED);
-	debug_print_command_args(args, DEBUG_ENABLED);
+	debug_print_with_str("[DEBUG] Executing builtin: ", args[0]);
+	debug_print_command_args(args);
 	func = get_builtin_funcs(args[0]);
 	if (!func)
 		return (EXIT_FAILURE);

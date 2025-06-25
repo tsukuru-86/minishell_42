@@ -74,7 +74,7 @@ SRCS_FILE = main.c \
 	parser/parser_token_utils2.c \
 	parser/parser_token_utils3.c \
 	parser/parser_token_utils.c \
-	parser/parser_utils3.c \
+	parser/parser_utils2.c \
 	parser/parser_utils.c \
 	pipeline/excute_pipeline.c \
 	pipeline/pipeline.c \
@@ -109,6 +109,7 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_utils4.c \
 	tokenizer/tokenizer_utils.c \
 	utils/command_handler.c \
+	utils/debug2.c \
 	utils/debug.c \
 	utils/debug_int.c \
 	utils/debug_utils.c \
@@ -119,7 +120,6 @@ SRCS_FILE = main.c \
 	utils/history_utils_linux.c \
 	utils/input_limits2.c \
 	utils/input_limits.c \
-	utils/input_utils.c \
 	utils/line_utils.c \
 	utils/non_interactive_utils.c \
 	utils/readline_utils.c \

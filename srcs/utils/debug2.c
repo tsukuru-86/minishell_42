@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.c                                      :+:      :+:    :+:   */
+/*   debug2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 16:20:26 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 23:55:03 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/25 21:49:23 by muiida            #+#    #+#             */
+/*   Updated: 2025/06/25 21:51:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_all_pipe_input(void)
+void	debug_print_with_int(const char *prefix, int value)
 {
-	char	*line;
-	char	*result;
-	char	*temp;
-
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	line = get_next_line(0);
-	while (line != NULL)
-	{
-		temp = ft_strjoin(result, line);
-		free(result);
-		free(line);
-		if (!temp)
-			return (NULL);
-		result = temp;
-		line = get_next_line(0);
-	}
-	return (result);
+	if (DEBUG_ENABLED)
+		ft_printf_fd(STDERR_FILENO, "%s%d\n", prefix, value);
 }

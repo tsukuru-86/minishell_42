@@ -42,7 +42,7 @@ static int	handle_normal_redirect(t_command *cmd, t_token **current_token,
 static int	handle_empty_cmd_redirect(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
-	debug_print("[DEBUG] Empty command with redirect", DEBUG_ENABLED);
+	debug_print("[DEBUG] Empty command with redirect");
 	if ((*current_token)->type == TOKEN_HEREDOC)
 		return (handle_heredoc_redirect(cmd, current_token, head_cmd));
 	if (!add_redirect(cmd, *current_token, (*current_token)->next))
