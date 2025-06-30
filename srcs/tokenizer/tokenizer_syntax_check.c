@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:54:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 11:52:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/26 02:33:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,6 @@ static int	check_leading_pipe(t_token *tokens)
 }
 
 /*
-** @brief リダイレクト演算子の後をチェック（パイプ・リダイレクトの組み合わせを考慮）
-*/
-static int	check_redirect_target(t_token *tokens)
-{
-	return (check_pipe_redirect_syntax(tokens));
-}
-
-/*
 ** @brief 基本的な構文チェックを実行
 */
 int	check_basic_syntax(t_token *tokens)
@@ -78,7 +70,7 @@ int	check_basic_syntax(t_token *tokens)
 		return (0);
 	if (!check_consecutive_pipes(tokens))
 		return (0);
-	if (!check_redirect_target(tokens))
+	if (!check_pipe_redirect_syntax(tokens))
 		return (0);
 	return (1);
 }

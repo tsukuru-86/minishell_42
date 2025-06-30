@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/16 05:37:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/26 02:41:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ int	remove_env_var(const char *name)
 	return (0);
 }
 
-/* 単一変数のunset処理 */
-static int	process_unset_var(char *arg)
-{
-	remove_env_var(arg);
-	return (0);
-}
-
 /* 環境変数を削除するビルトインコマンド。
    引数チェックを行い、有効な変数名のみ削除を実行する */
 int	builtin_unset(char **args)
@@ -72,8 +65,7 @@ int	builtin_unset(char **args)
 	status = 0;
 	while (args[i])
 	{
-		if (process_unset_var(args[i]))
-			status = 1;
+		remove_env_var(args[i]);
 		i++;
 	}
 	return (status);

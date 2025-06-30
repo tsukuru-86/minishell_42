@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:55:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/12 15:01:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:51:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,12 @@ static void	process_escape(const char *str, int *i, t_quote_info *info)
 		(*i)++;
 }
 
-static void	process_dollar(const char *str, int *i, t_quote_info *info)
-{
-	append_env(str, i, info->buf, info->k);
-}
-
 static void	process_char_by_type(const char *str, int *i, t_quote_info *info)
 {
 	if (info->dollar && str[*i] == '\\')
 		process_escape(str, i, info);
 	else if (info->dollar && info->quote == '\"' && str[*i] == '$')
-		process_dollar(str, i, info);
+		append_env(str, i, info->buf, info->k);
 	else
 		info->buf[(*info->k)++] = str[(*i)++];
 }
