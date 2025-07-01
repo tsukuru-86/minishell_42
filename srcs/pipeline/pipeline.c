@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/23 23:55:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/02 01:33:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int	handle_signaled_status(int status)
 {
 	if (WTERMSIG(status) == SIGPIPE)
-		ft_putstr_fd("Broken pipe\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: Broken pipe\n", STDERR_FILENO);
 	return (128 + WTERMSIG(status));
 }
 
@@ -25,6 +25,7 @@ static int	handle_signaled_status(int status)
 static int	wait_single_process(t_command *current)
 {
 	int	status;
+	int	exit_code;
 
 	if (waitpid(current->pipe.pid, &status, 0) == -1)
 	{
@@ -32,7 +33,15 @@ static int	wait_single_process(t_command *current)
 		return (1);
 	}
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+	{
+		exit_code = WEXITSTATUS(status);
+		if (exit_code == 141)
+		{
+			ft_putstr_fd("minishell:  Broken pipe\n", STDERR_FILENO);
+			return (141);
+		}
+		return (exit_code);
+	}
 	if (WIFSIGNALED(status))
 		return (handle_signaled_status(status));
 	return (0);
@@ -56,3 +65,6 @@ int	wait_pipeline(t_command *cmd)
 	}
 	return (last_status);
 }
+
+
+

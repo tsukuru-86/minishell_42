@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/01 23:01:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,31 @@ void	handle_input(char *input, int *status)
 {
 	int	empty_status;
 
-	debug_print_with_str("[DEBUG] Enter handle_input: \n", input);
+	debug_print_with_str("[DEBUG] Enter handle_input: ", input);
 	if (!input)
+	{
+		debug_print("[DEBUG] handle_input: Input is NULL.");
 		return ;
+	}
 	if (!check_input_line_limit(input))
 	{
+		debug_print("[DEBUG] handle_input: Input line limit exceeded.");
 		*status = 1;
 		return ;
 	}
 	empty_status = handle_empty_input(input);
 	if (empty_status != -1)
 	{
+		debug_print_with_int("[DEBUG] handle_input: Empty command handled, status: ", empty_status);
 		*status = empty_status;
 		if (input && *input)
 			add_history(input);
 		return ;
 	}
-	debug_print("[DEBUG] Before process_valid_input\n");
+	debug_print("[DEBUG] handle_input: Before process_valid_input.");
 	process_valid_input(input, status);
-	debug_print("[DEBUG] After process_valid_input\n");
-	debug_print("[DEBUG] Exit handle_input\n");
+	debug_print_with_int("[DEBUG] handle_input: After process_valid_input, status: ", *status);
+	debug_print("[DEBUG] Exit handle_input.");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -95,3 +100,4 @@ int	main(int argc, char **argv, char **envp)
 	free_env_list();
 	return (status);
 }
+

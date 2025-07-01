@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/01 23:52:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static int	handle_interactive(int *status)
 		return (0);
 	}
 	debug_print_with_str("[DEBUG] Interactive input: ", input);
+	debug_print("[DEBUG] Calling handle_input (interactive)...");
 	handle_input(input, status);
-	debug_print_with_int("[DEBUG] Status: ", *status);
+	debug_print_with_int("[DEBUG] Status after handle_input (interactive): ", *status);
 	free(input);
 	return (1);
 }
@@ -39,8 +40,9 @@ static int	handle_non_interactive(int *status)
 	if (!line)
 		return (0);
 	debug_print_with_str("[DEBUG] NI input: ", line);
+	debug_print("[DEBUG] Calling handle_input (non-interactive)...");
 	handle_input(line, status);
-	debug_print_with_int("[DEBUG] Status: ", *status);
+	debug_print_with_int("[DEBUG] Status after handle_input (non-interactive): ", *status);
 	free(line);
 	return (1);
 }
@@ -55,11 +57,13 @@ int	main_loop(void)
 		g_signal = 0;
 		if (isatty(STDIN_FILENO))
 		{
+			debug_print("[DEBUG] Entering interactive mode loop.");
 			if (!handle_interactive(&status))
 				break ;
 		}
 		else
 		{
+			debug_print("[DEBUG] Entering non-interactive mode loop.");
 			if (!handle_non_interactive(&status))
 				break ;
 		}

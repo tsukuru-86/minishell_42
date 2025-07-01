@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/25 21:38:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/01 23:00:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -28,22 +26,26 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-/** # include <sys/syslimits.h> // __APPLE__*/
+
+# ifdef MACOS
+#  include <sys/syslimits.h> // macOS
+# endif
+
+// readline関連のヘッダーをここに移動
+// readline関連のヘッダーは常にインクルード
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # ifdef MACOS
 /* macOS固有の関数宣言 - macOSで明示的に宣言が必要なreadline関数 */
+// readline/readline.hで宣言されていない関数のみをここに記述
 void							rl_replace_line(const char *text,
 									int clear_undo);
 void							rl_clear_history(void);
-void							rl_delete_text(int start, int end);
-int								rl_insert_text(const char *text);
-int								rl_delete(int count, int key);
-int								rl_insert(int c, int count);
-HIST_ENTRY						*history_get(int index);
-# else
-/* Linux固有の関数宣言 */
-HIST_ENTRY						**history_list(void);
+// 他のreadline関連関数も必要であれば追加
 # endif
+// Linux固有の関数宣言は不要、またはreadline.hで提供される
+// HIST_ENTRY **history_list(void); はLinuxのreadline.hで提供されるため削除
 
 # define MAX_TOKENS 1024
 # define PIPE_BUFFER_SIZE 8192
