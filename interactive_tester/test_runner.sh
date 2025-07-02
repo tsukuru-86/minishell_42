@@ -87,9 +87,9 @@ check_environment() {
     verbose "expect が見つかりました: $(which expect)"
     
     # Makefileの存在確認
-    if [[ ! -f "Makefile" ]]; then
-        error "Makefile が見つかりません"
-        info "minishellプロジェクトのルートディレクトリで実行してください"
+    if [[ ! -f "../Makefile" ]]; then
+        error "../Makefile が見つかりません"
+        info "minishellプロジェクトのルート直下のディレクトリで実行してください"
         return 1
     fi
     verbose "Makefile が見つかりました"
@@ -112,38 +112,38 @@ build_minishell() {
     
     if [[ "$CLEAN_BUILD" == "1" ]]; then
         verbose "クリーンビルドを実行します"
-        if ! make fclean >/dev/null 2>&1; then
-            warning "make fclean でエラーが発生しましたが続行します"
+        if ! make -C.. clean >/dev/null 2>&1; then
+            warning "make -C.. clean でエラーが発生しましたが続行します"
         fi
     fi
     
     # ビルド実行
     if [[ "$VERBOSE" == "1" ]]; then
-        make
+        make -C..
     else
-        make >/dev/null 2>&1
+        make -C.. >/dev/null 2>&1
     fi
     
     local build_result=$?
     if [[ $build_result -ne 0 ]]; then
-        error "minishell のビルドに失敗しました"
-        info "make コマンドを手動で実行してエラーを確認してください"
+        error "../minishell のビルドに失敗しました"
+        info "make -C.. コマンドを手動で実行してエラーを確認してください"
         return 1
     fi
     
     # 実行ファイルの存在確認
-    if [[ ! -f "./minishell" ]]; then
-        error "minishell 実行ファイルが生成されませんでした"
+    if [[ ! -f "../minishell" ]]; then
+        error "../minishell 実行ファイルが生成されませんでした"
         return 1
     fi
     
     # 実行権限の確認
-    if [[ ! -x "./minishell" ]]; then
-        warning "minishell に実行権限がありません。権限を付与します"
-        chmod +x "./minishell"
+    if [[ ! -x "../minishell" ]]; then
+        warning "../minishell に実行権限がありません。権限を付与します"
+        chmod +x "../minishell"
     fi
     
-    success "minishell のビルドが完了しました"
+    success "../minishell のビルドが完了しました"
     return 0
 }
 

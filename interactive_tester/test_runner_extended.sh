@@ -169,24 +169,18 @@ build_minishell() {
 	fi
 	
 	# 実行ファイルの存在確認
-	if [[ ! -f "../minishell" ]] && [[ ! -f "./minishell" ]]; then
+	if [[ ! -f "../minishell" ]]; then
 		error "minishell 実行ファイルが生成されませんでした"
 		return 1
 	fi
-	
-	# 実行ファイルをinteractive_tester/にコピー
-	if [[ -f "../minishell" ]]; then
-		cp "../minishell" "./minishell"
-		verbose "minishellを現在のディレクトリにコピーしました"
-	fi
-	
+		
 	# 実行権限の確認
-	if [[ ! -x "./minishell" ]]; then
-		warning "minishell に実行権限がありません。権限を付与します"
-		chmod +x "./minishell"
+	if [[ ! -x "../minishell" ]]; then
+		warning "../minishell に実行権限がありません。権限を付与します"
+		chmod +x "../minishell"
 	fi
 	
-	success "minishell のビルドが完了しました"
+	success "../minishell のビルドが完了しました"
 	return 0
 }
 
@@ -277,8 +271,8 @@ cleanup() {
 	fi
 	
 	# minishellのコピーを削除
-	if [[ -f "./minishell" ]] && [[ -f "../minishell" ]]; then
-		rm -f "./minishell"
+	if [[ -f "../minishell" ]] && [[ -f "../minishell" ]]; then
+		rm -f "../minishell"
 		verbose "minishellのコピーを削除しました"
 	fi
 }
