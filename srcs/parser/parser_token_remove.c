@@ -51,3 +51,28 @@ t_token	*remove_empty_tokens(t_token *tokens)
 	}
 	return (tokens);
 }
+
+t_token	*remove_quote_tokens(t_token *tokens)
+{
+	t_token	*current;
+	char	*unquoted_content;
+
+	current = tokens;
+	while (current)
+	{
+		if (current->type == TOKEN_S_QUOTED_WORD
+			|| current->type == TOKEN_D_QUOTED_WORD)
+		{
+			unquoted_content = ft_strdup(current->content);
+			if (!unquoted_content)
+			{
+				return (NULL);
+			}
+			free(current->content);
+			current->content = unquoted_content;
+			current->type = TOKEN_WORD;
+		}
+		current = current->next;
+	}
+	return (tokens);
+}

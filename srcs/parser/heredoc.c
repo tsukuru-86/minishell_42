@@ -83,12 +83,12 @@ static int	create_heredoc_file(t_heredoc *heredoc)
 	return (0);
 }
 
-int	handle_heredoc(t_command *cmd, char *delimiter)
+int	handle_heredoc(t_command *cmd, t_token *delimiter_token)
 {
 	t_heredoc	*heredoc;
 
-	debug_print_with_str("[DEBUG] handle_heredoc: delimiter", delimiter);
-	heredoc = init_heredoc(delimiter);
+	debug_print_with_str("[DEBUG] handle_heredoc: delimiter", delimiter_token->content);
+	heredoc = init_heredoc(delimiter_token);
 	if (!heredoc)
 		return (0);
 	debug_print_with_str("[DEBUG] handle_heredoc: temp_file",

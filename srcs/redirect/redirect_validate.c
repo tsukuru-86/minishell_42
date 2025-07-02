@@ -30,7 +30,7 @@ int	validate_input_redirect(t_redirect *current)
 	{
 		if (is_invalid_input_device(current->file))
 		{
-			set_env_node("?", "0");
+			set_env_node("?", "1");
 			return (0);
 		}
 		if (access(current->file, F_OK) != 0)

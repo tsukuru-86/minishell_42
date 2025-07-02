@@ -62,7 +62,7 @@ static int	execute_single_command(t_command *cmd)
 
 /* コマンドリストを実行する関数。単一コマンドの場合は直接実行し、
 パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
-int	excute_commands(t_command *cmd)
+int	execute_commands(t_command *cmd)
 {
 	if (!cmd)
 		return (0);
