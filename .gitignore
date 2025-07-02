@@ -39,3 +39,4 @@ srcs/parser/heredoc_noninteractive.c
 docs/phase40_analysis.md
 interactive_tester/*.log
 interactive_tester/*.txt
+test_files/

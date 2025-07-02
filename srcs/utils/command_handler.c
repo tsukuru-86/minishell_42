@@ -19,7 +19,7 @@ int	process_commands(t_command *cmd)
 
 	if (cmd)
 	{
-		status = excute_commands(cmd);
+		status = execute_commands(cmd);
 		set_exit_status(cmd, status);
 		free_command(cmd);
 		return (status);

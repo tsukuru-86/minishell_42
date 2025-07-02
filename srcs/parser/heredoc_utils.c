@@ -58,32 +58,27 @@ static char	*create_heredoc_file(void)
 	return (filename);
 }
 
-static void	parse_heredoc_delimiter(char *src, char **dst, bool *is_quoted)
+static void	parse_heredoc_delimiter(t_token *token, char **dst, bool *is_quoted)
 {
-	size_t	len;
-
-	len = ft_strlen(src);
-	if (len >= 2 && ((src[0] == '\'' && src[len - 1] == '\'') || (src[0] == '\"'
-				&& src[len - 1] == '\"')))
+	if (token->type == TOKEN_S_QUOTED_WORD || token->type == TOKEN_D_QUOTED_WORD)
 	{
-		*dst = ft_substr(src, 1, len - 2);
 		*is_quoted = true;
 	}
 	else
 	{
-		*dst = ft_strdup(src);
 		*is_quoted = false;
 	}
+	*dst = ft_strdup(token->content);
 }
 
-t_heredoc	*init_heredoc(char *delimiter)
+t_heredoc	*init_heredoc(t_token *delimiter_token)
 {
 	t_heredoc	*heredoc;
 
 	heredoc = (t_heredoc *)malloc(sizeof(t_heredoc));
 	if (!heredoc)
 		return (NULL);
-	parse_heredoc_delimiter(delimiter, &heredoc->delimiter,
+	parse_heredoc_delimiter(delimiter_token, &heredoc->delimiter,
 		&heredoc->delimiter_is_quoted);
 	heredoc->temp_file = create_heredoc_file();
 	heredoc->content = NULL;

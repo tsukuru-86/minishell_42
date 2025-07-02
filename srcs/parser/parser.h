@@ -60,7 +60,7 @@ int			process_heredoc_line(char *line, int fd, t_heredoc *heredoc);
 /* Non-interactive heredoc functions */
 int			write_heredoc_content_from_tokens(t_token **current_token,
 				char *delimiter, char *temp_file);
-int			write_heredoc_from_stdin(t_command *cmd, char *delimiter);
+int			write_heredoc_from_stdin(t_command *cmd, t_token *delimiter_token);
 /* Heredoc redirect handlers */
 int			handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 				t_command **head_cmd);
