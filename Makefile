@@ -131,6 +131,16 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILE:.c=.o))
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 
+# ヘッダーファイル依存関係の定義
+HEADERS = minishell.h \
+	srcs/builtin/builtin_commands.h \
+	srcs/builtin/builtin_export.h \
+	srcs/utils/debug_utils.h \
+	srcs/utils/system_limits.h \
+	srcs/error/error_messages.h \
+	srcs/external/external.h \
+	libft/libft.h
+
 # ディレクトリ作成の最適化用フラグファイル（隠しファイル）
 OBJDIR_FLAG := $(OBJS_DIR).builddir_ready
 
@@ -140,7 +150,7 @@ all: check_makefile_update $(LIBFT) $(NAME)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS) | minishell.h
+$(NAME): $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 # ディレクトリ作成の最適化：一度だけ必要なディレクトリを作成
@@ -148,16 +158,19 @@ $(OBJDIR_FLAG):
 	@mkdir -p $(sort $(dir $(OBJS)))
 	@touch $@
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) | minishell.h
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean fclean re cre check_makefile_update
 
-# ソースファイル変更の自動検知
+# ソースファイル・ヘッダーファイル変更の自動検知
 check_makefile_update:
 	@if [ -n "$$(find $(SRCS_DIR) -name '*.c' -newer Makefile 2>/dev/null | head -1)" ]; then \
 		echo "ソースファイルの変更を検知しました。Makefileを自動更新中..."; \
 		./update_makefile.sh; \
+	fi
+	@if [ -n "$$(find . -name '*.h' -newer Makefile 2>/dev/null | head -1)" ]; then \
+		echo "ヘッダーファイルの変更を検知しました。"; \
 	fi
 
 clean:

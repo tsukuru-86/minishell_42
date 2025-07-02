@@ -316,7 +316,7 @@ debug_print_with_int("[DEBUG] Value: ", value);
 2. **heredoc完全制覇**: 残り4項目の空行・delimiter・変数展開処理解決
 3. **品質維持**: test2スコア100%の完璧維持（基本機能の安定性確保）
 4. **Export完成**: 全てのexport関連問題は完全解決済み ✅
-5. **debug出力厳守**: printf直接使用を絶対禁止、debug_print系関数必須使用
+5. **debug出力厳守**: デバッグ出力はprintf直接使用を絶対禁止、debug_print系関数必須使用
 
 ### 💡 重要な実装詳細
 **メモリ管理**: Phase 25でdouble free問題完全解決済み
