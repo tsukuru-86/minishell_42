@@ -53,12 +53,12 @@ static int	process_heredoc_lines(int fd, char *delimiter)
 	return (1);
 }
 
-int	write_heredoc_from_stdin(t_command *cmd, char *delimiter)
+int	write_heredoc_from_stdin(t_command *cmd, t_token *delimiter_token)
 {
 	t_heredoc	*heredoc;
 	int			fd;
 
-	heredoc = init_heredoc(delimiter);
+	heredoc = init_heredoc(delimiter_token);
 	if (!heredoc)
 		return (0);
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -67,7 +67,7 @@ int	write_heredoc_from_stdin(t_command *cmd, char *delimiter)
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	process_heredoc_lines(fd, delimiter);
+	process_heredoc_lines(fd, heredoc->delimiter);
 	close(fd);
 	if (cmd->redirects)
 		free_redirect(cmd->redirects);

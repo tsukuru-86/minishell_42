@@ -96,7 +96,11 @@ int	set_env_node(const char *name, const char *value)
 	}
 	node = get_env_node(name);
 	if (!node)
-		return (append_env_node(name, value));
+	{
+		if (value != NULL)
+			return (append_env_node(name, value));
+		return (0);
+	}
 	if (value != NULL)
 		return (update_env_value(node, value));
 	return (0);

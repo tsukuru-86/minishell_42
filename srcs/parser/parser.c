@@ -47,7 +47,7 @@ static int	determine_redirect_type(t_command *cmd, t_token *token,
 		*type_out = REDIR_APPEND;
 	else if (token->type == TOKEN_HEREDOC)
 	{
-		if (!handle_heredoc(cmd, next_token->content))
+		if (!handle_heredoc(cmd, next_token))
 		{
 			return (0);
 		}

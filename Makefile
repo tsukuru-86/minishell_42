@@ -115,7 +115,12 @@ SRCS_FILE = main.c \
 	utils/debug_utils.c \
 	utils/empty_command_handler.c \
 	utils/empty_input_handler.c \
+<<<<<<< Updated upstream
 	utils/excute_command.c \
+=======
+	utils/execute_command.c \
+	utils/history_utils_macos.c \
+>>>>>>> Stashed changes
 	utils/history_utils.c \
 	utils/history_utils_linux.c \
 	utils/input_limits2.c \

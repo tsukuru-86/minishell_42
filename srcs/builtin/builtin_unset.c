@@ -65,7 +65,17 @@ int	builtin_unset(char **args)
 	status = 0;
 	while (args[i])
 	{
-		remove_env_var(args[i]);
+		if (!is_valid_identifier(args[i]))
+		{
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+			ft_putstr_fd(args[i], STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+			status = 1;
+		}
+		else
+		{
+			remove_env_var(args[i]);
+		}
 		i++;
 	}
 	return (status);
