@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 04:53:10 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/17 08:34:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 03:44:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_token	*safe_create_token(char *content, t_token_type type)
 	if (!token)
 		return (NULL);
 	token->content = ft_strdup(content);
+	debug_print_with_str("DEBUG: creating token content", content);
+	debug_print_with_int("DEBUG: creating token type", type);
 	if (!token->content)
 	{
 		free(token);
@@ -67,3 +69,4 @@ t_token	*tokenize(char *input, t_command *cmd_param)
 	finalize_tokenizer(&vars);
 	return (vars.tokens);
 }
+

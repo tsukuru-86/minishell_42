@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 23:08:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 03:44:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,34 @@ static char	*create_heredoc_file(void)
 
 static void	parse_heredoc_delimiter(t_token *token, char **dst, bool *is_quoted)
 {
-	if (token->type == TOKEN_S_QUOTED_WORD || token->type == TOKEN_D_QUOTED_WORD)
+	char	*content;
+	int		len;
+
+	debug_print_with_int("DEBUG: parsing delimiter token type", token->type);
+	debug_print_with_str("DEBUG: parsing delimiter token content", token->content);
+	content = token->content;
+	len = ft_strlen(content);
+	*is_quoted = false;
+	
+	if (len >= 2 && content[0] == '\'' && content[len - 1] == '\'')
 	{
+		debug_print("DEBUG: single quoted delimiter detected from content");
+		*dst = ft_strdup(content);
+		*is_quoted = true;
+	}
+	else if (len >= 2 && content[0] == '"' && content[len - 1] == '"')
+	{
+		debug_print("DEBUG: double quoted delimiter detected from content");
+		*dst = ft_strdup(content);
 		*is_quoted = true;
 	}
 	else
 	{
-		*is_quoted = false;
+		debug_print("DEBUG: unquoted delimiter detected");
+		*dst = ft_strdup(content);
 	}
-	*dst = ft_strdup(token->content);
+	debug_print_with_str("DEBUG: final delimiter", *dst);
+	debug_print_with_int("DEBUG: is_quoted", *is_quoted);
 }
 
 t_heredoc	*init_heredoc(t_token *delimiter_token)
@@ -90,3 +109,4 @@ t_heredoc	*init_heredoc(t_token *delimiter_token)
 	}
 	return (heredoc);
 }
+

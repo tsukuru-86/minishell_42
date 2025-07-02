@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/01 23:02:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 03:44:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,16 @@ void	print_commands_debug(t_command *commands)
 	current_cmd = commands;
 	while (current_cmd)
 	{
-		ft_printf_fd(STDERR_FILENO, "[DEBUG] Command %d:\n", cmd_idx);
+		debug_print_with_int("[DEBUG] Command", cmd_idx);
 		debug_print_command_args(current_cmd->args);
 
 		current_redir = current_cmd->redirects;
 		redir_idx = 0;
 		while (current_redir)
 		{
-			ft_printf_fd(STDERR_FILENO, "[DEBUG]   Redirect %d: Type=%d, File='%s'\n",
-				redir_idx, current_redir->type, current_redir->file);
+			debug_print_with_int("[DEBUG]   Redirect", redir_idx);
+			debug_print_with_int("[DEBUG]     Type", current_redir->type);
+			debug_print_with_str("[DEBUG]     File", current_redir->file);
 			current_redir = current_redir->next;
 			redir_idx++;
 		}
