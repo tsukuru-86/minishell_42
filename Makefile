@@ -163,14 +163,11 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) $(HEADERS)
 
 .PHONY: all clean fclean re cre check_makefile_update
 
-# ソースファイル・ヘッダーファイル変更の自動検知
+# ソースファイル変更の自動検知（Makefileの自動更新のみ）
 check_makefile_update:
 	@if [ -n "$$(find $(SRCS_DIR) -name '*.c' -newer Makefile 2>/dev/null | head -1)" ]; then \
 		echo "ソースファイルの変更を検知しました。Makefileを自動更新中..."; \
 		./update_makefile.sh; \
-	fi
-	@if [ -n "$$(find . -name '*.h' -newer Makefile 2>/dev/null | head -1)" ]; then \
-		echo "ヘッダーファイルの変更を検知しました。"; \
 	fi
 
 clean:
