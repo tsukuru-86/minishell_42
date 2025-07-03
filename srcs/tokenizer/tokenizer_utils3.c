@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/24 00:04:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:34:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 
 	i = stat->i_input;
 	buf_len = 0;
+	if (should_mark_as_heredoc_delimiter(stat->tokens))
+	{
+		debug_print("DEBUG: creating heredoc delimiter token via create_heredoc_delimiter_token");
+		new_token = create_heredoc_delimiter_token(input, &stat->i_input);
+		if (!new_token)
+			return (0);
+		add_token_to_list(&stat->tokens, new_token);
+		return (1);
+	}
 	if (is_quote(input[i]))
 		token_type = extract_quoted_content(input, &i, buf, &buf_len);
 	else

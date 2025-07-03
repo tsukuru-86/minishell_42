@@ -5,3 +5,6 @@
 -I/usr/include
 -Ilibft
 -Isrcs
+-g
+-O0
+-L/usr/lib

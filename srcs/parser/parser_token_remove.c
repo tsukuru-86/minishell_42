@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 14:51:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:48:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ t_token	*remove_quote_tokens(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (current->type == TOKEN_S_QUOTED_WORD
-			|| current->type == TOKEN_D_QUOTED_WORD)
+		if ((current->type == TOKEN_S_QUOTED_WORD
+				|| current->type == TOKEN_D_QUOTED_WORD)
+			&& current->type != TOKEN_HEREDOC_DELIMITER)
 		{
 			unquoted_content = ft_strdup(current->content);
 			if (!unquoted_content)

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/01 23:00:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:48:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "srcs/utils/system_limits.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -78,6 +77,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
+	TOKEN_HEREDOC_DELIMITER,
 	TOKEN_ENV_VAR,
 	TOKEN_EMPTY_VAR,
 	TOKEN_NEWLINE,

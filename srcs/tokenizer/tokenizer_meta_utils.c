@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 22:10:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:33:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,63 @@ t_token_type	get_meta_type(const char *input, int *i)
 		return (type);
 	type = check_greater_than_token(input, i);
 	return (type);
+}
+
+/* 直前のトークンがheredocかどうかを確認 */
+int	should_mark_as_heredoc_delimiter(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*last_non_space;
+
+	if (!tokens)
+		return (0);
+	current = tokens;
+	last_non_space = NULL;
+	while (current)
+	{
+		if (current->type != TOKEN_SPACE)
+			last_non_space = current;
+		current = current->next;
+	}
+	if (last_non_space && last_non_space->type == TOKEN_HEREDOC)
+		return (1);
+	return (0);
+}
+
+/* heredocデリミタ用のトークンを作成（クォート対応） */
+t_token	*create_heredoc_delimiter_token(const char *input, int *i)
+{
+	char	word_buffer[1024];
+	int		word_i;
+	char	quote_char;
+
+	word_i = 0;
+	if (is_quote(input[*i]))
+	{
+		quote_char = input[*i];
+		word_buffer[word_i++] = input[(*i)++];
+		while (input[*i] && input[*i] != quote_char)
+		{
+			if (word_i < 1024 - 1)
+				word_buffer[word_i++] = input[*i];
+			(*i)++;
+		}
+		if (input[*i] == quote_char)
+			word_buffer[word_i++] = input[(*i)++];
+	}
+	else
+	{
+		while (input[*i] && !is_delimiter(input[*i]) && !is_meta(input[*i])
+			&& input[*i] != '\n')
+		{
+			if (word_i < 1024 - 1)
+				word_buffer[word_i++] = input[*i];
+			(*i)++;
+		}
+	}
+	word_buffer[word_i] = '\0';
+	debug_print_with_str("DEBUG: created heredoc delimiter token", word_buffer);
+	return (safe_create_token(word_buffer, TOKEN_HEREDOC_DELIMITER));
 }
 
 /* メタ文字トークンを作成 */

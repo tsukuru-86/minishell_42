@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 22:13:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:19:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,32 @@ static int	collect_plain_word_segment(const char *input, int *i,
 
 static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
 {
-	char	*expanded_content;
-	t_token	*new_token;
+	char		*expanded_content;
+	t_token		*new_token;
+	t_token_type	token_type;
 
+	if (should_mark_as_heredoc_delimiter(*tokens))
+	{
+		new_token = safe_create_token(word_buf, TOKEN_HEREDOC_DELIMITER);
+		if (!new_token)
+		{
+			ft_putstr_fd((char *)"minishell: failed to create delimiter token\n", 2);
+			return (false);
+		}
+		add_token_to_list(tokens, new_token);
+		return (true);
+	}
 	expanded_content = expand_env_vars(word_buf, 0);
 	if (!expanded_content)
 	{
-		ft_putstr_fd((char *)"minishell: failed to \n", 2);
-		ft_putstr_fd((char *)" expand env vars for word\n", 2);
+		ft_putstr_fd((char *)"minishell: failed to expand env vars\n", 2);
 		return (false);
 	}
-	new_token = safe_create_token(expanded_content, TOKEN_WORD);
+	token_type = TOKEN_WORD;
+	new_token = safe_create_token(expanded_content, token_type);
 	free(expanded_content);
 	if (!new_token)
-	{
-		ft_putstr_fd((char *)"minishell: failed to create token for word\n", 2);
 		return (false);
-	}
 	add_token_to_list(tokens, new_token);
 	return (true);
 }

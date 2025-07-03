@@ -33,9 +33,10 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
 int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	t_token	*new_token;
-	t_token	*last_token;
-	char	*combined_content;
+	t_token		*new_token;
+	t_token		*last_token;
+	char		*combined_content;
+	t_token_type	token_type;
 
 	if (!extract_quoted_string(stat, input, stat->word_buffer))
 		return (0);
@@ -52,7 +53,17 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 		last_token->content = combined_content;
 		return (1);
 	}
-	new_token = safe_create_token(stat->word_buffer, stat->quote_type);
+	token_type = stat->quote_type;
+	if (should_mark_as_heredoc_delimiter(stat->tokens))
+	{
+		debug_print_with_str("DEBUG: marking as TOKEN_HEREDOC_DELIMITER", stat->word_buffer);
+		token_type = TOKEN_HEREDOC_DELIMITER;
+	}
+	else
+	{
+		debug_print_with_str("DEBUG: not a heredoc delimiter, type is", "quoted_word");
+	}
+	new_token = safe_create_token(stat->word_buffer, token_type);
 	if (!new_token)
 		return (0);
 	add_token_to_list(&stat->tokens, new_token);

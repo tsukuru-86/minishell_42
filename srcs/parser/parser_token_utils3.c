@@ -15,18 +15,10 @@
 
 static int	is_delimiter_line(char *line, char *delimiter)
 {
-	size_t	del_len;
-
-	del_len = ft_strlen(delimiter);
-	if (ft_strncmp(line, delimiter, del_len) == 0)
-	{
-		if (line[del_len] == '\n' || line[del_len] == '\0')
-			return (1);
-	}
-	return (0);
+	return (ft_strcmp(line, delimiter) == 0);
 }
 
-static int	process_heredoc_lines(int fd, char *delimiter)
+static int	process_heredoc_lines(int fd, t_heredoc *heredoc)
 {
 	char	*line;
 	char	*expanded;
@@ -34,19 +26,30 @@ static int	process_heredoc_lines(int fd, char *delimiter)
 	line = get_next_line(STDIN_FILENO);
 	while (line != NULL)
 	{
-		if (is_delimiter_line(line, delimiter))
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		if (is_delimiter_line(line, heredoc->delimiter))
 		{
 			free(line);
 			break ;
 		}
-		expanded = expand_env_vars(line, 1);
-		if (expanded)
+		if (heredoc->delimiter_is_quoted && heredoc->delimiter[0] == '\'')
 		{
-			write(fd, expanded, ft_strlen(expanded));
-			free(expanded);
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
 		}
 		else
-			write(fd, line, ft_strlen(line));
+		{
+			expanded = expand_env_vars(line, 1);
+			if (expanded)
+			{
+				write(fd, expanded, ft_strlen(expanded));
+				free(expanded);
+			}
+			else
+				write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+		}
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
@@ -67,7 +70,7 @@ int	write_heredoc_from_stdin(t_command *cmd, t_token *delimiter_token)
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	process_heredoc_lines(fd, heredoc->delimiter);
+	process_heredoc_lines(fd, heredoc);
 	close(fd);
 	if (cmd->redirects)
 		free_redirect(cmd->redirects);

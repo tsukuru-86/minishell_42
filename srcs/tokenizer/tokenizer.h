@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 11:51:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/03 04:18:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int		is_meta(char c);
 t_token	*create_token(char *content, t_token_type type);
 t_token	*safe_create_token(char *content, t_token_type type);
 t_token	*create_meta_token(const char *input, int *i);
+int		should_mark_as_heredoc_delimiter(t_token *tokens);
+t_token	*create_heredoc_delimiter_token(const char *input, int *i);
 int		extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 			char *word_buf);
 void	skip_whitespace(const char *input, int *i);
