@@ -76,14 +76,24 @@ int	main_loop(void)
 	int		status;
 	char	*line;
 
+	status = 0;
 	while (1)
 	{
 		g_signal = 0;
 		if (isatty(fileno(stdin)))
+		{
 			input = readline("minishell> ");
+			if (!input)
+			{
+				ft_putstr_fd("exit\n", STDERR_FILENO);
+				break;
+			}
+		}
 		else
 		{
 			line = get_next_line(fileno(stdin));
+			if (!line)
+				break;
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
