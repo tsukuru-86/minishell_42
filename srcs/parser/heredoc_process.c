@@ -13,7 +13,6 @@
 #include "minishell.h"
 #include "parser.h"
 
-
 static int	process_unquoted_line(char *line, int fd)
 {
 	char	*expanded;
@@ -76,5 +75,3 @@ int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 		return (0);
 	return (2);
 }
-
-

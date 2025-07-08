@@ -18,10 +18,35 @@ static int	is_delimiter_line(char *line, char *delimiter)
 	return (ft_strcmp(line, delimiter) == 0);
 }
 
+static void	write_expanded_line(int fd, char *line)
+{
+	char	*expanded;
+
+	expanded = expand_env_vars(line, 1);
+	if (expanded)
+	{
+		write(fd, expanded, ft_strlen(expanded));
+		free(expanded);
+	}
+	else
+		write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
+}
+
+static void	write_line_to_fd(int fd, char *line, t_heredoc *heredoc)
+{
+	if (heredoc->delimiter_is_quoted && heredoc->delimiter[0] == '\'')
+	{
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+	}
+	else
+		write_expanded_line(fd, line);
+}
+
 static int	process_heredoc_lines(int fd, t_heredoc *heredoc)
 {
 	char	*line;
-	char	*expanded;
 
 	line = get_next_line(STDIN_FILENO);
 	while (line != NULL)
@@ -33,23 +58,7 @@ static int	process_heredoc_lines(int fd, t_heredoc *heredoc)
 			free(line);
 			break ;
 		}
-		if (heredoc->delimiter_is_quoted && heredoc->delimiter[0] == '\'')
-		{
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-		}
-		else
-		{
-			expanded = expand_env_vars(line, 1);
-			if (expanded)
-			{
-				write(fd, expanded, ft_strlen(expanded));
-				free(expanded);
-			}
-			else
-				write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-		}
+		write_line_to_fd(fd, line, heredoc);
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}

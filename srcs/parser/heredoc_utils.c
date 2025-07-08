@@ -63,8 +63,6 @@ static void	parse_heredoc_delimiter(t_token *token, char **dst, bool *is_quoted)
 	char	*content;
 	int		len;
 
-	debug_print_with_int("DEBUG: parsing delimiter token type", token->type);
-	debug_print_with_str("DEBUG: parsing delimiter token content", token->content);
 	content = token->content;
 	len = ft_strlen(content);
 	*is_quoted = false;
@@ -72,31 +70,19 @@ static void	parse_heredoc_delimiter(t_token *token, char **dst, bool *is_quoted)
 	{
 		if (len >= 2 && content[0] == '\'' && content[len - 1] == '\'')
 		{
-			debug_print("DEBUG: single quoted delimiter - keeping quotes");
 			*dst = ft_strdup(content);
 			*is_quoted = true;
 		}
 		else if (len >= 2 && content[0] == '"' && content[len - 1] == '"')
 		{
-			debug_print("DEBUG: double quoted delimiter - keeping quotes");
 			*dst = ft_strdup(content);
 			*is_quoted = true;
 		}
 		else
-		{
-			debug_print("DEBUG: unquoted delimiter");
 			*dst = ft_strdup(content);
-			*is_quoted = false;
-		}
 	}
 	else
-	{
-		debug_print("DEBUG: non-TOKEN_HEREDOC_DELIMITER type - treating as unquoted");
 		*dst = ft_strdup(content);
-		*is_quoted = false;
-	}
-	debug_print_with_str("DEBUG: final delimiter", *dst);
-	debug_print_with_int("DEBUG: is_quoted", *is_quoted);
 }
 
 t_heredoc	*init_heredoc(t_token *delimiter_token)
@@ -118,5 +104,3 @@ t_heredoc	*init_heredoc(t_token *delimiter_token)
 	}
 	return (heredoc);
 }
-
-

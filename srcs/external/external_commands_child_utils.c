@@ -97,4 +97,3 @@ int	wait_parent(pid_t pid)
 		return (128 + WTERMSIG(status));
 	return (1);
 }
-
