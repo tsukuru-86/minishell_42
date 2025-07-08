@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:02:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/01 23:00:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/08 22:31:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include <limits.h>
 # include <unistd.h>
+# ifdef MACOS
+#  include <sys/syslimits.h> // macOS
+# else
+#  include <linux/limits.h> // Linux
+# endif
 
 /* PATH_MAX: パスの最大長 */
 # ifndef PATH_MAX
@@ -30,7 +35,7 @@
 #  ifdef _POSIX_ARG_MAX
 #   define ARG_MAX _POSIX_ARG_MAX
 #  else
-#   define ARG_MAX 131072
+#   define ARG_MAX 2097152
 #  endif
 # endif
 

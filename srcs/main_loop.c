@@ -27,7 +27,8 @@ static int	handle_interactive(int *status)
 	debug_print_with_str("[DEBUG] Interactive input: ", input);
 	debug_print("[DEBUG] Calling handle_input (interactive)...");
 	handle_input(input, status);
-	debug_print_with_int("[DEBUG] Status after handle_input (interactive): ", *status);
+	debug_print_with_int(
+		"[DEBUG] Status after handle_input (interactive): ", *status);
 	free(input);
 	return (1);
 }
@@ -42,7 +43,8 @@ static int	handle_non_interactive(int *status)
 	debug_print_with_str("[DEBUG] NI input: ", line);
 	debug_print("[DEBUG] Calling handle_input (non-interactive)...");
 	handle_input(line, status);
-	debug_print_with_int("[DEBUG] Status after handle_input (non-interactive): ", *status);
+	debug_print_with_int(
+		"[DEBUG] Status after handle_input (non-interactive): ", *status);
 	free(line);
 	return (1);
 }

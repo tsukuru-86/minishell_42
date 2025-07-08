@@ -66,5 +66,3 @@ int	wait_pipeline(t_command *cmd)
 	return (last_status);
 }
 
-
-

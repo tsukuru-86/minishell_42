@@ -15,29 +15,35 @@
 
 void	apply_output_redirection_fd(t_redirect *redirect, int fd)
 {
-	debug_print_with_int("[DEBUG] apply_output_redirection_fd: Start, fd: ", fd);
+	debug_print_with_int(
+		"[DEBUG] apply_output_redirection_fd: Start, fd: ", fd);
 	(void)redirect;
 	if (fd == -1)
 	{
 		perror("minishell: apply_output_redirection_fd");
-		debug_print("[DEBUG] apply_output_redirection_fd: fd is -1, returning.");
+		debug_print(
+			"[DEBUG] apply_output_redirection_fd: fd is -1, returning.");
 		return ;
 	}
-	debug_print_with_int("[DEBUG] apply_output_redirection_fd: Closing fd: ", fd);
+	debug_print_with_int(
+		"[DEBUG] apply_output_redirection_fd: Closing fd: ", fd);
 	close(fd);
 	debug_print("[DEBUG] apply_output_redirection_fd: Exit.");
 }
 
 void	apply_input_redirection_fd(int fd)
 {
-	debug_print_with_int("[DEBUG] apply_input_redirection_fd: Start, fd: ", fd);
+	debug_print_with_int(
+		"[DEBUG] apply_input_redirection_fd: Start, fd: ", fd);
 	if (fd == -1)
 	{
 		perror("minishell: apply_input_redirection_fd");
-		debug_print("[DEBUG] apply_input_redirection_fd: fd is -1, returning.");
+		debug_print(
+			"[DEBUG] apply_input_redirection_fd: fd is -1, returning.");
 		return ;
 	}
-	debug_print_with_int("[DEBUG] apply_input_redirection_fd: Closing fd: ", fd);
+	debug_print_with_int(
+		"[DEBUG] apply_input_redirection_fd: Closing fd: ", fd);
 	close(fd);
 	debug_print("[DEBUG] apply_input_redirection_fd: Exit.");
 }

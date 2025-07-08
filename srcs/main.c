@@ -35,7 +35,8 @@ static int	initialize_shell(char **envp)
 	*get_env_val() = create_env_list(envp);
 	if (!get_env_val())
 	{
-		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
+		ft_putstr_fd(
+			(char *)"minishell: failed to initialize environment\n",
 			STDERR_FILENO);
 		return (0);
 	}
@@ -54,6 +55,21 @@ static int	initialize_shell(char **envp)
 	return (1);
 }
 
+static int	handle_empty_input_case(char *input)
+{
+	int	empty_status;
+
+	empty_status = handle_empty_input(input);
+	if (empty_status != -1)
+	{
+		debug_print_with_int(
+			"[DEBUG] Empty command handled, status: ", empty_status);
+		if (input && *input)
+			add_history(input);
+	}
+	return (empty_status);
+}
+
 void	handle_input(char *input, int *status)
 {
 	int	empty_status;
@@ -70,18 +86,16 @@ void	handle_input(char *input, int *status)
 		*status = 1;
 		return ;
 	}
-	empty_status = handle_empty_input(input);
+	empty_status = handle_empty_input_case(input);
 	if (empty_status != -1)
 	{
-		debug_print_with_int("[DEBUG] handle_input: Empty command handled, status: ", empty_status);
 		*status = empty_status;
-		if (input && *input)
-			add_history(input);
 		return ;
 	}
 	debug_print("[DEBUG] handle_input: Before process_valid_input.");
 	process_valid_input(input, status);
-	debug_print_with_int("[DEBUG] handle_input: After process_valid_input, status: ", *status);
+	debug_print_with_int(
+		"[DEBUG] After process_valid_input, status: ", *status);
 	debug_print("[DEBUG] Exit handle_input.");
 }
 

@@ -38,20 +38,28 @@ static void	restore_fds(t_redirect *last_out, t_redirect *last_in)
 	debug_print("[DEBUG] restore_fds: Start.");
 	if (last_out && last_out->original_fd != -1)
 	{
-		debug_print_with_int("[DEBUG] restore_fds: Restoring STDOUT from fd: ", last_out->original_fd);
+		debug_print_with_int(
+			"[DEBUG] restore_fds: Restoring STDOUT from fd: ",
+			last_out->original_fd);
 		if (dup2(last_out->original_fd, STDOUT_FILENO) == -1)
 			perror("minishell: dup2 STDOUT_FILENO restore");
 		close(last_out->original_fd);
-		debug_print_with_int("[DEBUG] restore_fds: Closed original_fd for STDOUT: ", last_out->original_fd);
+		debug_print_with_int(
+			"[DEBUG] restore_fds: Closed original_fd for STDOUT: ",
+			last_out->original_fd);
 		last_out->original_fd = -1;
 	}
 	if (last_in && last_in->original_fd != -1)
 	{
-		debug_print_with_int("[DEBUG] restore_fds: Restoring STDIN from fd: ", last_in->original_fd);
+		debug_print_with_int(
+			"[DEBUG] restore_fds: Restoring STDIN from fd: ",
+			last_in->original_fd);
 		if (dup2(last_in->original_fd, STDIN_FILENO) == -1)
 			perror("minishell: dup2 STDIN_FILENO restore");
 		close(last_in->original_fd);
-		debug_print_with_int("[DEBUG] restore_fds: Closed original_fd for STDIN: ", last_in->original_fd);
+		debug_print_with_int(
+			"[DEBUG] restore_fds: Closed original_fd for STDIN: ",
+			last_in->original_fd);
 		last_in->original_fd = -1;
 	}
 	debug_print("[DEBUG] restore_fds: Exit.");
@@ -68,7 +76,9 @@ void	cleanup_heredocs(t_redirect *redirect)
 	{
 		if (current->type == REDIR_HEREDOC)
 		{
-			debug_print_with_str("[DEBUG] cleanup_heredocs: Unlinking heredoc file: ", current->file);
+		debug_print_with_str(
+			"[DEBUG] cleanup_heredocs: Unlinking heredoc file: ",
+			current->file);
 			if (unlink(current->file) == -1)
 				perror("minishell: unlink heredoc");
 		}
@@ -85,7 +95,8 @@ void	restore_redirection(t_redirect *redirect)
 	debug_print("[DEBUG] restore_redirection: Start.");
 	if (!redirect)
 	{
-		debug_print("[DEBUG] restore_redirection: No redirects to restore, returning.");
+		debug_print(
+			"[DEBUG] restore_redirection: No redirects to restore, returning.");
 		return ;
 	}
 	debug_print("[DEBUG] restore_redirection: Finding last redirections.");
