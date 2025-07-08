@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:41:52 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
 #include "tokenizer/tokenizer.h"
+#include "error/error_messages.h"
 
 /*
 ** @brief 先頭のトークンが構文エラーでないかをチェック
@@ -113,13 +113,11 @@ t_command	*parse_tokens(t_token *tokens)
 	preprocessed_tokens = preprocess_tokens(tokens);
 	if (!preprocessed_tokens)
 	{
-		debug_print("[DEBUG] No tokens remain (empty command)");
 		return (create_command());
 	}
 	first_token = preprocessed_tokens;
 	while (first_token && first_token->type == TOKEN_SPACE)
 		first_token = first_token->next;
-	debug_print_tokens(preprocessed_tokens);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))
 	{

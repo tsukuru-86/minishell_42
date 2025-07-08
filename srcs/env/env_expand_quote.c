@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:55:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/30 22:51:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:32:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "minishell.h"
+#include "env.h"
 
 static void	process_escape(const char *str, int *i, t_quote_info *info)
 {

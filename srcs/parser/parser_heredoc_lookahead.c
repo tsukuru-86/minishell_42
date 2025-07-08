@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:08:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 
 static int	collect_command_args(t_command *cmd, t_token *lookahead)
@@ -58,7 +57,6 @@ int	handle_word_type_tokens(t_command **cmd_ptr, t_token **current_token_ptr,
 {
 	int	status;
 
-	debug_print("[DEBUG] Handling WORD token");
 	status = handle_word_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	return (status);
 }

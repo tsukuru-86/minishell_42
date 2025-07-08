@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 02:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:46:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 01:52:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "redirect.h"
 
 /* Save the original file descriptor for later restoration */
@@ -67,12 +66,7 @@ int	open_redirect_file(t_redirect *redirect)
 		fd = open(redirect->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redirect->type == REDIR_HEREDOC)
 	{
-		debug_print_with_str("[DEBUG] Processing heredoc for file",
-			redirect->file);
 		fd = open(redirect->file, O_RDONLY);
-		if (fd != -1)
-			debug_print_with_int("[DEBUG] Heredoc file opened successfully, fd",
-				fd);
 	}
 	else if (redirect->type == REDIR_IN)
 		fd = open(redirect->file, O_RDONLY);

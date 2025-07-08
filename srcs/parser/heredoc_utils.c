@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/03 21:12:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:26:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 
 char	*get_temp_filename(void)

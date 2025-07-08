@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 13:29:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "redirect.h"
 
 static int	create_redirect_out_file(t_redirect *current)

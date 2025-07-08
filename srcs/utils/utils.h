@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system_limits.h                                    :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 00:02:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/08 22:31:30 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/13 16:17:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/09 02:50:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_LIMITS_H
-# define SYSTEM_LIMITS_H
+#ifndef UTILS_H
+# define UTILS_H
 
+/* 前方宣言 */
 # include <limits.h>
 # include <unistd.h>
-# ifdef MACOS
+
+# ifdef __APPLE__
 #  include <sys/syslimits.h> // macOS
 # else
 #  include <linux/limits.h> // Linux
+# endif
+
+typedef struct s_token	t_token;
+
+# ifdef __APPLE__
+/* __APPLE__固有の関数宣言 - 一部の関数が__APPLE__では明示的に宣言が必要 */
+void					rl_replace_line(const char *text, int clear_undo);
+void					rl_clear_history(void);
 # endif
 
 /* PATH_MAX: パスの最大長 */
@@ -66,4 +76,15 @@
 #  endif
 # endif
 
+char					*prepare_input(char *input);
+char					*read_all_pipe_input(void);
+int						main_loop(void);
+int						handle_empty_input(char *input);
+void					process_valid_input(char *input, int *status);
+void					free_string_array(char **arr);
+void					process_input_lines(char **lines, int *status);
+void					process_with_fallback(char *input, int *status);
+char					*str_replace_backslash_n(const char *src);
+int						handle_tokens_and_parse(t_token *tokens);
+void					handle_input(char *input, int *status);
 #endif

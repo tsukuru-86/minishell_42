@@ -9,7 +9,6 @@
 /*   Updated: 2025/05/24 21:35:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 #include "tokenizer.h"
 
@@ -33,9 +32,9 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
 int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	t_token		*new_token;
-	t_token		*last_token;
-	char		*combined_content;
+	t_token			*new_token;
+	t_token			*last_token;
+	char			*combined_content;
 	t_token_type	token_type;
 
 	if (!extract_quoted_string(stat, input, stat->word_buffer))
@@ -44,7 +43,7 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	if (last_token && (last_token->type == TOKEN_S_QUOTED_WORD
 			|| last_token->type == TOKEN_D_QUOTED_WORD)
 		&& !is_delimiter(input[stat->i_input - 1]) && input[stat->i_input
-			- 1] != '\n')
+		- 1] != '\n')
 	{
 		combined_content = ft_strjoin(last_token->content, stat->word_buffer);
 		if (!combined_content)
@@ -56,12 +55,10 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	token_type = stat->quote_type;
 	if (should_mark_as_heredoc_delimiter(stat->tokens))
 	{
-		debug_print_with_str("DEBUG: marking as TOKEN_HEREDOC_DELIMITER", stat->word_buffer);
 		token_type = TOKEN_HEREDOC_DELIMITER;
 	}
 	else
 	{
-		debug_print_with_str("DEBUG: not a heredoc delimiter, type is", "quoted_word");
 	}
 	new_token = safe_create_token(stat->word_buffer, token_type);
 	if (!new_token)

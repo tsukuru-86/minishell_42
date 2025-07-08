@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:35:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 03:36:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:18:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_commands.h"
 #include "minishell.h"
+#include "builtin.h"
 
 /* ノードをスワップしてリストの先頭を更新 */
 static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,

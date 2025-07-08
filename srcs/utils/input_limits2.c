@@ -9,7 +9,6 @@
 /*   Updated: 2025/06/24 00:08:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 /* 引数配列の総サイズ制限をチェック */
@@ -27,8 +26,7 @@ int	check_args_limit(char **args)
 		total_size += ft_strlen(args[i]) + 1;
 		if (total_size > ARG_MAX)
 		{
-			ft_putstr_fd("minishell: argument list too long\n",
-				STDERR_FILENO);
+			ft_putstr_fd("minishell: argument list too long\n", STDERR_FILENO);
 			return (0);
 		}
 		i++;

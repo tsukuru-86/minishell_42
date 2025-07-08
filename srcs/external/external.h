@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 13:23:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:39:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int		check_if_directory(char *cmd_path, char *cmd_name);
 int		handle_directory_check(char *cmd_path, char **args);
 int		execute_external_main(char *cmd_path, char **args, t_command *cmd);
 int		handle_stat_error(char *cmd_name);
-
+void	free_env_array(char **env_array, int count);
+int		process_redirections(t_redirect *redirect);
 #endif

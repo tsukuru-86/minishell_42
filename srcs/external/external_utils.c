@@ -9,7 +9,6 @@
 /*   Updated: 2025/05/11 02:10:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 /* Search for a command in PATH environment */

@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:32:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:26:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 
 static char	*join_and_cleanup_token(char *merged, t_token *next)

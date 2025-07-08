@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:22:19 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/24 00:13:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:51:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "string_utils.h"
+#include "utils.h"
+#include "stdlib.h"
 
 static int	count_replaced_length(const char *src)
 {

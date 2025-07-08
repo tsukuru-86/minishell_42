@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 01:21:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 01:28:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:27:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "redirect.h"
 
 t_redirect	*find_last_output_redirect(t_redirect *redirect)
@@ -45,8 +44,8 @@ t_redirect	*find_last_input_redirect(t_redirect *redirect)
 	return (last_in);
 }
 
-int	process_non_effective_redirects(t_redirect *redirect,
-	t_redirect *last_out, t_redirect *last_in)
+int	process_non_effective_redirects(t_redirect *redirect, t_redirect *last_out,
+		t_redirect *last_in)
 {
 	t_redirect	*current;
 	int			fd;

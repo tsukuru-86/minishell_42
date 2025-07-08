@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/03 04:33:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "tokenizer.h"
 
 static t_token_type	check_pipe_token(const char *input, int *i)
@@ -121,7 +120,6 @@ t_token	*create_heredoc_delimiter_token(const char *input, int *i)
 		}
 	}
 	word_buffer[word_i] = '\0';
-	debug_print_with_str("DEBUG: created heredoc delimiter token", word_buffer);
 	return (safe_create_token(word_buffer, TOKEN_HEREDOC_DELIMITER));
 }
 

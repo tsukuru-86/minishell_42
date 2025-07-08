@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:03:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/21 17:03:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:16:26 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_commands.h"
 #include "minishell.h"
 
 /* 環境変数リストを表示する */

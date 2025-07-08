@@ -6,19 +6,18 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/01 23:15:52 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:42:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_commands.h"
 #include "minishell.h"
+#include "error/error_messages.h"
 
 int	builtin_cd(char **args)
 {
 	char	*path;
 	int		chdir_result;
 
-	debug_print_command_args(args);
 	if (args[1] == NULL)
 		path = getenv("HOME");
 	else

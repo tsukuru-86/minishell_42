@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 13:26:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:43:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error/error_messages.h"
 #include "minishell.h"
 #include "tokenizer.h"
+#include "error/error_messages.h"
 
 /* バッファサイズチェックとエラー処理 */
 static int	check_buffer_size_internal(int word_idx)
@@ -51,7 +51,6 @@ static int	copy_quoted_content_internal(const char *input, int *i,
 }
 
 /* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
-
 static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 		t_token_type type)
 {

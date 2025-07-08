@@ -9,7 +9,6 @@
 /*   Updated: 2025/07/03 04:48:30 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 #include "parser.h"
 
@@ -28,7 +27,6 @@ static t_token	*remove_empty_token(t_token *tokens, t_token *curr,
 	free(curr);
 	return (tokens);
 }
-
 t_token	*remove_empty_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -51,7 +49,6 @@ t_token	*remove_empty_tokens(t_token *tokens)
 	}
 	return (tokens);
 }
-
 t_token	*remove_quote_tokens(t_token *tokens)
 {
 	t_token	*current;

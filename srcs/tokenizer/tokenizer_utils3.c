@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/03 04:34:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:02:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "tokenizer.h"
 
 /* 環境変数を展開してトークンを作成 */
@@ -95,7 +94,6 @@ int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 	buf_len = 0;
 	if (should_mark_as_heredoc_delimiter(stat->tokens))
 	{
-		debug_print("DEBUG: creating heredoc delimiter token via create_heredoc_delimiter_token");
 		new_token = create_heredoc_delimiter_token(input, &stat->i_input);
 		if (!new_token)
 			return (0);

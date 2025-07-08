@@ -6,11 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:48:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:08:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 
 /*
@@ -44,22 +43,18 @@ static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 		return (read_heredoc_input(fd, heredoc));
 	else
 	{
-		debug_print("[DEBUG] Non-interactive heredoc");
 		return (process_pipe_heredoc_lines(fd, heredoc));
 	}
 }
 
 static int	process_heredoc_file(int fd, t_heredoc *heredoc)
 {
-	debug_print("[DEBUG] handle_heredoc: calling process_heredoc_content");
 	if (!process_heredoc_content(fd, heredoc))
 	{
-		debug_print("[DEBUG] handle_heredoc: process_heredoc_content failed");
 		close(fd);
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	debug_print("[DEBUG] handle_heredoc: process_heredoc_content succeeded");
 	return (1);
 }
 
@@ -70,7 +65,6 @@ static int	create_heredoc_file(t_heredoc *heredoc)
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		debug_print("[DEBUG] handle_heredoc: open failed");
 		cleanup_heredoc(heredoc);
 		return (-1);
 	}

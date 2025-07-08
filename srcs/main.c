@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/08 22:38:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:52:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/debug_utils.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -35,8 +34,7 @@ static int	initialize_shell(char **envp)
 	*get_env_val() = create_env_list(envp);
 	if (!get_env_val())
 	{
-		ft_putstr_fd(
-			(char *)"minishell: failed to initialize environment\n",
+		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
 			STDERR_FILENO);
 		return (0);
 	}
@@ -62,8 +60,6 @@ static int	handle_empty_input_case(char *input)
 	empty_status = handle_empty_input(input);
 	if (empty_status != -1)
 	{
-		debug_print_with_int(
-			"[DEBUG] Empty command handled, status: ", empty_status);
 		if (input && *input)
 			add_history(input);
 	}
@@ -74,15 +70,12 @@ void	handle_input(char *input, int *status)
 {
 	int	empty_status;
 
-	debug_print_with_str("[DEBUG] Enter handle_input: ", input);
 	if (!input)
 	{
-		debug_print("[DEBUG] handle_input: Input is NULL.");
 		return ;
 	}
 	if (!check_input_line_limit(input))
 	{
-		debug_print("[DEBUG] handle_input: Input line limit exceeded.");
 		*status = 1;
 		return ;
 	}
@@ -92,11 +85,7 @@ void	handle_input(char *input, int *status)
 		*status = empty_status;
 		return ;
 	}
-	debug_print("[DEBUG] handle_input: Before process_valid_input.");
 	process_valid_input(input, status);
-	debug_print_with_int(
-		"[DEBUG] After process_valid_input, status: ", *status);
-	debug_print("[DEBUG] Exit handle_input.");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -114,4 +103,3 @@ int	main(int argc, char **argv, char **envp)
 	free_env_list();
 	return (status);
 }
-

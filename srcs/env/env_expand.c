@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 14:56:05 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/25 14:39:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:30:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "minishell.h"
+#include "env.h"
 
 int	is_env_var_start(const char *str, int i)
 {

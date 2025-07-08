@@ -9,7 +9,6 @@
 /*   Updated: 2025/06/14 19:35:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "env.h"
 #include "minishell.h"
 
@@ -31,7 +30,6 @@ char	*expand_env_var(const char *name)
 		return (ft_strdup(""));
 	return (value);
 }
-
 t_env	*get_env_node(const char *name)
 {
 	t_env	*env_list_head;

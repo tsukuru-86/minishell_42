@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:10:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 21:03:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:27:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin.h"
 
 static int	check_overflow(long long res, int digit, int sign)
 {

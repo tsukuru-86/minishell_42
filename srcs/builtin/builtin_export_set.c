@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:23:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_commands.h"
 #include "minishell.h"
+#include "builtin.h"
 
 /* Create a new environment node */
 static t_env	*create_env_node_safe(const char *name, const char *value)

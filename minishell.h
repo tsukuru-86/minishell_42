@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/08 22:22:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:41:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "utils/system_limits.h"
+# include "utils/utils.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -184,9 +184,7 @@ t_token							*tokenize(char *input, t_command *cmd);
 void							free_tokens(t_token *tokens);
 void							print_tokens(t_token *tokens);
 
-/* Debug functions */
-void							print_command_debug(t_command *cmd);
-void							print_commands_debug(t_command *commands);
+/* Debug functions removed */
 
 /* Environment variable */
 t_env							**get_env_val(void);
@@ -227,14 +225,7 @@ void							set_exit_status(t_command *cmd, int status);
 /* Command handler */
 void							handle_input(char *input, int *status);
 
-/* Debug functions */
-void							debug_print(const char *message);
-void							debug_print_with_str(const char *prefix,
-									const char *str);
-void							debug_print_with_int(const char *prefix,
-									const int value);
-void							debug_print_tokens(t_token *tokens);
-void							debug_print_command_args(char **args);
+/* Debug functions removed */
 
 /* Empty command handler */
 int								handle_empty_command_with_redirects(void);
@@ -256,9 +247,6 @@ void							skip_to_delimiter(t_token **current_token,
 /* Non-interactive heredoc functions */
 int								write_heredoc_from_stdin(t_command *cmd,
 									t_token *delimiter_token);
-int								write_heredoc_content_from_tokens(
-									t_token **current_token,
-									char *delimiter, char *temp_file);
 
 /* pipeline_process_utils2 */
 void							handle_empty_args(t_command *current);

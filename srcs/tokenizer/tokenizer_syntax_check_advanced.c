@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:04:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 11:56:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:43:39 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error/error_messages.h"
 #include "minishell.h"
 #include "tokenizer.h"
+#include "error/error_messages.h"
 
 /*
 ** @brief リダイレクトタイプかチェック

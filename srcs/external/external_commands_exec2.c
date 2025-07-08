@@ -9,10 +9,9 @@
 /*   Updated: 2025/06/20 09:10:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "external/external.h"
 #include "minishell.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 int	handle_empty_redirect(t_command *cmd)
 {

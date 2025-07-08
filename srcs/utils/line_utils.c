@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 20:34:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:48:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:48:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
+#include "stdlib.h"
 
 void	free_lines(char **lines)
 {
@@ -35,7 +35,6 @@ void	process_lines(char **lines, int *status)
 	i = 0;
 	while (lines[i])
 	{
-		debug_print_with_str("[DEBUG] Processing line: ", lines[i]);
 		handle_input(lines[i], status);
 		i++;
 	}
