@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/02 01:33:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/08 22:38:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ int	wait_pipeline(t_command *cmd)
 	}
 	return (last_status);
 }
-

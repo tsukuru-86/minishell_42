@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:48:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/08 22:38:17 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	process_valid_input(char *input, int *status)
 		debug_print_with_str("[DEBUG] after strdup: ", prepared);
 	else
 		debug_print_with_str("[DEBUG] after strdup: ", "NULL");
-	debug_print_with_str(
-		"[DEBUG] process_valid_input: prepare_input result: ", prepared);
+	debug_print_with_str("[DEBUG] process_valid_input: prepare_input result: ",
+		prepared);
 	add_history(input);
 	if (!validate_input(prepared))
 	{
