@@ -28,7 +28,6 @@ test/logs
 tests/
 !test_from_cunh
 42_minishell_tester/
-minishell_tester*
 .cache/
 trash/
 

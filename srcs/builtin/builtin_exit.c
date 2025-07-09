@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:20:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:58:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,19 @@ int	is_numeric_string(const char *str)
 */
 static int	validate_and_convert(char *arg, long long *n)
 {
+	int	overflow;
+
 	if (!is_numeric_string(arg))
 	{
 		put_exit_error(": numeric argument required\n", arg);
 		exit(255);
 	}
-	if (ft_strcmp(arg, "9223372036854775808") == 0)
+	*n = ft_atoll_safe(arg, &overflow);
+	if (overflow)
 	{
 		put_exit_error(": numeric argument required\n", arg);
 		exit(255);
 	}
-	if (ft_strcmp(arg, "-9223372036854775809") == 0)
-	{
-		put_exit_error(": numeric argument required\n", arg);
-		exit(255);
-	}
-	*n = ft_atoi(arg);
 	return (0);
 }
 
