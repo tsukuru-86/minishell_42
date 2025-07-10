@@ -30,20 +30,16 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 }
 
 /* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
-int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
+static int	handle_quoted_token_merge(t_tokenizer_stat *stat, const char *input)
 {
-	t_token			*new_token;
-	t_token			*last_token;
-	char			*combined_content;
-	t_token_type	token_type;
+	t_token	*last_token;
+	char	*combined_content;
 
-	if (!extract_quoted_string(stat, input, stat->word_buffer))
-		return (0);
 	last_token = get_last_token(stat->tokens);
 	if (last_token && (last_token->type == TOKEN_S_QUOTED_WORD
 			|| last_token->type == TOKEN_D_QUOTED_WORD)
 		&& !is_delimiter(input[stat->i_input - 1]) && input[stat->i_input
-		- 1] != '\n')
+			- 1] != '\n')
 	{
 		combined_content = ft_strjoin(last_token->content, stat->word_buffer);
 		if (!combined_content)
@@ -52,14 +48,21 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 		last_token->content = combined_content;
 		return (1);
 	}
+	return (0);
+}
+
+int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
+{
+	t_token			*new_token;
+	t_token_type	token_type;
+
+	if (!extract_quoted_string(stat, input, stat->word_buffer))
+		return (0);
+	if (handle_quoted_token_merge(stat, input))
+		return (1);
 	token_type = stat->quote_type;
 	if (should_mark_as_heredoc_delimiter(stat->tokens))
-	{
 		token_type = TOKEN_HEREDOC_DELIMITER;
-	}
-	else
-	{
-	}
 	new_token = safe_create_token(stat->word_buffer, token_type);
 	if (!new_token)
 		return (0);
@@ -67,23 +70,10 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	return (1);
 }
 
-/* メタ文字セグメントを処理してトークンを作成し、リストに追加 */
-int	handle_meta_token_creation(t_tokenizer_stat *stat, const char *input)
-{
-	t_token	*new_token;
-
-	new_token = create_meta_token(input, &stat->i_input);
-	if (!new_token)
-		return (0);
-	add_token_to_list(&stat->tokens, new_token);
-	return (1);
-}
-
-/* 生の単語を展開し、TOKEN_WORD トークンを作成 */
-t_token	*create_expanded_word_token(char *raw_word, int *status)
+/* 生の単語を展開する（分割後） */
+char	*expand_word_content(char *raw_word, int *status)
 {
 	char	*expanded_content;
-	t_token	*new_token;
 
 	*status = 0;
 	if (ft_strlen(raw_word) == 0)
@@ -100,19 +90,22 @@ t_token	*create_expanded_word_token(char *raw_word, int *status)
 		*status = 1;
 		return (NULL);
 	}
+	return (expanded_content);
+}
+
+/* 展開済み内容からTOKEN_WORDトークンを生成（分割後） */
+t_token	*create_expanded_word_token(char *raw_word, int *status)
+{
+	char	*expanded_content;
+	t_token	*new_token;
+
+	expanded_content = expand_word_content(raw_word, status);
+	if (!expanded_content)
+		return (NULL);
 	new_token = safe_create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)
 		return (NULL);
 	*status = 2;
 	return (new_token);
-}
-
-/* ホワイトスペース文字をスキップする */
-void	skip_whitespace(const char *input, int *i)
-{
-	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'
-			|| input[*i] == '\n' || input[*i] == '\v' || input[*i] == '\f'
-			|| input[*i] == '\r'))
-		(*i)++;
 }

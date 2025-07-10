@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
 #include "stdlib.h"
+#include "utils.h"
 
 static int	count_replaced_length(const char *src)
 {

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:42:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/10 14:44:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,7 @@ void	add_token_to_list(t_token **token_list_head, t_token *new_token)
 	current->next = new_token;
 }
 
-/* トークンリストの最後のトークンを取得 */
-t_token	*get_last_token(t_token *tokens)
-{
-	if (!tokens)
-		return (NULL);
-	while (tokens->next)
-		tokens = tokens->next;
-	return (tokens);
-}
+/* 関数定義はtokenizer_word_helpers.cへ移動 */
 
 /* トークナイザーを終了処理 */
 void	finalize_tokenizer(t_tokenizer_stat *vars)

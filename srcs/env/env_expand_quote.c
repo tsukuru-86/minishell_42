@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 
 static void	process_escape(const char *str, int *i, t_quote_info *info)
 {

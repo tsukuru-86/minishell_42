@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin.h"
+#include "minishell.h"
 
 t_env	*create_env_node_from_existing(t_env *original)
 {

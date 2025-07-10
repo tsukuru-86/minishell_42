@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env.h"
+#include "minishell.h"
 
 int	is_env_var_start(const char *str, int i)
 {

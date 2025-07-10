@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin.h"
+#include "minishell.h"
 
 static int	is_assignment_operator(char *arg)
 {

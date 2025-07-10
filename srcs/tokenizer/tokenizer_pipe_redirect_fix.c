@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error/error_messages.h"
 #include "minishell.h"
 #include "tokenizer.h"
-#include "error/error_messages.h"
 
 /*
 ** @brief パイプ後のリダイレクションかチェック

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error/error_messages.h"
 #include "external.h"
 #include "minishell.h"
-#include "error/error_messages.h"
 
 int	handle_command_not_found(char **args)
 {

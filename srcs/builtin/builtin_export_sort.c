@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin.h"
+#include "minishell.h"
 
 /* ノードをスワップしてリストの先頭を更新 */
 static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,

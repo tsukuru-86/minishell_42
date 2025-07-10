@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "error/error_messages.h"
 #include "minishell.h"
-#include "builtin.h"
 
 int	append_env_value(const char *name, const char *value)
 {

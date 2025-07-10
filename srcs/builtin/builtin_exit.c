@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin.h"
+#include "minishell.h"
 
 int	is_numeric_string(const char *str)
 {

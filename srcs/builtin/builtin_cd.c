@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "error/error_messages.h"
+#include "minishell.h"
 
 int	builtin_cd(char **args)
 {

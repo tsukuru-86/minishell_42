@@ -6,51 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/10 14:56:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-
-static t_token_type	check_pipe_token(const char *input, int *i)
-{
-	if (input[*i] == '|')
-	{
-		(*i)++;
-		return (TOKEN_PIPE);
-	}
-	return (TOKEN_WORD);
-}
-
-static t_token_type	check_less_than_token(const char *input, int *i)
-{
-	if (input[*i] == '<')
-	{
-		(*i)++;
-		if (input[*i] == '<')
-		{
-			(*i)++;
-			return (TOKEN_HEREDOC);
-		}
-		return (TOKEN_REDIR_IN);
-	}
-	return (TOKEN_WORD);
-}
-
-static t_token_type	check_greater_than_token(const char *input, int *i)
-{
-	if (input[*i] == '>')
-	{
-		(*i)++;
-		if (input[*i] == '>')
-		{
-			(*i)++;
-			return (TOKEN_REDIR_APPEND);
-		}
-		return (TOKEN_REDIR_OUT);
-	}
-	return (TOKEN_WORD);
-}
 
 /* メタ文字のトークンタイプを判定。Returns TOKEN_WORD if no meta char matched */
 t_token_type	get_meta_type(const char *input, int *i)
@@ -88,37 +48,15 @@ int	should_mark_as_heredoc_delimiter(t_token *tokens)
 	return (0);
 }
 
-/* heredocデリミタ用のトークンを作成（クォート対応） */
 t_token	*create_heredoc_delimiter_token(const char *input, int *i)
 {
 	char	word_buffer[1024];
 	int		word_i;
-	char	quote_char;
 
-	word_i = 0;
 	if (is_quote(input[*i]))
-	{
-		quote_char = input[*i];
-		word_buffer[word_i++] = input[(*i)++];
-		while (input[*i] && input[*i] != quote_char)
-		{
-			if (word_i < 1024 - 1)
-				word_buffer[word_i++] = input[*i];
-			(*i)++;
-		}
-		if (input[*i] == quote_char)
-			word_buffer[word_i++] = input[(*i)++];
-	}
+		word_i = fill_heredoc_quoted(input, i, word_buffer);
 	else
-	{
-		while (input[*i] && !is_delimiter(input[*i]) && !is_meta(input[*i])
-			&& input[*i] != '\n')
-		{
-			if (word_i < 1024 - 1)
-				word_buffer[word_i++] = input[*i];
-			(*i)++;
-		}
-	}
+		word_i = fill_heredoc_unquoted(input, i, word_buffer);
 	word_buffer[word_i] = '\0';
 	return (safe_create_token(word_buffer, TOKEN_HEREDOC_DELIMITER));
 }

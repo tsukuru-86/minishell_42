@@ -6,10 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:56:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 19:35:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/10 13:34:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "env.h"
+
 #include "minishell.h"
 
 /* 環境変数の値を取得 */
@@ -30,6 +30,7 @@ char	*expand_env_var(const char *name)
 		return (ft_strdup(""));
 	return (value);
 }
+
 t_env	*get_env_node(const char *name)
 {
 	t_env	*env_list_head;

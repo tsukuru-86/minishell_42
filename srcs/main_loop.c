@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils/utils.h"
 #include "minishell.h"
+#include "utils/utils.h"
 
 static int	handle_interactive(int *status)
 {

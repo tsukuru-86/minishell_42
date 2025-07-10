@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "builtin.h"
+#include "minishell.h"
 
 /* Create a new environment node */
 static t_env	*create_env_node_safe(const char *name, const char *value)

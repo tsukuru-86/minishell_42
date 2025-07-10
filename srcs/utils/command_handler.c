@@ -12,7 +12,6 @@
 
 #include "error/error_messages.h"
 #include "minishell.h"
-#include "error/error_messages.h"
 
 int	process_commands(t_command *cmd)
 {

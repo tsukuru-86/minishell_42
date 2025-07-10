@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:42:56 by tkomai            #+#    #+#             */
-/*   Updated: 2025/07/09 02:42:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/10 14:59:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "error/error_messages.h"
+#include "../srcs/error/error_messages.h"
 
 void	ft_putchar_fd(char c, int fd)
 {

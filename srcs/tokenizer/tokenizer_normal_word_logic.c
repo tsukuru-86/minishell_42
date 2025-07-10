@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 00:51:16 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/10 14:13:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,37 +34,45 @@ static int	collect_plain_word_segment(const char *input, int *i,
 	return (word_idx);
 }
 
-static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
+static bool	add_heredoc_delimiter_token(char *word_buf, t_token **tokens)
 {
-	char			*expanded_content;
-	t_token			*new_token;
-	t_token_type	token_type;
+	t_token	*new_token;
 
-	if (should_mark_as_heredoc_delimiter(*tokens))
+	new_token = safe_create_token(word_buf, TOKEN_HEREDOC_DELIMITER);
+	if (!new_token)
 	{
-		new_token = safe_create_token(word_buf, TOKEN_HEREDOC_DELIMITER);
-		if (!new_token)
-		{
-			ft_putstr_fd((char *)"minishell: failed to create delimiter token\n",
-				2);
-			return (false);
-		}
-		add_token_to_list(tokens, new_token);
-		return (true);
+		ft_putstr_fd("minishell: failed to create", 2);
+		ft_putstr_fd("delimiter token\n", 2);
+		return (false);
 	}
+	add_token_to_list(tokens, new_token);
+	return (true);
+}
+
+static bool	add_expanded_word_token(char *word_buf, t_token **tokens)
+{
+	char	*expanded_content;
+	t_token	*new_token;
+
 	expanded_content = expand_env_vars(word_buf, 0);
 	if (!expanded_content)
 	{
 		ft_putstr_fd((char *)"minishell: failed to expand env vars\n", 2);
 		return (false);
 	}
-	token_type = TOKEN_WORD;
-	new_token = safe_create_token(expanded_content, token_type);
+	new_token = safe_create_token(expanded_content, TOKEN_WORD);
 	free(expanded_content);
 	if (!new_token)
 		return (false);
 	add_token_to_list(tokens, new_token);
 	return (true);
+}
+
+static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
+{
+	if (should_mark_as_heredoc_delimiter(*tokens))
+		return (add_heredoc_delimiter_token(word_buf, tokens));
+	return (add_expanded_word_token(word_buf, tokens));
 }
 
 /* 通常の単語を処理し、トークンリストに追加 */

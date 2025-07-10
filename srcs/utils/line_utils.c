@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 20:34:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:48:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 03:27:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "utils/utils.h"
-#include "stdlib.h"
 
 void	free_lines(char **lines)
 {

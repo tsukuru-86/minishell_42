@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "libft.h"
 #include "minishell.h"
-#include "builtin.h"
 
 /*
 ** 文字列の両端クォートを除去
