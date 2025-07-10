@@ -19,7 +19,7 @@ export VAR2
 2. **エラー処理**: 不適切な変数名の場合、その引数のみスキップ（他の引数は処理継続）
 3. **空白解析**: `export VAR =value` は `VAR` と `=value` の2つの引数として解釈(export基本動作)
 
-#### 実際のbash動作例
+#### 実際の動作例
 ```bash
 $ export ABCD                    # 値なしで登録
 $ export |grep ABCD
