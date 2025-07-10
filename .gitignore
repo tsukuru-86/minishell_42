@@ -37,3 +37,4 @@ obj/.builddir_ready
 file_out
 srcs/parser/heredoc_noninteractive.c
 docs/phase40_analysis.md
+output.txt

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/25 21:38:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 04:20:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,8 @@ void							handle_input(char *input, int *status);
 void							debug_print(const char *message);
 void							debug_print_with_str(const char *prefix,
 									const char *str);
-void							debug_print_with_int(const char *prefix, const int value);
+void							debug_print_with_int(const char *prefix,
+									const int value);
 void							debug_print_tokens(t_token *tokens);
 void							debug_print_command_args(char **args);
 
