@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:35:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/02 03:36:58 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:43:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
 
-/* ノードをスワップしてリストの先頭を更新 */
+/* Swap nodes and update the head of the list */
 static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
 		t_env *node2)
 {
@@ -26,7 +26,7 @@ static t_env	*swap_nodes_in_list(t_env *list_head, t_env *prev, t_env *node1,
 	return (list_head);
 }
 
-/* ソートの1回のパスを実行する */
+/* Perform a single pass of the sort */
 static t_env	*sort_single_pass(t_env *list_head, int *swapped_flag)
 {
 	t_env	*current;
@@ -55,7 +55,7 @@ static t_env	*sort_single_pass(t_env *list_head, int *swapped_flag)
 	return (list_head);
 }
 
-/* バブルソートを使用して環境変数リストのコピーをソートする */
+/* Sort a copy of the environment variable list using bubble sort */
 t_env	*sort_env_list_copy(t_env *list_head)
 {
 	int	swapped_in_pass;

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:10:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 21:03:21 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:11:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	put_exit_error(const char *msg, const char *arg)
 {
-	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd("exit: ", 2);
 	if (arg)
+	{
 		ft_putstr_fd((char *)arg, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	ft_putstr_fd((char *)msg, 2);
 }
 

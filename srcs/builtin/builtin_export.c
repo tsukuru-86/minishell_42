@@ -15,7 +15,7 @@
 #include "error/error_messages.h"
 #include "minishell.h"
 
-/* export組み込みコマンド */
+/* export built-in command */
 static int	check_invalid_identifier(char *arg)
 {
 	if (arg[0] == '=' || (arg[0] == '+' && arg[1] == '='))

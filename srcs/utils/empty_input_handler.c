@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 04:23:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 05:45:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,33 @@ static int	process_tokenization(char *prepared)
 	return (status);
 }
 
-void	process_valid_input(char *input, int *status)
+static void	process_valid_input_debug(char *input, char *prepared)
 {
-	char	*prepared;
-
+	(void)input;
 	debug_print("[DEBUG] process_valid_input: in");
 	debug_print("[DEBUG] process_valid_input: in\n");
-	prepared = ft_strdup(input);
-	if (!prepared)
-		return ;
 	if (prepared)
 		debug_print_with_str("[DEBUG] after strdup: ", prepared);
 	else
 		debug_print_with_str("[DEBUG] after strdup: ", "NULL");
 	debug_print_with_str("[DEBUG] process_valid_input: prepare_input result: ",
 		prepared);
+}
+
+void	process_valid_input(char *input, int *status)
+{
+	char	*prepared;
+
+	prepared = ft_strdup(input);
+	if (!prepared)
+		return ;
+	process_valid_input_debug(input, prepared);
 	add_history(input);
 	if (!validate_input(prepared))
 	{
-		debug_print("[DEBUG] process_valid_input:validate_input returned false");
+		debug_print(
+			"[DEBUG] process_valid_input:validate_input returned false"
+			);
 		free(prepared);
 		*status = 0;
 		return ;

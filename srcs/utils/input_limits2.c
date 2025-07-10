@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-/* 引数配列の総サイズ制限をチェック */
+/* Check the total size limit of the argument array */
 int	check_args_limit(char **args)
 {
 	size_t	total_size;
@@ -36,7 +36,7 @@ int	check_args_limit(char **args)
 	return (1);
 }
 
-/* パイプバッファサイズ制限をチェック */
+/* Check the pipe buffer size limit */
 int	check_pipe_buffer_limit(size_t size)
 {
 	if (size > PIPE_BUFFER_SIZE)

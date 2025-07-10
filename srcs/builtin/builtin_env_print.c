@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 22:20:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:43:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_env	*create_env_node_from_existing(t_env *original)
 	return (new_node);
 }
 
-/* 環境変数リストのコピーを解放するヘルパー関数 */
+/* Helper function to free a copy of the environment variable list */
 static void	free_env_list_copy(t_env *head)
 {
 	t_env	*current_node;
@@ -59,7 +59,7 @@ static void	free_env_list_copy(t_env *head)
 	}
 }
 
-/* 環境変数リストを複製する */
+/* Duplicate the environment variable list */
 static t_env	*duplicate_env_list(t_env *original_head)
 {
 	t_env	*new_head;
@@ -87,7 +87,7 @@ static t_env	*duplicate_env_list(t_env *original_head)
 	return (new_head);
 }
 
-/* 環境変数を形式に応じて表示 */
+/* Print environment variables according to the specified format */
 static void	print_env_format(t_env *env, int format)
 {
 	if (format == 0)
@@ -106,7 +106,7 @@ static void	print_env_format(t_env *env, int format)
 	}
 }
 
-/* 統合された環境変数ソート・表示関数 */
+/* Integrated function for sorting and displaying environment variables */
 void	print_sorted_env(int format)
 {
 	t_env	*env_list_copy;

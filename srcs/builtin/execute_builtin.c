@@ -13,7 +13,7 @@
 #include "builtin_commands.h"
 #include "minishell.h"
 
-/* 単一の組み込みコマンドを実行する関数 */
+/* Function to execute a single built-in command */
 int	execute_builtin_with_redirect(t_command *cmd)
 {
 	int	status;
@@ -24,7 +24,7 @@ int	execute_builtin_with_redirect(t_command *cmd)
 	return (status);
 }
 
-/* 組み込みコマンドを実行する関数。コマンド名に基づいて適切な関数を呼び出す */
+/* Function to execute a built-in command. Calls the appropriate function based on the command name */
 /* Routing function */
 int	execute_builtin(char **args)
 {

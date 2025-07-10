@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:54:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	load_history_file();
 	status = main_loop();
-	save_history_file();
 	rl_clear_history();
 	free_env_list();
 	return (status);

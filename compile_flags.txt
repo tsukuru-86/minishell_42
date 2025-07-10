@@ -3,5 +3,5 @@
 -Werror
 -I.
 -I/usr/include
--Ilibft
 -Isrcs
+-Ilibft

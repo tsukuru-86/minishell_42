@@ -94,6 +94,7 @@ SRCS_FILE = main.c \
 	redirect/redirect_utils2.c \
 	redirect/redirect_utils.c \
 	redirect/redirect_validate.c \
+	redirect/redirect_validate_utils.c \
 	tokenizer/tokenizer.c \
 	tokenizer/tokenizer_core_logic.c \
 	tokenizer/tokenizer_input_processing.c \
@@ -117,7 +118,6 @@ SRCS_FILE = main.c \
 	utils/empty_input_handler.c \
 	utils/excute_command.c \
 	utils/history_utils.c \
-	utils/history_utils_linux.c \
 	utils/input_limits2.c \
 	utils/input_limits.c \
 	utils/line_utils.c \

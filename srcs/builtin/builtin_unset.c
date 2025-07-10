@@ -14,7 +14,7 @@
 #include "error/error_messages.h"
 #include "minishell.h"
 
-/* 単一の環境変数ノードを解放する */
+/* Free a single environment variable node */
 static void	free_single_env_node(t_env *node)
 {
 	if (!node)
@@ -52,8 +52,8 @@ int	remove_env_var(const char *name)
 	return (0);
 }
 
-/* 環境変数を削除するビルトインコマンド。
-   引数チェックを行い、有効な変数名のみ削除を実行する */
+/* Built-in command to remove environment variables.
+   Checks arguments and removes only valid variable names */
 int	builtin_unset(char **args)
 {
 	int	i;

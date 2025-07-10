@@ -6,11 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:03:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 16:57:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:54:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 
 char	*get_history_path(void)
 {
@@ -38,11 +39,11 @@ static void	process_history_buffer(char *buf)
 
 	line = buf;
 	saveptr = NULL;
-	token = strtok_r(line, "\n", &saveptr);
+	token = ft_strtok_r(line, "\n", &saveptr);
 	while (token)
 	{
 		add_history(token);
-		token = strtok_r(NULL, "\n", &saveptr);
+		token = ft_strtok_r(NULL, "\n", &saveptr);
 	}
 }
 
@@ -68,43 +69,6 @@ void	load_history_file(void)
 		buf[rlen] = '\0';
 		process_history_buffer(buf);
 	}
-	close(fd);
-	free(path);
-}
-
-/* OSによって異なる実装を提供 */
-HIST_ENTRY	**get_history_entries(void);
-
-static void	write_history_entries(int fd)
-{
-	HIST_ENTRY	**hist_list;
-	int			i;
-
-	hist_list = get_history_entries();
-	i = 0;
-	while (hist_list && hist_list[i])
-	{
-		write(fd, hist_list[i]->line, ft_strlen(hist_list[i]->line));
-		write(fd, "\n", 1);
-		i++;
-	}
-}
-
-void	save_history_file(void)
-{
-	char	*path;
-	int		fd;
-
-	path = get_history_path();
-	if (!path)
-		return ;
-	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		free(path);
-		return ;
-	}
-	write_history_entries(fd);
 	close(fd);
 	free(path);
 }

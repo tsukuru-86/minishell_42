@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/11 04:20:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 05:35:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_redirect
 	char						*file;
 	int							original_fd;
 	struct s_redirect			*next;
+	char						error_msg[256];
 }								t_redirect;
 
 /* パイプライン用の構造体 */

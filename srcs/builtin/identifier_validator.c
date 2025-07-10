@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-/* 環境変数名が有効な識別子かどうかをチェックする関数。
-   先頭が英字かアンダースコアで始まり、その後は英数字とアンダースコアのみを含む必要がある */
+/* Checks if the environment variable name is a valid identifier.
+   It must start with a letter or underscore, followed by only alphanumeric characters or underscores. */
 int	is_valid_identifier(const char *str)
 {
 	int	i;
