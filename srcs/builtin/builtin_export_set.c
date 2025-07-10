@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 04:39:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ int	set_env_node_direct(const char *name, const char *value)
 
 	if (!name)
 		return (1);
-	if (value == NULL)
-		return (0);
 	node = get_env_node(name);
 	if (!node)
 		return (append_env_node(name, value));

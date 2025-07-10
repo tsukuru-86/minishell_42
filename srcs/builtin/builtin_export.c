@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/11 04:31:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:37:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,10 @@
 /* export組み込みコマンド */
 static int	check_invalid_identifier(char *arg)
 {
-	int		i;
-
 	if (arg[0] == '=' || (arg[0] == '+' && arg[1] == '='))
 	{
 		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, arg);
 		return (1);
-	}
-	i = 0;
-	if (arg[0] == '\0' || !(ft_isalpha(arg[0]) || arg[0] == '_'))
-	{
-		ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, arg);
-		return (1);
-	}
-	while (arg[i] && arg[i] != '=' && arg[i] != '+')
-	{
-		if (!(ft_isalnum(arg[i]) || arg[i] == '_'))
-		{
-			ft_printf_fd(STDERR_FILENO, ERR_EXPORT_INVALID_ID, arg);
-			return (1);
-		}
-		i++;
 	}
 	return (0);
 }
