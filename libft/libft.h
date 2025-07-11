@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 19:26:51 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/11 05:59:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/12 03:04:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-
-char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 
 // step1
 int		ft_isalpha(int c);
