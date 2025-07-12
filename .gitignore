@@ -26,17 +26,12 @@ test.txt
 a.out
 test/logs
 tests/
-!test_from_cunh
-42_minishell_tester/
 .cache/
 trash/
 
-minishell_tester-nda-cunh
-obj/.builddir_ready
+obj/
 file_out
-srcs/parser/heredoc_noninteractive.c
-docs/phase40_analysis.md
-interactive_tester/*.log
-interactive_tester/*.txt
-test_files/
-test_*
+output.txt
+interactive_tester/test_analysis_report.txt
+fuzzing_tester/fuzzing_results
+

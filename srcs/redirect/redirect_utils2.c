@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 01:31:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:08:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/22 01:32:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "redirect.h"
 
 char	*get_parent_dir(const char *file, char *dir)

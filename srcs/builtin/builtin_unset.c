@@ -6,15 +6,15 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:28:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/26 02:41:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_commands.h"
 #include "error/error_messages.h"
 #include "minishell.h"
 
-/* 単一の環境変数ノードを解放する */
+/* Free a single environment variable node */
 static void	free_single_env_node(t_env *node)
 {
 	if (!node)
@@ -52,8 +52,8 @@ int	remove_env_var(const char *name)
 	return (0);
 }
 
-/* 環境変数を削除するビルトインコマンド。
-   引数チェックを行い、有効な変数名のみ削除を実行する */
+/* Built-in command to remove environment variables.
+   Checks arguments and removes only valid variable names */
 int	builtin_unset(char **args)
 {
 	int	i;
@@ -65,17 +65,7 @@ int	builtin_unset(char **args)
 	status = 0;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
-		{
-			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-			ft_putstr_fd(args[i], STDERR_FILENO);
-			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-			status = 1;
-		}
-		else
-		{
-			remove_env_var(args[i]);
-		}
+		remove_env_var(args[i]);
 		i++;
 	}
 	return (status);

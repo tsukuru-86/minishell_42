@@ -9,7 +9,8 @@
 /*   Updated: 2025/05/19 01:50:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "builtin.h"
+
+#include "builtin_commands.h"
 #include "minishell.h"
 
 int	get_builtin_func_idx(char *cmd)

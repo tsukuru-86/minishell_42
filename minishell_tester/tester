@@ -9,11 +9,11 @@ if [[ $1 ]]; then
 	)
 else
 	test_lists=(
-		"builtins"
-		"pipes"
-		"redirects"
-		"extras"
-	)
+	"builtins"
+	"pipes"
+	"redirects"
+	"extras"
+)
 fi
 
 if [[ $1 == "wildcards"  || $1 == "bonus" ]]; then
@@ -63,15 +63,22 @@ for testfile in ${test_lists[*]}; do
 		rm -rf ./mini_outfiles/*
 		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT )
 		MINI_OUTFILES=$(cp ./outfiles/* ./mini_outfiles &>/dev/null)
-		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT )
-		echo -e "$teste" | $MINISHELL_PATH >/dev/null 2>&1
-		MINI_EXIT_CODE=$?
+		if [[ "$teste" =~ ^exit ]]; then
+			{ printf "%s\n" "$teste" | $MINISHELL_PATH > /dev/null 2>&1; }
+			MINI_EXIT_CODE=$?
+			echo "$MINI_EXIT_CODE" > .mini_exit_code_tmp
+			echo "DEBUG: MINI_EXIT_CODE=$MINI_EXIT_CODE"
+			# echo "DEBUG: PIPESTATUS=${PIPESTATUS[@]}"
+		else
+			MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT | tail -n 1)
+		fi
 		MINI_ERROR_MSG=$(trap "" PIPE && echo "$teste" | $MINISHELL_PATH 2>&1 > /dev/null | grep -o '[^:]*$' )
 
 		rm -rf ./outfiles/*
 		rm -rf ./bash_outfiles/*
 		BASH_OUTPUT=$(echo -e "$teste" | bash 2> /dev/null)
 		BASH_EXIT_CODE=$(echo $?)
+		echo "DEBUG: BASH_EXIT_CODE=$BASH_EXIT_CODE"
 		BASH_OUTFILES=$(cp ./outfiles/* ./bash_outfiles &>/dev/null)
 		BASH_ERROR_MSG=$(trap "" PIPE && echo "$teste" | bash 2>&1 > /dev/null | grep -o '[^:]*$' | head -n1)
 
@@ -101,7 +108,8 @@ for testfile in ${test_lists[*]}; do
 			echo bash output = \($BASH_OUTPUT\)
 		fi
 		if [ "$MINI_EXIT_CODE" != "$BASH_EXIT_CODE" ]; then
-			echo mini exit code = $MINI_EXIT_CODE
+			MINI_EXIT_CODE_TMP=$(cat .mini_exit_code_tmp 2>/dev/null)
+			echo mini exit code = $MINI_EXIT_CODE_TMP
 			echo bash exit code = $BASH_EXIT_CODE
 		fi
 		if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then

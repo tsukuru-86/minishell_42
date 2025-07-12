@@ -5,22 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 07:43:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:27:45 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/05 02:16:24 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/13 05:59:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*                                                        :::      ::::::::   */
-/*   parser_preprocess.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 02:16:24 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/11 07:45:00 by muiida           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 #include "minishell.h"
-#include "parser.h"
+#include "parser.h"	
 
 static int	expand_token_content(t_token *current)
 {
@@ -48,20 +39,43 @@ static int	expand_token_content(t_token *current)
 	return (1);
 }
 
-int	expand_all_variables(t_token *tokens)
+static int	expand_token_if_needed(t_token *current, t_token *prev)
 {
-	t_token	*current;
-
-	if (!tokens)
-		return (1);
-	current = tokens;
-	while (current)
+	if ((current->type == TOKEN_WORD)
+		|| (current->type == TOKEN_D_QUOTED_WORD))
 	{
-		if (current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD)
+		if (!(prev && prev->type == TOKEN_HEREDOC))
 		{
 			if (!expand_token_content(current))
 				return (0);
 		}
+	}
+	else if (current->type == TOKEN_S_QUOTED_WORD)
+	{
+		return (1);
+	}
+	else
+	{
+		if (!expand_token_content(current))
+			return (0);
+	}
+	return (1);
+}
+
+int	expand_all_variables(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	if (!tokens)
+		return (1);
+	current = tokens;
+	prev = NULL;
+	while (current)
+	{
+		if (!expand_token_if_needed(current, prev))
+			return (0);
+		prev = current;
 		current = current->next;
 	}
 	return (1);

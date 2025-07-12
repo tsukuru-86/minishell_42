@@ -417,8 +417,10 @@ async void all_test(string []args) {
 	add_test.begin({"<< AH cat -e \nsimple\ntest\nend\nAH"});
 	add_test.begin({"<< AH cat -e \nsimple\n\n\n\n\n\n\nend\nAH"});
 	add_test.begin({"<< AH cat -e | grep -o 'simple' \nsimple\nend\nAH"});
-	add_test.begin({"<< EOF cat -e \n$USER\nEOF"});
-	add_test.begin({"<< EOF cat -e \nnda-cunh\nEOF"});
+	add_test.begin({"<< \"EOF\" cat -e \n$USER\nEOF"});
+	add_test.begin({"<< \'EOF\' cat -e \n$USER\nEOF"});
+	add_test.begin({"<< \"EOF\" cat -e \nnda-cunh\nEOF"});
+	add_test.begin({"<< \'EOF\' cat -e \nnda-cunh\nEOF"});
 	add_test.begin({"cat << here -e\nhello\nhere"});
 
 	// With '\n'
@@ -426,6 +428,10 @@ async void all_test(string []args) {
 	add_test.begin({"<< AH cat -e \nsimple\ntest\nend\nAH\n"});
 	add_test.begin({"<< AH cat -e \nsimple\n\n\n\n\n\n\nend\nAH\n"});
 	add_test.begin({"<< AH cat -e | grep -o 'simple' \nsimple\nend\nAH\n"});
+	add_test.begin({"<< \"EOF\" cat -e \n$USER\nEOF\n"});
+	add_test.begin({"<< \'EOF\' cat -e \n$USER\nEOF\n"});
+	add_test.begin({"<< \"EOF\" cat -e \nnda-cunh\nEOF\n"});
+	add_test.begin({"<< \'EOF\' cat -e \nnda-cunh\nEOF\n"});
 	add_test.begin({"cat << here -e\nhello\nhere\n"});
 
 

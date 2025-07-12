@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:57:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 22:11:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "tokenizer.h"
 
 int	is_delimiter(char c)

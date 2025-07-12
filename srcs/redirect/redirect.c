@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:08:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:10:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 23:12:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../env/env.h"
 #include "minishell.h"
 #include "redirect.h"
 

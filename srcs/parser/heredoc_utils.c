@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:26:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:32:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 
 char	*get_temp_filename(void)
@@ -57,42 +58,14 @@ static char	*create_heredoc_file(void)
 	return (filename);
 }
 
-static void	parse_heredoc_delimiter(t_token *token, char **dst, bool *is_quoted)
-{
-	char	*content;
-	int		len;
-
-	content = token->content;
-	len = ft_strlen(content);
-	*is_quoted = false;
-	if (token->type == TOKEN_HEREDOC_DELIMITER)
-	{
-		if (len >= 2 && content[0] == '\'' && content[len - 1] == '\'')
-		{
-			*dst = ft_strdup(content);
-			*is_quoted = true;
-		}
-		else if (len >= 2 && content[0] == '"' && content[len - 1] == '"')
-		{
-			*dst = ft_strdup(content);
-			*is_quoted = true;
-		}
-		else
-			*dst = ft_strdup(content);
-	}
-	else
-		*dst = ft_strdup(content);
-}
-
-t_heredoc	*init_heredoc(t_token *delimiter_token)
+t_heredoc	*init_heredoc(char *delimiter)
 {
 	t_heredoc	*heredoc;
 
 	heredoc = (t_heredoc *)malloc(sizeof(t_heredoc));
 	if (!heredoc)
 		return (NULL);
-	parse_heredoc_delimiter(delimiter_token, &heredoc->delimiter,
-		&heredoc->delimiter_is_quoted);
+	heredoc->delimiter = ft_strdup(delimiter);
 	heredoc->temp_file = create_heredoc_file();
 	heredoc->content = NULL;
 	heredoc->is_closed = true;

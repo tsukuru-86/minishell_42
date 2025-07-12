@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/10 15:05:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/24 00:04:57 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "tokenizer.h"
 
 /* 環境変数を展開してトークンを作成 */
@@ -41,68 +42,67 @@ t_token	*create_expanded_token(char *buf, t_token_type token_type)
 }
 
 /* クォートされた文字列を抽出する */
-int	extract_quoted_content(const char *input, int *i, char *buf, int *buf_len)
+static int	extract_quoted_content(const char *input, int *i, char *buf,
+		int *buf_len)
 {
-	int		j;
-	char	quote;
+	char	quote_c;
+	int		ret;
 
-	j = 0;
-	quote = input[*i];
+	quote_c = input[*i];
 	(*i)++;
-	while (input[*i] && input[*i] != quote)
+	*buf_len = 0;
+	while (input[*i] && input[*i] != quote_c)
 	{
-		buf[j++] = input[*i];
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
 		(*i)++;
 	}
-	if (input[*i] == quote)
+	if (input[*i] == quote_c)
 		(*i)++;
-	*buf_len = j;
-	return (quote == '\'');
+	if (quote_c == '\'')
+		ret = TOKEN_S_QUOTED_WORD;
+	else
+		ret = TOKEN_D_QUOTED_WORD;
+	buf[*buf_len] = '\0';
+	return (ret);
 }
 
 /* 通常の単語を抽出する */
-void	extract_word_content(const char *input, int *i, char *buf, int *buf_len)
+static void	extract_word_content(const char *input, int *i, char *buf,
+		int *buf_len)
 {
-	int	j;
-
-	j = 0;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\t'
-		&& input[*i] != '\'' && input[*i] != '\"'
-		&& input[*i] != '|' && input[*i] != '<' && input[*i] != '>')
+	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))
+		(*i)++;
+	while (input[*i] && !is_delimiter(input[*i]) && !is_quote(input[*i])
+		&& !is_meta(input[*i]) && input[*i] != '\n')
 	{
-		buf[j++] = input[*i];
+		if (*buf_len < 1023)
+			buf[(*buf_len)++] = input[*i];
 		(*i)++;
 	}
-	*buf_len = j;
 }
 
 /* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
-int				handle_heredoc_word_token(t_tokenizer_stat *stat,
-					const char *input);
-
-int				handle_quoted_word_token(t_tokenizer_stat *stat,
-					const char *input, int *i);
-int				handle_plain_word_token(t_tokenizer_stat *stat,
-					const char *input, int *i);
-
 int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 {
-	int	i;
-	int	ret;
+	char			buf[1024];
+	int				buf_len;
+	t_token			*new_token;
+	t_token_type	token_type;
+	int				i;
 
 	i = stat->i_input;
-	if (should_mark_as_heredoc_delimiter(stat->tokens))
-		return (handle_heredoc_word_token(stat, input));
+	buf_len = 0;
 	if (is_quote(input[i]))
-	{
-		ret = handle_quoted_word_token(stat, input, &i);
-		stat->i_input = i;
-		return (ret);
-	}
+		token_type = extract_quoted_content(input, &i, buf, &buf_len);
 	else
 	{
-		ret = handle_plain_word_token(stat, input, &i);
-		stat->i_input = i;
-		return (ret);
+		extract_word_content(input, &i, buf, &buf_len);
+		token_type = TOKEN_WORD;
 	}
+	buf[buf_len] = '\0';
+	stat->i_input = i;
+	new_token = create_expanded_token(buf, token_type);
+	add_token_to_list(&stat->tokens, new_token);
+	return (1);
 }

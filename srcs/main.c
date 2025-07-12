@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:52:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:54:24 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/utils.h"
+#include "utils/debug_utils.h"
+#include "utils/input_utils.h"
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -53,39 +54,30 @@ static int	initialize_shell(char **envp)
 	return (1);
 }
 
-static int	handle_empty_input_case(char *input)
-{
-	int	empty_status;
-
-	empty_status = handle_empty_input(input);
-	if (empty_status != -1)
-	{
-		if (input && *input)
-			add_history(input);
-	}
-	return (empty_status);
-}
-
 void	handle_input(char *input, int *status)
 {
 	int	empty_status;
 
+	debug_print_with_str("[DEBUG] Enter handle_input: \n", input);
 	if (!input)
-	{
 		return ;
-	}
 	if (!check_input_line_limit(input))
 	{
 		*status = 1;
 		return ;
 	}
-	empty_status = handle_empty_input_case(input);
+	empty_status = handle_empty_input(input);
 	if (empty_status != -1)
 	{
 		*status = empty_status;
+		if (input && *input)
+			add_history(input);
 		return ;
 	}
+	debug_print("[DEBUG] Before process_valid_input\n");
 	process_valid_input(input, status);
+	debug_print("[DEBUG] After process_valid_input\n");
+	debug_print("[DEBUG] Exit handle_input\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -98,7 +90,6 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	load_history_file();
 	status = main_loop();
-	save_history_file();
 	rl_clear_history();
 	free_env_list();
 	return (status);

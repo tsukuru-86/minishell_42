@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 19:26:51 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/21 23:48:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/12 03:04:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ size_t	ft_printf(const char *format, ...);
 
 char	*get_next_line(int fd);
 void	clear_gnl_buffer(int fd);
+char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 
 #endif

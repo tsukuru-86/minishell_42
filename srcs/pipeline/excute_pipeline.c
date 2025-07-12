@@ -6,28 +6,21 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/10 13:30:30 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:36:35 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "pipeline.h"
 
 /* パイプラインのセットアップ */
-static int	validate_pipeline(t_command *cmd)
+int	setup_pipeline(t_command *cmd)
 {
 	if (!cmd)
-	{
 		return (0);
-	}
 	if (!cmd->next)
-	{
 		return (1);
-	}
-	return (2);
-}
-
-static int	setup_pipes_and_processes(t_command *cmd)
-{
+	init_pipeline(cmd);
 	if (!create_pipes(cmd))
 	{
 		ft_putstr_fd((char *)"minishell: failed to create pipes\n", 2);
@@ -39,19 +32,6 @@ static int	setup_pipes_and_processes(t_command *cmd)
 		cleanup_pipeline(cmd);
 		return (0);
 	}
-	return (1);
-}
-
-int	setup_pipeline(t_command *cmd)
-{
-	int	validation_result;
-
-	validation_result = validate_pipeline(cmd);
-	if (validation_result != 2)
-		return (validation_result);
-	init_pipeline(cmd);
-	if (!setup_pipes_and_processes(cmd))
-		return (0);
 	close_parent_pipes(cmd);
 	return (1);
 }
@@ -63,9 +43,7 @@ int	execute_command_pipeline(t_command *cmd)
 	int	status;
 
 	if (!cmd)
-	{
 		return (1);
-	}
 	pipeline_result = setup_pipeline(cmd);
 	if (pipeline_result == 0)
 	{
@@ -75,9 +53,7 @@ int	execute_command_pipeline(t_command *cmd)
 	}
 	status = wait_pipeline(cmd);
 	if (cmd && cmd->redirects)
-	{
 		cleanup_heredocs(cmd->redirects);
-	}
 	cleanup_pipeline_list_all(cmd);
 	return (status);
 }

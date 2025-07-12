@@ -62,7 +62,6 @@ proc run_test {test_name command expected_pattern} {
     print_info "テスト実行: $command"
     
     # コマンド送信
-    send "\r"
     send "$command\r"
     
     # 出力をキャプチャ
@@ -90,7 +89,7 @@ puts "\033\[1;36m=== minishell インタラクティブテスト開始 ===\033\[
 puts "タイムアウト設定: $timeout 秒"
 
 # minishellの存在確認
-if {![file exists "../minishell"]} {
+if {![file exists "./minishell"]} {
     print_error "minishell実行ファイルが見つかりません"
     print_info "make コマンドでビルドしてください"
     exit 1
@@ -98,7 +97,7 @@ if {![file exists "../minishell"]} {
 
 # minishell起動
 print_info "minishell を起動中..."
-spawn ../minishell
+spawn ./minishell
 
 # 初期プロンプト待機
 if {![wait_for_prompt]} {
@@ -106,10 +105,10 @@ if {![wait_for_prompt]} {
     exit 1
 }
 
-# print_success "minishell が正常に起動しました"
+print_success "minishell が正常に起動しました"
 
 # テストケース実行
-# print_test_header "基本コマンドテスト"
+print_test_header "基本コマンドテスト"
 
 # echo テスト
 run_test "echo hello" "echo hello" "hello.*minishell>"

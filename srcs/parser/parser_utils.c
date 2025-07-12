@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:50:45 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:24:55 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:47:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
 

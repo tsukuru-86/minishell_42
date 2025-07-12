@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:16:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/07 01:45:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin_commands.h"
 #include "minishell.h"
 
 int	builtin_pwd(char **args)

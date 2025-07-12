@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 04:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 05:36:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "redirect.h"
 
 static int	create_redirect_out_file(t_redirect *current)
@@ -24,7 +25,7 @@ static int	create_redirect_out_file(t_redirect *current)
 	}
 	else
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+		ft_printf_fd(STDERR_FILENO, "bash: %s: %s\n", current->file,
 			strerror(errno));
 	}
 	return (0);
@@ -42,7 +43,7 @@ static int	create_redirect_append_file(t_redirect *current)
 	}
 	else
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", current->file,
+		ft_printf_fd(STDERR_FILENO, "bash: %s: %s\n", current->file,
 			strerror(errno));
 	}
 	return (0);

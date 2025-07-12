@@ -6,9 +6,10 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:15:23 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 20:22:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/11 06:42:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-/* このファイルはMacOSの場合はhistory_utils_macos.cに実装を移動しました */
+/* For MacOS, the implementation has been moved to history_utils_macos.c */

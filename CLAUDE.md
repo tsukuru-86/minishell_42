@@ -19,7 +19,7 @@ export VAR2
 2. **エラー処理**: 不適切な変数名の場合、その引数のみスキップ（他の引数は処理継続）
 3. **空白解析**: `export VAR =value` は `VAR` と `=value` の2つの引数として解釈(export基本動作)
 
-#### 実際のbash動作例
+#### 実際の動作例
 ```bash
 $ export ABCD                    # 値なしで登録
 $ export |grep ABCD
@@ -38,6 +38,54 @@ declare -x GHI=""                # 空文字として表示
 $ env |grep GHI
 GHI=                             # 環境変数として空文字
 ```
+---
+
+### 🚨 exitコマンド仕様差分と修正プラン（bash互換化）
+
+#### bashのexitコマンド仕様
+- `exit`のみ: 直前の終了ステータス（$?）で終了
+- `exit [n]`: nが0-255の整数ならnで終了。範囲外はn % 256でwrap
+- 数値以外:  
+  ```
+  exit hello
+  exit: hello: numeric argument required
+  ```
+  終了コード2で終了
+- 複数引数:  
+  ```
+  exit 42 world
+  exit: too many arguments
+  ```
+  標準エラー出力し、終了せずステータス1を返す
+- 正数表記（+100等）も許容
+- 負数や範囲外も%256でwrap
+
+#### minishell現状との差分
+- 範囲外数値や正数表記のwrap処理がbashと完全一致していない可能性あり
+- 数値以外はエラー出力し2でexit（OK）
+- 複数引数はエラー出力し1返却（OK）
+
+【exitコマンド bash互換性テスト結果・現状の課題】
+
+- exitコマンドのbash互換性テストを実施した結果、正常系（正しい数値引数や引数なしでの終了）は全てbashと一致し問題なし。
+- 一方、異常系（数値以外の引数、複数引数、範囲外数値、正数表記、負数など）では、終了コードやエラー出力内容がbashと一致しないケースが多数残っている。
+- 主な差分例（2025/7/12時点のテスト結果より抜粋）:
+    - `exit 256` → bash: status=0, minishell: status=127
+    - `exit -1` → bash: status=255, minishell: status=127
+    - `exit +100` → bash: status=100, minishell: status=127
+    - `exit abc` → bash: status=2, output="numeric argument required", minishell: status=127, output=異なる
+    - `exit 1 2` → bash: status=1, output="too many arguments", minishell: status=127, output=異なる
+    - `exit --1`, `exit +`, `exit ''` など特殊な入力時のエラー出力・終了コードも不一致
+- 今後の改善方針:
+    - 異常系の判定条件、エラー出力内容、終了コード処理をbash仕様に厳密に合わせる必要あり
+    - テストケースごとに差分を洗い出し、仕様差分を一つずつ解消していく
+
+#### 修正方針
+- 数値変換時、範囲外も%256でwrapする
+- 正数表記（+100等）も許容する
+- 数値以外は"numeric argument required"で2でexit
+- 複数引数は"too many arguments"でエラー出力しexitしない（ステータス1返却）
+
 
 #### minishell実装のポイント
 - `export ABC`: 値なしの場合、環境変数として設定**しない**（bashと同様）
@@ -316,7 +364,7 @@ debug_print_with_int("[DEBUG] Value: ", value);
 2. **heredoc完全制覇**: 残り4項目の空行・delimiter・変数展開処理解決
 3. **品質維持**: test2スコア100%の完璧維持（基本機能の安定性確保）
 4. **Export完成**: 全てのexport関連問題は完全解決済み ✅
-5. **debug出力厳守**: デバッグ出力はprintf直接使用を絶対禁止、debug_print系関数必須使用
+5. **debug出力厳守**: printf直接使用を絶対禁止、debug_print系関数必須使用
 
 ### 💡 重要な実装詳細
 **メモリ管理**: Phase 25でdouble free問題完全解決済み

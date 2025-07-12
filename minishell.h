@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:41:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:31:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "utils/utils.h"
+# include "utils/system_limits.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -26,21 +28,22 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-// readline関連のヘッダーは常にインクルード
-# include <readline/history.h>
-# include <readline/readline.h>
+/** # include <sys/syslimits.h> // __APPLE__*/
 
 # ifdef MACOS
 /* macOS固有の関数宣言 - macOSで明示的に宣言が必要なreadline関数 */
-// readline/readline.hで宣言されていない関数のみをここに記述
 void							rl_replace_line(const char *text,
 									int clear_undo);
 void							rl_clear_history(void);
-// 他のreadline関連関数も必要であれば追加
+void							rl_delete_text(int start, int end);
+int								rl_insert_text(const char *text);
+int								rl_delete(int count, int key);
+int								rl_insert(int c, int count);
+HIST_ENTRY						*history_get(int index);
+# else
+/* Linux固有の関数宣言 */
+HIST_ENTRY						**history_list(void);
 # endif
-// Linux固有の関数宣言は不要、またはreadline.hで提供される
-// HIST_ENTRY **history_list(void); はLinuxのreadline.hで提供されるため削除
 
 # define MAX_TOKENS 1024
 # define PIPE_BUFFER_SIZE 8192
@@ -73,7 +76,6 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_HEREDOC_DELIMITER,
 	TOKEN_ENV_VAR,
 	TOKEN_EMPTY_VAR,
 	TOKEN_NEWLINE,
@@ -89,6 +91,7 @@ typedef struct s_redirect
 	char						*file;
 	int							original_fd;
 	struct s_redirect			*next;
+	char						error_msg[256];
 }								t_redirect;
 
 /* パイプライン用の構造体 */
@@ -166,25 +169,25 @@ typedef struct s_heredoc
 	char						*content;
 	char						*temp_file;
 	bool						is_closed;
-	bool						delimiter_is_quoted;
 }								t_heredoc;
 
 /* Heredoc */
-int								handle_heredoc(t_command *cmd,
-									t_token *delimiter_token);
+int								handle_heredoc(t_command *cmd, char *delimiter);
 int								write_heredoc_content(int fd, char *content);
 void							cleanup_heredoc(t_heredoc *heredoc);
-t_heredoc						*init_heredoc(t_token *delimiter_token);
+t_heredoc						*init_heredoc(char *delimiter);
 
 /* Command execution */
-int								execute_commands(t_command *cmd);
+int								excute_commands(t_command *cmd);
 
 /* Tokenizer */
 t_token							*tokenize(char *input, t_command *cmd);
 void							free_tokens(t_token *tokens);
 void							print_tokens(t_token *tokens);
 
-/* Debug functions removed */
+/* Debug functions */
+void							print_command_debug(t_command *cmd);
+void							print_commands_debug(t_command *commands);
 
 /* Environment variable */
 t_env							**get_env_val(void);
@@ -225,7 +228,14 @@ void							set_exit_status(t_command *cmd, int status);
 /* Command handler */
 void							handle_input(char *input, int *status);
 
-/* Debug functions removed */
+/* Debug functions */
+void							debug_print(const char *message);
+void							debug_print_with_str(const char *prefix,
+									const char *str);
+void							debug_print_with_int(const char *prefix,
+									const int value);
+void							debug_print_tokens(t_token *tokens);
+void							debug_print_command_args(char **args);
 
 /* Empty command handler */
 int								handle_empty_command_with_redirects(void);
@@ -243,10 +253,6 @@ void							process_lines(char **lines, int *status);
 void							handle_heredoc_error(t_command **head_cmd);
 void							skip_to_delimiter(t_token **current_token,
 									const char *delimiter);
-
-/* Non-interactive heredoc functions */
-int								write_heredoc_from_stdin(t_command *cmd,
-									t_token *delimiter_token);
 
 /* pipeline_process_utils2 */
 void							handle_empty_args(t_command *current);

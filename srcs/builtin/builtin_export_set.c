@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:23:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_commands.h"
 #include "minishell.h"
 
 /* Create a new environment node */
@@ -96,11 +96,7 @@ int	set_env_node(const char *name, const char *value)
 	}
 	node = get_env_node(name);
 	if (!node)
-	{
-		if (value != NULL)
-			return (append_env_node(name, value));
-		return (0);
-	}
+		return (append_env_node(name, value));
 	if (value != NULL)
 		return (update_env_value(node, value));
 	return (0);

@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:05:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:26:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/11 07:05:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 
 static int	is_space_token(t_token *token)

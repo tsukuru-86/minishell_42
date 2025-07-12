@@ -9,67 +9,56 @@
 /*   Updated: 2025/06/23 21:47:00 by ai               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 #include "parser.h"
 
 static int	is_delimiter_line(char *line, char *delimiter)
 {
-	return (ft_strcmp(line, delimiter) == 0);
-}
+	size_t	del_len;
 
-static void	write_expanded_line(int fd, char *line)
-{
-	char	*expanded;
-
-	expanded = expand_env_vars(line, 1);
-	if (expanded)
+	del_len = ft_strlen(delimiter);
+	if (ft_strncmp(line, delimiter, del_len) == 0)
 	{
-		write(fd, expanded, ft_strlen(expanded));
-		free(expanded);
+		if (line[del_len] == '\n' || line[del_len] == '\0')
+			return (1);
 	}
-	else
-		write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
+	return (0);
 }
 
-static void	write_line_to_fd(int fd, char *line, t_heredoc *heredoc)
-{
-	if (heredoc->delimiter_is_quoted && heredoc->delimiter[0] == '\'')
-	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-	}
-	else
-		write_expanded_line(fd, line);
-}
-
-static int	process_heredoc_lines(int fd, t_heredoc *heredoc)
+static int	process_heredoc_lines(int fd, char *delimiter)
 {
 	char	*line;
+	char	*expanded;
 
 	line = get_next_line(STDIN_FILENO);
 	while (line != NULL)
 	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (is_delimiter_line(line, heredoc->delimiter))
+		if (is_delimiter_line(line, delimiter))
 		{
 			free(line);
 			break ;
 		}
-		write_line_to_fd(fd, line, heredoc);
+		expanded = expand_env_vars(line, 1);
+		if (expanded)
+		{
+			write(fd, expanded, ft_strlen(expanded));
+			free(expanded);
+		}
+		else
+			write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
 	return (1);
 }
 
-int	write_heredoc_from_stdin(t_command *cmd, t_token *delimiter_token)
+int	write_heredoc_from_stdin(t_command *cmd, char *delimiter)
 {
 	t_heredoc	*heredoc;
 	int			fd;
 
-	heredoc = init_heredoc(delimiter_token);
+	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
 		return (0);
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -78,7 +67,7 @@ int	write_heredoc_from_stdin(t_command *cmd, t_token *delimiter_token)
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	process_heredoc_lines(fd, heredoc);
+	process_heredoc_lines(fd, delimiter);
 	close(fd);
 	if (cmd->redirects)
 		free_redirect(cmd->redirects);

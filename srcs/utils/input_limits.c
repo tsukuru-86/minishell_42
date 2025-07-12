@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:07:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:27:02 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:01:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 入力行の長さ制限をチェック */
+/* Check the input line length limit */
 int	check_input_line_limit(const char *input)
 {
 	size_t	len;
@@ -28,7 +28,7 @@ int	check_input_line_limit(const char *input)
 	return (1);
 }
 
-/* ファイル名の長さ制限をチェック */
+/* Check the filename length limit */
 int	check_filename_limit(const char *filename)
 {
 	char	*basename;

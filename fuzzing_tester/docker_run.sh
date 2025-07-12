@@ -12,7 +12,7 @@ echo "=== Minishell Fuzzing Tester 実行 ==="
 # デフォルト設定
 TEST_COUNT=1000
 CONTAINER_NAME="minishell-fuzzer-run"
-RESULTS_DIR="${PROJECT_ROOT}/fuzzing_tester/fuzzing_results"
+RESULTS_DIR="${PROJECT_ROOT}/fuzzing_results"
 
 # コマンドライン引数の解析
 while [[ $# -gt 0 ]]; do
@@ -65,15 +65,12 @@ fi
 
 echo "Dockerコンテナを起動中..."
 echo "コンテナ名: ${CONTAINER_NAME}"
-echo "リアルタイム進行状況表示中..."
-echo ""
 
-# Dockerコンテナを実行（リアルタイム出力）
+# Dockerコンテナを実行
 docker run \
     --name "${CONTAINER_NAME}" \
     --rm \
     -v "${RESULTS_DIR}:/app/test_results" \
-    -v "${PROJECT_ROOT}/fuzzing_tester:/app/fuzzing_tester" \
     --security-opt seccomp=unconfined \
     --cap-drop=ALL \
     --cap-add=SYS_PTRACE \

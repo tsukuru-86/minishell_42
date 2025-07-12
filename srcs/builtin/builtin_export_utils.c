@@ -9,7 +9,9 @@
 /*   Updated: 2025/05/24 00:00:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "builtin.h"
+
+#include "builtin_commands.h"
+#include "builtin_export.h"
 #include "error/error_messages.h"
 #include "minishell.h"
 

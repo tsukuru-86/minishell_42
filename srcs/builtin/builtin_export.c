@@ -6,15 +6,16 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:16:26 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:37:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_commands.h"
+#include "builtin_export.h"
 #include "error/error_messages.h"
 #include "minishell.h"
 
-/* export組み込みコマンド */
+/* export built-in command */
 static int	check_invalid_identifier(char *arg)
 {
 	if (arg[0] == '=' || (arg[0] == '+' && arg[1] == '='))
@@ -32,15 +33,22 @@ static int	process_single_export_arg(char *arg)
 	int		append;
 	int		ret;
 
+	debug_print_with_str("[DEBUG] process_single_export_arg() arg: ", arg);
 	split_export_arg(arg, &name, &value, &append);
+	debug_print_with_str("[DEBUG] name=", name);
+	debug_print_with_str("[DEBUG] value=", value);
+	debug_print_with_int("[DEBUG] append=", append);
 	if (append)
 	{
+		debug_print("[DEBUG] append mode");
 		ret = append_env_value(name, value);
 	}
 	else
 	{
+		debug_print("[DEBUG] set mode");
 		ret = validate_and_set_env(name, value);
 	}
+	debug_print_with_int("[DEBUG] result: ", ret);
 	free(name);
 	free(value);
 	return (ret);

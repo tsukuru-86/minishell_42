@@ -6,17 +6,18 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:36:29 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/23 23:55:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "pipeline.h"
 
 /* シグナルによる終了状態を処理 */
 static int	handle_signaled_status(int status)
 {
 	if (WTERMSIG(status) == SIGPIPE)
-		ft_putstr_fd("minishell: Broken pipe\n", STDERR_FILENO);
+		ft_putstr_fd("Broken pipe\n", STDERR_FILENO);
 	return (128 + WTERMSIG(status));
 }
 
@@ -24,7 +25,6 @@ static int	handle_signaled_status(int status)
 static int	wait_single_process(t_command *current)
 {
 	int	status;
-	int	exit_code;
 
 	if (waitpid(current->pipe.pid, &status, 0) == -1)
 	{
@@ -32,15 +32,7 @@ static int	wait_single_process(t_command *current)
 		return (1);
 	}
 	if (WIFEXITED(status))
-	{
-		exit_code = WEXITSTATUS(status);
-		if (exit_code == 141)
-		{
-			ft_putstr_fd("minishell:  Broken pipe\n", STDERR_FILENO);
-			return (141);
-		}
-		return (exit_code);
-	}
+		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 		return (handle_signaled_status(status));
 	return (0);

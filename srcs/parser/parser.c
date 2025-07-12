@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:41:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 
 /*
@@ -46,7 +47,7 @@ static int	determine_redirect_type(t_command *cmd, t_token *token,
 		*type_out = REDIR_APPEND;
 	else if (token->type == TOKEN_HEREDOC)
 	{
-		if (!handle_heredoc(cmd, next_token))
+		if (!handle_heredoc(cmd, next_token->content))
 		{
 			return (0);
 		}

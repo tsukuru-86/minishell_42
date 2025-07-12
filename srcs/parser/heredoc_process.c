@@ -6,11 +6,23 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:08:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:27:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
+#include <stdio.h>
+
+// static int	process_quoted_line(char *line, int fd)
+// {
+// 	if (!write_heredoc_content(fd, line))
+// 	{
+// 		free(line);
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 
 static int	process_unquoted_line(char *line, int fd)
 {
@@ -32,36 +44,20 @@ static int	process_unquoted_line(char *line, int fd)
 	return (1);
 }
 
-static int	process_quoted_line(char *line, int fd)
-{
-	if (!write_heredoc_content(fd, line))
-	{
-		free(line);
-		return (0);
-	}
-	return (1);
-}
-
-static int	check_delimiter_match(char *line, t_heredoc *heredoc)
-{
-	return (ft_strcmp(line, heredoc->delimiter) == 0);
-}
-
 int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 {
 	int	is_delimiter;
 	int	result;
 
-	is_delimiter = check_delimiter_match(line, heredoc);
+	debug_print_with_str("heredoc compare: デリミタ=", heredoc->delimiter);
+	debug_print_with_str("heredoc compare: line=", line);
+	is_delimiter = (ft_strcmp(line, heredoc->delimiter) == 0);
 	if (is_delimiter)
 	{
 		free(line);
 		return (1);
 	}
-	if (heredoc->delimiter_is_quoted)
-		result = process_quoted_line(line, fd);
-	else
-		result = process_unquoted_line(line, fd);
+	result = process_unquoted_line(line, fd);
 	free(line);
 	if (!result)
 		return (0);

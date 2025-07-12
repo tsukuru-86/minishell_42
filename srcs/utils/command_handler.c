@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:43:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	process_commands(t_command *cmd)
 
 	if (cmd)
 	{
-		status = execute_commands(cmd);
+		status = excute_commands(cmd);
 		set_exit_status(cmd, status);
 		free_command(cmd);
 		return (status);
@@ -59,19 +59,18 @@ int	handle_tokens_and_parse(t_token *tokens)
 	t_command	*cmd;
 	int			status;
 
+	debug_print("[DEBUG] handle_tokens_and_parse called");
 	if (!tokens)
-	{
 		return (0);
-	}
 	if (is_empty_command_tokens(tokens))
 	{
+		debug_print("[DEBUG] Empty command detected");
 		return (0);
 	}
+	debug_print("[DEBUG] About to call parse_tokens");
 	cmd = parse_tokens(tokens);
 	if (!cmd)
-	{
 		return (2);
-	}
 	status = process_commands(cmd);
 	return (status);
 }

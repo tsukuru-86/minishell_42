@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/05/24 05:43:43 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "tokenizer.h"
 
 t_token	*create_token(char *content, t_token_type type)
@@ -40,4 +41,5 @@ t_token	*create_token(char *content, t_token_type type)
 }
 
 /* クォートされた文字列を処理し、トークンリストに追加 */
+
 /* トークン化のメインループの一部を処理 */

@@ -9,9 +9,10 @@
 /*   Updated: 2025/06/20 09:04:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 #include "pipeline/pipeline.h"
-#include "utils/utils.h"
+#include "utils/input_utils.h"
 
 void	handle_empty_args(t_command *current)
 {

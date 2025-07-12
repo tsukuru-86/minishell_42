@@ -24,6 +24,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_env_print.c \
 	builtin/builtin_exit.c \
 	builtin/builtin_exit_error.c \
+	builtin/builtin_exit_utils2.c \
 	builtin/builtin_exit_utils.c \
 	builtin/builtin_export_argutils.c \
 	builtin/builtin_export.c \
@@ -38,6 +39,7 @@ SRCS_FILE = main.c \
 	builtin/builtin_unset.c \
 	builtin/execute_builtin.c \
 	builtin/execute_builtin_utils.c \
+	builtin/identifier_validator.c \
 	env/env_expand.c \
 	env/env_expand_quote.c \
 	env/env_expand_utils2.c \
@@ -93,30 +95,30 @@ SRCS_FILE = main.c \
 	redirect/redirect_utils2.c \
 	redirect/redirect_utils.c \
 	redirect/redirect_validate.c \
+	redirect/redirect_validate_utils.c \
 	tokenizer/tokenizer.c \
 	tokenizer/tokenizer_core_logic.c \
 	tokenizer/tokenizer_input_processing.c \
-	tokenizer/tokenizer_meta_utils2.c \
 	tokenizer/tokenizer_meta_utils.c \
 	tokenizer/tokenizer_normal_word_logic.c \
 	tokenizer/tokenizer_pipe_redirect_fix.c \
 	tokenizer/tokenizer_quote_processing.c \
 	tokenizer/tokenizer_syntax_check_advanced.c \
 	tokenizer/tokenizer_syntax_check.c \
-	tokenizer/tokenizer_token_handlers2.c \
 	tokenizer/tokenizer_token_handlers.c \
 	tokenizer/tokenizer_utils2.c \
 	tokenizer/tokenizer_utils3.c \
 	tokenizer/tokenizer_utils4.c \
-	tokenizer/tokenizer_utils5.c \
 	tokenizer/tokenizer_utils.c \
-	tokenizer/tokenizer_word_helpers.c \
 	utils/command_handler.c \
+	utils/debug2.c \
+	utils/debug.c \
+	utils/debug_int.c \
+	utils/debug_utils.c \
 	utils/empty_command_handler.c \
 	utils/empty_input_handler.c \
-	utils/execute_command.c \
+	utils/excute_command.c \
 	utils/history_utils.c \
-	utils/history_utils_linux.c \
 	utils/input_limits2.c \
 	utils/input_limits.c \
 	utils/line_utils.c \
@@ -173,10 +175,10 @@ cre: clean all
 
 test1: cre
 	DEBUG=0
-	cd ./minishell_tester-nda-cunh&&./tester 2>&1
+	cd $(PWD)/minishell_tester-nda-cunh&&./tester 2>&1
 
 test2: cre
-	cd ./minishell_tester&&./tester 2>&1
+	cd $(PWD)/minishell_tester&&./tester 2>&1
 
 debug: 
 	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"

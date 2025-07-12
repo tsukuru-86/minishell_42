@@ -9,6 +9,7 @@
 /*   Updated: 2025/06/17 00:00:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "tokenizer.h"
 
 static int	count_tokens(t_token *tokens)

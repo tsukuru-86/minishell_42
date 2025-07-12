@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:08:41 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:33:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 
 static char	**resize_and_copy_args(char **old_args, int current_arg_count)

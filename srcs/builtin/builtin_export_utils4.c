@@ -6,11 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:20:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/09 02:28:34 by muiida           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:07:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_export.h"
 #include "minishell.h"
 
 static int	is_assignment_operator(char *arg)
@@ -49,24 +49,4 @@ char	*reconstruct_split_args(char **args, int start, int *next_idx)
 	}
 	*next_idx = i;
 	return (result);
-}
-
-/* 環境変数名が有効な識別子かどうかをチェックする関数。
-   先頭が英字かアンダースコアで始まり、その後は英数字とアンダースコアのみを含む必要がある */
-int	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (str == NULL || *str == '\0')
-		return (0);
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-	i = 1;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
 }
