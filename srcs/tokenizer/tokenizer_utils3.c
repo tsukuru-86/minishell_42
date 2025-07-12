@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:40:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/24 00:04:57 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:51:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*create_expanded_token(char *buf, t_token_type token_type)
 }
 
 /* クォートされた文字列を抽出する */
-static int	extract_quoted_content(const char *input, int *i, char *buf,
+int	extract_quoted_content(const char *input, int *i, char *buf,
 		int *buf_len)
 {
 	char	quote_c;
@@ -68,7 +68,7 @@ static int	extract_quoted_content(const char *input, int *i, char *buf,
 }
 
 /* 通常の単語を抽出する */
-static void	extract_word_content(const char *input, int *i, char *buf,
+void	extract_word_content(const char *input, int *i, char *buf,
 		int *buf_len)
 {
 	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))

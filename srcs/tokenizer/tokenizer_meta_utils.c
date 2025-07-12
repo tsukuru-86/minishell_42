@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 22:10:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:56:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,9 @@ static t_token_type	check_pipe_token(const char *input, int *i)
 	return (TOKEN_WORD);
 }
 
-static t_token_type	check_less_than_token(const char *input, int *i)
-{
-	if (input[*i] == '<')
-	{
-		(*i)++;
-		if (input[*i] == '<')
-		{
-			(*i)++;
-			return (TOKEN_HEREDOC);
-		}
-		return (TOKEN_REDIR_IN);
-	}
-	return (TOKEN_WORD);
-}
+t_token_type	check_less_than_token(const char *input, int *i);
 
-static t_token_type	check_greater_than_token(const char *input, int *i)
-{
-	if (input[*i] == '>')
-	{
-		(*i)++;
-		if (input[*i] == '>')
-		{
-			(*i)++;
-			return (TOKEN_REDIR_APPEND);
-		}
-		return (TOKEN_REDIR_OUT);
-	}
-	return (TOKEN_WORD);
-}
+t_token_type	check_greater_than_token(const char *input, int *i);
 
 /* メタ文字のトークンタイプを判定。Returns TOKEN_WORD if no meta char matched */
 t_token_type	get_meta_type(const char *input, int *i)
@@ -66,6 +40,19 @@ t_token_type	get_meta_type(const char *input, int *i)
 		return (type);
 	type = check_greater_than_token(input, i);
 	return (type);
+}
+
+t_token	*create_heredoc_delimiter_token(const char *input, int *i)
+{
+	char	word_buffer[1024];
+	int		word_i;
+
+	if (is_quote(input[*i]))
+		word_i = fill_heredoc_quoted(input, i, word_buffer);
+	else
+		word_i = fill_heredoc_unquoted(input, i, word_buffer);
+	word_buffer[word_i] = '\0';
+	return (safe_create_token(word_buffer, TOKEN_HEREDOC_DELIMITER));
 }
 
 /* メタ文字トークンを作成 */

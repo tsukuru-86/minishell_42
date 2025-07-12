@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 08:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 11:51:39 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:50:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ t_token	*create_meta_token(const char *input, int *i);
 int		extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 			char *word_buf);
 void	skip_whitespace(const char *input, int *i);
+int		extract_quoted_content(const char *input, int *i, char *buf,
+			int *buf_len);
+void	extract_word_content(const char *input, int *i, char *buf,
+			int *buf_len);
 void	add_token_to_list(t_token **token_list_head, t_token *new_token);
 t_token	*create_expanded_word_token(char *raw_word, int *status);
 t_token	*create_expanded_token(char *buf, t_token_type token_type);
@@ -52,4 +56,7 @@ int		is_pipe_redirect(t_token *prev, t_token *current);
 int		validate_redirect_target(t_token *current, t_token *prev);
 int		check_pipe_redirect_syntax(t_token *tokens);
 void	free_tokens(t_token *tokens);
+int		fill_heredoc_quoted(const char *input, int *i, char *word_buffer);
+int		fill_heredoc_unquoted(const char *input, int *i, char *word_buffer);
+t_token	*create_heredoc_delimiter_token(const char *input, int *i);
 #endif

@@ -5,25 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/10 14:45:35 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/10 14:55:58 by muiida           ###   ########.fr       */
+/*   Created: 2025/07/13 06:57:30 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/13 06:58:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "tokenizer.h"
 
-/* パイプ判定 */
-t_token_type	check_pipe_token(const char *input, int *i)
-{
-	if (input[*i] == '|')
-	{
-		(*i)++;
-		return (TOKEN_PIPE);
-	}
-	return (TOKEN_WORD);
-}
-
-/* <, << 判定 */
 t_token_type	check_less_than_token(const char *input, int *i)
 {
 	if (input[*i] == '<')
@@ -39,44 +28,6 @@ t_token_type	check_less_than_token(const char *input, int *i)
 	return (TOKEN_WORD);
 }
 
-/* heredocデリミタ用のトークンを作成（クォート対応） */
-int	fill_heredoc_quoted(const char *input, int *i, char *word_buffer)
-{
-	int		word_i;
-	char	quote_char;
-
-	word_i = 0;
-	quote_char = input[*i];
-	word_buffer[word_i++] = input[(*i)++];
-	while (input[*i] && input[*i] != quote_char)
-	{
-		if (word_i < 1024 - 1)
-			word_buffer[word_i++] = input[*i];
-		(*i)++;
-	}
-	if (input[*i] == quote_char)
-		word_buffer[word_i++] = input[(*i)++];
-	word_buffer[word_i] = '\0';
-	return (word_i);
-}
-
-int	fill_heredoc_unquoted(const char *input, int *i, char *word_buffer)
-{
-	int	word_i;
-
-	word_i = 0;
-	while (input[*i] && !is_delimiter(input[*i]) && !is_meta(input[*i])
-		&& input[*i] != '\n')
-	{
-		if (word_i < 1024 - 1)
-			word_buffer[word_i++] = input[*i];
-		(*i)++;
-	}
-	word_buffer[word_i] = '\0';
-	return (word_i);
-}
-
-/* >, >> 判定 */
 t_token_type	check_greater_than_token(const char *input, int *i)
 {
 	if (input[*i] == '>')
@@ -90,4 +41,40 @@ t_token_type	check_greater_than_token(const char *input, int *i)
 		return (TOKEN_REDIR_OUT);
 	}
 	return (TOKEN_WORD);
+}
+
+// heredocデリミタの引用符付きコピー
+int	fill_heredoc_quoted(const char *input, int *i, char *word_buffer)
+{
+	char	quote;
+	int		word_i;
+
+	word_i = 0;
+	quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+	{
+		word_buffer[word_i] = input[*i];
+		word_i++;
+		(*i)++;
+	}
+	if (input[*i] == quote)
+		(*i)++;
+	return (word_i);
+}
+
+// heredocデリミタの非引用符コピー
+int	fill_heredoc_unquoted(const char *input, int *i, char *word_buffer)
+{
+	int	word_i;
+
+	word_i = 0;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '\t'
+		&& input[*i] != '<' && input[*i] != '>' && !is_quote(input[*i]))
+	{
+		word_buffer[word_i] = input[*i];
+		word_i++;
+		(*i)++;
+	}
+	return (word_i);
 }
