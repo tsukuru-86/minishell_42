@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:09:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:48:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	process_exit_args(char **args, int arg_count)
 	int	ret;
 
 	debug_print_with_int("[DEBUG] process_exit_args arg_count=", arg_count);
+	if (args[1] && validate_and_convert(args[1], &(long long){0}) == 2)
+		exit(2);
 	ret = check_exit_arg_count(arg_count);
 	if (ret != 0)
 		return (ret);
