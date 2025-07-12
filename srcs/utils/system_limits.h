@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:02:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/24 00:06:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/12 23:19:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 
 /* PATH_MAX: パスの最大長 */
+
 # ifndef PATH_MAX
 #  ifdef _POSIX_PATH_MAX
 #   define PATH_MAX _POSIX_PATH_MAX

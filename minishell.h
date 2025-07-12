@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/11 05:35:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/12 23:18:54 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "srcs/utils/system_limits.h"
+# include "utils/system_limits.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
