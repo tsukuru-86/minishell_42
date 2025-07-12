@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 16:17:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:16:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ t_env			*sort_env_list_copy(t_env *list_head);
 void			print_sorted_env(int format);
 
 /* exit utils */
+int				is_ll_overflow(long long res, int sign, char c);
+int				skip_space_and_sign(char *arg, int *sign);
+int				parse_ll_digits(char *arg, int *i, int sign, long long *res);
+int				validate_numeric_arg(char *arg);
+int				convert_numeric_arg(char *arg, long long *n);
 int				is_valid_number(const char *str);
 int				parse_exit_number(const char *str);
 int				is_special_case(char **args);

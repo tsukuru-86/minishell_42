@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:07:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:42:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:01:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ int	check_filename_limit(const char *filename)
 	}
 	return (1);
 }
-

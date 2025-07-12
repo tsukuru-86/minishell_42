@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 05:48:45 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:16:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,20 @@
 #include <stdlib.h>
 
 /*
-** 数値引数の検証と変換
+** 数値引数の検証と変換（分割版）
 */
-static int	validate_and_convert(char *arg, long long *n)
+int	validate_and_convert(char *arg, long long *n)
 {
-	char		*endptr;
-	long long	val;
-	int			err_bak;
-
-	debug_print_with_str("[DEBUG] validate_and_convert arg=", arg);
-	errno = 0;
-	val = strtoll(arg, &endptr, 10);
-	err_bak = errno;
-	if (*endptr != '\0' || arg == endptr || err_bak == ERANGE)
+	if (validate_numeric_arg(arg))
 	{
-		debug_print_with_str("[DEBUG] strtoll error, arg=", arg);
 		put_exit_error("numeric argument required\n", arg);
 		return (2);
 	}
-	*n = val;
+	if (convert_numeric_arg(arg, n))
+	{
+		put_exit_error("numeric argument required\n", arg);
+		return (2);
+	}
 	debug_print_with_int("[DEBUG] converted n=", *n);
 	return (0);
 }
@@ -104,4 +99,3 @@ int	builtin_exit(char **args)
 	ret = process_exit_args(args, arg_count);
 	return (ret);
 }
-

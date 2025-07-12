@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:03:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:43:15 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 06:01:40 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ void	print_env_list(t_env *head)
 		head = head->next;
 	}
 }
-

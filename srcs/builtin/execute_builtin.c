@@ -24,7 +24,8 @@ int	execute_builtin_with_redirect(t_command *cmd)
 	return (status);
 }
 
-/* Function to execute a built-in command. Calls the appropriate function based on the command name */
+/* Function to execute a built-in command. Calls the appropriate function
+based on the command name */
 /* Routing function */
 int	execute_builtin(char **args)
 {

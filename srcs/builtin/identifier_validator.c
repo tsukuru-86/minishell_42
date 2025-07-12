@@ -12,8 +12,11 @@
 
 #include "minishell.h"
 
-/* Checks if the environment variable name is a valid identifier.
-   It must start with a letter or underscore, followed by only alphanumeric characters or underscores. */
+/*
+ * Checks if the environment variable name is a valid identifier.
+ * It must start with a letter or underscore,
+ * followed by only alphanumeric characters or underscores.
+ */
 int	is_valid_identifier(const char *str)
 {
 	int	i;
