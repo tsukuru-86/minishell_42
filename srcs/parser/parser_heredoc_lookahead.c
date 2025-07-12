@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:25:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,32 @@ int	handle_heredoc_redirect(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
 {
 	t_token	*delimiter_token;
+	char	*old;
+	char	*new_word;
+	size_t	len;
+	char	quote;
 
 	delimiter_token = (*current_token)->next;
+	if (delimiter_token && (delimiter_token->type == TOKEN_D_QUOTED_WORD
+			|| delimiter_token->type == TOKEN_S_QUOTED_WORD))
+	{
+		old = delimiter_token->content;
+		len = ft_strlen(old);
+		if (delimiter_token->type == TOKEN_D_QUOTED_WORD)
+			quote = '"';
+		else
+			quote = '\'';
+		new_word = (char *)malloc(len + 3);
+		if (new_word)
+		{
+			new_word[0] = quote;
+			ft_memcpy(new_word + 1, old, len);
+			new_word[len + 1] = quote;
+			new_word[len + 2] = '\0';
+			free(old);
+			delimiter_token->content = new_word;
+		}
+	}
 	if (isatty(STDIN_FILENO))
 		return (handle_interactive_heredoc(cmd, delimiter_token, head_cmd,
 				current_token));

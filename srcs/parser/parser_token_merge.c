@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 20:32:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:18:47 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,30 +64,37 @@ static char	*merge_word_chain(t_token *current)
 	return (merged);
 }
 
-t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
+static void	merge_word_chain_if_needed(t_token *current, t_token *prev)
 {
-	t_token	*current;
 	char	*merged;
 
-	current = tokens;
-	while (current)
+	if (!(prev && prev->type == TOKEN_HEREDOC)
+		&& is_mergeable_token(current)
+		&& current->next
+		&& is_mergeable_token(current->next))
 	{
-		if (!is_mergeable_token(current) || !current->next
-			|| !is_mergeable_token(current->next))
-		{
-			current = current->next;
-			continue ;
-		}
 		if (!current->content)
 			current->content = ft_strdup("");
 		merged = merge_word_chain(current);
-		if (!merged)
+		if (merged)
 		{
-			current = current->next;
-			continue ;
+			free(current->content);
+			current->content = merged;
 		}
-		free(current->content);
-		current->content = merged;
+	}
+}
+
+t_token	*merge_adjacent_non_meta_tokens(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	current = tokens;
+	prev = NULL;
+	while (current)
+	{
+		merge_word_chain_if_needed(current, prev);
+		prev = current;
 		current = current->next;
 	}
 	return (tokens);

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 07:43:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 08:47:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 04:48:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ static int	expand_token_content(t_token *current)
 int	expand_all_variables(t_token *tokens)
 {
 	t_token	*current;
+	t_token	*prev;
 
 	if (!tokens)
 		return (1);
 	current = tokens;
+	prev = NULL;
 	while (current)
 	{
-		if (current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD)
+		if ((current->type == TOKEN_WORD || current->type == TOKEN_D_QUOTED_WORD)
+			&& !(prev && prev->type == TOKEN_HEREDOC))
 		{
 			if (!expand_token_content(current))
 				return (0);
 		}
+		prev = current;
 		current = current->next;
 	}
 	return (1);

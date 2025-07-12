@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:48:05 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:34:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	create_heredoc_file(t_heredoc *heredoc)
 		cleanup_heredoc(heredoc);
 		return (-1);
 	}
-	if (!process_heredoc_file(fd, heredoc))
+	else if (!process_heredoc_file(fd, heredoc))
 	{
 		close(fd);
 		return (-1);

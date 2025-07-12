@@ -12,10 +12,10 @@ UNAME_S=$(uname -s)
 # また、OS依存のファイルも除外
 if [ "$UNAME_S" = "Darwin" ]; then
   # macOS環境では、Linux用のファイルを除外
-  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_linux.c' | sort) )
+  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_linux.c' ! -name 'parser_heredoc_quoted_test.c' | sort) )
 else
   # Linux環境では、macOS用のファイルを除外
-  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_macos.c' | sort) )
+  files=( $(find "$SRC_DIR" -type f -name '*.c' ! -name 'main.c' ! -name 'history_utils_macos.c' ! -name 'parser_heredoc_quoted_test.c' | sort) )
 fi
 len=${#files[@]}
 

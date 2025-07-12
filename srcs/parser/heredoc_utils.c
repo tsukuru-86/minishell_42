@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 23:08:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:32:31 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,6 @@ static char	*create_heredoc_file(void)
 	return (filename);
 }
 
-static void	parse_heredoc_delimiter(char *src, char **dst, bool *is_quoted)
-{
-	size_t	len;
-
-	len = ft_strlen(src);
-	if (len >= 2 && ((src[0] == '\'' && src[len - 1] == '\'') || (src[0] == '\"'
-				&& src[len - 1] == '\"')))
-	{
-		*dst = ft_substr(src, 1, len - 2);
-		*is_quoted = true;
-	}
-	else
-	{
-		*dst = ft_strdup(src);
-		*is_quoted = false;
-	}
-}
-
 t_heredoc	*init_heredoc(char *delimiter)
 {
 	t_heredoc	*heredoc;
@@ -83,8 +65,7 @@ t_heredoc	*init_heredoc(char *delimiter)
 	heredoc = (t_heredoc *)malloc(sizeof(t_heredoc));
 	if (!heredoc)
 		return (NULL);
-	parse_heredoc_delimiter(delimiter, &heredoc->delimiter,
-		&heredoc->delimiter_is_quoted);
+	heredoc->delimiter = ft_strdup(delimiter);
 	heredoc->temp_file = create_heredoc_file();
 	heredoc->content = NULL;
 	heredoc->is_closed = true;

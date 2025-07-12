@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/12 23:18:54 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 05:31:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ typedef struct s_heredoc
 	char						*content;
 	char						*temp_file;
 	bool						is_closed;
-	bool						delimiter_is_quoted;
 }								t_heredoc;
 
 /* Heredoc */
