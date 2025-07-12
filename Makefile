@@ -175,10 +175,10 @@ cre: clean all
 
 test1: cre
 	DEBUG=0
-	cd ~/42/minishell_42/minishell_tester-nda-cunh&&./tester 2>&1
+	cd $(PWD)/minishell_tester-nda-cunh&&./tester 2>&1
 
 test2: cre
-	cd ~/42/minishell_42/minishell_tester&&./tester 2>&1
+	cd $(PWD)/minishell_tester&&./tester 2>&1
 
 debug: 
 	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"

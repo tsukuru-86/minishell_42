@@ -35,6 +35,3 @@ output.txt
 interactive_tester/test_analysis_report.txt
 fuzzing_tester/fuzzing_results
 
-minishell_tester/test_files/
-minishell_tester/*_tmp
-minishell_tester/&1;
