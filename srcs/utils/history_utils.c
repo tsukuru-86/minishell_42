@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:03:07 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:54:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 03:44:09 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	load_history_file(void)
 	if (!path)
 		return ;
 	fd = open(path, O_RDONLY);
-	if (fd < 0)
+	if (fd == -1)
 	{
+		perror(path);
 		free(path);
 		return ;
 	}

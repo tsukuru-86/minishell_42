@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 01:21:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 01:28:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 04:33:55 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_redirect	*find_last_input_redirect(t_redirect *redirect)
 	return (last_in);
 }
 
-int	process_non_effective_redirects(t_redirect *redirect,
+int	skip_non_effective_redirects(t_redirect *redirect,
 	t_redirect *last_out, t_redirect *last_in)
 {
 	t_redirect	*current;

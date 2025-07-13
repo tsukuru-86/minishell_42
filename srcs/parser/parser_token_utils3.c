@@ -64,6 +64,7 @@ int	write_heredoc_from_stdin(t_command *cmd, char *delimiter)
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
+		perror(heredoc->temp_file);
 		cleanup_heredoc(heredoc);
 		return (0);
 	}

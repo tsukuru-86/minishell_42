@@ -22,6 +22,7 @@ static int	apply_out_redirect(t_redirect *redir)
 		return (0);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
+		perror("dup2");
 		close(fd);
 		return (0);
 	}
@@ -31,18 +32,28 @@ static int	apply_out_redirect(t_redirect *redir)
 
 static int	open_heredoc_file(t_redirect *redir)
 {
+	int	fd;
+
 	debug_print_with_str("REDIR_HEREDOC file", redir->file);
-	if (access(redir->file, F_OK) != 0)
+	if (access(redir->file, F_OK) == -1)
 	{
-		debug_print("REDIR_HEREDOC file not found");
+		perror(redir->file);
 		return (-1);
 	}
-	if (access(redir->file, R_OK) != 0)
+	if (access(redir->file, R_OK) == -1)
 	{
-		debug_print("REDIR_HEREDOC file not readable");
+		perror(redir->file);
 		return (-1);
 	}
-	return (open(redir->file, O_RDONLY));
+	{
+		fd = open(redir->file, O_RDONLY);
+		if (fd == -1)
+		{
+			debug_print_with_str("open(O_RDONLY) failed", redir->file);
+			perror(redir->file);
+		}
+		return (fd);
+	}
 }
 
 static int	apply_in_redirect(t_redirect *redir)
@@ -54,10 +65,7 @@ static int	apply_in_redirect(t_redirect *redir)
 	else
 		fd = open_redirect_file(redir);
 	if (fd == -1)
-	{
-		debug_print("apply_in_redirect: open failed");
 		return (0);
-	}
 	debug_print_with_int("apply_in_redirect: dup2 STDIN", fd);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
@@ -70,6 +78,30 @@ static int	apply_in_redirect(t_redirect *redir)
 	return (1);
 }
 
+static int	check_all_input_files(t_redirect *redirect)
+{
+	t_redirect	*cur;
+	int			fd;
+
+	cur = redirect;
+	while (cur)
+	{
+		if (cur->type == REDIR_IN || cur->type == REDIR_HEREDOC)
+		{
+			if (!cur->file || cur->file[0] == '\0')
+				return (ft_printf_fd(STDERR_FILENO, "minishell: null: %s\n",
+						strerror(errno)));
+			fd = open(cur->file, O_RDONLY);
+			if (fd == -1)
+				return (ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
+						cur->file, strerror(errno)));
+			close(fd);
+		}
+		cur = cur->next;
+	}
+	return (1);
+}
+
 int	process_redirections(t_redirect *redirect)
 {
 	t_redirect	*last_out;
@@ -77,9 +109,11 @@ int	process_redirections(t_redirect *redirect)
 
 	if (!redirect)
 		return (1);
+	if (!check_all_input_files(redirect))
+		return (0);
 	last_out = find_last_output_redirect(redirect);
 	last_in = find_last_input_redirect(redirect);
-	if (!process_non_effective_redirects(redirect, last_out, last_in))
+	if (!skip_non_effective_redirects(redirect, last_out, last_in))
 		return (0);
 	if (last_out && !apply_out_redirect(last_out))
 		return (0);

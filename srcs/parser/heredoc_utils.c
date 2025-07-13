@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 05:32:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:45:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static char	*create_heredoc_file(void)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd == -1)
 	{
+		perror(filename);
 		free(filename);
 		return (NULL);
 	}

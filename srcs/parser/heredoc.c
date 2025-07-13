@@ -70,7 +70,8 @@ static int	create_heredoc_file(t_heredoc *heredoc)
 	fd = open(heredoc->temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		debug_print("[DEBUG] handle_heredoc: open failed");
+		perror(heredoc->temp_file);
+		debug_print("handle_heredoc: open failed");
 		cleanup_heredoc(heredoc);
 		return (-1);
 	}

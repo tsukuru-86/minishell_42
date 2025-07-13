@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/09 02:21:14 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 03:05:51 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	execute_single_command(t_command *cmd)
 
 	if (cmd->redirects && !setup_redirection(cmd->redirects))
 	{
+		perror(cmd->redirects->file);
 		status_node = get_env_node("?");
 		if (status_node && ft_strcmp(status_node->value, "0") == 0)
 			return (0);
