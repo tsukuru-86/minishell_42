@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:22:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_args_debug(char **args)
 {
 	while (*args)
 	{
-		debug_print_with_str("[DEBUG] arg: ", *args);
+		debug_print_with_str("arg: ", *args);
 		args++;
 	}
 }

@@ -67,7 +67,7 @@ for testfile in ${test_lists[*]}; do
 			{ printf "%s\n" "$teste" | $MINISHELL_PATH > /dev/null 2>&1; }
 			MINI_EXIT_CODE=$?
 			echo "$MINI_EXIT_CODE" > .mini_exit_code_tmp
-			echo "DEBUG: MINI_EXIT_CODE=$MINI_EXIT_CODE"
+			# echo "DEBUG: MINI_EXIT_CODE=$MINI_EXIT_CODE"
 			# echo "DEBUG: PIPESTATUS=${PIPESTATUS[@]}"
 		else
 			MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT | tail -n 1)
@@ -78,7 +78,7 @@ for testfile in ${test_lists[*]}; do
 		rm -rf ./bash_outfiles/*
 		BASH_OUTPUT=$(echo -e "$teste" | bash 2> /dev/null)
 		BASH_EXIT_CODE=$(echo $?)
-		echo "DEBUG: BASH_EXIT_CODE=$BASH_EXIT_CODE"
+		# echo "DEBUG: BASH_EXIT_CODE=$BASH_EXIT_CODE"
 		BASH_OUTFILES=$(cp ./outfiles/* ./bash_outfiles &>/dev/null)
 		BASH_ERROR_MSG=$(trap "" PIPE && echo "$teste" | bash 2>&1 > /dev/null | grep -o '[^:]*$' | head -n1)
 

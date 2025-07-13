@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/13 06:48:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:14:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,15 +209,13 @@ int								setup_redirection(t_redirect *redirect);
 void							free_redirect(t_redirect *redirect);
 t_redirect						*create_redirect(int type, char *file);
 void							cleanup_heredocs(t_redirect *redirect);
-/* Command */
+
+/* builtin command */
 void							external_command(void);
 int								execute_builtin(char **args);
 int								execute_builtin_with_redirect(t_command *cmd);
 int								execute_external_command(t_command *cmd);
-
-/* ビルトインコマンド - Public API */
 int								execute_builtin(char **args);
-int								execute_builtin_with_redirect(t_command *cmd);
 int								get_builtin_func_idx(char *cmd);
 
 /* Pipeline */
@@ -237,6 +235,7 @@ void							debug_print_with_int(const char *prefix,
 									const int value);
 void							debug_print_tokens(t_token *tokens);
 void							debug_print_command_args(char **args);
+void							debug_printf(const char *fmt, ...);
 
 /* Empty command handler */
 int								handle_empty_command_with_redirects(void);
