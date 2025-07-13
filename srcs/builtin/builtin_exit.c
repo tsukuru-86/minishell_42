@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 06:16:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/13 22:32:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static int	process_exit_args(char **args, int arg_count)
 		return (ret);
 	if (args[1])
 		exec_exit_with_arg(args[1]);
-	debug_print("[DEBUG] exit with status 0");
-	exit(0);
+	debug_print("[DEBUG] exit with status get_exit_status()");
+	exit(get_exit_status());
 	return (0);
 }
 
