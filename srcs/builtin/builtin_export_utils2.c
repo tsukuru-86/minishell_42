@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:15 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:17:42 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,21 @@ int	validate_and_set_env(char *name, char *value)
 
 	n = NULL;
 	v = NULL;
-	debug_print_with_str("[DEBUG] Export name: ", name);
-	debug_print_with_str("[DEBUG] Export value: ", value);
+	debug_print_with_str("Export name: ", name);
+	debug_print_with_str("Export value: ", value);
 	if (name)
 		n = ft_strdup(name);
 	if (value)
 		v = ft_strdup(value);
 	normalize_export_args(&n, &v);
-	debug_print_with_str("[DEBUG] After normalize name: ", n);
-	debug_print_with_str("[DEBUG] After normalize value: ", v);
+	debug_print_with_str("After normalize name: ", n);
+	debug_print_with_str("After normalize value: ", v);
 	if (!is_valid_identifier(n))
 	{
-		debug_print("[DEBUG] Invalid identifier detected");
+		debug_print("Invalid identifier detected");
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
-	debug_print("[DEBUG] Identifier valid, processing");
+	debug_print("Identifier valid, processing");
 	return (process_env_setting(n, v));
 }

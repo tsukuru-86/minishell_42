@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 06:16:46 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:16:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_COMMANDS_H
 # define BUILTIN_COMMANDS_H
 
-# include "../../minishell.h"
+# include "minishell.h"
 
 /* 関数ポインター型の定義 */
 typedef int		(*t_builtin_func)(char **args);

@@ -26,7 +26,7 @@ int	handle_redirect_type_tokens(t_command **cmd_ptr,
 {
 	int	status;
 
-	debug_print("[DEBUG] Handling REDIRECT token");
+	debug_print("Handling REDIRECT token");
 	status = handle_redirect_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	return (status);
 }
@@ -41,15 +41,15 @@ int	handle_other_tokens(t_token **current_token_ptr, t_token_type type)
 {
 	if (type == TOKEN_SPACE)
 	{
-		debug_print("[DEBUG] Skipping SPACE token");
+		debug_print("Skipping SPACE token");
 	}
 	else if (type == TOKEN_NEWLINE)
 	{
-		debug_print("[DEBUG] Skipping NEWLINE token");
+		debug_print("Skipping NEWLINE token");
 	}
 	else
 	{
-		debug_print("[DEBUG] Skipping OTHER token");
+		debug_print("Skipping OTHER token");
 	}
 	*current_token_ptr = (*current_token_ptr)->next;
 	return (1);

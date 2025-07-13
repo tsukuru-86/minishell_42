@@ -39,7 +39,7 @@ void	skip_to_delimiter(t_token **current_token, const char *delimiter)
 int	handle_interactive_heredoc(t_command *cmd, t_token *delimiter_token,
 		t_command **head_cmd, t_token **current_token)
 {
-	debug_print("[DEBUG] Interactive mode");
+	debug_print("Interactive mode");
 	if (!handle_heredoc(cmd, delimiter_token->content))
 	{
 		handle_heredoc_error(head_cmd);
@@ -52,7 +52,7 @@ int	handle_interactive_heredoc(t_command *cmd, t_token *delimiter_token,
 int	handle_noninteractive_heredoc(t_command *cmd, t_token *delimiter_token,
 		t_command **head_cmd, t_token **current_token)
 {
-	debug_print("[DEBUG] Non-interactive mode with stdin reading");
+	debug_print("Non-interactive mode with stdin reading");
 	if (!write_heredoc_from_stdin(cmd, delimiter_token->content))
 	{
 		handle_heredoc_error(head_cmd);

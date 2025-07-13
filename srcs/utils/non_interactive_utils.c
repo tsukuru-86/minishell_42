@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:48:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:24:59 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	process_input_lines(char **lines, int *status)
 	{
 		if (ft_strlen(lines[i]) > 0)
 		{
-			debug_print_with_str("[DEBUG] Processing line: ", lines[i]);
+			debug_print_with_str("Processing line: ", lines[i]);
 			handle_input(lines[i], status);
 		}
 		i++;
@@ -48,7 +48,7 @@ void	process_with_fallback(char *input, int *status)
 {
 	char	**lines;
 
-	debug_print("[DEBUG] Pipe setup failed, using line processing");
+	debug_print("Pipe setup failed, using line processing");
 	lines = ft_split(input, '\n');
 	if (lines)
 	{

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 05:34:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:45:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 		return (read_heredoc_input(fd, heredoc));
 	else
 	{
-		debug_print("[DEBUG] Non-interactive heredoc");
+		debug_print("Non-interactive heredoc");
 		return (process_pipe_heredoc_lines(fd, heredoc));
 	}
 }
 
 static int	process_heredoc_file(int fd, t_heredoc *heredoc)
 {
-	debug_print("[DEBUG] handle_heredoc: calling process_heredoc_content");
+	debug_print("handle_heredoc: calling process_heredoc_content");
 	if (!process_heredoc_content(fd, heredoc))
 	{
-		debug_print("[DEBUG] handle_heredoc: process_heredoc_content failed");
+		debug_print("handle_heredoc: process_heredoc_content failed");
 		close(fd);
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	debug_print("[DEBUG] handle_heredoc: process_heredoc_content succeeded");
+	debug_print("handle_heredoc: process_heredoc_content succeeded");
 	return (1);
 }
 
@@ -87,11 +87,11 @@ int	handle_heredoc(t_command *cmd, char *delimiter)
 {
 	t_heredoc	*heredoc;
 
-	debug_print_with_str("[DEBUG] handle_heredoc: delimiter", delimiter);
+	debug_print_with_str("handle_heredoc: delimiter", delimiter);
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
 		return (0);
-	debug_print_with_str("[DEBUG] handle_heredoc: temp_file",
+	debug_print_with_str("handle_heredoc: temp_file",
 		heredoc->temp_file);
 	if (create_heredoc_file(heredoc) == -1)
 		return (0);

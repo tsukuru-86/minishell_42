@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:18:53 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	handle_interactive(int *status)
 			write(2, "exit\n", 5);
 		return (0);
 	}
-	debug_print_with_str("[DEBUG] Interactive input: ", input);
+	debug_print_with_str("Interactive input: ", input);
 	handle_input(input, status);
-	debug_print_with_int("[DEBUG] Status: ", *status);
+	debug_print_with_int("Status: ", *status);
 	free(input);
 	return (1);
 }
@@ -38,9 +38,9 @@ static int	handle_non_interactive(int *status)
 	line = get_next_line(0);
 	if (!line)
 		return (0);
-	debug_print_with_str("[DEBUG] NI input: ", line);
+	debug_print_with_str("NI input: ", line);
 	handle_input(line, status);
-	debug_print_with_int("[DEBUG] Status: ", *status);
+	debug_print_with_int("Status: ", *status);
 	free(line);
 	return (1);
 }

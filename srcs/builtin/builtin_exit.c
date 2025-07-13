@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 22:32:27 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 03:48:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	validate_and_convert(char *arg, long long *n)
 		put_exit_error("numeric argument required\n", arg);
 		return (2);
 	}
-	debug_print_with_int("[DEBUG] converted n=", *n);
+	debug_print_with_int("converted n=", *n);
 	return (0);
 }
 
@@ -40,7 +40,6 @@ static int	check_exit_arg_count(int arg_count)
 {
 	if (arg_count > 2)
 	{
-		debug_print("[DEBUG] too many arguments error");
 		put_exit_error("too many arguments\n", NULL);
 		return (1);
 	}
@@ -53,16 +52,16 @@ static void	exec_exit_with_arg(char *arg)
 	int			status;
 	int			ret;
 
-	debug_print_with_str("[DEBUG] process_exit_args arg1=", arg);
+	debug_print_with_str("process_exit_args arg1=", arg);
 	ret = validate_and_convert(arg, &n);
-	debug_print_with_int("[DEBUG] validate_and_convert ret=", ret);
+	debug_print_with_int("validate_and_convert ret=", ret);
 	if (ret != 0)
 		exit(2);
 	status = (int)(n % 256);
-	debug_print_with_int("[DEBUG] exit status before mod=", status);
+	debug_print_with_int("exit status before mod=", status);
 	if (status < 0)
 		status += 256;
-	debug_print_with_int("[DEBUG] exit status final=", status);
+	debug_print_with_int("exit status final=", status);
 	exit(status);
 }
 
@@ -70,7 +69,7 @@ static int	process_exit_args(char **args, int arg_count)
 {
 	int	ret;
 
-	debug_print_with_int("[DEBUG] process_exit_args arg_count=", arg_count);
+	debug_print_with_int("process_exit_args arg_count=", arg_count);
 	if (args[1] && validate_and_convert(args[1], &(long long){0}) == 2)
 		exit(2);
 	ret = check_exit_arg_count(arg_count);
@@ -78,7 +77,7 @@ static int	process_exit_args(char **args, int arg_count)
 		return (ret);
 	if (args[1])
 		exec_exit_with_arg(args[1]);
-	debug_print("[DEBUG] exit with status get_exit_status()");
+	debug_print("exit with status get_exit_status()");
 	exit(get_exit_status());
 	return (0);
 }

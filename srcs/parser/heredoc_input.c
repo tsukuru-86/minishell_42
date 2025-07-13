@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:24:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/25 21:36:28 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:10:32 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	read_heredoc_input(int fd, t_heredoc *heredoc)
 		return (read_heredoc_tty(fd, heredoc));
 	else
 	{
-		debug_print("[DEBUG] non-tty mode heredoc");
+		debug_print("non-tty mode heredoc");
 		return (process_pipe_heredoc_lines(fd, heredoc));
 	}
 }

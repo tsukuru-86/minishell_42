@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/25 21:37:33 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:28:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ static int	process_single_export_arg(char *arg)
 	int		append;
 	int		ret;
 
-	debug_print_with_str("[DEBUG] process_single_export_arg() arg: ", arg);
+	debug_print_with_str("process_single_export_arg() arg: ", arg);
 	split_export_arg(arg, &name, &value, &append);
-	debug_print_with_str("[DEBUG] name=", name);
-	debug_print_with_str("[DEBUG] value=", value);
-	debug_print_with_int("[DEBUG] append=", append);
+	debug_print_with_str("name=", name);
+	debug_print_with_str("value=", value);
+	debug_print_with_int("append=", append);
 	if (append)
 	{
-		debug_print("[DEBUG] append mode");
+		debug_print("append mode");
 		ret = append_env_value(name, value);
 	}
 	else
 	{
-		debug_print("[DEBUG] set mode");
+		debug_print("set mode");
 		ret = validate_and_set_env(name, value);
 	}
-	debug_print_with_int("[DEBUG] result: ", ret);
+	debug_print_with_int("result: ", ret);
 	free(name);
 	free(value);
 	return (ret);

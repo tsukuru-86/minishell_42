@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/11 05:30:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:51:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ int	handle_child_process_with_redirect(char *cmd_path, char **args,
 	t_command *cmd)
 {
 	setup_child_signals();
-	debug_print_with_str("[DEBUG] Child redirect: ", cmd_path);
+	debug_print_with_str("Child redirect: ", cmd_path);
 	if (cmd->redirects)
 	{
-		debug_print("[DEBUG] Processing redirections in child");
+		debug_print("Processing redirections in child");
 		if (!process_redirections(cmd->redirects))
 		{
-			debug_print("[DEBUG] Redirection failed in child");
-			exit(0);
+			debug_print("Redirection failed in child");
+			exit(1);
 		}
-		debug_print("[DEBUG] Redirection successful in child");
+		debug_print("Redirection successful in child");
 	}
 	launch_child(cmd_path, args);
 	return (0);

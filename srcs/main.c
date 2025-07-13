@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:54:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:11:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_input(char *input, int *status)
 {
 	int	empty_status;
 
-	debug_print_with_str("[DEBUG] Enter handle_input: \n", input);
+	debug_print_with_str("Enter handle_input: \n", input);
 	if (!input)
 		return ;
 	if (!check_input_line_limit(input))
@@ -74,10 +74,10 @@ void	handle_input(char *input, int *status)
 			add_history(input);
 		return ;
 	}
-	debug_print("[DEBUG] Before process_valid_input\n");
+	debug_print("Before process_valid_input\n");
 	process_valid_input(input, status);
-	debug_print("[DEBUG] After process_valid_input\n");
-	debug_print("[DEBUG] Exit handle_input\n");
+	debug_print("After process_valid_input\n");
+	debug_print("Exit handle_input\n");
 }
 
 int	main(int argc, char **argv, char **envp)

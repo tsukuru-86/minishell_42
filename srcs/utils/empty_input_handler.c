@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 05:45:37 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:24:36 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ static int	process_tokenization(char *prepared)
 	t_token	*tokens;
 	int		status;
 
-	debug_print("[DEBUG] validate_input returned true");
 	tokens = tokenize(prepared, NULL);
 	if (!tokens)
 	{
-		debug_print("[DEBUG] tokenize returned NULL");
+		debug_print("tokenize returned NULL");
 		return (get_exit_status());
 	}
-	debug_print("[DEBUG] tokenize succeeded");
+	debug_print("tokenize succeeded");
 	debug_print_tokens(tokens);
 	status = handle_tokens_and_parse(tokens);
 	return (status);
@@ -59,8 +58,7 @@ static int	process_tokenization(char *prepared)
 static void	process_valid_input_debug(char *input, char *prepared)
 {
 	(void)input;
-	debug_print("[DEBUG] process_valid_input: in");
-	debug_print("[DEBUG] process_valid_input: in\n");
+	debug_print("process_valid_input: in");
 	if (prepared)
 		debug_print_with_str("[DEBUG] after strdup: ", prepared);
 	else
@@ -89,5 +87,5 @@ void	process_valid_input(char *input, int *status)
 	}
 	*status = process_tokenization(prepared);
 	free(prepared);
-	debug_print("[DEBUG] process_valid_input: out");
+	debug_print("process_valid_input: end");
 }
