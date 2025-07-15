@@ -42,8 +42,8 @@ static char	*get_export_value(char *raw_val)
 	return (stripped);
 }
 
-static void	handle_append_pattern(char *arg, char *plus_pos,
-		char *equal_pos, t_export_arg *export_arg)
+static void	handle_append_pattern(char *arg, char *plus_pos, char *equal_pos,
+		t_export_arg *export_arg)
 {
 	char	*var_end;
 

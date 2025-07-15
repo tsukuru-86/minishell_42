@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:24:36 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:18:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 int	validate_input(char *input)
 {
@@ -78,9 +78,7 @@ void	process_valid_input(char *input, int *status)
 	add_history(input);
 	if (!validate_input(prepared))
 	{
-		debug_print(
-			"[DEBUG] process_valid_input:validate_input returned false"
-			);
+		debug_print("[DEBUG] process_valid_input: false");
 		free(prepared);
 		*status = 0;
 		return ;

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 06:56:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:18:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ static t_token_type	check_pipe_token(const char *input, int *i)
 	}
 	return (TOKEN_WORD);
 }
-
-t_token_type	check_less_than_token(const char *input, int *i);
-
-t_token_type	check_greater_than_token(const char *input, int *i);
 
 /* メタ文字のトークンタイプを判定。Returns TOKEN_WORD if no meta char matched */
 t_token_type	get_meta_type(const char *input, int *i)

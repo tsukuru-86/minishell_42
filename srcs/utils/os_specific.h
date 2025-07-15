@@ -6,22 +6,23 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:15:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 16:59:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:32:41 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OS_SPECIFIC_H
 # define OS_SPECIFIC_H
-
-/*
- * このヘッダーは__APPLE__とLinux（Ubuntu）間での関数の違いを吸収します
- * MakefileでOS___APPLE__またはOS_LINUXが定義されていることを前提としています
- */
+# include <readline/history.h>
 
 # ifdef __APPLE__
-/* __APPLE__固有の関数宣言 - 一部の関数が__APPLE__では明示的に宣言が必要 */
-void	rl_replace_line(const char *text, int clear_undo);
-void	rl_clear_history(void);
-# endif
+#  include <sys/syslimits.h>
 
+void		rl_replace_line(const char *text, int clear_undo);
+void		rl_clear_history(void);
+void		rl_delete_text(int start, int end);
+int			rl_insert_text(const char *text);
+int			rl_delete(int count, int key);
+int			rl_insert(int c, int count);
+HIST_ENTRY	*history_get(int index);
+# endif
 #endif /* OS_SPECIFIC_H */

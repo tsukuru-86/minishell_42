@@ -35,8 +35,8 @@ static void	remove_and_free_token(t_token *current, t_token **prev,
 static void	process_quote_token(t_token *current, t_token **prev)
 {
 	if ((current->type == TOKEN_S_QUOTED_WORD
-			|| current->type == TOKEN_D_QUOTED_WORD)
-		&& (!(*prev) || (*prev)->type != TOKEN_HEREDOC))
+			|| current->type == TOKEN_D_QUOTED_WORD) && (!(*prev)
+			|| (*prev)->type != TOKEN_HEREDOC))
 	{
 		current->type = TOKEN_WORD;
 	}

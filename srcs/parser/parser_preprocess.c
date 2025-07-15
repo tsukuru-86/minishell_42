@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser.h"	
+#include "parser.h"
 
 static int	expand_token_content(t_token *current)
 {
@@ -41,8 +41,7 @@ static int	expand_token_content(t_token *current)
 
 static int	expand_token_if_needed(t_token *current, t_token *prev)
 {
-	if ((current->type == TOKEN_WORD)
-		|| (current->type == TOKEN_D_QUOTED_WORD))
+	if ((current->type == TOKEN_WORD) || (current->type == TOKEN_D_QUOTED_WORD))
 	{
 		if (!(prev && prev->type == TOKEN_HEREDOC))
 		{

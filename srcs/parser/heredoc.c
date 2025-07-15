@@ -92,8 +92,7 @@ int	handle_heredoc(t_command *cmd, char *delimiter)
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
 		return (0);
-	debug_print_with_str("handle_heredoc: temp_file",
-		heredoc->temp_file);
+	debug_print_with_str("handle_heredoc: temp_file", heredoc->temp_file);
 	if (create_heredoc_file(heredoc) == -1)
 		return (0);
 	return (finalize_heredoc(cmd, heredoc));

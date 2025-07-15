@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/14 02:54:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:16:48 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirect/redirect.h"
 #include "minishell.h"
-#include "../redirect/redirect.h"
 
 /* 単一コマンドを実行する関数。リダイレクトを設定し、組み込みコマンドなら直接実行、
 外部コマンドならフォークして子プロセスで実行する */

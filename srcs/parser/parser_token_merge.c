@@ -68,10 +68,8 @@ static void	merge_word_chain_if_needed(t_token *current, t_token *prev)
 {
 	char	*merged;
 
-	if (!(prev && prev->type == TOKEN_HEREDOC)
-		&& is_mergeable_token(current)
-		&& current->next
-		&& is_mergeable_token(current->next))
+	if (!(prev && prev->type == TOKEN_HEREDOC) && is_mergeable_token(current)
+		&& current->next && is_mergeable_token(current->next))
 	{
 		if (!current->content)
 			current->content = ft_strdup("");

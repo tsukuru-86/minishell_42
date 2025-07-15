@@ -6,16 +6,19 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:02:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 04:24:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:11:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYSTEM_LIMITS_H
 # define SYSTEM_LIMITS_H
 
-# include <linux/limits.h>
 # include <limits.h>
 # include <unistd.h>
+
+# ifdef __linux__
+#  include <linux/limits.h>
+# endif
 
 /* PATH_MAX: パスの最大長 */
 

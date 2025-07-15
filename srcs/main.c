@@ -6,13 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:11:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:16:00 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/debug_utils.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 volatile sig_atomic_t	g_signal = 0;
 

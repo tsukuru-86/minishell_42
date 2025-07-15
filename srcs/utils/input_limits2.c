@@ -27,8 +27,7 @@ int	check_args_limit(char **args)
 		total_size += ft_strlen(args[i]) + 1;
 		if (total_size > ARG_MAX)
 		{
-			ft_putstr_fd("minishell: argument list too long\n",
-				STDERR_FILENO);
+			ft_putstr_fd("minishell: argument list too long\n", STDERR_FILENO);
 			return (0);
 		}
 		i++;

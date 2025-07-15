@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:18:53 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:16:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 static int	handle_interactive(int *status)
 {

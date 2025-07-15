@@ -76,7 +76,7 @@ int	process_export_with_reconstruction(char **args, int *i)
 }
 
 /*
-** 文字列の前後スペースを除去
+** Remove leading and trailing spaces from a string
 */
 char	*ft_trim_spaces(const char *src)
 {

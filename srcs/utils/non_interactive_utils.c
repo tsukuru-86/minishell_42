@@ -6,12 +6,12 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:24:59 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:16:08 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "input_utils.h"
+#include "utils.h"
 
 void	free_string_array(char **arr)
 {

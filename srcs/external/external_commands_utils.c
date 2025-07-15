@@ -61,7 +61,7 @@ int	handle_child_process(char *cmd_path, char **args)
 }
 
 int	handle_child_process_with_redirect(char *cmd_path, char **args,
-	t_command *cmd)
+		t_command *cmd)
 {
 	setup_child_signals();
 	debug_print_with_str("Child redirect: ", cmd_path);

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:16:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:34:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include "minishell.h"
 
-/* 関数ポインター型の定義 */
+/* Definition of function pointer type */
 typedef int		(*t_builtin_func)(char **args);
 
-/* ビルトインコマンド */
+/* Built-in commands */
 t_builtin_func	get_builtin_funcs(char *name);
 int				builtin_unset(char **args);
 int				builtin_export(char **args);

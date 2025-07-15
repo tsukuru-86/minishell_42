@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #include "pipeline/pipeline.h"
-#include "utils/input_utils.h"
+#include "utils/utils.h"
 
 void	handle_empty_args(t_command *current)
 {
@@ -32,7 +32,7 @@ void	execute_builtin_command(t_command *current)
 }
 
 /*
-** fork失敗時の処理
+** Handling when fork fails
 */
 bool	handle_fork_error(t_command *cmd)
 {

@@ -42,8 +42,7 @@ t_token	*create_expanded_token(char *buf, t_token_type token_type)
 }
 
 /* クォートされた文字列を抽出する */
-int	extract_quoted_content(const char *input, int *i, char *buf,
-		int *buf_len)
+int	extract_quoted_content(const char *input, int *i, char *buf, int *buf_len)
 {
 	char	quote_c;
 	int		ret;
@@ -68,8 +67,7 @@ int	extract_quoted_content(const char *input, int *i, char *buf,
 }
 
 /* 通常の単語を抽出する */
-void	extract_word_content(const char *input, int *i, char *buf,
-		int *buf_len)
+void	extract_word_content(const char *input, int *i, char *buf, int *buf_len)
 {
 	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))
 		(*i)++;

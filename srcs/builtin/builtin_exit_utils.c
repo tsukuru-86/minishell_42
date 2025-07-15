@@ -37,8 +37,8 @@ int	skip_space_and_sign(char *arg, int *sign)
 
 	i = 0;
 	*sign = 1;
-	while (arg[i] == ' ' || arg[i] == '\t' || arg[i] == '\n'
-		|| arg[i] == '\v' || arg[i] == '\f' || arg[i] == '\r')
+	while (arg[i] == ' ' || arg[i] == '\t' || arg[i] == '\n' || arg[i] == '\v'
+		|| arg[i] == '\f' || arg[i] == '\r')
 		i++;
 	if (arg[i] == '+' || arg[i] == '-')
 	{
@@ -63,8 +63,8 @@ int	parse_ll_digits(char *arg, int *i, int sign, long long *res)
 
 int	validate_numeric_arg(char *arg)
 {
-	int		sign;
-	int		i;
+	int	sign;
+	int	i;
 
 	i = skip_space_and_sign(arg, &sign);
 	if (arg[i] == '\0')

@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/12 17:46:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:34:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** echoコマンドの-nオプション判定
+** Check for -n option in echo command
 */
 static int	is_echo_n_option(const char *s)
 {
@@ -30,7 +30,7 @@ static int	is_echo_n_option(const char *s)
 }
 
 /*
-** デバッグ用: トークナイズ直後の引数配列を出力
+** Debug: print argument array after tokenization
 */
 
 static void	putstr_echo_escaped(const char *s)

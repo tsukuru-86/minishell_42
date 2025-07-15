@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 03:48:07 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:34:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 /*
-** 数値引数の検証と変換（分割版）
+** Validation and conversion of numeric arguments (split version)
 */
 int	validate_and_convert(char *arg, long long *n)
 {
@@ -34,7 +34,7 @@ int	validate_and_convert(char *arg, long long *n)
 }
 
 /*
-** 引数処理とexit実行
+** Argument processing and execution of exit
 */
 static int	check_exit_arg_count(int arg_count)
 {
@@ -83,7 +83,7 @@ static int	process_exit_args(char **args, int arg_count)
 }
 
 /*
-** exitコマンド本体
+** Main body of the exit command
 */
 int	builtin_exit(char **args)
 {
