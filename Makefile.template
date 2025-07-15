@@ -3,19 +3,6 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I. -I/usr/include -Ilibft -Isrcs -g -O0
 
-# OS検出と環境依存の設定
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-    # macOS固有のフラグを追加
-    CFLAGS += -DMACOS
-    $(info MacOS環境を検出しました。readline関数の互換性対応を有効化します。)
-endif
-ifeq ($(UNAME_S),Linux)
-    # Linux固有のフラグを追加
-    CFLAGS += -DLINUX
-    $(info Linux環境を検出しました。標準のreadline関数を使用します。)
-endif
-
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
 #########
@@ -46,7 +33,6 @@ $(OBJDIR_FLAG):
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) | minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: all clean fclean re cre check_makefile_update
 
 # ソースファイル変更の自動検知
 check_makefile_update:
@@ -77,4 +63,4 @@ test2: cre
 debug: 
 	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"
 
-.PHONY: all clean fclean re cre test1 test2  debug
+.PHONY: all clean fclean re cre test1 test2 debug check_makefile_update
