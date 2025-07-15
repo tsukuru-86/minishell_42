@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 23:34:01 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 01:34:58 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
+#ifdef __linux__
+
 void	signal_handler(int signum)
 {
 	g_signal = signum;
@@ -22,12 +24,22 @@ void	signal_handler(int signum)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		if (IS_LINUX)
-			rl_replace_line("", 0);
-		else
-			rl_redisplay();
+		rl_replace_line("", 0);
 	}
 }
+#else
+
+void	signal_handler(int signum)
+{
+	g_signal = signum;
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+#endif
 
 static int	initialize_shell(char **envp)
 {
@@ -55,6 +67,8 @@ static int	initialize_shell(char **envp)
 	return (1);
 }
 
+#ifdef __linux__
+
 int	main(int argc, char **argv, char **envp)
 {
 	int	status;
@@ -65,10 +79,24 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	load_history_file();
 	status = main_loop();
-	if (IS_LINUX)
-		rl_clear_history();
-	else
-		clear_history();
+	rl_clear_history();
 	free_env_list();
 	return (status);
 }
+#else
+
+int	main(int argc, char **argv, char **envp)
+{
+	int	status;
+
+	(void)argc;
+	(void)argv;
+	if (!initialize_shell(envp))
+		return (EXIT_FAILURE);
+	load_history_file();
+	status = main_loop();
+	clear_history();
+	free_env_list();
+	return (status);
+}
+#endif

@@ -127,7 +127,8 @@ LIBFT = $(LIBFT_DIR)libft.a
 OBJDIR_FLAG := $(OBJS_DIR).builddir_ready
 
 
-all: check_makefile_update $(LIBFT) $(NAME)
+# all: check_makefile_update $(LIBFT) $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
@@ -145,11 +146,11 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) | minishell.h
 
 
 # ソースファイル変更の自動検知
-check_makefile_update:
-	@if [ -n "$$(find $(SRCS_DIR) -name '*.c' -newer Makefile 2>/dev/null | head -1)" ]; then \
-		echo "ソースファイルの変更を検知しました。Makefileを自動更新中..."; \
-		./update_makefile.sh; \
-	fi
+# check_makefile_update:
+# 	@if [ -n "$$(find $(SRCS_DIR) -name '*.c' -newer Makefile 2>/dev/null | head -1)" ]; then \
+# 		echo "ソースファイルの変更を検知しました。Makefileを自動更新中..."; \
+# 		./update_makefile.sh; \
+# 	fi
 
 clean:
 	make -C $(LIBFT_DIR) clean
