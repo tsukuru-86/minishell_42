@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/15 17:12:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 23:32:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@
 # define MAX_TOKENS 1024
 # define PIPE_BUFFER_SIZE 8192
 
-/* デバッグフラグ定数 */
 # ifdef DEBUG
 #  define DEBUG_ENABLED 1
 # else
 #  define DEBUG_ENABLED 0
+# endif
+
+# ifdef __linux__
+#  define IS_LINUX 1
+# else
+#  define IS_LINUX 0
 # endif
 
 extern volatile sig_atomic_t	g_signal;

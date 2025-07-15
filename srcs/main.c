@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 17:16:00 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/15 23:34:01 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,10 @@ void	signal_handler(int signum)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-#ifdef LINUX
-		rl_replace_line("", 0);
-#else
-		/* MacOSではrl_replace_line()が未定義のため、
-		   プロンプトを再表示するだけにする */
-		rl_redisplay();
-#endif
+		if (IS_LINUX)
+			rl_replace_line("", 0);
+		else
+			rl_redisplay();
 	}
 }
 
@@ -58,32 +55,6 @@ static int	initialize_shell(char **envp)
 	return (1);
 }
 
-void	handle_input(char *input, int *status)
-{
-	int	empty_status;
-
-	debug_print_with_str("Enter handle_input: \n", input);
-	if (!input)
-		return ;
-	if (!check_input_line_limit(input))
-	{
-		*status = 1;
-		return ;
-	}
-	empty_status = handle_empty_input(input);
-	if (empty_status != -1)
-	{
-		*status = empty_status;
-		if (input && *input)
-			add_history(input);
-		return ;
-	}
-	debug_print("Before process_valid_input\n");
-	process_valid_input(input, status);
-	debug_print("After process_valid_input\n");
-	debug_print("Exit handle_input\n");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	int	status;
@@ -94,11 +65,10 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	load_history_file();
 	status = main_loop();
-#ifdef LINUX
-	rl_clear_history();
-#else
-	clear_history();
-#endif
+	if (IS_LINUX)
+		rl_clear_history();
+	else
+		clear_history();
 	free_env_list();
 	return (status);
 }

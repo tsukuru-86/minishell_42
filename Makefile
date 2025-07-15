@@ -4,17 +4,17 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I. -I/usr/include -Ilibft -Isrcs -g -O0
 
 # OS検出と環境依存の設定
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-    # macOS固有のフラグを追加
-    CFLAGS += -DMACOS
-    $(info MacOS環境を検出しました。readline関数の互換性対応を有効化します。)
-endif
-ifeq ($(UNAME_S),Linux)
-    # Linux固有のフラグを追加
-    CFLAGS += -DLINUX
-    $(info Linux環境を検出しました。標準のreadline関数を使用します。)
-endif
+# UNAME_S := $(shell uname -s)
+# ifeq ($(UNAME_S),Darwin)
+#     # macOS固有のフラグを追加
+#     CFLAGS += -DMACOS
+#     $(info MacOS環境を検出しました。readline関数の互換性対応を有効化します。)
+# endif
+# ifeq ($(UNAME_S),Linux)
+#     # Linux固有のフラグを追加
+#     CFLAGS += -DLINUX
+#     $(info Linux環境を検出しました。標準のreadline関数を使用します。)
+# endif
 
 SRCS_DIR = srcs/
 SRCS_FILE = main.c \
