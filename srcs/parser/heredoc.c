@@ -14,9 +14,9 @@
 #include "parser.h"
 
 /*
- * heredoc 構造体に関するリソースをクリーンアップする。
- * heredoc->temp_fileはunlink されない。リダイレクトによって所有される。
- * 成功した場合は1を、失敗した場合は0を返す。
+ * Clean up resources related to the heredoc structure.
+ * heredoc->temp_file is not unlinked; it is owned by the redirect.
+ * Returns 1 on success, 0 on failure.
  */
 static int	finalize_heredoc(t_command *cmd, t_heredoc *heredoc)
 {

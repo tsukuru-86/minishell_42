@@ -13,8 +13,9 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* 入力から区切り文字、クォート、メタ文字以外の文字を収集する。成功時は収集した文字数を返す
- handle_word_logic からのみ呼ばれる */
+/* Collect characters from input that are not
+delimiters, quotes, or meta characters. Returns
+the number of collected characters. Only called from handle_word_logic. */
 static int	collect_plain_word_segment(const char *input, int *i,
 		char *word_buf)
 {
@@ -58,7 +59,7 @@ static bool	create_and_add_word_token(char *word_buf, t_token **tokens)
 	return (true);
 }
 
-/* 通常の単語を処理し、トークンリストに追加 */
+/* Handle normal words and add them to the token list */
 int	handle_word_logic(char *input, int *i, t_token **tokens, char *word_buf)
 {
 	int	word_idx;

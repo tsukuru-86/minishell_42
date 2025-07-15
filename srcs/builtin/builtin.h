@@ -45,10 +45,10 @@ void			split_export_arg(char *arg, char **name, char **value,
 
 void			put_exit_error(const char *msg, const char *arg);
 
-/* 関数ポインター型の定義 */
+/* Definition of function pointer type */
 typedef int		(*t_builtin_func)(char **args);
 
-/* ビルトインコマンド */
+/* Builtin command */
 t_builtin_func	get_builtin_funcs(char *name);
 int				builtin_unset(char **args);
 int				builtin_export(char **args);

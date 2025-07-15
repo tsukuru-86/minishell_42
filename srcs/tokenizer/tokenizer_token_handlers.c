@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* 入力から生の単語を抽出し、バッファに格納 */
+/* Extract a raw word from input and store it in the buffer */
 int	extract_raw_word(const char *input, int *i, char *word_buffer)
 {
 	int	word_i;
@@ -30,7 +30,7 @@ int	extract_raw_word(const char *input, int *i, char *word_buffer)
 	return (word_i);
 }
 
-/* クォートされたセグメントを処理してトークンを作成し、リストに追加 */
+/* Handle quoted segment, create a token, and add to the list */
 int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 {
 	t_token	*new_token;
@@ -59,7 +59,7 @@ int	handle_quoted_token_creation(t_tokenizer_stat *stat, const char *input)
 	return (1);
 }
 
-/* メタ文字セグメントを処理してトークンを作成し、リストに追加 */
+/* Handle meta character segment, create a token, and add to the list */
 int	handle_meta_token_creation(t_tokenizer_stat *stat, const char *input)
 {
 	t_token	*new_token;
@@ -71,7 +71,7 @@ int	handle_meta_token_creation(t_tokenizer_stat *stat, const char *input)
 	return (1);
 }
 
-/* 生の単語を展開し、TOKEN_WORD トークンを作成 */
+/* Expand a raw word and create a TOKEN_WORD token */
 t_token	*create_expanded_word_token(char *raw_word, int *status)
 {
 	char	*expanded_content;
@@ -100,7 +100,7 @@ t_token	*create_expanded_word_token(char *raw_word, int *status)
 	return (new_token);
 }
 
-/* ホワイトスペース文字をスキップする */
+/* Skip whitespace characters */
 void	skip_whitespace(const char *input, int *i)
 {
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'

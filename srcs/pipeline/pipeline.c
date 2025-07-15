@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "pipeline.h"
 
-/* シグナルによる終了状態を処理 */
+/* Handle termination status by signal */
 static int	handle_signaled_status(int status)
 {
 	if (WTERMSIG(status) == SIGPIPE)
@@ -21,7 +21,7 @@ static int	handle_signaled_status(int status)
 	return (128 + WTERMSIG(status));
 }
 
-/* 単一プロセスの待機と状態処理 */
+/* Wait for a single process and handle its status */
 static int	wait_single_process(t_command *current)
 {
 	int	status;
@@ -38,7 +38,7 @@ static int	wait_single_process(t_command *current)
 	return (0);
 }
 
-/* パイプラインの完了を待機 */
+/* Wait for pipeline completion */
 int	wait_pipeline(t_command *cmd)
 {
 	t_command	*current;

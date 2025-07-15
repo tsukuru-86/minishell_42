@@ -13,7 +13,7 @@
 #include "env.h"
 #include "minishell.h"
 
-/* 環境変数の値を取得 */
+/* Get the value of an environment variable */
 char	*expand_env_var(const char *name)
 {
 	t_env	*env_node;

@@ -15,7 +15,7 @@
 #include "tokenizer.h"
 
 /*
-** @brief リダイレクトタイプかチェック
+** @brief Check if token is a redirect type
 */
 static int	is_redirect_token_advanced(t_token_type type)
 {
@@ -26,7 +26,7 @@ static int	is_redirect_token_advanced(t_token_type type)
 }
 
 /*
-** @brief 末尾のリダイレクト演算子をチェック
+** @brief Check for trailing redirect operator
 */
 static int	check_trailing_redirect(t_token *tokens)
 {
@@ -52,7 +52,7 @@ static int	check_trailing_redirect(t_token *tokens)
 }
 
 /*
-** @brief 連続するリダイレクト演算子をチェック
+** @brief Check for consecutive redirect operators
 */
 static int	check_consecutive_redirects(t_token *tokens)
 {
@@ -79,7 +79,7 @@ static int	check_consecutive_redirects(t_token *tokens)
 }
 
 /*
-** @brief 高度な構文チェックを実行
+** @brief Perform advanced syntax check
 */
 int	check_advanced_syntax(t_token *tokens)
 {

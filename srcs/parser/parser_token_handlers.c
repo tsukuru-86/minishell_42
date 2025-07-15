@@ -15,11 +15,11 @@
 #include "parser.h"
 
 /*
-** @brief REDIRECTタイプのトークンを処理します。
-** @param cmd_ptr 現在のコマンド構造体へのポインタ
-** @param current_token_ptr 現在のトークンへのポインタ
-** @param head_cmd_ptr コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
+** @brief Handle REDIRECT type tokens.
+** @param cmd_ptr Pointer to the current command structure
+** @param current_token_ptr Pointer to the current token
+** @param head_cmd_ptr Pointer to the head of the command list
+** @return 1 on success, 0 on failure
 */
 int	handle_redirect_type_tokens(t_command **cmd_ptr,
 		t_token **current_token_ptr, t_command **head_cmd_ptr)
@@ -32,10 +32,10 @@ int	handle_redirect_type_tokens(t_command **cmd_ptr,
 }
 
 /*
-** @brief その他のトークンを処理します。
-** @param current_token_ptr 現在のトークンへのポインタ
-** @param type トークンのタイプ
-** @return 常に1
+** @brief Handle other tokens.
+** @param current_token_ptr Pointer to the current token
+** @param type Token type
+** @return Always 1
 */
 int	handle_other_tokens(t_token **current_token_ptr, t_token_type type)
 {

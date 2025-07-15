@@ -39,8 +39,8 @@ char	*search_in_path(const char *path_env, char *cmd)
 	return (NULL);
 }
 
-/* 子プロセスのシグナル設定を行う関数。
-   子プロセスではSIGINT、SIGQUIT、SIGPIPEをデフォルトの処理に設定する */
+/* Set up signal handling in child process.
+   In child, set SIGINT, SIGQUIT, SIGPIPE to default handlers */
 void	setup_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);

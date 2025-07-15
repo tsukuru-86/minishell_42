@@ -43,7 +43,7 @@ t_token_type	check_greater_than_token(const char *input, int *i)
 	return (TOKEN_WORD);
 }
 
-// heredocデリミタの引用符付きコピー
+/* Copy quoted heredoc delimiter */
 int	fill_heredoc_quoted(const char *input, int *i, char *word_buffer)
 {
 	char	quote;
@@ -63,7 +63,7 @@ int	fill_heredoc_quoted(const char *input, int *i, char *word_buffer)
 	return (word_i);
 }
 
-// heredocデリミタの非引用符コピー
+/* Copy unquoted heredoc delimiter */
 int	fill_heredoc_unquoted(const char *input, int *i, char *word_buffer)
 {
 	int	word_i;

@@ -15,7 +15,7 @@
 #include "tokenizer.h"
 
 /*
-** @brief パイプ後のリダイレクションかチェック
+** @brief Check if this is a redirection after a pipe
 */
 int	is_pipe_redirect(t_token *prev, t_token *current)
 {
@@ -28,7 +28,7 @@ int	is_pipe_redirect(t_token *prev, t_token *current)
 }
 
 /*
-** @brief リダイレクト演算子のターゲット検証
+** @brief Validate the target of a redirect operator
 */
 int	validate_redirect_target(t_token *current, t_token *prev)
 {
@@ -54,7 +54,7 @@ int	validate_redirect_target(t_token *current, t_token *prev)
 }
 
 /*
-** @brief パイプ・リダイレクト組み合わせを考慮した構文チェック
+** @brief Syntax check considering pipe and redirect combinations
 */
 int	check_pipe_redirect_syntax(t_token *tokens)
 {

@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "pipeline.h"
 
-/* パイプラインのセットアップ */
+/* Set up the pipeline */
 int	setup_pipeline(t_command *cmd)
 {
 	if (!cmd)
@@ -36,7 +36,7 @@ int	setup_pipeline(t_command *cmd)
 	return (1);
 }
 
-/* パイプラインコマンドを実行する関数 */
+/* Execute pipeline commands */
 int	execute_command_pipeline(t_command *cmd)
 {
 	int	pipeline_result;

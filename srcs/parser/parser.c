@@ -14,7 +14,7 @@
 #include "parser.h"
 
 /*
-** 新しいコマンド構造体を作成
+** Create a new command structure
 */
 t_command	*create_command(void)
 {
@@ -33,7 +33,7 @@ t_command	*create_command(void)
 	return (cmd);
 }
 
-/* トークンタイプに基づいてリダイレクトタイプを決定し、ヒアドキュメントを処理 */
+/* Determine redirect type based on token type and handle heredoc */
 static int	determine_redirect_type(t_command *cmd, t_token *token,
 		t_token *next_token, int *type_out)
 {
@@ -58,7 +58,7 @@ static int	determine_redirect_type(t_command *cmd, t_token *token,
 	return (1);
 }
 
-/* リダイレクトをコマンドに追加 */
+/* Add a redirect to the command */
 int	add_redirect(t_command *cmd, t_token *token, t_token *next)
 {
 	t_redirect	*redir;

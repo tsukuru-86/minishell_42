@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* トークンをリストの末尾に追加 */
+/* Add a token to the end of the list */
 void	add_token_to_list(t_token **token_list_head, t_token *new_token)
 {
 	t_token	*current;
@@ -31,7 +31,7 @@ void	add_token_to_list(t_token **token_list_head, t_token *new_token)
 	current->next = new_token;
 }
 
-/* トークンリストの最後のトークンを取得 */
+/* Get the last token in the token list */
 t_token	*get_last_token(t_token *tokens)
 {
 	if (!tokens)
@@ -41,7 +41,7 @@ t_token	*get_last_token(t_token *tokens)
 	return (tokens);
 }
 
-/* トークナイザーを終了処理 */
+/* Finalize the tokenizer */
 void	finalize_tokenizer(t_tokenizer_stat *vars)
 {
 	if (!vars)
@@ -53,7 +53,7 @@ void	finalize_tokenizer(t_tokenizer_stat *vars)
 	}
 }
 
-/* トークナイザーのクリーンアップとNULL返却 */
+/* Cleanup the tokenizer and return NULL */
 t_token	*cleanup_and_return_null(t_tokenizer_stat *vars, char *input)
 {
 	if (vars && vars->tokens)
@@ -71,7 +71,7 @@ t_token	*cleanup_and_return_null(t_tokenizer_stat *vars, char *input)
 	return (NULL);
 }
 
-/* 空白トークンの作成処理 */
+/* Handle creation of space token */
 int	handle_space_token_creation(t_tokenizer_stat *vars, const char *input)
 {
 	t_token	*space_token;

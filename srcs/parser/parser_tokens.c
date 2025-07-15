@@ -15,11 +15,11 @@
 #include "parser.h"
 
 /*
-** @brief 単語トークンを処理します。隣接する非空白トークンを結合します。
-** @param cmd 現在のコマンド構造体
-** @param current_token 現在のトークンへのポインタ
-** @param head_cmd コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
+** @brief Handle word tokens. Merge adjacent non-space tokens.
+** @param cmd Current command structure
+** @param current_token Pointer to the current token
+** @param head_cmd Pointer to the head of the command list
+** @return 1 on success, 0 on failure
 */
 int	handle_word_token(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)
@@ -47,11 +47,11 @@ int	handle_word_token(t_command *cmd, t_token **current_token,
 }
 
 /*
-** @brief パイプトークンを処理します。
-** @param cmd 現在のコマンド構造体へのポインタ
-** @param current_token 現在のトークンへのポインタ
-** @param head_cmd コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
+** @brief Handle pipe tokens.
+** @param cmd Pointer to the current command structure
+** @param current_token Pointer to the current token
+** @param head_cmd Pointer to the head of the command list
+** @return 1 on success, 0 on failure
 */
 int	handle_pipe_token(t_command **cmd, t_token **current_token,
 		t_command **head_cmd)
@@ -80,11 +80,11 @@ int	handle_pipe_token(t_command **cmd, t_token **current_token,
 }
 
 /*
-** @brief parse_tokensのループ内でのトークン処理を行います。
-** @param cmd_ptr 現在のコマンド構造体へのポインタ
-** @param current_token_ptr 現在のトークンへのポインタ
-** @param head_cmd_ptr コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
+** @brief Handle token processing in the parse_tokens loop.
+** @param cmd_ptr Pointer to the current command structure
+** @param current_token_ptr Pointer to the current token
+** @param head_cmd_ptr Pointer to the head of the command list
+** @return 1 on success, 0 on failure
 */
 int	process_token_in_parse_loop(t_command **cmd_ptr,
 		t_token **current_token_ptr, t_command **head_cmd_ptr)
@@ -97,7 +97,7 @@ int	process_token_in_parse_loop(t_command **cmd_ptr,
 	type = (*current_token_ptr)->type;
 	if (type == TOKEN_WORD || type == TOKEN_S_QUOTED_WORD
 		|| type == TOKEN_D_QUOTED_WORD)
-		return (handle_word_type_tokens(cmd_ptr, current_token_ptr,
+		return (handle_word_token(*cmd_ptr, current_token_ptr,
 				head_cmd_ptr));
 	else if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC)

@@ -14,7 +14,7 @@
 #include "libft.h"
 
 /*
-** 文字列の両端クォートを除去
+** Remove quotes from both ends of a string
 */
 char	*unquote(const char *src)
 {
@@ -34,7 +34,7 @@ char	*unquote(const char *src)
 }
 
 /*
-** 文字列の前後スペース除去＋両端クォート除去
+** Remove leading/trailing spaces and quotes from a string
 */
 char	*trim_and_unquote(const char *src)
 {
@@ -50,7 +50,7 @@ char	*trim_and_unquote(const char *src)
 }
 
 /*
-** name/valueを正規化
+** Normalize name/value
 */
 void	normalize_export_args(char **name, char **value)
 {

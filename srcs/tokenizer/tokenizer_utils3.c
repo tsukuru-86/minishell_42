@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* 環境変数を展開してトークンを作成 */
+/* Expand environment variables and create token */
 static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 {
 	char	*expanded;
@@ -32,7 +32,7 @@ static t_token	*create_expanded_var_token(char *buf, t_token_type type)
 	return (new_token);
 }
 
-/* トークンを作成し、必要に応じて環境変数を展開する */
+/* Create token and expand environment variables if needed */
 t_token	*create_expanded_token(char *buf, t_token_type token_type)
 {
 	if (token_type == TOKEN_D_QUOTED_WORD || token_type == TOKEN_WORD)
@@ -41,7 +41,7 @@ t_token	*create_expanded_token(char *buf, t_token_type token_type)
 		return (safe_create_token(buf, token_type));
 }
 
-/* クォートされた文字列を抽出する */
+/* Extract quoted string content */
 int	extract_quoted_content(const char *input, int *i, char *buf, int *buf_len)
 {
 	char	quote_c;
@@ -66,7 +66,7 @@ int	extract_quoted_content(const char *input, int *i, char *buf, int *buf_len)
 	return (ret);
 }
 
-/* 通常の単語を抽出する */
+/* Extract normal word content */
 void	extract_word_content(const char *input, int *i, char *buf, int *buf_len)
 {
 	if (input[*i] == '$' && (input[*i + 1] == '"' || input[*i + 1] == '\''))
@@ -80,7 +80,7 @@ void	extract_word_content(const char *input, int *i, char *buf, int *buf_len)
 	}
 }
 
-/* 単語セグメントを抽出し、展開し、トークンを作成してリストに追加 */
+/* Extract word segment, expand, create token, and add to list */
 int	handle_word_token_creation(t_tokenizer_stat *stat, const char *input)
 {
 	char			buf[1024];

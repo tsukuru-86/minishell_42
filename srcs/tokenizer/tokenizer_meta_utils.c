@@ -23,7 +23,8 @@ static t_token_type	check_pipe_token(const char *input, int *i)
 	return (TOKEN_WORD);
 }
 
-/* メタ文字のトークンタイプを判定。Returns TOKEN_WORD if no meta char matched */
+/* Determine token type for meta characters.
+Returns TOKEN_WORD if no meta char matched */
 t_token_type	get_meta_type(const char *input, int *i)
 {
 	t_token_type	type;
@@ -51,7 +52,7 @@ t_token	*create_heredoc_delimiter_token(const char *input, int *i)
 	return (safe_create_token(word_buffer, TOKEN_HEREDOC_DELIMITER));
 }
 
-/* メタ文字トークンを作成 */
+/* Create a meta character token */
 t_token	*create_meta_token(const char *input, int *i)
 {
 	t_token_type	type;

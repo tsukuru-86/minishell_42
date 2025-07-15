@@ -28,7 +28,7 @@ int	is_meta(char c)
 	return (c == '|' || c == '<' || c == '>');
 }
 
-/* トークンリストの解放 */
+/* Free the token list */
 void	free_tokens(t_token *tokens)
 {
 	t_token	*current;

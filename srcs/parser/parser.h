@@ -13,9 +13,9 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-/* パーサーモジュール内部ヘッダー
- * このヘッダーはparserディレクトリ内のファイルでのみ使用
- * 外部モジュールは minishell.h の関数のみを使用すること
+/* Internal header for parser module
+ * This header is only used within the parser directory.
+ * External modules should use only the functions in minishell.h.
  */
 
 # include "minishell.h"
@@ -39,7 +39,7 @@ int			handle_word_type_tokens(t_command **cmd_ptr,
 int			handle_redirect_type_tokens(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
 int			handle_other_tokens(t_token **current_token_ptr, t_token_type type);
-/* パーサー内部関数（外部からは呼び出し禁止） */
+/* Parser internal functions (do not call from outside) */
 int			process_token_in_parse_loop(t_command **cmd_ptr,
 				t_token **current_token_ptr, t_command **head_cmd_ptr);
 void		link_commands(t_command *prev, t_command *next);

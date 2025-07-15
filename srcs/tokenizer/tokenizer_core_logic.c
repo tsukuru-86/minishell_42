@@ -39,7 +39,3 @@ t_token	*create_token(char *content, t_token_type type)
 	new_token->next = NULL;
 	return (new_token);
 }
-
-/* クォートされた文字列を処理し、トークンリストに追加 */
-
-/* トークン化のメインループの一部を処理 */

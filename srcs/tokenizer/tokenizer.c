@@ -33,7 +33,7 @@ t_token	*safe_create_token(char *content, t_token_type type)
 	return (token);
 }
 
-/* 構文エラー時のクリーンアップ処理 */
+/* Cleanup on syntax error */
 static t_token	*handle_syntax_error(t_tokenizer_stat *vars)
 {
 	set_exit_status(NULL, 2);

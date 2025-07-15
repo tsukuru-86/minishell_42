@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /*
-** @brief 標準入力から標準出力への単純なコピー処理
+** @brief Simple copy from standard input to standard output
 */
 static void	copy_stdin_to_stdout(void)
 {
@@ -31,8 +31,8 @@ static void	copy_stdin_to_stdout(void)
 }
 
 /*
-** @brief 引数のないコマンドでリダイレクションのみの場合の処理
-** パイプの後の空のコマンドで標準入力をそのまま出力する
+** @brief Handler for commands with no arguments and only redirection.
+** After a pipe, an empty command outputs standard input as is.
 */
 int	handle_empty_command_with_redirects(void)
 {

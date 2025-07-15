@@ -16,7 +16,7 @@
 #include "tokenizer/tokenizer.h"
 
 /*
-** @brief 先頭のトークンが構文エラーでないかをチェック
+** @brief Check if the first token is not a syntax error
 */
 static int	check_trailing_pipe(t_token *tokens)
 {
@@ -51,10 +51,10 @@ static int	check_syntax_errors(t_token *tokens)
 }
 
 /*
-** @brief コマンド構造体を検証します。
-** @param head コマンドリストの先頭
-** @param tokens トークンリストの先頭
-** @return 検証が成功した場合は1、失敗した場合は0
+** @brief Validate the command structure.
+** @param head Head of the command list
+** @param tokens Head of the token list
+** @return 1 if validation succeeds, 0 if fails
 */
 static int	validate_command(t_command *head, t_token *tokens)
 {
@@ -71,9 +71,9 @@ static int	validate_command(t_command *head, t_token *tokens)
 }
 
 /*
-** @brief トークン列をコマンド構造体に変換するメインループ処理です。
-** @param tokens トークンリストの先頭
-** @return 変換されたコマンドリストの先頭、またはエラー時にNULL
+** @brief Main loop to convert a token sequence into command structures.
+** @param tokens Head of the token list
+** @return Head of the converted command list, or NULL on error
 */
 static t_command	*parse_tokens_loop(t_token *tokens)
 {
@@ -98,9 +98,9 @@ static t_command	*parse_tokens_loop(t_token *tokens)
 }
 
 /*
-** @brief トークン列をコマンド構造体に変換します。
-** @param tokens トークンリストの先頭
-** @return 変換されたコマンドリストの先頭、またはエラー時にNULL
+** @brief Convert a token sequence into command structures.
+** @param tokens Head of the token list
+** @return Head of the converted command list, or NULL on error
 */
 t_command	*parse_tokens(t_token *tokens)
 {

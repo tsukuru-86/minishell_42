@@ -13,7 +13,8 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* トークナイザの状態を初期化。cmdがNULLの場合、新しいコマンド構造体を割り当てる */
+/* Initialize tokenizer.
+If cmd is NULL, allocate a new command structure */
 int	init_tokenizer_stat(t_tokenizer_stat *stat, t_command *cmd)
 {
 	stat->tokens = NULL;

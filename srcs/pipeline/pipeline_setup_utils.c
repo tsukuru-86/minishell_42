@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "pipeline.h"
 
-/* パイプライン内のすべてのコマンドのパイプ情報を初期化する関数 */
+/* Initialize pipe info for all commands in the pipeline */
 void	init_pipeline(t_command *cmd)
 {
 	t_command	*current;
@@ -30,7 +30,7 @@ void	init_pipeline(t_command *cmd)
 	}
 }
 
-/* コマンド間のパイプを作成し、読み書きのファイルディスクリプタを設定する関数 */
+/* Create pipes between commands and set read/write file descriptors */
 int	create_pipes(t_command *cmd)
 {
 	t_command	*current;
@@ -54,7 +54,7 @@ int	create_pipes(t_command *cmd)
 	return (1);
 }
 
-/* 親プロセスでのパイプの閉鎖 */
+/* Close pipes in the parent process */
 void	close_parent_pipes(t_command *cmd)
 {
 	t_command	*current;

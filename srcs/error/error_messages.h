@@ -13,21 +13,21 @@
 #ifndef ERROR_MESSAGES_H
 # define ERROR_MESSAGES_H
 
-/* ビルトインコマンドのエラーメッセージ */
+/* Error messages for builtin commands */
 # define ERR_UNSET_NOT_ENOUGH_ARGS "minishell: unset: few arguments\n"
 # define ERR_UNSET_INVALID_ID "minishell: unset: `%s': not a valid identifier\n"
 # define ERR_EXPORT_MALLOC "minishell: export: memory allocation error\n"
 # define ERR_EXPORT_INVALID_ID "minishell: export: `%s': invalid identifier\n"
 
-/* コマンド実行エラーメッセージ */
+/* Error messages for command execution */
 # define ERR_COMMAND_NOT_FOUND "minishell: %s: command not found\n"
 
-/* 構文エラーメッセージ */
+/* Syntax error messages */
 # define ERR_SYNTAX_ERROR "minishell: syntax error\n"
 # define ERR_UNEXP_TOKEN "minishell: syntax error near unexpected token `%s'\n"
 # define ERR_UNCLOSED_QUOTE "minishell: syntax error: unclosed quote\n"
 
-/* リダイレクションエラーメッセージ */
+/* Redirection error messages */
 # define ERR_REDIRECTION_ERROR "minishell: redirection error\n"
 
 #endif

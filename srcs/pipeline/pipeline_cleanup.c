@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "pipeline.h"
 
-/* パイプラインのクリーンアップ */
+/* Cleanup the pipeline */
 void	cleanup_pipeline(t_command *cmd)
 {
 	t_command	*current;
@@ -37,7 +37,7 @@ void	cleanup_pipeline(t_command *cmd)
 	}
 }
 
-/* パイプラインのクリーンアップを行う関数 */
+/* Cleanup all pipeline commands */
 void	cleanup_pipeline_list_all(t_command *cmd)
 {
 	t_command	*current;

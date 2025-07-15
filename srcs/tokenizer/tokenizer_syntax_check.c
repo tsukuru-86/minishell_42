@@ -15,7 +15,7 @@
 #include "tokenizer.h"
 
 /*
-** @brief パイプの連続をチェック
+** @brief Check for consecutive pipes
 */
 static int	check_consecutive_pipes(t_token *tokens)
 {
@@ -42,7 +42,7 @@ static int	check_consecutive_pipes(t_token *tokens)
 }
 
 /*
-** @brief 先頭のパイプをチェック
+** @brief Check for leading pipe
 */
 static int	check_leading_pipe(t_token *tokens)
 {
@@ -60,7 +60,7 @@ static int	check_leading_pipe(t_token *tokens)
 }
 
 /*
-** @brief 基本的な構文チェックを実行
+** @brief Perform basic syntax check
 */
 int	check_basic_syntax(t_token *tokens)
 {

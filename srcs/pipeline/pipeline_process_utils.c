@@ -62,7 +62,7 @@ static void	execute_pipeline_command(t_command *cmd, t_command *current)
 	pipeline_execute_command_logic(current);
 }
 
-/* 子プロセスの作成と実行 */
+/* Create and execute child process */
 static void	print_redirect_errors(t_redirect *redirect)
 {
 	t_redirect	*cur;

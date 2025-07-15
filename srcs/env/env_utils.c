@@ -13,8 +13,8 @@
 #include "env.h"
 #include "minishell.h"
 
-/* 環境変数リストのグローバルアクセスポイントを提供する関数。
-   静的変数としてリストのヘッドを保持し、シェル全体で共有できるようにする */
+/* Provide a global access point to the environment variable list.
+   The head is held as a static variable and shared throughout the shell. */
 t_env	**get_env_val(void)
 {
 	static t_env	*head = NULL;
@@ -22,8 +22,8 @@ t_env	**get_env_val(void)
 	return (&head);
 }
 
-/* 環境変数リスト全体を解放する関数。
-   すべてのノードとその名前、値のメモリを適切に解放する */
+/* Free the entire environment variable list.
+   Properly free all nodes and their name/value memory. */
 void	free_env_list(void)
 {
 	t_env	*temp;

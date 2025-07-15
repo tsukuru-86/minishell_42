@@ -49,7 +49,7 @@ int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 	int	is_delimiter;
 	int	result;
 
-	debug_print_with_str("heredoc compare: デリミタ=", heredoc->delimiter);
+	debug_print_with_str("heredoc compare: delimiter=", heredoc->delimiter);
 	debug_print_with_str("heredoc compare: line=", line);
 	is_delimiter = (ft_strcmp(line, heredoc->delimiter) == 0);
 	if (is_delimiter)

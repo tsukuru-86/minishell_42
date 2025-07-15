@@ -15,7 +15,7 @@
 #include "redirect/redirect.h"
 
 /*
-** 環境変数配列の解放
+** Free environment variable array
 */
 void	free_env_array(char **env_array, int count)
 {
@@ -33,7 +33,7 @@ void	free_env_array(char **env_array, int count)
 }
 
 /*
-** 環境変数リスト内のノード数をカウント
+** Count the number of nodes in the environment variable list
 */
 int	count_env_nodes(t_env *env_list)
 {
@@ -51,7 +51,7 @@ int	count_env_nodes(t_env *env_list)
 }
 
 /*
-** 子プロセスでのexecve失敗時の処理
+** Handler for execve failure in child process
 */
 int	handle_child_process(char *cmd_path, char **args)
 {
@@ -80,7 +80,7 @@ int	handle_child_process_with_redirect(char *cmd_path, char **args,
 }
 
 /*
-** コマンドパスがディレクトリか判定
+** Check if the command path is a directory
 */
 int	check_if_directory(char *cmd_path, char *cmd_name)
 {
@@ -97,5 +97,3 @@ int	check_if_directory(char *cmd_path, char *cmd_name)
 	}
 	return (handle_stat_error(cmd_name));
 }
-
-/* execute_external_commandはexternal_commands_exec.cへ移動 */

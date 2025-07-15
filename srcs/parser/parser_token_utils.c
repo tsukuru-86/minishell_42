@@ -15,11 +15,11 @@
 #include "parser.h"
 
 /*
-** @brief リダイレクトトークンを処理します。
-** @param cmd 現在のコマンド構造体
-** @param current_token 現在のトークンへのポインタ
-** @param head_cmd コマンドリストの先頭へのポインタ
-** @return 成功した場合は1、失敗した場合は0
+** @brief Handle redirect tokens.
+** @param cmd Current command structure
+** @param current_token Pointer to the current token
+** @param head_cmd Pointer to the head of the command list
+** @return 1 on success, 0 on failure
 */
 static int	handle_normal_redirect(t_command *cmd, t_token **current_token,
 		t_command **head_cmd)

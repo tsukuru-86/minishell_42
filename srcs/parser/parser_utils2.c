@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils3.c                                    :+:      :+:    :+:   */
+/*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 #include "parser.h"
 
 /*
-** コマンド引数配列の解放
+** Free the command argument array
 */
 static void	free_command_args(char **args)
 {
@@ -33,7 +33,7 @@ static void	free_command_args(char **args)
 }
 
 /*
-** コマンド構造体の解放
+** Free the command structure
 */
 void	free_command(t_command *cmd)
 {

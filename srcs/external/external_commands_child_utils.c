@@ -62,7 +62,7 @@ static bool	populate_env_array_from_list(char **env_array, t_env *env_list)
 	return (true);
 }
 
-/* 環境変数リストを execve で使用できる文字列配列に変換する関数 */
+/* Convert environment variable list to string array for execve */
 char	**env_list_to_array(void)
 {
 	char	**env_array;

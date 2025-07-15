@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-/* 単一コマンドを実行する関数。リダイレクトを設定し、組み込みコマンドなら直接実行、
-外部コマンドならフォークして子プロセスで実行する */
+/* Execute a single command. Set up redirection, execute directly if builtin,
+or fork and execute in a child process if external command. */
 static int	handle_empty_command(t_command *cmd)
 {
 	int	status;
@@ -60,8 +60,8 @@ static int	execute_single_command(t_command *cmd)
 	return (status);
 }
 
-/* コマンドリストを実行する関数。単一コマンドの場合は直接実行し、
-パイプラインの場合はパイプラインのセットアップ、実行、クリーンアップを行う */
+/* Execute a command list. If a single command, execute directly.
+If a pipeline, set up, execute, and clean up the pipeline. */
 int	execute_commands(t_command *cmd)
 {
 	if (!cmd)

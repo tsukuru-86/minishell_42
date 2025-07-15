@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "tokenizer.h"
 
-/* バッファサイズチェックとエラー処理 */
+/* Buffer size check and error handling */
 static int	check_buffer_size_internal(int word_idx)
 {
 	if (word_idx >= MAX_TOKENS - 1)
@@ -33,7 +33,7 @@ static void	set_quote_type_internal(char quote_char, t_token_type *type)
 		*type = TOKEN_D_QUOTED_WORD;
 }
 
-/* クォート内の文字列をバッファにコピー */
+/* Copy quoted string content to buffer */
 static int	copy_quoted_content_internal(const char *input, int *i,
 		char *word_buf, char quote_char)
 {
@@ -50,7 +50,7 @@ static int	copy_quoted_content_internal(const char *input, int *i,
 	return (word_idx);
 }
 
-/* ダブルクォート内の文字列の環境変数を展開し、word_bufにコピー */
+/* Expand environment variables in double quotes and copy to word_buf */
 
 static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 		t_token_type type)
@@ -78,7 +78,7 @@ static int	expand_and_copy_if_double_quote_internal(char *word_buf,
 	return (1);
 }
 
-/* クォートされた文字列を抽出。クォートが閉じられていない場合などに 0 を返す */
+/* Extract quoted string. Returns 0 if quote is not closed, etc. */
 int	extract_quoted_string(t_tokenizer_stat *stat, const char *input,
 		char *word_buf)
 {

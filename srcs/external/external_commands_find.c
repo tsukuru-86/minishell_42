@@ -24,9 +24,9 @@ static char	*get_path_env_value(void)
 		return (NULL);
 }
 
-/* PATH環境変数文字列から次のパスセグメントを抽出する
-   current_path_start は呼び出し元で更新されるようにポインタのポインタで渡す
-   path_segment は結果を格納するバッファ */
+/* Extract the next path segment from PATH environment string.
+   current_path_start is updated by the caller via pointer to pointer.
+   path_segment_buf is the buffer to store the result. */
 static bool	extract_next_path_segment(const char **current_path_start,
 		char *path_segment_buf, size_t buf_size)
 {
@@ -100,9 +100,9 @@ static char	*search_in_path(const char *path_env, const char *cmd)
 	return (NULL);
 }
 
-/* コマンドのパスを検索する関数。
-   絶対パスまたは相対パスの場合はそのまま、
-   単純なコマンド名の場合はPATH環境変数から検索する */
+/* Search for the command path.
+   If absolute or relative path, use as is.
+   If simple command name, search in PATH environment variable. */
 char	*find_command_path(char *cmd)
 {
 	char	*path_env_str;

@@ -20,7 +20,7 @@
 #  include <linux/limits.h>
 # endif
 
-/* PATH_MAX: パスの最大長 */
+/* PATH_MAX: Maximum path length */
 
 # ifndef PATH_MAX
 #  ifdef _POSIX_PATH_MAX
@@ -30,7 +30,7 @@
 #  endif
 # endif
 
-/* ARG_MAX: execve()に渡せる引数の最大バイト数 */
+/* ARG_MAX: Maximum bytes for arguments passed to execve() */
 # ifndef ARG_MAX
 #  ifdef _POSIX_ARG_MAX
 #   define ARG_MAX _POSIX_ARG_MAX
@@ -39,7 +39,7 @@
 #  endif
 # endif
 
-/* NAME_MAX: ファイル名の最大長 */
+/* NAME_MAX: Maximum file name length */
 # ifndef NAME_MAX
 #  ifdef _POSIX_NAME_MAX
 #   define NAME_MAX _POSIX_NAME_MAX
@@ -48,7 +48,7 @@
 #  endif
 # endif
 
-/* PIPE_BUF: パイプバッファのアトミック書き込み保証サイズ */
+/* PIPE_BUF: Atomic write guarantee size for pipe buffer */
 # ifndef PIPE_BUF
 #  ifdef _POSIX_PIPE_BUF
 #   define PIPE_BUF _POSIX_PIPE_BUF
@@ -57,7 +57,7 @@
 #  endif
 # endif
 
-/* OPEN_MAX: 同時に開けるファイルディスクリプタの最大数 */
+/* OPEN_MAX: Maximum number of simultaneously open file descriptors */
 # ifndef OPEN_MAX
 #  ifdef _POSIX_OPEN_MAX
 #   define OPEN_MAX _POSIX_OPEN_MAX
