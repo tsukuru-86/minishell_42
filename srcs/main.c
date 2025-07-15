@@ -22,8 +22,13 @@ void	signal_handler(int signum)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
+#ifdef LINUX
 		rl_replace_line("", 0);
+#else
+		/* MacOSではrl_replace_line()が未定義のため、
+		   プロンプトを再表示するだけにする */
 		rl_redisplay();
+#endif
 	}
 }
 
@@ -89,7 +94,11 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	load_history_file();
 	status = main_loop();
+#ifdef LINUX
 	rl_clear_history();
+#else
+	clear_history();
+#endif
 	free_env_list();
 	return (status);
 }

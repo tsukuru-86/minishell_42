@@ -1,0 +1,32 @@
+=== minishell インタラクティブテスト結果 ===
+実行日時: Wed Jul 09 00:59:05 JST 2025
+実行テスト数: 17
+成功: 10
+失敗: 7
+成功率: 58%
+
+=== 詳細結果 ===
+echo hello: FAIL
+  Output: 期待する出力が見つかりませんでした
+pwd: FAIL
+  Output: 期待する出力が見つかりませんでした
+ls: PASS
+env: FAIL
+  Output: 期待する出力が見つかりませんでした
+export TEST_VAR=hello: PASS
+システム変数表示: FAIL
+  Output: 期待する出力が見つかりませんでした
+unset未定義変数: PASS
+cd .: PASS
+echo hello | cat: FAIL
+  Output: 期待する出力が見つかりませんでした
+echo test > test_output.txt: PASS
+入力リダイレクト基本: PASS
+rm test_output.txt: PASS
+echo history_test: FAIL
+  Output: 期待する出力が見つかりませんでした
+履歴呼び出し: PASS
+nonexistent_command: FAIL
+  Output: 期待する出力が見つかりませんでした
+echo |: PASS
+exit コマンド: PASS
