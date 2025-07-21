@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:17:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 23:27:03 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:15:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include "minishell.h"
+# include <limits.h>
 
 # ifdef __linux
 #  include <linux/limits.h>

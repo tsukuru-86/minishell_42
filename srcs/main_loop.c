@@ -6,18 +6,19 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 23:27:43 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:25:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils/utils.h"
+#include "utils/debug.h"
 
 void	handle_input(char *input, int *status)
 {
 	int	empty_status;
 
-	debug_print_with_str("Enter handle_input: \n", input);
+	dbg_printf("Enter handle_input: %s", input);
 	if (!input)
 		return ;
 	if (!check_input_line_limit(input))
@@ -33,10 +34,10 @@ void	handle_input(char *input, int *status)
 			add_history(input);
 		return ;
 	}
-	debug_print("Before process_valid_input\n");
+	dbg_printf("Before process_valid_input\n");
 	process_valid_input(input, status);
-	debug_print("After process_valid_input\n");
-	debug_print("Exit handle_input\n");
+	dbg_printf("After process_valid_input\n");
+	dbg_printf("Exit handle_input\n");
 }
 
 static int	handle_interactive(int *status)
@@ -50,9 +51,9 @@ static int	handle_interactive(int *status)
 			write(2, "exit\n", 5);
 		return (0);
 	}
-	debug_print_with_str("Interactive input: ", input);
+	dbg_printf("Interactive input: %s", input);
 	handle_input(input, status);
-	debug_print_with_int("Status: ", *status);
+	dbg_printf("Status: %d", *status);
 	free(input);
 	return (1);
 }
@@ -61,12 +62,12 @@ static int	handle_non_interactive(int *status)
 {
 	char	*line;
 
-	line = get_next_line(0);
+	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (0);
-	debug_print_with_str("NI input: ", line);
+	dbg_printf("NI input: %s", line);
 	handle_input(line, status);
-	debug_print_with_int("Status: ", *status);
+	dbg_printf("Status: %d", *status);
 	free(line);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/14 02:28:18 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:26:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "builtin_export.h"
 #include "error/error_messages.h"
 #include "minishell.h"
+#include "utils/debug.h"
 
 /* export built-in command */
 static int	check_invalid_identifier(char *arg)
@@ -33,22 +34,20 @@ static int	process_single_export_arg(char *arg)
 	int		append;
 	int		ret;
 
-	debug_print_with_str("process_single_export_arg() arg: ", arg);
+	dbg_printf("process_single_export_arg() arg: %s", arg);
 	split_export_arg(arg, &name, &value, &append);
-	debug_print_with_str("name=", name);
-	debug_print_with_str("value=", value);
-	debug_print_with_int("append=", append);
+	dbg_printf("splited: name=%s value=%s append=%d", name, value, append);
 	if (append)
 	{
-		debug_print("append mode");
+		dbg_printf("append mode");
 		ret = append_env_value(name, value);
 	}
 	else
 	{
-		debug_print("set mode");
+		dbg_printf("set mode");
 		ret = validate_and_set_env(name, value);
 	}
-	debug_print_with_int("result: ", ret);
+	dbg_printf("result: %d", ret);
 	free(name);
 	free(value);
 	return (ret);

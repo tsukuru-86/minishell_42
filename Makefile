@@ -100,11 +100,9 @@ SRCS_FILE = main.c \
 	tokenizer/tokenizer_utils.c \
 	tokenizer/tokenizer_word_helpers.c \
 	utils/command_handler.c \
+	utils/debug1.c \
 	utils/debug2.c \
 	utils/debug3.c \
-	utils/debug.c \
-	utils/debug_int.c \
-	utils/debug_utils.c \
 	utils/empty_command_handler.c \
 	utils/empty_input_handler.c \
 	utils/excute_command.c \

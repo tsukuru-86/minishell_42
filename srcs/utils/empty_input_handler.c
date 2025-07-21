@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 06:33:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 17:18:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 05:36:34 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils/utils.h"
+#include "utils/debug.h"
 
 int	validate_input(char *input)
 {
@@ -46,11 +47,11 @@ static int	process_tokenization(char *prepared)
 	tokens = tokenize(prepared, NULL);
 	if (!tokens)
 	{
-		debug_print("tokenize returned NULL");
+		dbg_printf("tokenize returned NULL");
 		return (get_exit_status());
 	}
-	debug_print("tokenize succeeded");
-	debug_print_tokens(tokens);
+	dbg_printf("tokenize succeeded");
+	debug_print_tokens_list(tokens);
 	status = handle_tokens_and_parse(tokens);
 	return (status);
 }
@@ -58,12 +59,12 @@ static int	process_tokenization(char *prepared)
 static void	process_valid_input_debug(char *input, char *prepared)
 {
 	(void)input;
-	debug_print("process_valid_input: in");
+	dbg_printf("process_valid_input: in");
 	if (prepared)
-		debug_print_with_str("[DEBUG] after strdup: ", prepared);
+		dbg_printf("after strdup: %s", prepared);
 	else
-		debug_print_with_str("[DEBUG] after strdup: ", "NULL");
-	debug_print_with_str("[DEBUG] process_valid_input: prepare_input result: ",
+		dbg_printf("after strdup: NULL");
+	dbg_printf("process_valid_input: prepare_input result: %",
 		prepared);
 }
 
@@ -78,12 +79,12 @@ void	process_valid_input(char *input, int *status)
 	add_history(input);
 	if (!validate_input(prepared))
 	{
-		debug_print("[DEBUG] process_valid_input: false");
+		dbg_printf("[DEBUG] process_valid_input: false");
 		free(prepared);
 		*status = 0;
 		return ;
 	}
 	*status = process_tokenization(prepared);
 	free(prepared);
-	debug_print("process_valid_input: end");
+	dbg_printf("process_valid_input: end");
 }

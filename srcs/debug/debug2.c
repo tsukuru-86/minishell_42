@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.h                                     :+:      :+:    :+:   */
+/*   debug2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 08:42:57 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/13 08:43:01 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/25 21:49:23 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/16 05:38:50 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRING_UTILS_H
-# define STRING_UTILS_H
+#include "minishell.h"
+#include "utils/debug.h"
 
-char	*str_replace_backslash_n(const char *src);
+void	debug_print_command_args(char **args)
+{
+	int	i;
 
-#endif
+	if (!args)
+		return ;
+	dbg_printf("Command arguments:\n");
+	i = 0;
+	while (args[i] != NULL)
+	{
+		dbg_printf("[%d]=%s ", i, args[i]);
+		i++;
+	}
+	dbg_printf("\n");
+}

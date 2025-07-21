@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 01:34:50 by muiida           ###   ########.fr       */
+/*   Created: 2025/06/12 17:32:35 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/16 05:34:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdarg.h>
-#include <stdio.h>
+#ifndef DEBUG_H
+# define DEBUG_H
 
-void	debug_printf_putstr(const char *str)
-{
-	if (!str)
-		return ;
-	write(2, str, ft_strlen(str));
-}
+# include "minishell.h"
 
-void	debug_printf_putnbr(int n)
-{
-	ft_putnbr_fd(n, 2);
-}
+int		dbg_printf(const char *format, ...);
+void	debug_print_tokens_list(t_token *tokens);
+void	debug_print_command_args(char **args);
+#endif

@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 19:26:51 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/12 03:04:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 03:54:33 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ size_t	ft_putptr_fd(void *ptr, int fd);
 size_t	ft_putnbr_fd_cnt(int n, int fd);
 int		ft_printf_fd(int fd, const char *format, ...);
 size_t	ft_printf(const char *format, ...);
+size_t	parse_and_call_fd(va_list args, const char *format, int fd);
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif

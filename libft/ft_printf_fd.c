@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
-static size_t	parse_and_call_fd(va_list args, const char *format, int fd)
+size_t	parse_and_call_fd(va_list args, const char *format, int fd)
 {
 	size_t	len;
 

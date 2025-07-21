@@ -6,21 +6,22 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/14 03:50:17 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:25:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
 #include "libft.h"
 #include "minishell.h"
+#include "utils/debug.h"
 
 void	launch_child(char *cmd_path, char **args)
 {
 	char	**env_array;
 
-	debug_print("launch_child: start");
-	debug_print_with_str("cmd_path: ", cmd_path);
-	debug_print_with_int("cmd_path ptr: ", (int)(long)cmd_path);
+	dbg_printf("launch_child: start");
+	dbg_printf("cmd_path: %s", cmd_path);
+	dbg_printf("cmd_path ptr: %d", (int)(long)cmd_path);
 	debug_print_command_args(args);
 	env_array = env_list_to_array();
 	if (!env_array)
@@ -28,7 +29,7 @@ void	launch_child(char *cmd_path, char **args)
 		perror("minishell: env_list_to_array failed");
 		exit(127);
 	}
-	debug_print("before execve");
+	dbg_printf("before execve");
 	execve(cmd_path, args, env_array);
 	ft_printf_fd(STDERR_FILENO, "minishell: execve failed: %s: %s\n", cmd_path,
 		strerror(errno));

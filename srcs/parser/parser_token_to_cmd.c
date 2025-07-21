@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:10:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:33:49 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "tokenizer/tokenizer.h"
+#include "utils/debug.h"
 
 /*
 ** @brief Check if the first token is not a syntax error
@@ -113,13 +114,13 @@ t_command	*parse_tokens(t_token *tokens)
 	preprocessed_tokens = preprocess_tokens(tokens);
 	if (!preprocessed_tokens)
 	{
-		debug_print("No tokens remain (empty command)");
+		dbg_printf("No tokens remain (empty command)");
 		return (create_command());
 	}
 	first_token = preprocessed_tokens;
 	while (first_token && first_token->type == TOKEN_SPACE)
 		first_token = first_token->next;
-	debug_print_tokens(preprocessed_tokens);
+	debug_print_tokens_list(preprocessed_tokens);
 	head = parse_tokens_loop(preprocessed_tokens);
 	if (!head || !validate_command(head, preprocessed_tokens))
 	{

@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:24:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:10:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:09:56 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "utils/debug.h"
 
 int	read_heredoc_tty(int fd, t_heredoc *heredoc)
 {
@@ -38,7 +39,7 @@ int	read_heredoc_input(int fd, t_heredoc *heredoc)
 		return (read_heredoc_tty(fd, heredoc));
 	else
 	{
-		debug_print("non-tty mode heredoc");
+		dbg_printf("non-tty mode heredoc");
 		return (process_pipe_heredoc_lines(fd, heredoc));
 	}
 }

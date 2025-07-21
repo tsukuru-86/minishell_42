@@ -6,13 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:50:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 05:27:51 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:29:14 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
-#include <stdio.h>
+#include "utils/debug.h"
 
 // static int	process_quoted_line(char *line, int fd)
 // {
@@ -49,8 +49,8 @@ int	process_heredoc_line(char *line, int fd, t_heredoc *heredoc)
 	int	is_delimiter;
 	int	result;
 
-	debug_print_with_str("heredoc compare: delimiter=", heredoc->delimiter);
-	debug_print_with_str("heredoc compare: line=", line);
+	dbg_printf("heredoc compare: delimiter=%s", heredoc->delimiter);
+	dbg_printf("heredoc compare: line=%s", line);
 	is_delimiter = (ft_strcmp(line, heredoc->delimiter) == 0);
 	if (is_delimiter)
 	{

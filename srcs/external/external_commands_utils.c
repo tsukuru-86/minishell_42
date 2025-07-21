@@ -6,13 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/14 02:51:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:23:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "external.h"
 #include "minishell.h"
 #include "redirect/redirect.h"
+#include "utils/debug.h"
 
 /*
 ** Free environment variable array
@@ -64,16 +65,16 @@ int	handle_child_process_with_redirect(char *cmd_path, char **args,
 		t_command *cmd)
 {
 	setup_child_signals();
-	debug_print_with_str("Child redirect: ", cmd_path);
+	dbg_printf("Child redirect: %s", cmd_path);
 	if (cmd->redirects)
 	{
-		debug_print("Processing redirections in child");
+		dbg_printf("Processing redirections in child");
 		if (!process_redirections(cmd->redirects))
 		{
-			debug_print("Redirection failed in child");
+			dbg_printf("Redirection failed in child");
 			exit(1);
 		}
-		debug_print("Redirection successful in child");
+		dbg_printf("Redirection successful in child");
 	}
 	launch_child(cmd_path, args);
 	return (0);

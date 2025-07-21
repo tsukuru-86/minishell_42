@@ -36,13 +36,15 @@ static int	process_heredoc_lines(int fd, char *delimiter)
 	{
 		if (is_delimiter_line(line, delimiter))
 		{
+			clear_gnl_buffer(STDIN_FILENO);
 			free(line);
-			break ;
+			return (1);
 		}
 		expanded = expand_env_vars(line, 1);
 		if (expanded)
 		{
 			write(fd, expanded, ft_strlen(expanded));
+			clear_gnl_buffer(STDIN_FILENO);
 			free(expanded);
 		}
 		else

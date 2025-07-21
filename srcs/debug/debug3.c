@@ -6,27 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 01:24:35 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 01:36:08 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 05:38:16 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
+#include "utils/debug.h"
 
-void	debug_printf(const char *fmt, ...)
-{
-	va_list	ap;
-
-	if (!DEBUG_ENABLED)
-		return ;
-	va_start(ap, fmt);
-	ft_printf_fd(2, "[DEBUG] ");
-	ft_printf_fd(2, fmt, ap);
-	ft_printf_fd(2, "\n");
-	va_end(ap);
-}
-
-void	debug_print_token(const t_token *token)
+static void	debug_print_token(const t_token *token)
 {
 	char	*type_str[18];
 
@@ -48,13 +35,13 @@ void	debug_print_token(const t_token *token)
 	if (!DEBUG_ENABLED)
 		return ;
 	if (token->content == NULL)
-		debug_print("[NULL: ");
+		dbg_printf("[NULL: ");
 	else
 		ft_printf_fd(STDERR_FILENO, "[DEBUG][%s: ", token->content);
 	ft_printf_fd(STDERR_FILENO, "%s]\n", type_str[token->type]);
 }
 
-void	debug_print_tokens(t_token *tokens)
+void	debug_print_tokens_list(t_token *tokens)
 {
 	t_token	*tmp;
 
@@ -62,11 +49,11 @@ void	debug_print_tokens(t_token *tokens)
 		return ;
 	if (!tokens)
 	{
-		debug_print("[DEBUG]Token list: NULL \n");
+		dbg_printf("Token list: NULL \n");
 		return ;
 	}
 	else
-		debug_print("[DEBUG]Token list:\n");
+		dbg_printf("Token list:\n");
 	tmp = tokens;
 	while (tmp)
 	{

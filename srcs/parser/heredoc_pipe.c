@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:18:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 03:06:09 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:29:04 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "utils/debug.h"
 
 static int	fill_pipe_buffer(t_pipe_buffer *pb)
 {
@@ -68,7 +69,7 @@ static char	*read_line_from_pipe(void)
 			return (NULL);
 	}
 	line = extract_line_from_buffer(&pb);
-	debug_print_with_str("read_line_from_pipe: final line", line);
+	dbg_printf("read_line_from_pipe: final line=%s", line);
 	return (line);
 }
 
@@ -82,7 +83,7 @@ int	process_pipe_heredoc_lines(int fd, t_heredoc *heredoc)
 		line = read_line_from_pipe();
 		if (!line)
 			break ;
-		debug_print_with_str("Processing heredoc line", line);
+		dbg_printf("Processing heredoc line=%s", line);
 		result = process_heredoc_line(line, fd, heredoc);
 		if (result == 0)
 			return (0);

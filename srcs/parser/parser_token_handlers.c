@@ -13,6 +13,7 @@
 #include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
+#include "utils/debug.h"
 
 /*
 ** @brief Handle REDIRECT type tokens.
@@ -26,7 +27,7 @@ int	handle_redirect_type_tokens(t_command **cmd_ptr,
 {
 	int	status;
 
-	debug_print("Handling REDIRECT token");
+	dbg_printf("Handling REDIRECT token");
 	status = handle_redirect_token(*cmd_ptr, current_token_ptr, head_cmd_ptr);
 	return (status);
 }
@@ -41,15 +42,15 @@ int	handle_other_tokens(t_token **current_token_ptr, t_token_type type)
 {
 	if (type == TOKEN_SPACE)
 	{
-		debug_print("Skipping SPACE token");
+		dbg_printf("Skipping SPACE token");
 	}
 	else if (type == TOKEN_NEWLINE)
 	{
-		debug_print("Skipping NEWLINE token");
+		dbg_printf("Skipping NEWLINE token");
 	}
 	else
 	{
-		debug_print("Skipping OTHER token");
+		dbg_printf("Skipping OTHER token");
 	}
 	*current_token_ptr = (*current_token_ptr)->next;
 	return (1);

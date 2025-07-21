@@ -6,13 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/15 17:34:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:25:38 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
 #include <stdlib.h>
+#include "utils/debug.h"
 
 /*
 ** Validation and conversion of numeric arguments (split version)
@@ -29,7 +30,7 @@ int	validate_and_convert(char *arg, long long *n)
 		put_exit_error("numeric argument required\n", arg);
 		return (2);
 	}
-	debug_print_with_int("converted n=", *n);
+	dbg_printf("converted n=%d", *n);
 	return (0);
 }
 
@@ -52,16 +53,16 @@ static void	exec_exit_with_arg(char *arg)
 	int			status;
 	int			ret;
 
-	debug_print_with_str("process_exit_args arg1=", arg);
+	dbg_printf("process_exit_args arg1=%s", arg);
 	ret = validate_and_convert(arg, &n);
-	debug_print_with_int("validate_and_convert ret=", ret);
+	dbg_printf("validate_and_convert ret=%d", ret);
 	if (ret != 0)
 		exit(2);
 	status = (int)(n % 256);
-	debug_print_with_int("exit status before mod=", status);
+	dbg_printf("exit status before mod=%d", status);
 	if (status < 0)
 		status += 256;
-	debug_print_with_int("exit status final=", status);
+	dbg_printf("exit status final=%d", status);
 	exit(status);
 }
 
@@ -69,7 +70,7 @@ static int	process_exit_args(char **args, int arg_count)
 {
 	int	ret;
 
-	debug_print_with_int("process_exit_args arg_count=", arg_count);
+	dbg_printf("process_exit_args arg_count=%d", arg_count);
 	if (args[1] && validate_and_convert(args[1], &(long long){0}) == 2)
 		exit(2);
 	ret = check_exit_arg_count(arg_count);
@@ -77,7 +78,7 @@ static int	process_exit_args(char **args, int arg_count)
 		return (ret);
 	if (args[1])
 		exec_exit_with_arg(args[1]);
-	debug_print("exit with status get_exit_status()");
+	dbg_printf("exit with status get_exit_status()");
 	exit(get_exit_status());
 	return (0);
 }

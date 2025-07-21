@@ -1,43 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_utils.c                                       :+:      :+:    :+:   */
+/*   debug1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 20:34:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 04:32:54 by muiida           ###   ########.fr       */
+/*   Created: 2025/01/13 00:00:00 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/16 04:35:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/utils.h"
-#include "utils/debug.h"
 
-void	free_lines(char **lines)
+int	dbg_printf(const char *format, ...)
 {
-	int	i;
+	va_list	args;
+	size_t	len;
 
-	if (!lines)
-		return ;
-	i = 0;
-	while (lines[i])
+	if (!DEBUG_ENABLED)
+		return (0);
+	len = 0;
+	va_start(args, format);
+	while (*format)
 	{
-		free(lines[i]);
-		i++;
+		if (*format == '%' && *(format + 1) != '\0')
+		{
+			format++;
+			len += parse_and_call_fd(args, format, STDERR_FILENO);
+		}
+		else
+		{
+			len += ft_putchar_fd_cnt(*format, STDERR_FILENO);
+		}
+		format++;
 	}
-	free(lines);
-}
-
-void	process_lines(char **lines, int *status)
-{
-	int	i;
-
-	i = 0;
-	while (lines[i])
-	{
-		dbg_printf("Processing line: %s", lines[i]);
-		handle_input(lines[i], status);
-		i++;
-	}
+	va_end(args);
+	return (len);
 }

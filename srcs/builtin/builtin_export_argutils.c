@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:43:09 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:14:47 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:28:21 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_export.h"
 #include "minishell.h"
+#include "utils/debug.h"
 
 static int	is_append_pattern(char *arg, char *plus_pos, char *equal_pos)
 {
@@ -53,7 +54,7 @@ static void	handle_append_pattern(char *arg, char *plus_pos, char *equal_pos,
 	*(export_arg->name) = ft_substr(arg, 0, var_end - arg + 1);
 	*(export_arg->value) = get_export_value(equal_pos + 1);
 	*(export_arg->append) = 1;
-	debug_print_with_str("append name: ", *(export_arg->name));
+	dbg_printf("append name: %s", *(export_arg->name));
 }
 
 static void	handle_equal_pattern(char *arg, char *equal_pos,
@@ -62,10 +63,10 @@ static void	handle_equal_pattern(char *arg, char *equal_pos,
 	char	*raw_name;
 
 	raw_name = ft_substr(arg, 0, equal_pos - arg);
-	debug_print_with_str("raw name: ", raw_name);
+	dbg_printf("raw name: %s", raw_name);
 	*(export_arg->name) = ft_trim_spaces(raw_name);
 	*(export_arg->value) = get_export_value(equal_pos + 1);
-	debug_print_with_str("trimmed: ", *(export_arg->name));
+	dbg_printf("trimmed: %s", *(export_arg->name));
 	free(raw_name);
 }
 

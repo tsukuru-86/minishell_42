@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "redirect.h"
+#include "utils/debug.h"
 
 static int	apply_out_redirect(t_redirect *redir)
 {
@@ -34,7 +35,7 @@ static int	open_heredoc_file(t_redirect *redir)
 {
 	int	fd;
 
-	debug_print_with_str("REDIR_HEREDOC file", redir->file);
+	dbg_printf("REDIR_HEREDOC file=%s", redir->file);
 	if (access(redir->file, F_OK) == -1)
 	{
 		perror(redir->file);
@@ -49,7 +50,7 @@ static int	open_heredoc_file(t_redirect *redir)
 		fd = open(redir->file, O_RDONLY);
 		if (fd == -1)
 		{
-			debug_print_with_str("open(O_RDONLY) failed", redir->file);
+			dbg_printf("open(O_RDONLY) failed=%s", redir->file);
 			perror(redir->file);
 		}
 		return (fd);
@@ -66,15 +67,15 @@ static int	apply_in_redirect(t_redirect *redir)
 		fd = open_redirect_file(redir);
 	if (fd == -1)
 		return (0);
-	debug_print_with_int("apply_in_redirect: dup2 STDIN", fd);
+	dbg_printf("apply_in_redirect: dup2 STDIN%d", fd);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		debug_print("apply_in_redirect: dup2 failed");
+		dbg_printf("apply_in_redirect: dup2 failed");
 		close(fd);
 		return (0);
 	}
 	close(fd);
-	debug_print("apply_in_redirect: success");
+	dbg_printf("apply_in_redirect: success");
 	return (1);
 }
 

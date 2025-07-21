@@ -6,12 +6,13 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:53:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:45:22 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:24:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "utils/debug.h"
 
 /*
  * Clean up resources related to the heredoc structure.
@@ -44,22 +45,22 @@ static int	process_heredoc_content(int fd, t_heredoc *heredoc)
 		return (read_heredoc_input(fd, heredoc));
 	else
 	{
-		debug_print("Non-interactive heredoc");
+		dbg_printf("Non-interactive heredoc");
 		return (process_pipe_heredoc_lines(fd, heredoc));
 	}
 }
 
 static int	process_heredoc_file(int fd, t_heredoc *heredoc)
 {
-	debug_print("handle_heredoc: calling process_heredoc_content");
+	dbg_printf("handle_heredoc: calling process_heredoc_content");
 	if (!process_heredoc_content(fd, heredoc))
 	{
-		debug_print("handle_heredoc: process_heredoc_content failed");
+		dbg_printf("handle_heredoc: process_heredoc_content failed");
 		close(fd);
 		cleanup_heredoc(heredoc);
 		return (0);
 	}
-	debug_print("handle_heredoc: process_heredoc_content succeeded");
+	dbg_printf("handle_heredoc: process_heredoc_content succeeded");
 	return (1);
 }
 
@@ -71,7 +72,7 @@ static int	create_heredoc_file(t_heredoc *heredoc)
 	if (fd == -1)
 	{
 		perror(heredoc->temp_file);
-		debug_print("handle_heredoc: open failed");
+		dbg_printf("handle_heredoc: open failed");
 		cleanup_heredoc(heredoc);
 		return (-1);
 	}
@@ -88,11 +89,11 @@ int	handle_heredoc(t_command *cmd, char *delimiter)
 {
 	t_heredoc	*heredoc;
 
-	debug_print_with_str("handle_heredoc: delimiter", delimiter);
+	dbg_printf("handle_heredoc: delimiter=%s", delimiter);
 	heredoc = init_heredoc(delimiter);
 	if (!heredoc)
 		return (0);
-	debug_print_with_str("handle_heredoc: temp_file", heredoc->temp_file);
+	dbg_printf("handle_heredoc: temp_file=%s", heredoc->temp_file);
 	if (create_heredoc_file(heredoc) == -1)
 		return (0);
 	return (finalize_heredoc(cmd, heredoc));

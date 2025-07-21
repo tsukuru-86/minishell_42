@@ -6,13 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:42:31 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:17:42 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/16 04:28:46 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_export.h"
 #include "error/error_messages.h"
 #include "minishell.h"
+#include "utils/debug.h"
 
 int	append_env_value(const char *name, const char *value)
 {
@@ -77,21 +78,19 @@ int	validate_and_set_env(char *name, char *value)
 
 	n = NULL;
 	v = NULL;
-	debug_print_with_str("Export name: ", name);
-	debug_print_with_str("Export value: ", value);
+	dbg_printf("Export: name: %s value: %s", name, value);
 	if (name)
 		n = ft_strdup(name);
 	if (value)
 		v = ft_strdup(value);
 	normalize_export_args(&n, &v);
-	debug_print_with_str("After normalize name: ", n);
-	debug_print_with_str("After normalize value: ", v);
+	dbg_printf("After normalize: name=%s value=%s: ", n, v);
 	if (!is_valid_identifier(n))
 	{
-		debug_print("Invalid identifier detected");
+		dbg_printf("Invalid identifier detected");
 		handle_invalid_identifier(n, v);
 		return (1);
 	}
-	debug_print("Identifier valid, processing");
+	dbg_printf("Identifier valid, processing");
 	return (process_env_setting(n, v));
 }
