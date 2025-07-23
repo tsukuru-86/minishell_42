@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/07/23 18:53:16 by muiida           ###   ########.fr       */
+=======
+/*   Updated: 2025/07/23 18:22:12 by tkomai           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +82,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!initialize_shell(envp))
 		return (EXIT_FAILURE);
+<<<<<<< Updated upstream
+=======
+	// load_history_file();
+>>>>>>> Stashed changes
 	status = main_loop();
 	rl_clear_history();
 	free_env_list();
