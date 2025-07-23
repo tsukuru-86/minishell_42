@@ -6,10 +6,11 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 05:36:31 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:24:23 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "pipeline.h"
 
@@ -63,7 +64,7 @@ static void	execute_pipeline_command(t_command *cmd, t_command *current)
 }
 
 /* Create and execute child process */
-static void	print_redirect_errors(t_redirect *redirect)
+void	print_redirect_errors(t_redirect *redirect)
 {
 	t_redirect	*cur;
 
@@ -71,7 +72,7 @@ static void	print_redirect_errors(t_redirect *redirect)
 	while (cur)
 	{
 		if (cur->error_msg[0] != '\0')
-			write(STDERR_FILENO, cur->error_msg, ft_strlen(cur->error_msg));
+			ft_printf_fd(STDERR_FILENO, cur->error_msg);
 		cur = cur->next;
 	}
 }

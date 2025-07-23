@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 05:42:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 05:45:20 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:16:22 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_invalid_input_device(const char *filename)
 int	set_input_access_error(t_redirect *current)
 {
 	ft_memset(current->error_msg, 0, 256);
-	ft_strlcpy(current->error_msg, "bash: ", 256);
+	ft_strlcpy(current->error_msg, "minishell: ", 256);
 	ft_strlcat(current->error_msg, current->file, 256);
 	ft_strlcat(current->error_msg, ": ", 256);
 	ft_strlcat(current->error_msg, strerror(errno), 256);

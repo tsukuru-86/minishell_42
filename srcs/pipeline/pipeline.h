@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 02:41:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:16:48 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:20:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ bool	spawn_pipeline_processes(t_command *cmd);
 void	init_pipeline(t_command *cmd);
 int		create_pipes(t_command *cmd);
 void	close_parent_pipes(t_command *cmd);
+void	print_redirect_errors(t_redirect *redirect);
 void	execute_builtin_command(t_command *current);
 #endif

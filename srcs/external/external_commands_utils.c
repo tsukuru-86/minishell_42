@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 01:50:52 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:19:07 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debug/debug.h"
 #include "external.h"
 #include "minishell.h"
+#include "pipeline/pipeline.h"
 #include "redirect/redirect.h"
-#include "debug/debug.h"
 
 /*
 ** Free environment variable array
@@ -71,6 +72,7 @@ int	handle_child_process_with_redirect(char *cmd_path, char **args,
 		dbg_printf("Processing redirections in child");
 		if (!process_redirections(cmd->redirects))
 		{
+			print_redirect_errors(cmd->redirects);
 			dbg_printf("Redirection failed in child");
 			exit(1);
 		}
