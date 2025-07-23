@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #include "redirect.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 static int	apply_out_redirect(t_redirect *redir)
 {

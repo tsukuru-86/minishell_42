@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   debug2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:49:23 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 05:38:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 void	debug_print_command_args(char **args)
 {

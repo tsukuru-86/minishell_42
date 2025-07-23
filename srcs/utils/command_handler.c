@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 05:34:19 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error/error_messages.h"
 #include "minishell.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 static int	process_commands(t_command *cmd)
 {

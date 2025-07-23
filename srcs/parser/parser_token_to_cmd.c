@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_token_to_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 04:33:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "tokenizer/tokenizer.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 /*
 ** @brief Check if the first token is not a syntax error

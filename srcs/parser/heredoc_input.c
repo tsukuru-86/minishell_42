@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 06:24:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 04:09:56 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 int	read_heredoc_tty(int fd, t_heredoc *heredoc)
 {

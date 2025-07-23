@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "utils/utils.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 void	handle_heredoc_error(t_command **head_cmd)
 {

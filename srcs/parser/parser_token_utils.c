@@ -13,7 +13,7 @@
 #include "error/error_messages.h"
 #include "minishell.h"
 #include "parser.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 /*
 ** @brief Handle redirect tokens.

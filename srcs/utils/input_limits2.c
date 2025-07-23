@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils.h"
 
 /* Check the total size limit of the argument array */
 int	check_args_limit(char **args)

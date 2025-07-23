@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   debug3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 01:24:35 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 05:38:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils/debug.h"
+#include "debug/debug.h"
 
 static void	debug_print_token(const t_token *token)
 {

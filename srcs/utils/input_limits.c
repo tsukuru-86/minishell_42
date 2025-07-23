@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   input_limits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:07:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/13 06:01:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:43:32 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "utils.h"
 
 /* Check the input line length limit */
 int	check_input_line_limit(const char *input)

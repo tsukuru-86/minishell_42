@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   non_interactive_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:45:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/16 04:33:24 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:44:00 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
-#include "debug.h"
+#include "debug/debug.h"
 
 void	free_string_array(char **arr)
 {
