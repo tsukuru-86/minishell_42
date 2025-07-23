@@ -32,7 +32,7 @@ trash/
 obj/
 file_out
 output.txt
-interactive_tester/test_analysis_report.txt
-fuzzing_tester/fuzzing_results
+interactive_tester/
+fuzzing_tester/
 
-minishell_tester/.mini_exit_code_tmp
+minishell_tester/
