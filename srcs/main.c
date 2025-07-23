@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:37:10 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/23 19:45:15 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:41:12 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static int	initialize_shell(char **envp)
 {
 	char	*pwd;
 
-	*get_env_val() = create_env_list(envp);
-	if (!get_env_val())
+	*get_env_val(true) = create_env_list(envp);
+	if (!get_env_val(true))
 	{
 		ft_putstr_fd((char *)"minishell: failed to initialize environment\n",
 			STDERR_FILENO);

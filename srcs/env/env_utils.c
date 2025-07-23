@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/05/26 00:08:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:52:11 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,27 @@
 
 /* Provide a global access point to the environment variable list.
    The head is held as a static variable and shared throughout the shell. */
-t_env	**get_env_val(void)
+t_env	**get_env_val(bool to_be_kept)
 {
 	static t_env	*head = NULL;
+	t_env			*temp;
+	t_env			*next;
 
+	if (!to_be_kept)
+	{
+		temp = head;
+		while (temp)
+		{
+			next = temp->next;
+			if (temp->name)
+				free(temp->name);
+			if (temp->value)
+				free(temp->value);
+			free(temp);
+			temp = next;
+		}
+		head = NULL;
+	}
 	return (&head);
 }
 
@@ -29,7 +46,7 @@ void	free_env_list(void)
 	t_env	*temp;
 	t_env	*env_head;
 
-	env_head = *get_env_val();
+	env_head = *get_env_val(true);
 	while (env_head)
 	{
 		temp = env_head->next;
@@ -48,16 +65,16 @@ static t_env	*init_env_head(char **envp)
 
 	if (!envp || !envp[0])
 	{
-		*get_env_val() = NULL;
+		*get_env_val(false);
 		return (NULL);
 	}
 	head = create_env_node(envp[0]);
 	if (!head)
 	{
-		*get_env_val() = NULL;
+		*get_env_val(false);
 		return (NULL);
 	}
-	*get_env_val() = head;
+	*get_env_val(true) = head;
 	return (head);
 }
 

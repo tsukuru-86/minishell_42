@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 03:56:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/14 19:35:32 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:08:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_env	*get_env_node(const char *name)
 	if (!name)
 		return (NULL);
 	name_len = ft_strlen(name);
-	env_list_head = *get_env_val();
+	env_list_head = *get_env_val(true);
 	while (env_list_head)
 	{
 		if (env_list_head->name && ft_strlen(env_list_head->name) == name_len
