@@ -35,8 +35,4 @@ output.txt
 interactive_tester/
 fuzzing_tester/
 
-<<<<<<< Updated upstream
-minishell_tester/
-=======
 minishell_tester
->>>>>>> Stashed changes
