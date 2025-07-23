@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 04:46:54 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 01:47:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	handle_tokens_and_parse(t_token *tokens)
 	if (is_empty_command_tokens(tokens))
 	{
 		dbg_printf("Empty command detected");
+		free_tokens(tokens);
 		return (0);
 	}
 	dbg_printf("About to call parse_tokens");
