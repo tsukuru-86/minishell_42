@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/20 23:33:49 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:54:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**env_list_to_array(void)
 	t_env	*env_list;
 	int		count;
 
-	env_list = *get_env_val();
+	env_list = *get_env_val(true);
 	count = count_env_nodes(env_list);
 	env_array = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!env_array)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/23 16:38:23 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:46:29 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ void							print_command_debug(t_command *cmd);
 void							print_commands_debug(t_command *commands);
 
 /* Environment variable */
-t_env							**get_env_val(void);
 t_env							*create_env_list(char **envp);
 void							free_env_list(void);
 t_env							*create_env_node(const char *str);
@@ -188,6 +187,7 @@ char							*expand_env_vars(const char *str,
 t_env							*get_env_node(const char *name);
 int								set_env_node(const char *name,
 									const char *value);
+t_env							**get_env_val(bool to_be_kept);
 int								is_env_var_start(const char *str, int i);
 char							*expand_redirect_filename(const char *filename);
 
