@@ -32,6 +32,12 @@ t_env	*create_env_node(const char *str)
 	{
 		new_node->name = ft_substr(str, 0, equal_pos - str);
 		new_node->value = ft_strdup(equal_pos + 1);
+		if (!new_node->value)
+		{
+			free(new_node->name);
+			free(new_node);
+			return (NULL);
+		}
 	}
 	new_node->next = NULL;
 	return (new_node);

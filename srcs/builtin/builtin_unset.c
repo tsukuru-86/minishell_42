@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/06/26 02:41:13 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:54:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	remove_env_var(const char *name)
 	t_env	*prev;
 	t_env	**head_ref;
 
-	head_ref = get_env_val();
+	head_ref = get_env_val(true);
 	if (!head_ref || !*head_ref || !name)
 		return (1);
 	current = *head_ref;

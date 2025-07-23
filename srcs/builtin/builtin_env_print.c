@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:51 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/11 06:43:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:54:20 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void	print_sorted_env(int format)
 	t_env	*sorted_list_copy;
 	t_env	*current;
 
-	env_list_copy = duplicate_env_list(*get_env_val());
-	if (!env_list_copy && *get_env_val() != NULL)
+	env_list_copy = duplicate_env_list(*get_env_val(true));
+	if (!env_list_copy && *get_env_val(true) != NULL)
 	{
 		perror("minishell: malloc error during list duplication");
 		return ;

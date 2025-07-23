@@ -1,0 +1,21 @@
+{
+	readline_leak
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+}
+{
+	readline_leak_indirect
+	Memcheck:Leak
+	match-leak-kinds: indirect
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+}
+{
+	readline_leak_definite
+	Memcheck:Leak
+	match-leak-kinds: definite
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+}

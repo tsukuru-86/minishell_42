@@ -6,12 +6,27 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/23 19:36:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:45:27 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipeline.h"
+
+static void	print_pipeline_setup_error(t_command *cmd)
+{
+	t_command	*cur;
+
+	cur = cmd;
+	while (cur)
+	{
+		if (cur->redirects)
+			print_redirect_errors(cur->redirects);
+		cur = cur->next;
+	}
+	ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
+	cleanup_pipeline_list_all(cmd);
+}
 
 /* Set up the pipeline */
 int	setup_pipeline(t_command *cmd)
@@ -48,15 +63,7 @@ int	execute_command_pipeline(t_command *cmd)
 	pipeline_result = setup_pipeline(cmd);
 	if (pipeline_result == 0)
 	{
-		cur = cmd;
-		while (cur)
-		{
-			if (cur->redirects)
-				print_redirect_errors(cur->redirects);
-			cur = cur->next;
-		}
-		ft_putstr_fd((char *)"minishell: pipeline setup error\n", 2);
-		cleanup_pipeline_list_all(cmd);
+		print_pipeline_setup_error(cmd);
 		return (1);
 	}
 	status = wait_pipeline(cmd);
@@ -72,3 +79,4 @@ int	execute_command_pipeline(t_command *cmd)
 	cleanup_pipeline_list_all(cmd);
 	return (status);
 }
+

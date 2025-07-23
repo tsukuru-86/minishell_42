@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/24 02:52:11 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:57:03 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ static t_env	*init_env_head(char **envp)
 
 	if (!envp || !envp[0])
 	{
-		*get_env_val(false);
+		get_env_val(false);
 		return (NULL);
 	}
 	head = create_env_node(envp[0]);
 	if (!head)
 	{
-		*get_env_val(false);
+		get_env_val(false);
 		return (NULL);
 	}
 	*get_env_val(true) = head;

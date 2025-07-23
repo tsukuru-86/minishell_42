@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/23 16:39:12 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 03:00:37 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ static int	process_exit_args(char **args, int arg_count)
 	if (args[1])
 		exec_exit_with_arg(args[1]);
 	dbg_printf("exit with status get_exit_status()");
+	rl_clear_history();
+	free_env_list();
+	printf("[DEBUG] exit: freed env_list and history\n");
 	exit(get_exit_status());
 	return (0);
 }

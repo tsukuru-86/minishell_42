@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/23 18:53:29 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:45:44 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ int	builtin_cd(char **args)
 	if (path && ft_strcmp(path, "..") == 0)
 	{
 		ret = chdir(path);
-	} else {
+	}
+	else
+	{
 		if (access(path, F_OK) == -1)
 		{
-			ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", path);
+			ft_printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n",
+				path);
 			return (1);
 		}
 		ret = chdir(path);
 	}
-
 	if (ret == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));

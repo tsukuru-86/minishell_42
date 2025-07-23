@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:24:50 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/23 22:38:04 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 02:41:18 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 
 /* Create a new environment node */
-static t_env	*create_env_node_safe(const char *name, const char *value)
+static t_env	*create_env_node_key_value(const char *name, const char *value)
 {
 	t_env	*new_node;
 
@@ -50,8 +50,8 @@ static int	append_env_node(const char *name, const char *value)
 	t_env	*current;
 	t_env	**env;
 
-	env = get_env_val();
-	new_node = create_env_node_safe(name, value);
+	env = get_env_val(true);
+	new_node = create_env_node_key_value(name, value);
 	if (!new_node)
 		return (-1);
 	if (!*env)
