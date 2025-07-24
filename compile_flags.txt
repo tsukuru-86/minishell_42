@@ -1,7 +1,0 @@
--Wall
--Wextra
--Werror
--I.
--I/usr/include
--Isrcs
--Ilibft
