@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 04:10:30 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/24 02:46:29 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 19:35:15 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int								is_delimiter(char c);
 int								is_quote(char c);
 int								is_meta(char c);
 
-/* トークンの種類を定義 */
+/* Token type definitions */
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -83,7 +83,7 @@ typedef struct s_redirect
 	char						error_msg[256];
 }								t_redirect;
 
-/* パイプライン用の構造体 */
+/* Pipeline structure */
 typedef struct s_pipeline
 {
 	int							read_fd;
@@ -91,7 +91,7 @@ typedef struct s_pipeline
 	pid_t						pid;
 }								t_pipeline;
 
-/* コマンド構造体 */
+/* Command structure */
 typedef struct s_command
 {
 	char						**args;
@@ -102,7 +102,7 @@ typedef struct s_command
 	int							last_status;
 }								t_command;
 
-/* トークンを表す構造体 */
+/* Token structure */
 typedef struct s_token
 {
 	char						*content;
@@ -128,10 +128,9 @@ typedef struct s_env
 	struct s_env				*next;
 }								t_env;
 
-/* パーサー */
+/* Parser */
 t_command						*parse_tokens(t_token *tokens);
 void							free_command(t_command *cmd);
-int								get_builtin_func_idx(char *cmd);
 
 /* Redirection types */
 typedef enum e_redir_type
@@ -203,7 +202,6 @@ void							external_command(void);
 int								execute_builtin(char **args);
 int								execute_builtin_with_redirect(t_command *cmd);
 int								execute_external_command(t_command *cmd);
-int								execute_builtin(char **args);
 int								get_builtin_func_idx(char *cmd);
 
 /* Pipeline */
