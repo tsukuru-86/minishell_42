@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/24 19:12:20 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 20:12:10 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void	exec_exit_with_arg(char *arg)
 	if (status < 0)
 		status += 256;
 	dbg_printf("exit status final=%d", status);
+	rl_clear_history();
+	free_env_list();
 	exit(status);
 }
 
