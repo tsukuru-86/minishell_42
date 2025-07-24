@@ -6,29 +6,59 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 05:05:13 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/14 02:45:23 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 22:10:45 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "libft/libft.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+
+static void	reverse_str(char *str, int len)
+{
+	int		i;
+	char	tmp;
+
+	i = 0;
+	while (i < len / 2)
+	{
+		tmp = str[i];
+		str[i] = str[len - 1 - i];
+		str[len - 1 - i] = tmp;
+		i++;
+	}
+}
 
 char	*get_temp_filename(void)
 {
 	static int	counter = 0;
-	char		*pid_str;
+	char		numstr[16];
+	int			len;
+	int			n;
 	char		*temp;
-	char		*result;
 
-	pid_str = ft_itoa(getpid() + counter++);
-	if (!pid_str)
-		return (NULL);
-	temp = ft_strjoin("/tmp/heredoc_", pid_str);
-	free(pid_str);
+	len = 0;
+	n = counter++;
+	ft_memset(numstr, 0, sizeof(numstr));
+	if (n == 0)
+		numstr[len++] = '0';
+	else
+	{
+		while (n > 0 && len < 15)
+		{
+			numstr[len++] = '0' + (n % 10);
+			n /= 10;
+		}
+	}
+	reverse_str(numstr, len);
+	temp = ft_strjoin("/tmp/heredoc_", numstr);
 	if (!temp)
 		return (NULL);
-	result = temp;
-	return (result);
+	return (temp);
 }
 
 int	write_heredoc_content(int fd, char *content)

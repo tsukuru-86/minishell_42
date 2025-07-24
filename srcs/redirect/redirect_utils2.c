@@ -6,7 +6,7 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 01:31:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/22 01:32:16 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 22:03:25 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_directory_access(t_redirect *redirect)
 	char	*dir;
 	char	*parent_dir;
 
-	dir = strrchr(redirect->file, '/');
+	dir = ft_strrchr(redirect->file, '/');
 	if (dir)
 	{
 		parent_dir = get_parent_dir(redirect->file, dir);

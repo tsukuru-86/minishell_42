@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
+#include <limits.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /* Search for a command in PATH environment */
 char	*search_in_path(const char *path_env, char *cmd)
@@ -18,11 +22,12 @@ char	*search_in_path(const char *path_env, char *cmd)
 	char	*path;
 	char	*dir;
 	char	full_path[PATH_MAX];
+	char	*saveptr;
 
 	path = ft_strdup(path_env);
 	if (!path)
 		return (NULL);
-	dir = strtok(path, ":");
+	dir = ft_strtok_r(path, ":", &saveptr);
 	while (dir)
 	{
 		ft_strlcpy(full_path, dir, PATH_MAX);
@@ -33,7 +38,7 @@ char	*search_in_path(const char *path_env, char *cmd)
 			free(path);
 			return (ft_strdup(full_path));
 		}
-		dir = strtok(NULL, ":");
+		dir = ft_strtok_r(NULL, ":", &saveptr);
 	}
 	free(path);
 	return (NULL);
