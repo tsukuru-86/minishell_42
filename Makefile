@@ -121,7 +121,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS_FILE:.c=.o))
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 
-# ディレクトリ作成の最適化用フラグファイル（隠しファイル）
+# Flag file for directory creation optimization (hidden file)
 OBJDIR_FLAG := $(OBJS_DIR).builddir_ready
 
 
@@ -134,21 +134,13 @@ $(LIBFT):
 $(NAME): $(OBJS) | minishell.h
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
-# ディレクトリ作成の最適化：一度だけ必要なディレクトリを作成
+# Directory creation optimization: Create required directories only once
 $(OBJDIR_FLAG):
 	@mkdir -p $(sort $(dir $(OBJS)))
 	@touch $@
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(OBJDIR_FLAG) | minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
-
-
-# ソースファイル変更の自動検知
-# check_makefile_update:
-# 	@if [ -n "$$(find $(SRCS_DIR) -name '*.c' -newer Makefile 2>/dev/null | head -1)" ]; then \
-# 		echo "ソースファイルの変更を検知しました。Makefileを自動更新中..."; \
-# 		./update_makefile.sh; \
-# 	fi
 
 clean:
 	make -C $(LIBFT_DIR) clean
@@ -162,14 +154,7 @@ re: fclean all
 
 cre: clean all
 
-test1: cre
-	DEBUG=0
-	cd $(PWD)/minishell_tester-nda-cunh&&./tester 2>&1
-
-test2: cre
-	cd $(PWD)/minishell_tester&&./tester 2>&1
-
 debug: 
 	$(MAKE) cre CFLAGS="$(CFLAGS) -DDEBUG=1"
 
-.PHONY: all clean fclean re cre test1 test2 debug check_makefile_update
+.PHONY: all clean fclean re cre test1 test2 debug
