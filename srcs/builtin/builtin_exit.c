@@ -6,7 +6,7 @@
 /*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/24 17:54:31 by tkomai           ###   ########.fr       */
+/*   Updated: 2025/07/24 19:12:20 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	exec_exit_with_arg(char *arg)
 static int	process_exit_args(char **args, int arg_count)
 {
 	int	ret;
+	int	exit_status;
 
 	dbg_printf("process_exit_args arg_count=%d", arg_count);
 	if (args[1] && validate_and_convert(args[1], &(long long){0}) == 2)
@@ -79,7 +80,7 @@ static int	process_exit_args(char **args, int arg_count)
 	if (args[1])
 		exec_exit_with_arg(args[1]);
 	dbg_printf("exit with status get_exit_status()");
-	int exit_status = get_exit_status();
+	exit_status = get_exit_status();
 	rl_clear_history();
 	free_env_list();
 	printf("[DEBUG] exit: freed env_list and history\n");

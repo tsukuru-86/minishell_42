@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/24 03:21:29 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:58:32 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/24 19:18:53 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,6 @@ t_env	**get_env_val(bool to_be_kept)
 	t_env			*temp;
 	t_env			*next;
 
-	if (!to_be_kept)
-	{
-		temp = head;
-		while (temp)
-		{
-			next = temp->next;
-			if (temp->name)
-				free(temp->name);
-			if (temp->value)
-				free(temp->value);
-			free(temp);
-			temp = next;
-		}
-		head = NULL;
-	}
 	if (!to_be_kept)
 	{
 		temp = head;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excute_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/17 20:58:32 by muiida       +#+  #+#    #+#             */
-/*   Updated: 2025/07/24 02:45:27 by muiida           ###   ########.fr       */
+/*   Created: 2025/05/17 20:58:32 by muiida            #+#    #+#             */
+/*   Updated: 2025/07/24 19:09:31 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ int	execute_command_pipeline(t_command *cmd)
 	cleanup_pipeline_list_all(cmd);
 	return (status);
 }
-

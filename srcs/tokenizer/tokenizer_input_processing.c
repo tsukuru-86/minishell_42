@@ -52,7 +52,8 @@ int	process_input_char(t_tokenizer_stat *vars, const char *input)
 {
 	if (input[vars->i_input] == '\n')
 	{
-		add_token_to_list(&vars->tokens, safe_create_token("\n", TOKEN_NEWLINE));
+		add_token_to_list(
+			&vars->tokens, safe_create_token("\n", TOKEN_NEWLINE));
 		vars->i_input++;
 		return (1);
 	}

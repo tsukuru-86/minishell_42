@@ -3,30 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: tkomai <tkomai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:58:00 by tsukuru           #+#    #+#             */
-/*   Updated: 2025/07/24 02:45:44 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 19:13:39 by tkomai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
 #include "minishell.h"
 
-int	builtin_cd(char **args)
+static int	change_directory(const char *path)
 {
-	char	*path;
-	int		ret;
+	int	ret;
 
-	if (args[2] != NULL)
-	{
-		ft_printf_fd(STDERR_FILENO, "cd: too many arguments\n");
-		return (1);
-	}
-	if (args[1] == NULL)
-		path = getenv("HOME");
-	else
-		path = args[1];
 	if (path && ft_strcmp(path, "..") == 0)
 	{
 		ret = chdir(path);
@@ -47,4 +37,20 @@ int	builtin_cd(char **args)
 		return (1);
 	}
 	return (0);
+}
+
+int	builtin_cd(char **args)
+{
+	char	*path;
+
+	if (args[2] != NULL)
+	{
+		ft_printf_fd(STDERR_FILENO, "cd: too many arguments\n");
+		return (1);
+	}
+	if (args[1] == NULL)
+		path = getenv("HOME");
+	else
+		path = args[1];
+	return (change_directory(path));
 }
