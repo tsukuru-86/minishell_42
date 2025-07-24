@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:30:00 by muiida            #+#    #+#             */
-/*   Updated: 2025/06/18 14:51:50 by muiida           ###   ########.fr       */
+/*   Updated: 2025/07/24 20:04:06 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-static t_token	*remove_empty_token(t_token *tokens, t_token *curr,
+static t_token	*remove_one_empty_token(t_token *tokens, t_token *curr,
 		t_token *prev)
 {
 	t_token	*next;
@@ -42,7 +42,7 @@ t_token	*remove_empty_tokens(t_token *tokens)
 		next = current->next;
 		if (current->type == TOKEN_EMPTY_VAR)
 		{
-			tokens = remove_empty_token(tokens, current, prev);
+			tokens = remove_one_empty_token(tokens, current, prev);
 			current = next;
 			continue ;
 		}
