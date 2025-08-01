@@ -6,14 +6,14 @@
 /*   By: muiida <muiida@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:52:15 by muiida            #+#    #+#             */
-/*   Updated: 2025/07/24 20:12:10 by muiida           ###   ########.fr       */
+/*   Updated: 2025/08/02 01:46:13 by muiida           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_commands.h"
+#include "debug/debug.h"
 #include "minishell.h"
 #include <stdlib.h>
-#include "debug/debug.h"
 
 /*
 ** Validation and conversion of numeric arguments (split version)
@@ -85,7 +85,7 @@ static int	process_exit_args(char **args, int arg_count)
 	exit_status = get_exit_status();
 	rl_clear_history();
 	free_env_list();
-	printf("[DEBUG] exit: freed env_list and history\n");
+	dbg_printf("[DEBUG] exit: freed env_list and history\n");
 	exit(exit_status);
 	return (0);
 }
